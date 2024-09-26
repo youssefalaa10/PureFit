@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TrackstepsScreen extends StatelessWidget {
-  const TrackstepsScreen({super.key});
+class TrackStepsScreen extends StatelessWidget {
+  const TrackStepsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

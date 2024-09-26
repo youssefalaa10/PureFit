@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Routing/App_Router.dart';
+import 'package:fitpro/Core/Routing/app_router.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class FitproApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.userAgeScreen,
+      initialRoute: Routes.userGenderScreen,
       onGenerateRoute: appRouter.generateRoute,
     );
   }

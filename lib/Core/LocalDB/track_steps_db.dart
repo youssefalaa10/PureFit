@@ -1,7 +1,8 @@
 import 'dart:async';
-import 'package:fitpro/Features/TrackSteps/Data/Model/TrackStepsModel.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+
+import '../../Features/TrackSteps/Data/Model/track_steps_model.dart';
 
 class TrackStepsDB {
   static Database? _db;

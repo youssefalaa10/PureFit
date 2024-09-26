@@ -40,7 +40,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                       child: IconButton(
                         icon: const Icon(Icons.arrow_back, color: Colors.black),
                         onPressed: () {
-                          // Handle back button
+                          Navigator.pop(context);
                         },
                       ),
                     ),
@@ -49,7 +49,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(right: screenWidth * 0.05),
                         child: LinearProgressIndicator(
-                          value: 0.25, // 1/4 progress as per your image
+                          value: 0.5, // 2/3 progress as per your image
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -60,7 +60,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                     ),
                     SizedBox(width: screenWidth * 0.05),
                     const Text(
-                      '1/4',
+                      '2/3',
                       style: TextStyle(
                         fontSize: 15,
                       ),
