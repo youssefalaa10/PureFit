@@ -1,6 +1,7 @@
 import 'package:fitpro/Core/Routing/App_Router.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FitproApp extends StatelessWidget {
   final AppRouter appRouter;
@@ -8,10 +9,14 @@ class FitproApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.homeScreen,
-      onGenerateRoute: appRouter.generateRoute,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.homeScreen,
+        onGenerateRoute: appRouter.generateRoute,
+      ),
     );
   }
 }
