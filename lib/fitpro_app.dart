@@ -10,7 +10,7 @@ class FitproApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.homeScreen,
+      initialRoute: Routes.userAgeScreen,
       onGenerateRoute: appRouter.generateRoute,
     );
   }
