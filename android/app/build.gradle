@@ -1,44 +1,46 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // Apply the Flutter Gradle Plugin after the Android and Kotlin Gradle plugins.
     id "dev.flutter.flutter-gradle-plugin"
 }
 
 android {
     namespace = "com.example.fitpro"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    // Set your compile SDK version to a specific value (e.g., 33)
+    compileSdkVersion 34
+    
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8
-    }
-
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.fitpro"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        // Use your application ID
+        applicationId "com.example.fitpro"
+        // Set a specific minimum SDK version (e.g., 21 for wider compatibility)
+        minSdkVersion 21
+        // Set the target SDK version to match the latest version you're targeting (e.g., 33)
+        targetSdkVersion 33
+        // Set versionCode and versionName manually
+        versionCode 1 // Increment this with each release
+        versionName "1.0"
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            // Use signingConfig as required for release builds (update for production releases)
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            // Add Proguard rules if needed for release builds
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
 flutter {
+    // Keep the path to your Flutter project as needed
     source = "../.."
 }
