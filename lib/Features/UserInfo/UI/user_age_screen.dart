@@ -1,4 +1,7 @@
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
+
+import '../../../Core/Shared/app_colors.dart';
 
 class UserAgeScreen extends StatefulWidget {
   const UserAgeScreen({super.key});
@@ -31,7 +34,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
+                        border: Border.all(color: ColorManager.greyColor),
                         borderRadius: BorderRadius.circular(50),
                       ),
                       child: IconButton(
@@ -47,9 +50,10 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         padding: EdgeInsets.only(right: screenWidth * 0.05),
                         child: LinearProgressIndicator(
                           value: 0.25, // 1/4 progress as per your image
-                          backgroundColor: Colors.grey[300],
-                          valueColor: const AlwaysStoppedAnimation<Color>(
-                              Colors.purple),
+                          backgroundColor:
+                              ColorManager.greyColor.withOpacity(.5),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorManager.primaryColor),
                           minHeight: screenHeight * 0.005,
                         ),
                       ),
@@ -68,7 +72,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // "How Old Are You?" title
               Text(
-                "How old Are You?",
+                AppString.howOldAreYou,
                 style: TextStyle(
                   fontSize: screenHeight * 0.035, // Responsive font size
                   fontWeight: FontWeight.bold,
@@ -79,10 +83,10 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // Subtext
               Text(
-                "This helps us create your personalized plan",
+                AppString.helpUsCreateYourPersonalizedPlan,
                 style: TextStyle(
                   fontSize: screenHeight * 0.02,
-                  color: Colors.grey,
+                  color: ColorManager.greyColor,
                 ),
               ),
               SizedBox(height: screenHeight * 0.05),
@@ -127,8 +131,8 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                                         : screenHeight *
                                             0.035, // Smaller for others
                                     color: age == selectedAge
-                                        ? Colors.purple
-                                        : Colors.grey,
+                                        ? ColorManager.primaryColor
+                                        : ColorManager.greyColor,
                                     fontWeight: age == selectedAge
                                         ? FontWeight.w500
                                         : FontWeight.normal,
@@ -150,7 +154,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                           Container(
                             height: 1.5,
                             width: screenWidth * 0.4,
-                            color: Colors.purple,
+                            color: ColorManager.primaryColor,
                           ),
                           SizedBox(
                               height:
@@ -158,7 +162,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                           Container(
                             height: 1.5,
                             width: screenWidth * 0.4,
-                            color: Colors.purple,
+                            color: ColorManager.primaryColor,
                           ),
                         ],
                       ),
@@ -175,7 +179,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                     // Handle next action
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.purple,
+                    backgroundColor: ColorManager.primaryColor,
                     padding: EdgeInsets.symmetric(
                       horizontal: screenWidth * 0.3,
                       vertical: screenHeight * 0.01,
@@ -185,7 +189,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                     ),
                   ),
                   child: Text(
-                    "Next",
+                    AppString.next,
                     style: TextStyle(
                       fontSize: screenHeight * 0.025,
                       color: Colors.white,
