@@ -32,7 +32,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               // Section 2: Title and Subtitle
               _buildTitleSection(screenHeight),
 
-              SizedBox(height: screenHeight * 0.1), 
+              SizedBox(height: screenHeight * 0.1),
 
               // Section 3: Gender Selection Buttons
               _buildGenderSelectionSection(screenHeight, screenWidth),
@@ -59,7 +59,8 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           // Back button
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: ColorManager.greyColor.withOpacity( 0.5)),
+              border:
+                  Border.all(color: ColorManager.greyColor.withOpacity(0.5)),
               borderRadius: BorderRadius.circular(50),
             ),
             child: IconButton(
@@ -75,8 +76,10 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: LinearProgressIndicator(
                 value: 0.25,
-                backgroundColor: ColorManager.greyColor.withOpacity( 0.5).withOpacity(.5),
-                valueColor:  AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
+                backgroundColor:
+                    ColorManager.greyColor.withOpacity(0.5).withOpacity(.5),
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
                 minHeight: screenHeight * 0.005,
               ),
             ),
@@ -106,7 +109,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: screenHeight * 0.02,
-            color: ColorManager.greyColor.withOpacity( 0.5),
+            color: ColorManager.greyColor.withOpacity(0.5),
           ),
         ),
       ],
@@ -130,13 +133,16 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               width: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color:
-                    selectedGender == AppString.male ? ColorManager.primaryColor : ColorManager.greyColor.withOpacity( 0.5),
+                color: selectedGender == AppString.male
+                    ? ColorManager.primaryColor
+                    : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.male,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.male ? Colors.white : Colors.black,
+                color: selectedGender == AppString.male
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
           ),
@@ -156,12 +162,14 @@ class UserGenderScreenState extends State<UserGenderScreen> {
                 shape: BoxShape.circle,
                 color: selectedGender == AppString.female
                     ? ColorManager.primaryColor
-                    : ColorManager.greyColor.withOpacity( 0.5),
+                    : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.female,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.female? Colors.white : Colors.black,
+                color: selectedGender == AppString.female
+                    ? Colors.white
+                    : Colors.black,
               ),
             ),
           ),

@@ -29,10 +29,12 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   cupertino_icons: ^1.0.8
+  dotted_border: ^2.1.0
   flutter:
     sdk: flutter
   flutter_screenutil: ^5.9.3
   path: ^1.9.0
+  percent_indicator: ^4.2.3
   shared_preferences: ^2.3.2
   sqflite: ^2.3.3+1
 
@@ -49,7 +51,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - assets/images/
