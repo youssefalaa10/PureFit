@@ -145,9 +145,11 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
             _buildHeaderSection(),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(),
-            const CustomSizedbox(height: 30),
+            const CustomSizedbox(height: 20),
             _buildPercentIndicator(),
-            const CustomSizedbox(height: 30),
+            const CustomSizedbox(height: 20),
+            _buildRowOfMyActictyandSteps(),
+            const CustomSizedbox(height: 10),
             _buildTrackStepsBloc(),
           ],
         ),
@@ -299,47 +301,41 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     );
   }
 
-  Widget _buildMyActivity(List<TrackStepsModel> historyTracking) {
-    return SizedBox(
-      width: double.infinity,
-      child: Column(
+  Widget _buildRowOfMyActictyandSteps() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("My Activity",
-                    style: TextStyle(
-                        fontSize: 20.sp, fontWeight: FontWeight.bold)),
-                TextButton(
-                    onPressed: () {},
-                    child: Text("Steps",
-                        style: TextStyle(
-                            fontSize: 15.sp, fontWeight: FontWeight.bold))),
-              ],
-            ),
-          ),
-          const CustomSizedbox(height: 20),
-          SizedBox(
-            height: 240.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 20,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(Icons.directions_walk,
-                      color: ColorManager.primaryColor),
-                  title: const Text("trackStep.date"),
-                  trailing: Text(
-                    " 255",
-                    style: TextStyle(fontSize: 15.sp),
-                  ),
-                );
-              },
-            ),
-          ),
+          Text("My Activity",
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+          TextButton(
+              onPressed: () {},
+              child: Text("Steps",
+                  style:
+                      TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold))),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMyActivity(List<TrackStepsModel> historyTracking) {
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: historyTracking.length,
+        itemBuilder: (context, index) {
+          final trackStepsModel = historyTracking[index];
+          return ListTile(
+            leading:
+                Icon(Icons.directions_walk, color: ColorManager.primaryColor),
+            title: Text(trackStepsModel.date),
+            trailing: Text(
+              trackStepsModel.steps.toString(),
+              style: TextStyle(fontSize: 15.sp),
+            ),
+          );
+        },
       ),
     );
   }
