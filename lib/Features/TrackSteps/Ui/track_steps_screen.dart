@@ -143,7 +143,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(context),
+            _buildHeaderSection(),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(),
             const CustomSizedbox(height: 20),
@@ -158,7 +158,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     );
   }
 
-  Widget _buildHeaderSection(BuildContext context) {
+  Widget _buildHeaderSection() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
