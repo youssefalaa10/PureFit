@@ -19,7 +19,7 @@ class StatisticCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 160.w,
-      height: 95.w,
+      height: 100.w,
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
         border: Border.all(color: ColorManager.greyColor),
@@ -28,8 +28,7 @@ class StatisticCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment:
-            MainAxisAlignment.center, 
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             children: [
@@ -51,8 +50,7 @@ class StatisticCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     // color: Colors.white,//if you apply Dark color for the card background
                   ),
-                  overflow:
-                      TextOverflow.ellipsis, 
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
@@ -65,7 +63,7 @@ class StatisticCard extends StatelessWidget {
               // color: Colors.white70, //if you apply Dark color for the card background
             ),
             maxLines: 1,
-            overflow: TextOverflow.ellipsis, 
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),

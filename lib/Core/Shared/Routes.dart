@@ -6,4 +6,5 @@ class Routes {
   static const String bodyMetricsScreen = "/bodyMetricsScreen";
   static const String profileScreen = "/profileScreen";
   static const String editProfileScreen = "/editProfileScreen";
+  static const String layoutScreen = "/layoutScreen";
 }
