@@ -1,5 +1,6 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fitpro/Core/Component/custom_sizedbox.dart';
+import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +17,7 @@ class TrackStepsScreen extends StatelessWidget {
           // Use SingleChildScrollView
           child: Column(
             children: [
-              _buildHeaderSection(),
+              _buildHeaderSection(context),
               const CustomSizedbox(height: 30),
               _buildWelcomeMessage(),
               const CustomSizedbox(height: 30),
@@ -30,7 +31,7 @@ class TrackStepsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderSection() {
+  Widget _buildHeaderSection(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
@@ -68,7 +69,9 @@ class TrackStepsScreen extends StatelessWidget {
               backgroundColor: ColorManager.whiteColor,
               padding: EdgeInsets.all(10.r),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.profileScreen);
+            },
             child: const Icon(
               Icons.edit,
               size: 25,

@@ -1,4 +1,6 @@
 class AppString{
+  // images----------------------------------------------------------
+  static String profile = "assets/images/profile.jpeg";
   // UserAgeScreen ---------------------------------------------------
   static String howOldAreYou="How old Are You?" ;
   static String helpUsCreateYourPersonalizedPlan="This helps us create your personalized plan" ;
