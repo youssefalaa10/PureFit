@@ -1,6 +1,9 @@
+import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
+import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
@@ -11,12 +14,20 @@ class AppRouter {
     switch (settings.name) {
       case Routes.homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
+
       case Routes.trackStepsScreen:
-        return MaterialPageRoute(builder: (_) => const TrackStepsScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<TrackStepCubit>(),
+                  child: const TrackStepsScreen(),
+                ));
+
       case Routes.userGenderScreen:
         return MaterialPageRoute(builder: (_) => const UserGenderScreen());
+
       case Routes.userAgeScreen:
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
+
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(
