@@ -57,7 +57,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileOption(
                   icon: Icons.settings,
                   label: 'Settings',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.bodyMetricsScreen);
+                  },
                 ),
                 ProfileOption(
                   icon: Icons.help_outline,

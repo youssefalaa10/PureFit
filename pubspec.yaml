@@ -36,6 +36,7 @@ dependencies:
   path: ^1.9.0
   percent_indicator: ^4.2.3
   shared_preferences: ^2.3.2
+  flutter_ruler_picker: ^1.0.6
   sqflite: ^2.3.3+1
 
 dev_dependencies:

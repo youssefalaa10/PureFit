@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../Features/Profile/UI/profile_screen.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
+import '../../Features/UserInfo/UI/body_metrics.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
 import '../../Features/UserInfo/UI/user_gender_screen.dart';
 
@@ -19,11 +20,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const UserGenderScreen());
       case Routes.userAgeScreen:
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
+      case Routes.bodyMetricsScreen:
+        return MaterialPageRoute(builder: (_) => const BodyMetricsScreen());
       case Routes.profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case Routes.editProfileScreen:
-        return MaterialPageRoute(builder: (_) =>  EditProfileScreen());
-      
+        return MaterialPageRoute(builder: (_) => EditProfileScreen());
+
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(
