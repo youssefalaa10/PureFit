@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:fitpro/Core/Component/custom_sizedbox.dart';
 import 'package:fitpro/Core/Component/custom_snackbar.dart';
+
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
@@ -142,7 +143,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(),
+            _buildHeaderSection(context),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(),
             const CustomSizedbox(height: 20),
@@ -157,7 +158,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     );
   }
 
-  Widget _buildHeaderSection() {
+  Widget _buildHeaderSection(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(

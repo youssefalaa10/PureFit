@@ -1,6 +1,7 @@
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Core/Shared/Routes.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class UserAgeScreen extends StatefulWidget {
@@ -60,7 +61,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                     ),
                     SizedBox(width: screenWidth * 0.05),
                     const Text(
-                      '2/3',
+                      '2/4',
                       style: TextStyle(
                         fontSize: 15,
                       ),
@@ -176,6 +177,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                 padding: EdgeInsets.only(bottom: screenHeight * 0.05),
                 child: ElevatedButton(
                   onPressed: () {
+                     Navigator.pushNamed(context, Routes.bodyMetricsScreen);
                     // Handle next action
                   },
                   style: ElevatedButton.styleFrom(
