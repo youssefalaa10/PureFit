@@ -1,5 +1,6 @@
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
+import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../Features/Profile/UI/profile_screen.dart';
@@ -20,6 +21,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
       case Routes.profileScreen:
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case Routes.editProfileScreen:
+        return MaterialPageRoute(builder: (_) =>  EditProfileScreen());
       
       default:
         return MaterialPageRoute(

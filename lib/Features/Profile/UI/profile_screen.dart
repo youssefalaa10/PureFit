@@ -2,6 +2,7 @@ import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Core/Shared/Routes.dart';
 import 'Widgets/profile_options.dart';
 import 'Widgets/statistic_card.dart';
 
@@ -44,7 +45,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileOption(
                   icon: Icons.person_outline,
                   label: 'Your profile',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.editProfileScreen);
+                  },
                 ),
                 ProfileOption(
                   icon: Icons.fitness_center,
