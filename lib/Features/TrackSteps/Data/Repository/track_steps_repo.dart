@@ -1,4 +1,5 @@
-import 'package:fitpro/Core/LocalDB/TrackStepsDB.dart';
+import 'package:fitpro/Core/LocalDB/track_steps_db.dart';
+import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
 
 class Trackstepsrepo {
   final TrackStepsDB _trackStepsDB;
@@ -6,11 +7,15 @@ class Trackstepsrepo {
   Trackstepsrepo({required TrackStepsDB trackStepsDB})
       : _trackStepsDB = trackStepsDB;
 
+  setinitDb() {
+    _trackStepsDB.initDb();
+  }
+
   readHistorySteps() async {
     return await _trackStepsDB.readHistoryTracks();
   }
 
-  readStepsByDate(String date) async {
+  Future<TrackStepsModel?> readStepsByDate(String date) async {
     return await _trackStepsDB.readTrackByDate(date);
   }
 
