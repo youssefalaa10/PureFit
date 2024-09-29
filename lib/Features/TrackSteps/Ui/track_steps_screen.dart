@@ -142,6 +142,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -191,7 +192,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
-        backgroundColor: ColorManager.whiteColor,
+        backgroundColor: ColorManager.backGroundColor,
         padding: EdgeInsets.all(10.r),
       ),
       onPressed: () {},
@@ -224,6 +225,9 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
           alignment: AlignmentDirectional.center,
           children: [
             CircularPercentIndicator(
+              circularStrokeCap: CircularStrokeCap.round,
+              animation: true,
+              animationDuration: 1000,
               lineWidth: 10.r,
               backgroundColor: const Color.fromARGB(255, 228, 225, 225),
               progressColor: ColorManager.primaryColor,
@@ -300,8 +304,10 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
           TextButton(
               onPressed: () {},
               child: Text(AppString.steps,
-                  style:
-                      TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold))),
+                  style: TextStyle(
+                      fontSize: 15.sp,
+                      fontWeight: FontWeight.bold,
+                      color: ColorManager.primaryColor))),
         ],
       ),
     );

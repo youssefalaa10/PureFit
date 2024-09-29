@@ -26,7 +26,7 @@ class CustomSnackbar {
         behavior: SnackBarBehavior.floating,
         action: SnackBarAction(
           label: 'OK',
-          textColor: ColorManager.whiteColor,
+          textColor: ColorManager.backGroundColor,
           onPressed: () {
             scaffoldMessenger.hideCurrentSnackBar();
           },

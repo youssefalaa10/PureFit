@@ -31,4 +31,8 @@ class AppString {
   static String myActivity = "My Activity";
   static String greatWork = "Great Work!";
   static String yourDailytasksAlmostDone = "Your Daily Tasks \n Almost Done!";
+
+  // Calories Screen ____________________
+  static String youHavetoEatMoreCalories = "You Have to Eat \n More Calories!";
+  static String keepGoing = "Keep Going!";
 }

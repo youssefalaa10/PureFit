@@ -1,5 +1,6 @@
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
@@ -44,6 +45,8 @@ class AppRouter {
 
       case Routes.myPlanScreen:
         return MaterialPageRoute(builder: (_) => const MyplanScreen());
+      case Routes.caloriesScreen:
+        return MaterialPageRoute(builder: (_) => const CaloriesScreen());
 
       default:
         return MaterialPageRoute(

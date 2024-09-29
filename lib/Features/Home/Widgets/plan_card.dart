@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,8 +15,11 @@ class PlanCard extends StatelessWidget {
             width: constraints.maxWidth,
             padding: EdgeInsets.all(16.w),
             decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [Color(0xFF9C27B0), Color(0xFFBA68C8)],
+              gradient: LinearGradient(
+                colors: [
+                  ColorManager.primaryColor,
+                  ColorManager.primaryColor.withOpacity(0.5)
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),

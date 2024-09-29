@@ -14,6 +14,7 @@ class MyplanScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorManager.backGroundColor,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -109,28 +110,28 @@ class MyplanScreen extends StatelessWidget {
               StaticCard(
                 color: ColorManager.lightOrangeColor,
                 headline: AppString.calories,
-                icon: Icon(Icons.local_fire_department_outlined),
+                icon: const Icon(Icons.local_fire_department_outlined),
                 static: "720",
                 endline: "Kcal",
               ),
               StaticCard(
                 color: ColorManager.lightBlueColor,
                 headline: AppString.steps,
-                icon: Icon(Icons.directions_walk),
+                icon: const Icon(Icons.directions_walk),
                 static: "1000",
                 endline: "Steps",
               ),
               StaticCard(
                 headline: AppString.sleep,
                 color: ColorManager.lightGreenColor,
-                icon: Icon(Icons.bed_outlined),
+                icon: const Icon(Icons.bed_outlined),
                 static: "9 hr",
                 endline: "Hours",
               ),
               StaticCard(
                 color: ColorManager.babyBlueColor,
                 headline: AppString.water,
-                icon: Icon(Icons.water_drop_outlined),
+                icon: const Icon(Icons.water_drop_outlined),
                 static: "2 lits",
                 endline: "Liters",
               ),
