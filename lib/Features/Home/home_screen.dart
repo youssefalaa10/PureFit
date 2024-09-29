@@ -1,3 +1,4 @@
+import 'package:fitpro/Features/Home/Widgets/daily_list_tasks.dart';
 import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
 import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
 import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
@@ -11,11 +12,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: EdgeInsets.all(16.w),
-        child: SingleChildScrollView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Padding(
+          padding: EdgeInsets.all(16.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -26,6 +27,8 @@ class HomeScreen extends StatelessWidget {
               const NewGoalWidget(),
               SizedBox(height: 20.h),
               const DailyTaskWidget(),
+              SizedBox(height: 10.h),
+              const DailyListTasks()
             ],
           ),
         ),
