@@ -1,9 +1,11 @@
 import 'dart:math';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:fitpro/Core/Component/back_button.dart';
 import 'package:fitpro/Core/Component/custom_sizedbox.dart';
 import 'package:fitpro/Core/Component/custom_snackbar.dart';
 
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:flutter/material.dart';
@@ -143,7 +145,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(context),
+            _buildHeaderSection(),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(),
             const CustomSizedbox(height: 20),
@@ -158,31 +160,16 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     );
   }
 
-  Widget _buildHeaderSection(BuildContext context) {
+  Widget _buildHeaderSection() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _buildBackButton(),
+          const CustomBackButton(),
           _buildHeaderTitle(),
           _buildEditButton(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildBackButton() {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorManager.greyColor.withOpacity(0.5)),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
-        onPressed: () {
-          Navigator.pop(context);
-        },
       ),
     );
   }
@@ -215,14 +202,14 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   Widget _buildWelcomeMessage() {
     return Column(
       children: [
-        Text("Great Work!",
+        Text(AppString.greatWork,
             style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
                 color: ColorManager.lightGreyColor)),
         Text(
           textAlign: TextAlign.center,
-          "Your Daily Tasks \n Almost Done!",
+          AppString.yourDailytasksAlmostDone,
           style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
         ),
       ],
@@ -262,7 +249,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                     Text("$_fullStepsOfToday",
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold)),
-                    Text("Steps",
+                    Text(AppString.steps,
                         style: TextStyle(
                             fontSize: 15.sp,
                             color: ColorManager.lightGreyColor,
@@ -308,11 +295,11 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("My Activity",
+          Text(AppString.myActivity,
               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
           TextButton(
               onPressed: () {},
-              child: Text("Steps",
+              child: Text(AppString.steps,
                   style:
                       TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold))),
         ],

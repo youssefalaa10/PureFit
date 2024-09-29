@@ -13,6 +13,22 @@ class AppString {
   static String male = "Male";
   static String female = "Female";
   // BodyMetrics screen---------------------------------------------------
-  static String tellUsYourWeight='Tell us your weight';
-  static String tellUsYourHeight='Tell us your height';
+  static String tellUsYourWeight = 'Tell us your weight';
+  static String tellUsYourHeight = 'Tell us your height';
+
+  // MyPlan screen ------------------------------------------------
+
+  static String myPlan = "My Plan";
+  static String dailyPlan = "Daily Plan";
+  static String statics = "Statics";
+  static String calories = "Calories";
+  static String steps = "Steps";
+  static String sleep = "Sleep";
+  static String water = "Water";
+  static String goalInProgress = "Goal in Progress";
+
+  // TrackSteps Screen ---------------------------------
+  static String myActivity = "My Activity";
+  static String greatWork = "Great Work!";
+  static String yourDailytasksAlmostDone = "Your Daily Tasks \n Almost Done!";
 }

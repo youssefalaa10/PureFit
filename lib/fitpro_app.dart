@@ -16,7 +16,7 @@ class FitproApp extends StatelessWidget {
       child: MaterialApp(
         scaffoldMessengerKey: CustomSnackbar.scaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.homeScreen,
+        initialRoute: Routes.trackStepsScreen,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );
