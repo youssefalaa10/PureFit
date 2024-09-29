@@ -2,6 +2,7 @@ import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
+import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +38,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ProfileScreen());
       case Routes.editProfileScreen:
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
+
+      case Routes.layoutScreen:
+        return MaterialPageRoute(builder: (_) => const LayoutScreen());
 
       case Routes.myPlanScreen:
         return MaterialPageRoute(builder: (_) => const MyplanScreen());
