@@ -46,6 +46,7 @@ class ExerciseScreen extends StatelessWidget {
       textColor: Colors.white,
     );
   }
+
   // Program Image
   Widget _buildHeaderImage() {
     return ClipRRect(
