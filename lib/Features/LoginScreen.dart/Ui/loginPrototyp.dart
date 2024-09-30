@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Component/custom_snackbar.dart';
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Networking/DioAuthApi/dio_auth_api.dart';
 import 'package:flutter/material.dart';
 

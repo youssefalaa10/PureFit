@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Component/custom_snackbar.dart';
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Routing/app_router.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class FitproApp extends StatelessWidget {
       child: MaterialApp(
         scaffoldMessengerKey: CustomSnackbar.scaffoldMessengerKey,
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.loginScreen,
+        initialRoute: Routes.exerciseScreen,
         onGenerateRoute: appRouter.generateRoute,
       ),
     );

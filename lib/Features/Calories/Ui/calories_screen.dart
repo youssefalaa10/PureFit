@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fitpro/Core/Component/back_button.dart';
-import 'package:fitpro/Core/Component/custom_sizedbox.dart';
+import 'package:fitpro/Core/Components/back_button.dart';
+import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';

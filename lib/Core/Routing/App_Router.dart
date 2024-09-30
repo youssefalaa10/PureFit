@@ -12,6 +12,7 @@ import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
@@ -58,7 +59,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SleepScrean());
       case Routes.loginScreen:
         return MaterialPageRoute(builder: (_) => const Loginprototyp());
-
+      case Routes.exerciseScreen:
+        return MaterialPageRoute(builder: (_) => const ExerciseScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(

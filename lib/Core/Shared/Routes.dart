@@ -13,4 +13,5 @@ class Routes {
   static const String sleepScreen = "/sleepScreen";
   static const String loginScreen = "/loginScreen";
   static const String registerScreen = "/registerScreen";
+  static const String exerciseScreen = "/exerciseScreen";
 }

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:fitpro/Core/Component/custom_sizedbox.dart';
+import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
