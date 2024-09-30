@@ -11,17 +11,17 @@ class UserModel {
   final int userWeight;
   final String gender;
   final int goalSteps;
-  
+
   UserModel({
-      required this.userId,
-      required this.userName,
-      required this.userEmail,
-      required this.age,
-      required this.userHeight,
-      required this.userWeight,
-      required this.gender,
-      required this.goalSteps,
-      });
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    required this.age,
+    required this.userHeight,
+    required this.userWeight,
+    required this.gender,
+    required this.goalSteps,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -36,7 +36,7 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map,String userId) {
+  factory UserModel.fromMap(Map<String, dynamic> map, String userId) {
     return UserModel(
       userId: userId,
       userEmail: map['userEmail'] as String,
@@ -72,7 +72,6 @@ class UserModel {
     await prefs.remove('userModel');
   }
 
-  
 // Create a copy of a UserModel with updated fields
   UserModel copyWith({
     String? userId,

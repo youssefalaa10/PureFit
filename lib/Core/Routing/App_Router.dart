@@ -2,9 +2,11 @@ import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
+import 'package:fitpro/Features/LoginScreen.dart/Ui/loginPrototyp.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
+import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +53,11 @@ class AppRouter {
 
       case Routes.waterScreen:
         return MaterialPageRoute(builder: (_) => const WaterScreen());
+
+      case Routes.sleepScreen:
+        return MaterialPageRoute(builder: (_) => const SleepScrean());
+      case Routes.loginScreen:
+        return MaterialPageRoute(builder: (_) => const Loginprototyp());
 
       default:
         return MaterialPageRoute(

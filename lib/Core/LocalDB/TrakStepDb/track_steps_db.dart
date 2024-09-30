@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../Features/TrackSteps/Data/Model/track_steps_model.dart';
+import '../../../Features/TrackSteps/Data/Model/track_steps_model.dart';
 
 class TrackStepsDB {
   static Database? _db;

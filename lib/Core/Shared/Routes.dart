@@ -10,4 +10,7 @@ class Routes {
   static const String layoutScreen = "/layoutScreen";
   static const String caloriesScreen = "/caloriesScreen";
   static const String waterScreen = "/waterScreen";
+  static const String sleepScreen = "/sleepScreen";
+  static const String loginScreen = "/loginScreen";
+  static const String registerScreen = "/registerScreen";
 }
