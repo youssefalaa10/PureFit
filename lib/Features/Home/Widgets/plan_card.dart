@@ -1,6 +1,8 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
+
+import 'package:fitpro/Core/Shared/app_colors.dart'; // Update the import based on your project structure
 
 class PlanCard extends StatelessWidget {
   const PlanCard({super.key});
@@ -12,13 +14,15 @@ class PlanCard extends StatelessWidget {
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            width: constraints.maxWidth,
-            padding: EdgeInsets.all(16.w),
+            height: 100.h, // Adjusts based on the height of the screen
+            width: constraints.maxWidth, // Dynamically adjusts to screen width
+            padding:
+                EdgeInsets.all(16.w), // Uses ScreenUtil to maintain consistency
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   ColorManager.primaryColor,
-                  ColorManager.primaryColor.withOpacity(0.5)
+                  ColorManager.primaryColor.withOpacity(0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -26,61 +30,55 @@ class PlanCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(16.r),
             ),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'My Plan For Today',
+                      style: TextStyle(
+                        fontSize: 16.sp, // Scales text size
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: 4.h), // Responsive space between text
+                    Text(
+                      '1/7 Complete',
+                      style: TextStyle(
+                        fontSize: 12.sp, // Scales text size
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                      right: 8.w), // Use ScreenUtil for responsive padding
+                  child: Stack(
+                    alignment: Alignment.center,
                     children: [
+                      CircularPercentIndicator(
+                        circularStrokeCap: CircularStrokeCap.round,
+                        animationDuration: 1000,
+                        lineWidth: 5.r, // Scales line width
+                        animation: true,
+                        percent: 0.25, // Progress percentage
+                        radius: 25.r, // Scales radius
+                        backgroundColor: Colors.white30,
+                        progressColor: Colors.white,
+                      ),
                       Text(
-                        'My Plan For Today',
+                        '25%',
                         style: TextStyle(
-                          fontSize: 16.sp,
+                          fontSize: 15.sp, // Scales text size
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 4.h),
-                      Text(
-                        '1/7 Complete',
-                        style: TextStyle(
-                          fontSize: 12.sp,
-                          color: Colors.white70,
-                        ),
-                      ),
                     ],
-                  ),
-                ),
-                SizedBox(width: 8.w),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    width: constraints.maxWidth *
-                        0.18, // Set width as a percentage of available space
-                    height: constraints.maxWidth *
-                        0.18, // Keep height the same as width for a perfect circle
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CircularProgressIndicator(
-                          value: 0.25,
-                          backgroundColor: Colors.white30,
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(Colors.white),
-                          strokeWidth: 4.w,
-                        ),
-                        Text(
-                          '25%',
-                          style: TextStyle(
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ],
-                    ),
                   ),
                 ),
               ],

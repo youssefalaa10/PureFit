@@ -6,6 +6,7 @@ import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
+import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,6 +48,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const MyplanScreen());
       case Routes.caloriesScreen:
         return MaterialPageRoute(builder: (_) => const CaloriesScreen());
+
+      case Routes.waterScreen:
+        return MaterialPageRoute(builder: (_) => const WaterScreen());
 
       default:
         return MaterialPageRoute(
