@@ -1,4 +1,6 @@
+import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
+import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +18,12 @@ class LayoutScreenState extends State<LayoutScreen> {
 
   final List<Widget> _screens = [
     const Center(child: HomeScreen()),
-    Center(child: Text('Favorites Screen', style: TextStyle(fontSize: 24.sp))),
-    Center(child: Text('Cart Screen', style: TextStyle(fontSize: 24.sp))),
+    const Center(
+      child: MyplanScreen(),
+    ),
+    const Center(
+      child: ExerciseScreen(),
+    ),
     const Center(child: ProfileScreen()),
   ];
 

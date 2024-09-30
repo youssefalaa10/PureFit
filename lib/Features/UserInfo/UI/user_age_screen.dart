@@ -1,6 +1,8 @@
+import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
+import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/Routes.dart';
 import '../../../Core/Shared/app_colors.dart';
 
@@ -33,18 +35,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorManager.greyColor),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                    const CustomBackButton(),
                     SizedBox(width: screenWidth * 0.05),
                     Expanded(
                       child: Padding(
@@ -175,28 +166,20 @@ class UserAgeScreenState extends State<UserAgeScreen> {
               // Next button
               Padding(
                 padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                child: ElevatedButton(
+                child: CustomButton(
+                  label: AppString.next,
                   onPressed: () {
-                     Navigator.pushNamed(context, Routes.bodyMetricsScreen);
+                    Navigator.pushNamed(context, Routes.bodyMetricsScreen);
                     // Handle next action
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.primaryColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: screenWidth * 0.3,
-                      vertical: screenHeight * 0.01,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+                  backgroundColor: ColorManager.primaryColor,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.3,
+                    vertical: screenHeight * 0.01,
                   ),
-                  child: Text(
-                    AppString.next,
-                    style: TextStyle(
-                      fontSize: screenHeight * 0.025,
-                      color: Colors.white,
-                    ),
-                  ),
+                  borderRadius: 30.0,
+                  fontSize: screenHeight * 0.025,
+                  textColor: Colors.white,
                 ),
               ),
             ],

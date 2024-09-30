@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../Core/Components/custom_icon_button.dart';
+
 class SleepScrean extends StatelessWidget {
   const SleepScrean({super.key});
   @override
@@ -58,14 +60,11 @@ class SleepScrean extends StatelessWidget {
   }
 
   Widget _buildEditButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        backgroundColor: ColorManager.backGroundColor,
-        padding: EdgeInsets.all(10.r),
-      ),
-      onPressed: () {},
-      child: const Icon(Icons.edit, size: 25),
+    return CustomIconButton(
+      icon: Icons.edit,
+      onPressed: () {
+        // Your edit action here
+      },
     );
   }
 

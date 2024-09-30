@@ -1,8 +1,10 @@
+import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../Core/Components/custom_button.dart';
+import '../../../Core/Components/custom_icon_button.dart';
 
 class ExerciseScreen extends StatelessWidget {
   const ExerciseScreen({super.key});
@@ -46,6 +48,7 @@ class ExerciseScreen extends StatelessWidget {
       textColor: Colors.white,
     );
   }
+
   // Program Image
   Widget _buildHeaderImage() {
     return ClipRRect(
@@ -67,8 +70,13 @@ class ExerciseScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.arrow_back, size: 24.sp, color: Colors.white),
-          Icon(Icons.more_vert, size: 24.sp, color: Colors.white),
+          const CustomBackButton(),
+          CustomIconButton(
+            icon: Icons.more_vert,
+            onPressed: () {
+              // Your more options action here
+            },
+          ),
         ],
       ),
     );

@@ -95,7 +95,7 @@ class GoalinProgress extends StatelessWidget {
                   BoxShadow(
                     color: Colors.black12,
                     blurRadius: 4.r,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),

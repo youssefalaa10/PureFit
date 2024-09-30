@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Shared/app_string.dart';
 
@@ -24,18 +25,7 @@ class BodyMetricsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorManager.greyColor),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
+                    const CustomBackButton(),
                     SizedBox(width: 20.w),
                     Expanded(
                       child: Padding(

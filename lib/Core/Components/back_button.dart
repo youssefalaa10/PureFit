@@ -1,4 +1,3 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomBackButton extends StatelessWidget {
@@ -6,18 +5,31 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 45,
-      width: 45,
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorManager.greyColor.withOpacity(0.3)),
-        borderRadius: BorderRadius.circular(50),
-      ),
+    return SizedBox(
+      // with background------------------
+      // decoration: BoxDecoration(
+      //   color: Colors.white,
+      //   border: Border.all(color: ColorManager.greyColor.withOpacity(0.5)),
+      //   borderRadius: BorderRadius.circular(50),
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: Colors.grey.withOpacity(0.2),
+      //       spreadRadius: 2,
+      //       blurRadius: 5,
+      //       offset: const Offset(0, 3),
+      //     ),
+      //   ],
+      // ),
       child: IconButton(
-        icon: const Icon(Icons.arrow_back, color: Colors.black),
+        icon: const Icon(
+          Icons.arrow_back,
+        ),
         onPressed: () {
           Navigator.pop(context);
         },
+        padding: EdgeInsets.zero,
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
       ),
     );
   }

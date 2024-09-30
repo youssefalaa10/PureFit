@@ -2,6 +2,7 @@ import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/Routes.dart';
 import 'Widgets/profile_options.dart';
 import 'Widgets/statistic_card.dart';
@@ -12,13 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
-        ),
-      ),
+      appBar: AppBar(elevation: 0, leading: const CustomBackButton()),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

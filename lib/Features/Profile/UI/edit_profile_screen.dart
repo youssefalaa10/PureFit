@@ -1,7 +1,9 @@
+import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_string.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -14,12 +16,7 @@ class EditProfileScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-          onPressed: () {},
-        ),
+        leading: const CustomBackButton(),
         title: Text(
           'Edit Profile ',
           style: TextStyle(
@@ -393,21 +390,16 @@ class SaveSettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: ColorManager.primaryColor,
-          padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.r),
-          ),
-        ),
+      child: CustomButton(
+        label: 'Save Changes',
         onPressed: () {
           // Implement save settings logic here
         },
-        child: Text(
-          'Save Changes',
-          style: TextStyle(fontSize: 16.sp, color: Colors.white),
-        ),
+        backgroundColor: ColorManager.primaryColor,
+        padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h),
+        borderRadius: 10.r,
+        fontSize: 16.sp,
+        textColor: Colors.white,
       ),
     );
   }
