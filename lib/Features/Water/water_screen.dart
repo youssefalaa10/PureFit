@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:fitpro/Core/Component/back_button.dart';
 import 'package:fitpro/Core/Component/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:lottie/lottie.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class WaterScreen extends StatelessWidget {
   const WaterScreen({super.key});
@@ -19,13 +18,12 @@ class WaterScreen extends StatelessWidget {
         child: Column(
           children: [
             _buildHeaderSection(),
-            const CustomSizedbox(height: 30),
+            const CustomSizedbox(height: 40),
             _buildWelcomeMessage(),
-            const CustomSizedbox(height: 20),
+            const CustomSizedbox(height: 40),
+            _buildStackedLottieImage(),
+            const CustomSizedbox(height: 40),
             _buildPercentIndicator(),
-            const CustomSizedbox(height: 20),
-            _buildRowOfMyActivityAndWater(),
-            const CustomSizedbox(height: 10),
           ],
         ),
       ),
@@ -79,9 +77,10 @@ class WaterScreen extends StatelessWidget {
                 fontSize: 15.sp,
                 fontWeight: FontWeight.bold,
                 color: ColorManager.lightGreyColor)),
+        const CustomSizedbox(height: 5),
         Text(
           textAlign: TextAlign.center,
-          "Keep Hydrated",
+          AppString.yourDailytasksAlmostDone,
           style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
         ),
       ],
@@ -92,62 +91,55 @@ class WaterScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            CircularPercentIndicator(
-              circularStrokeCap: CircularStrokeCap.round,
-              animation: true,
-              animationDuration: 1000,
-              lineWidth: 10.r,
-              backgroundColor: const Color.fromARGB(255, 228, 225, 225),
-              progressColor: ColorManager.blueColor,
-              radius: 90.r,
-              percent: min(600 / 1000, 1.0), // Set water goal as 3000 ml
-            ),
-            Container(
-              margin: EdgeInsets.all(15.r),
-              padding: EdgeInsets.all(30.r),
-              decoration: const BoxDecoration(shape: BoxShape.circle),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.local_drink,
-                      color: ColorManager.blueColor, size: 35.sp),
-                  const CustomSizedbox(height: 10),
-                  const Text("500 ml",
-                      style:
-                          TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
-                  Text("Water Intake",
-                      style: TextStyle(
-                          fontSize: 15.sp,
-                          color: ColorManager.lightGreyColor,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-          ],
-        )
+        Center(
+          child: LinearPercentIndicator(
+            leading: Icon(Icons.water_drop,
+                color: ColorManager.blueColor, size: 32.sp),
+            barRadius: const Radius.circular(30),
+            lineHeight: 30.h,
+            width: 300.w,
+            animation: true,
+            animationDuration: 1000,
+            backgroundColor: const Color.fromARGB(255, 228, 225, 225),
+            progressColor: Colors.blue, // Use ColorManager.blueColor if defined
+            percent: (600 / 1000).clamp(0.0, 1.0), // Set water goal as 3000 ml
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildRowOfMyActivityAndWater() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(AppString.myActivity,
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
-          TextButton(
-              onPressed: () {},
-              child: Text("Water intake",
-                  style: TextStyle(
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.bold,
-                      color: ColorManager.blueColor))),
-        ],
+  Widget _buildStackedLottieImage() {
+    return Center(
+      child: SizedBox(
+        // Wrap both Lottie and text in a fixed-size container
+        height: 250.h,
+        width: 250.w,
+        child: Stack(
+          alignment: Alignment.center, // Center all children within the stack
+          children: [
+            LottieBuilder.asset(
+              AppString.waterLottie,
+              height: 250.h,
+              width: 250.w,
+            ),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                      text: "2",
+                      style: TextStyle(
+                          fontSize: 45.sp, fontWeight: FontWeight.w500)),
+                  TextSpan(
+                      text: "lits",
+                      style: TextStyle(
+                          fontSize: 20.sp,
+                          color: ColorManager.backGroundColor)),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
