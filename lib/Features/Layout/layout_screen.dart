@@ -1,8 +1,8 @@
 import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
+import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/user_gender_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
@@ -22,7 +22,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const MyPlanScreen(),
-    const UserGenderScreen(),
+    const WeeklyExerciseScreen(),
     const ExerciseScreen(),
     const ProfileScreen(),
   ];

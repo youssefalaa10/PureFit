@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Features/Exercises/UI/exercise_screen.dart';
+import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/LoginScreen.dart/Ui/login_screen.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
@@ -48,7 +49,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LayoutScreen());
 
       case Routes.myPlanScreen:
-        return MaterialPageRoute(builder: (_) => const MyplanScreen());
+        return MaterialPageRoute(builder: (_) => const MyPlanScreen());
       case Routes.caloriesScreen:
         return MaterialPageRoute(builder: (_) => const CaloriesScreen());
 
@@ -61,6 +62,9 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.exerciseScreen:
         return MaterialPageRoute(builder: (_) => const ExerciseScreen());
+      case Routes.weeklyExerciseScreen:
+        return MaterialPageRoute(builder: (_) => const WeeklyExerciseScreen());
+
       default:
         return MaterialPageRoute(
             builder: (_) => const Scaffold(
