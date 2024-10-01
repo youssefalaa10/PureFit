@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
-import '../../Core/Shared/app_colors.dart'; // Import your ColorManager class
+import '../../Core/Shared/app_colors.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -21,7 +21,7 @@ class LayoutScreenState extends State<LayoutScreen> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const MyplanScreen(),
+    const MyPlanScreen(),
     const UserGenderScreen(),
     const ExerciseScreen(),
     const ProfileScreen(),
@@ -72,8 +72,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorManager
-            .backGroundColor, 
+        backgroundColor: ColorManager.backGroundColor,
         body: IndexedStack(
           index: _selectedIndex,
           children: _screens,
@@ -81,13 +80,9 @@ class LayoutScreenState extends State<LayoutScreen> {
         bottomNavigationBar: SnakeNavigationBar.color(
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor:
-              ColorManager.primaryColor, 
+          snakeViewColor: ColorManager.primaryColor,
           selectedItemColor: ColorManager.primaryColor,
-          unselectedItemColor:
-              ColorManager.greyColor, 
-          backgroundColor:
-              Colors.transparent, 
+          unselectedItemColor: ColorManager.greyColor,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: _navBarItems(),
