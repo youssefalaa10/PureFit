@@ -7,15 +7,14 @@ class DailyListTasks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: 6,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return _buildTaskItem('Exercise 1', 5, 120);
-          }),
-    );
+    return ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 6,
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return _buildTaskItem('Exercise 1', 5, 120);
+        });
   }
 
   Widget _buildTaskItem(String title, int minutes, int calories) {

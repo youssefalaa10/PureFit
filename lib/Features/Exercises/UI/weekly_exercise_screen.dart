@@ -130,7 +130,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 value: 0.18, // This corresponds to the progress (18%)
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 valueColor:
-                    AlwaysStoppedAnimation<Color>(ColorManager.blueColor),
+                    AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
                 minHeight: 8.h,
               ),
             ],
@@ -200,11 +200,11 @@ class WeeklyExerciseScreen extends StatelessWidget {
             Container(
               height: 20.h,
               width: 3.w,
-              color: active ? Colors.blue : Colors.grey,
+              color: active ? ColorManager.primaryColor : Colors.grey,
             ),
             Icon(
               active ? Icons.radio_button_checked : Icons.electric_bolt,
-              color: active ? Colors.blue : Colors.grey,
+              color: active ? ColorManager.primaryColor : Colors.grey,
               size: 18.sp,
             ),
             // Extend line if active or add dashed line
@@ -212,7 +212,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 ? Container(
                     height: 150.h,
                     width: 3.w,
-                    color: Colors.blue,
+                    color: ColorManager.primaryColor,
                   )
                 : CustomPaint(
                     size: Size(3.w, 150.h),
@@ -234,7 +234,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
-                      color: active ? Colors.blue : Colors.grey,
+                      color: active ? ColorManager.primaryColor : Colors.grey,
                     ),
                   ),
                   Text(
@@ -242,7 +242,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.bold,
-                      color: active ? Colors.blue : Colors.grey,
+                      color: active ? ColorManager.primaryColor : Colors.grey,
                     ),
                   ),
                 ],
@@ -281,7 +281,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: isCompleted
-                ? Colors.blue
+                ? ColorManager.primaryColor
                 : isCurrentDay
                     ? Colors.grey.shade400
                     : Colors.grey.shade300,
@@ -318,7 +318,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
       onPressed: () {
         // Implement navigation or action on button press.
       },
-      backgroundColor: ColorManager.blueColor,
+      backgroundColor: ColorManager.primaryColor,
       padding: EdgeInsets.symmetric(vertical: 8.h),
       borderRadius: 30.r,
       fontSize: 18.sp,

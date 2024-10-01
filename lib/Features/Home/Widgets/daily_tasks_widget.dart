@@ -16,10 +16,6 @@ class DailyTaskWidget extends StatelessWidget {
               'Daily Task',
               style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
             ),
-            Text(
-              'See all',
-              style: TextStyle(fontSize: 16.sp, color: Colors.blue),
-            ),
           ],
         ),
       ],

@@ -17,19 +17,21 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Padding(
           padding: EdgeInsets.all(16.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const HeaderWidget(),
-              SizedBox(height: 20.h),
-              const PlanCard(),
-              SizedBox(height: 20.h),
-              const NewGoalWidget(),
-              SizedBox(height: 20.h),
-              const DailyTaskWidget(),
-              SizedBox(height: 10.h),
-              const DailyListTasks()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const HeaderWidget(),
+                SizedBox(height: 20.h),
+                const PlanCard(),
+                SizedBox(height: 20.h),
+                const NewGoalWidget(),
+                SizedBox(height: 20.h),
+                const DailyTaskWidget(),
+                SizedBox(height: 10.h),
+                const DailyListTasks()
+              ],
+            ),
           ),
         ),
       ),

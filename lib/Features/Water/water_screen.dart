@@ -1,4 +1,5 @@
 import 'package:fitpro/Core/Components/back_button.dart';
+import 'package:fitpro/Core/Components/custom_icon_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
@@ -38,7 +39,7 @@ class WaterScreen extends StatelessWidget {
         children: [
           const CustomBackButton(),
           _buildHeaderTitle(),
-          _buildEditButton(),
+          CustomIconButton(icon: Icons.edit, onPressed: () {})
         ],
       ),
     );
@@ -54,18 +55,6 @@ class WaterScreen extends StatelessWidget {
           style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
         ),
       ),
-    );
-  }
-
-  Widget _buildEditButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        shape: const CircleBorder(),
-        backgroundColor: ColorManager.backGroundColor,
-        padding: EdgeInsets.all(10.r),
-      ),
-      onPressed: () {},
-      child: const Icon(Icons.edit, size: 25),
     );
   }
 

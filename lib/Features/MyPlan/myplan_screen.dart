@@ -1,5 +1,6 @@
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
+import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/MyPlan/component/static_card.dart';
@@ -25,7 +26,7 @@ class MyPlanScreen extends StatelessWidget {
                 CustomSizedbox(height: 20.h),
                 _buildRowOfDailyPlanStatics(),
                 CustomSizedbox(height: 30.h),
-                _buildFourGridsofStatics(),
+                _buildFourGridsofStatics(context),
                 CustomSizedbox(height: 30.h),
                 _goalProgressText(),
                 CustomSizedbox(height: 10.h),
@@ -53,7 +54,7 @@ class MyPlanScreen extends StatelessWidget {
         children: [
           const CustomBackButton(),
           _buildHeaderTitle(),
-          SizedBox(width: 48.w), 
+          SizedBox(width: 48.w),
         ],
       ),
     );
@@ -101,11 +102,11 @@ class MyPlanScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFourGridsofStatics() {
+  Widget _buildFourGridsofStatics(BuildContext context) {
     return SizedBox(
       height: 280.h,
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(), 
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: 4,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 15.w,
@@ -114,45 +115,65 @@ class MyPlanScreen extends StatelessWidget {
           mainAxisExtent: 130.h,
         ),
         itemBuilder: (context, index) {
-          return _buildStaticCard(index);
+          return _buildStaticCard(context, index);
         },
       ),
     );
   }
 
-  Widget _buildStaticCard(int index) {
+  Widget _buildStaticCard(BuildContext context, int index) {
     switch (index) {
       case 0:
-        return StaticCard(
-          color: ColorManager.lightOrangeColor,
-          headline: AppString.calories,
-          icon: const Icon(Icons.local_fire_department_outlined),
-          static: "720",
-          endline: "Kcal",
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.caloriesScreen);
+          },
+          child: StaticCard(
+            color: ColorManager.lightOrangeColor,
+            headline: AppString.calories,
+            icon: const Icon(Icons.local_fire_department_outlined),
+            static: "720",
+            endline: "Kcal",
+          ),
         );
       case 1:
-        return StaticCard(
-          color: ColorManager.lightBlueColor,
-          headline: AppString.steps,
-          icon: const Icon(Icons.directions_walk),
-          static: "1000",
-          endline: "Steps",
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.trackStepsScreen);
+          },
+          child: StaticCard(
+            color: ColorManager.lightBlueColor,
+            headline: AppString.steps,
+            icon: const Icon(Icons.directions_walk),
+            static: "1000",
+            endline: "Steps",
+          ),
         );
       case 2:
-        return StaticCard(
-          color: ColorManager.lightGreenColor,
-          headline: AppString.sleep,
-          icon: const Icon(Icons.bed_outlined),
-          static: "9 hr",
-          endline: "Hours",
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.sleepScreen);
+          },
+          child: StaticCard(
+            color: ColorManager.lightGreenColor,
+            headline: AppString.sleep,
+            icon: const Icon(Icons.bed_outlined),
+            static: "9 hr",
+            endline: "Hours",
+          ),
         );
       case 3:
-        return StaticCard(
-          color: ColorManager.babyBlueColor,
-          headline: AppString.water,
-          icon: const Icon(Icons.water_drop_outlined),
-          static: "2 lits",
-          endline: "Liters",
+        return GestureDetector(
+          onTap: () {
+            Navigator.pushNamed(context, Routes.waterScreen);
+          },
+          child: StaticCard(
+            color: ColorManager.babyBlueColor,
+            headline: AppString.water,
+            icon: const Icon(Icons.water_drop_outlined),
+            static: "2 lits",
+            endline: "Liters",
+          ),
         );
       default:
         return const SizedBox.shrink();
