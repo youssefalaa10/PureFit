@@ -45,6 +45,7 @@ dependencies:
   percent_indicator: ^4.2.3
   permission_handler: ^11.3.1
   shared_preferences: ^2.3.2
+  flutter_snake_navigationbar: ^0.6.1
   sqflite: ^2.3.3+1
 
 dev_dependencies:

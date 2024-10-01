@@ -2,7 +2,6 @@ import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
-import 'package:fitpro/Features/LoginScreen.dart%20copy/Ui/login_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
@@ -13,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Features/Exercises/UI/exercise_screen.dart';
+import '../../Features/LoginScreen.dart/Ui/login_screen.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
