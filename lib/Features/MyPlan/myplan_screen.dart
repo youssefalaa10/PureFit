@@ -112,7 +112,7 @@ class MyPlanScreen extends StatelessWidget {
           crossAxisSpacing: 15.w,
           mainAxisSpacing: 15.h,
           crossAxisCount: 2,
-          mainAxisExtent: 130.h,
+          mainAxisExtent: 135.h,
         ),
         itemBuilder: (context, index) {
           return _buildStaticCard(context, index);

@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
+import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
@@ -40,8 +41,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
       case Routes.bodyMetricsScreen:
         return MaterialPageRoute(builder: (_) => const BodyMetricsScreen());
-      case Routes.profileScreen:
-        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+        case Routes.profileScreen:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<ProfileCubit>(),
+                  child: const ProfileScreen(),
+                ));
       case Routes.editProfileScreen:
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
 

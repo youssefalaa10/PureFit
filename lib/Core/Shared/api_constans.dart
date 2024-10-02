@@ -4,6 +4,6 @@ class ApiConstans {
   static String apiRegister = "/auth/register";
   static String apiLogin = "/auth/login";
   static String apiToken = "/api/token";
-  static String apigetProfile = "/api/profile";
+  static String apiGetProfile = "/api/profile";
   static String apiEditProfile = "/api/profile/$profileId";
 }
