@@ -10,9 +10,6 @@ class DioAuthApi {
 
   DioAuthApi({required Dio dio}) : _dio = dio;
 
-  Map<String, dynamic> _loginData(String email, String password) =>
-      {"email": email, "password": password};
-
   Future<void> _saveToken(Map<String, dynamic> data) async {
     final token = data['token'];
     if (token != null) {
@@ -26,7 +23,9 @@ class DioAuthApi {
     try {
       final response = await _dio.post(
         "${ApiConstans.baseUrl}${ApiConstans.apiLogin}",
-        data: _loginData(loginModel.userEmail, loginModel.userPassword),
+        data: LoginModel(
+            userEmail: loginModel.userEmail,
+            userPassword: loginModel.userPassword),
       );
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
