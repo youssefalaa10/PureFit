@@ -1,6 +1,6 @@
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/MyPlan/component/static_card.dart';

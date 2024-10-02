@@ -39,5 +39,5 @@ Future<void> setUpGit() async {
     // Profile - Adding new dependencies
   getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
   getIT.registerLazySingleton<ProfileRepo>(() => ProfileRepo(dioProfileApi: getIT()));
-  getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT()));
+  getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT<ProfileRepo>()));
 }

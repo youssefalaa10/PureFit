@@ -4,13 +4,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Core/Components/back_button.dart';
-import '../../../Core/Shared/Routes.dart';
+import '../../../Core/Shared/routes.dart';
 import '../Logic/cubit/profile_cubit.dart';
 import 'Widgets/profile_options.dart';
 import 'Widgets/statistic_card.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
+
+  @override
+  ProfileScreenState createState() => ProfileScreenState();
+}
+
+class ProfileScreenState extends State<ProfileScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Fetching profile data when the widget is initialized
+    context.read<ProfileCubit>().getProfile();
+  }
 
   @override
   Widget build(BuildContext context) {

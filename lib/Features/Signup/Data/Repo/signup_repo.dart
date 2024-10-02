@@ -6,7 +6,7 @@ class SignupRepo {
 
   SignupRepo({required this.dioAuthApi});
 
-  doRegister(RegisterModel user) async {
-    await dioAuthApi.dioRegister(user: user);
+  Future<bool> doRegister(RegisterModel user) async {
+    return await dioAuthApi.dioRegister(user: user);
   }
 }

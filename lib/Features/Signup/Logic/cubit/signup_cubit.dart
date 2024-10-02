@@ -6,15 +6,20 @@ part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
   final SignupRepo signupRepo;
+
   SignupCubit(this.signupRepo) : super(SignupInitial());
 
-  doSignup(RegisterModel user) async {
+  Future<void> doSignup(RegisterModel user) async {
     emit(SignupLoading());
     try {
-      await signupRepo.doRegister(user);
-      emit(SignupSuccess());
+      final success = await signupRepo.doRegister(user);
+      if (success) {
+        emit(SignupSuccess());
+      } else {
+        emit(SignupFailure(message: "Registration failed. Please try again."));
+      }
     } catch (e) {
-      emit(SignupFaliuer(message: e.toString()));
+      emit(SignupFailure(message: e.toString()));
     }
   }
 }

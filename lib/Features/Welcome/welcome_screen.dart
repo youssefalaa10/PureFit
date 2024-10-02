@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -16,13 +17,15 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               // Logo Image
               Image.asset(
-                "assets/images/logo.png",
+                // "assets/images/logo.png",
+                AppString.profile,
                 height: 100,
               ),
 
               // Illustration Image
               Image.asset(
-                "assets/images/welcomeimage",
+                // "assets/images/welcomeimage",
+                AppString.profile,
                 height: 150,
               ),
               SizedBox(

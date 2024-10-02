@@ -6,8 +6,8 @@ class LoginModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'userEmail': userEmail,
-      'userPassword': userPassword,
+      'email': userEmail,
+      'password': userPassword,
     };
   }
 }

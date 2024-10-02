@@ -8,6 +8,7 @@ import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -129,7 +130,9 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       _stepCountStream = Pedometer.stepCountStream;
       _stepCountStream?.listen(_onStepCount).onError(_onStepCountError);
     } else {
-      print("Permission not granted");
+      if (kDebugMode) {
+        print("Permission not granted");
+      }
     }
   }
 

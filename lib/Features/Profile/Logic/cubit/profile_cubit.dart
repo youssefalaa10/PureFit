@@ -9,12 +9,13 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
 
-  void getProfile() async {
+   getProfile() async {
     emit(ProfileLoading());
     try {
       final user = await profileRepo.getProfile();
       if (user != null) {
         emit(ProfileLoaded(user: user));
+     
       } else {
         emit(ProfileError(message: 'Failed to fetch profile'));
       }

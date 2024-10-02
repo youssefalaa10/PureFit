@@ -1,37 +1,34 @@
 class UserModel {
   // final String userId;
   final String userEmail;
-  final String password;
   final String userName;
   final int age;
   final int userHeight;
   final int userWeight;
   final String gender;
-  final int? goalSteps;
+
 
   UserModel({
     // required this.userId,
-    required this.password,
     required this.userName,
     required this.userEmail,
     required this.age,
     required this.userHeight,
     required this.userWeight,
     required this.gender,
-    this.goalSteps,
+
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       // 'userId': userId,
-      'password': password,
       'userEmail': userEmail,
       'userName': userName,
       'age': age,
       'userHeight': userHeight,
       'userWeight': userWeight,
       'gender': gender,
-      'goalSteps': goalSteps,
+
     };
   }
 
@@ -40,13 +37,11 @@ class UserModel {
       // userId: userId,
 
       userEmail: map['userEmail'] as String,
-      password: map['password'] as String,
       userName: map['userName'] as String,
       age: map['age'] as int,
       userHeight: map['userHeight'] as int,
       userWeight: map['userWeight'] as int,
       gender: map['gender'] as String,
-      goalSteps: map['goalSteps'] as int,
     );
   }
   // // Save the UserModel to SharedPreferences as a JSON string
@@ -83,7 +78,7 @@ class UserModel {
     int? userHeight,
     int? userWeight,
     String? gender,
-    int? goalSteps,
+
   }) {
     return UserModel(
       // userId: userId ?? this.userId,
@@ -93,8 +88,7 @@ class UserModel {
       userHeight: userHeight ?? this.userHeight,
       userWeight: userWeight ?? this.userWeight,
       gender: gender ?? this.gender,
-      goalSteps: goalSteps ?? this.goalSteps,
-      password: password ?? this.password,
+
     );
   }
 }

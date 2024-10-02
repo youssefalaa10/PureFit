@@ -2,10 +2,12 @@ import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
+import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
 import 'package:fitpro/Features/LoginScreen/Ui/login_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
+import 'package:fitpro/Features/Signup/Ui/signup_screen.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/Water/water_screen.dart';
@@ -16,6 +18,7 @@ import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
+import '../../Features/Signup/Logic/cubit/signup_cubit.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
@@ -41,7 +44,7 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
       case Routes.bodyMetricsScreen:
         return MaterialPageRoute(builder: (_) => const BodyMetricsScreen());
-        case Routes.profileScreen:
+      case Routes.profileScreen:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => getIT<ProfileCubit>(),
@@ -63,8 +66,20 @@ class AppRouter {
 
       case Routes.sleepScreen:
         return MaterialPageRoute(builder: (_) => const SleepScrean());
+      case Routes.registerScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIT<SignupCubit>(),
+            child: const SignupScreen(),
+          ),
+        );
+
       case Routes.loginScreen:
-        return MaterialPageRoute(builder: (_) => const LoginScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<LoginCubit>(),
+                  child: const LoginScreen(),
+                ));
       case Routes.exerciseScreen:
         return MaterialPageRoute(builder: (_) => const ExerciseScreen());
       case Routes.weeklyExerciseScreen:
