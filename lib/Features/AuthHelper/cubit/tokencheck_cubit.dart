@@ -6,15 +6,22 @@ part 'tokencheck_state.dart';
 class TokencheckCubit extends Cubit<TokencheckState> {
   TokencheckCubit() : super(TokencheckInitial());
 
-  doTokenCheck() async {
+  Future<void> doTokenCheck() async {
     emit(TokencheckLoading());
-    String? token = await SaveTokenDB.getToken();
+
     try {
-      if (token != null || token!.isNotEmpty) {
+      final token = await SaveTokenDB.getToken();
+
+      if (token?.isNotEmpty ?? false) {
+        // Token is valid and not empty
         emit(TokencheckSuccessed());
+      } else {
+        // Token is null or empty
+        emit(TokencheckFaliuer(message: "Token is null or empty"));
       }
-    } on Exception catch (e) {
-      emit(TokencheckFaliuer(message: e.toString()));
+    } catch (e) {
+      // Catch any exception that might occur during the token check process
+      emit(TokencheckFaliuer(message: "Error occurred: ${e.toString()}"));
     }
   }
 }

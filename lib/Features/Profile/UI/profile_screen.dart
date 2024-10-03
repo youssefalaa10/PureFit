@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,7 +70,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                         icon: Icons.person_outline,
                         label: 'Your profile',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.editProfileScreen);
+                          Navigator.pushNamed(
+                              context, Routes.editProfileScreen);
                         },
                       ),
                       ProfileOption(
@@ -81,13 +83,23 @@ class ProfileScreenState extends State<ProfileScreen> {
                         icon: Icons.settings,
                         label: 'Settings',
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.bodyMetricsScreen);
+                          Navigator.pushNamed(
+                              context, Routes.bodyMetricsScreen);
                         },
                       ),
                       ProfileOption(
                         icon: Icons.help_outline,
                         label: 'Help Center',
                         onTap: () {},
+                      ),
+                      ProfileOption(
+                        icon: Icons.logout,
+                        label: 'Log out',
+                        onTap: () async {
+                          SaveTokenDB.clearToken();
+                          await Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.loginScreen, (route) => false);
+                        },
                       ),
                     ],
                   ),

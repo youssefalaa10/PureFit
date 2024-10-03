@@ -21,6 +21,7 @@ class LayoutScreen extends StatefulWidget {
 
 class LayoutScreenState extends State<LayoutScreen> {
   int _selectedIndex = 0;
+  final PageController _pageController = PageController();
 
   final List<Widget> _screens = [
     const HomeScreen(),
@@ -36,6 +37,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
+
     // Customize the system UI overlay (e.g., status bar style)
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
@@ -46,6 +48,8 @@ class LayoutScreenState extends State<LayoutScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 400), curve: Curves.linear);
     });
   }
 
@@ -79,8 +83,13 @@ class LayoutScreenState extends State<LayoutScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorManager.backGroundColor,
-        body: IndexedStack(
-          index: _selectedIndex,
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
           children: _screens,
         ),
         bottomNavigationBar: SnakeNavigationBar.color(
