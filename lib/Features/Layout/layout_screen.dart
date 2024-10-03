@@ -1,10 +1,13 @@
+import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
+import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
 import '../../Core/Shared/app_colors.dart';
@@ -24,7 +27,10 @@ class LayoutScreenState extends State<LayoutScreen> {
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
     const ExerciseScreen(),
-    const ProfileScreen(),
+    BlocProvider(
+      create: (context) => getIT<ProfileCubit>(),
+      child: const ProfileScreen(),
+    ),
   ];
 
   @override

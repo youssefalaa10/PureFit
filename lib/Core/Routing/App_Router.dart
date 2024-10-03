@@ -1,5 +1,7 @@
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/AuthHelper/cubit/tokencheck_cubit.dart';
+import 'package:fitpro/Features/AuthHelper/token_check.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
@@ -84,6 +86,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ExerciseScreen());
       case Routes.weeklyExerciseScreen:
         return MaterialPageRoute(builder: (_) => const WeeklyExerciseScreen());
+
+      case Routes.checkToken:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => TokencheckCubit(),
+                  child: const TokenCheck(),
+                ));
 
       default:
         return null;
