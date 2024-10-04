@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,15 @@ class ProfileScreenState extends State<ProfileScreen> {
                   label: 'Help Center',
                   onTap: () {},
                 ),
+                  ProfileOption(
+                        icon: Icons.logout,
+                        label: 'Log out',
+                        onTap: () async {
+                          SaveTokenDB.clearToken();
+                          await Navigator.pushNamedAndRemoveUntil(
+                              context, Routes.loginScreen, (route) => false);
+                        },
+                      ),
               ],
             ),
           ),

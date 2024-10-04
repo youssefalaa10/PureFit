@@ -6,7 +6,6 @@ import 'package:fitpro/Features/LoginScreen/Data/Model/login_model.dart';
 import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -69,8 +68,7 @@ class LoginScreenState extends State<LoginScreen> {
                   duration: Duration(seconds: 2),
                 ),
               );
-              Navigator.pushNamed(context, Routes.profileScreen);
-        
+              Navigator.pushNamed(context, Routes.layoutScreen);
             } else if (state is LoginFaliuer) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
