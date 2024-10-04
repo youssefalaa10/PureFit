@@ -1,4 +1,5 @@
 import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,70 +30,44 @@ class ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(elevation: 0, leading: const CustomBackButton()),
-      body: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          if (state is ProfileLoading) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is ProfileLoaded) {
-            final user = state.user;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(height: 20.h),
+          const UserInfo(),
+
+          SizedBox(height: 20.h),
+          const StatisticCards(), // Keeping this static for now
+          SizedBox(height: 20.h),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
               children: [
-                SizedBox(height: 20.h),
-                CircleAvatar(
-                  radius: 50.r,
-                  backgroundImage: AssetImage(AppString.profile),
+                ProfileOption(
+                  icon: Icons.person_outline,
+                  label: 'Your profile',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.editProfileScreen);
+                  },
                 ),
-                SizedBox(height: 10.h),
-                Text(
-                  user.userName,
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                ProfileOption(
+                  icon: Icons.fitness_center,
+                  label: 'My Workout',
+                  onTap: () {},
                 ),
-                SizedBox(height: 5.h),
-                Text(
-                  user.userEmail,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.grey,
-                  ),
+                ProfileOption(
+                  icon: Icons.settings,
+                  label: 'Settings',
+                  onTap: () {
+                    Navigator.pushNamed(context, Routes.bodyMetricsScreen);
+                  },
                 ),
-                SizedBox(height: 20.h),
-                const StatisticCards(), // Keeping this static for now
-                SizedBox(height: 20.h),
-                Expanded(
-                  child: ListView(
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    children: [
-                      ProfileOption(
-                        icon: Icons.person_outline,
-                        label: 'Your profile',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.editProfileScreen);
-                        },
-                      ),
-                      ProfileOption(
-                        icon: Icons.fitness_center,
-                        label: 'My Workout',
-                        onTap: () {},
-                      ),
-                      ProfileOption(
-                        icon: Icons.settings,
-                        label: 'Settings',
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, Routes.bodyMetricsScreen);
-                        },
-                      ),
-                      ProfileOption(
-                        icon: Icons.help_outline,
-                        label: 'Help Center',
-                        onTap: () {},
-                      ),
-                      ProfileOption(
+                ProfileOption(
+                  icon: Icons.help_outline,
+                  label: 'Help Center',
+                  onTap: () {},
+                ),
+                  ProfileOption(
                         icon: Icons.logout,
                         label: 'Log out',
                         onTap: () async {
@@ -101,26 +76,55 @@ class ProfileScreenState extends State<ProfileScreen> {
                               context, Routes.loginScreen, (route) => false);
                         },
                       ),
-                    ],
-                  ),
-                ),
               ],
-            );
-          } else if (state is ProfileError) {
-            return Center(
-              child: Text(
-                state.message,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UserInfo extends StatelessWidget {
+  const UserInfo({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
+        if (state is ProfileSuccess) {
+          final user = state.user;
+          return Column(
+            children: [
+              CircleAvatar(
+                radius: 50.r,
+                backgroundImage: AssetImage(AppString.profile),
+              ),
+              SizedBox(height: 10.h),
+              Text(
+                user.userName,
                 style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 18.sp,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
-      ),
+              SizedBox(height: 5.h),
+              Text(
+                user.userEmail,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          );
+        } else if (state is ProfileError) {
+          CustomSnackbar.showSnackbar(context,state.message);
+        } 
+        return const CircularProgressIndicator();
+      },
     );
   }
 }
