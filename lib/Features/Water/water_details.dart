@@ -1,16 +1,16 @@
 import 'package:fitpro/Core/Components/back_button.dart';
+import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_icon_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
+import 'package:fitpro/Features/Water/components/water_ruler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:percent_indicator/linear_percent_indicator.dart';
 
-class WaterScreen extends StatelessWidget {
-  const WaterScreen({super.key});
+class WaterDetails extends StatelessWidget {
+  const WaterDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +18,38 @@ class WaterScreen extends StatelessWidget {
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeaderSection(context),
+            _buildHeaderSection(),
             const CustomSizedbox(height: 40),
-            _buildWelcomeMessage(),
-            const CustomSizedbox(height: 40),
+            const Padding(
+              padding: EdgeInsets.only(left: 20.0),
+              child: Text(
+                "Set New Target",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+              ),
+            ),
             _buildStackedLottieImage(),
             const CustomSizedbox(height: 40),
-            _buildPercentIndicator(),
+            const WaterRuler(),
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: CustomButton(
+                label: "Save",
+                onPressed: () {},
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeaderSection(BuildContext context) {
+  Widget _buildHeaderSection() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: Row(
@@ -40,11 +57,7 @@ class WaterScreen extends StatelessWidget {
         children: [
           const CustomBackButton(),
           _buildHeaderTitle(),
-          CustomIconButton(
-              icon: Icons.edit,
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.waterDetails);
-              })
+          CustomIconButton(icon: Icons.edit, onPressed: () {})
         ],
       ),
     );
@@ -76,28 +89,6 @@ class WaterScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           AppString.yourDailytasksAlmostDone,
           style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPercentIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: LinearPercentIndicator(
-            leading: Icon(Icons.water_drop,
-                color: ColorManager.blueColor, size: 32.sp),
-            barRadius: const Radius.circular(30),
-            lineHeight: 30.h,
-            width: 300.w,
-            animation: true,
-            animationDuration: 1000,
-            backgroundColor: const Color.fromARGB(255, 228, 225, 225),
-            progressColor: Colors.blue, // Use ColorManager.blueColor if defined
-            percent: (600 / 1000).clamp(0.0, 1.0), // Set water goal as 3000 ml
-          ),
         ),
       ],
     );

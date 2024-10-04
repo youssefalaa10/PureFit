@@ -2,6 +2,7 @@ import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:fitpro/Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import 'package:fitpro/Features/AuthHelper/token_check.dart';
+import 'package:fitpro/Features/Calories/Ui/calories_details.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
@@ -12,6 +13,8 @@ import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
 import 'package:fitpro/Features/Signup/Ui/signup_screen.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
+import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
+import 'package:fitpro/Features/Water/water_details.dart';
 import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,6 +96,13 @@ class AppRouter {
                   create: (context) => TokencheckCubit(),
                   child: const TokenCheck(),
                 ));
+      case Routes.detaildCaloriesScreen:
+        return MaterialPageRoute(builder: (_) => const CaloriesDetails());
+
+      case Routes.waterDetails:
+        return MaterialPageRoute(builder: (_) => const WaterDetails());
+      case Routes.trackStepsDetailsScreen:
+        return MaterialPageRoute(builder: (_) => const TrackStepDetails());
 
       default:
         return null;

@@ -104,15 +104,15 @@ class MyPlanScreen extends StatelessWidget {
 
   Widget _buildFourGridsofStatics(BuildContext context) {
     return SizedBox(
-      height: 280.h,
+      height: 300.h,
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         itemCount: 4,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: 15.w,
-          mainAxisSpacing: 15.h,
+          mainAxisSpacing: 10.h,
           crossAxisCount: 2,
-          mainAxisExtent: 135.h,
+          mainAxisExtent: 140.h,
         ),
         itemBuilder: (context, index) {
           return _buildStaticCard(context, index);
