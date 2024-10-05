@@ -12,7 +12,7 @@ class FitproApp extends StatelessWidget {
     return MaterialApp(
       scaffoldMessengerKey: CustomSnackbar.scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
-      initialRoute: Routes.trainingScreen,
+      initialRoute: Routes.setAlarm,
       onGenerateRoute: appRouter.generateRoute,
     );
   }

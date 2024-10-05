@@ -22,4 +22,5 @@ class Routes {
   static const String getReadyScreen = "/getReadyScreen";
   static const String restScreen = "/restScreen";
   static const String trainingScreen = "/trainingScreen";
+  static const String setAlarm = "/setAlarm";
 }

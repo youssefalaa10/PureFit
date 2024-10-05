@@ -8,6 +8,7 @@ import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
+import 'package:fitpro/Features/Sleep/set_alarm.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
@@ -110,13 +111,15 @@ class AppRouter {
 
       case Routes.getReadyScreen:
         return MaterialPageRoute(builder: (_) => const GetReadyScreen());
-      
+
       case Routes.restScreen:
         return MaterialPageRoute(builder: (_) => const RestScreen());
 
       case Routes.trainingScreen:
         return MaterialPageRoute(builder: (_) => const TrainingScreen());
 
+      case Routes.setAlarm:
+        return MaterialPageRoute(builder: (_) => const SetAlarm());
 
       default:
         return null;
