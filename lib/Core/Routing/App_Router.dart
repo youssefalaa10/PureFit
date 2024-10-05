@@ -23,6 +23,7 @@ import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
 import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/get_ready_screen.dart';
+import '../../Features/Exercises/UI/rest_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
@@ -109,6 +110,8 @@ class AppRouter {
       case Routes.getReadyScreen:
         return MaterialPageRoute(builder: (_) => const GetReadyScreen());
       
+      case Routes.restScreen:
+        return MaterialPageRoute(builder: (_) => const RestScreen());
 
       default:
         return null;
