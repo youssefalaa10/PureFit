@@ -19,4 +19,5 @@ class Routes {
   static const String exerciseScreen = "/exerciseScreen";
   static const String weeklyExerciseScreen = "/weeklyExerciseScreen";
   static const String checkToken = "/checkToken";
+  static const String getReadyScreen = "/getReadyScreen";
 }

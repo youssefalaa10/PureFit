@@ -22,6 +22,7 @@ import '../../Features/Auth/Login/Ui/login_screen.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
 import '../../Features/Exercises/UI/exercise_screen.dart';
+import '../../Features/Exercises/UI/get_ready_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
@@ -104,6 +105,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const WaterDetails());
       case Routes.trackStepsDetailsScreen:
         return MaterialPageRoute(builder: (_) => const TrackStepDetails());
+
+      case Routes.getReadyScreen:
+        return MaterialPageRoute(builder: (_) => const GetReadyScreen());
+      
 
       default:
         return null;
