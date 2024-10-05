@@ -3,6 +3,7 @@ import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/routes.dart';
@@ -35,9 +36,9 @@ class ProfileScreenState extends State<ProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Profile",
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
         actions: [
@@ -126,7 +127,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
                 // Show a snackbar message using CustomSnackbar
                 if (context.mounted) {
-                  CustomSnackbar.showSnackbar(context, "Success",  );
+                  CustomSnackbar.showSnackbar(context, "Success");
                 }
 
                 // Navigate to the login screen
@@ -157,8 +158,29 @@ class _UserInfoState extends State<UserInfo> {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
+          return Shimmer.fromColors(
+            baseColor: Colors.grey[300]!,
+            highlightColor: Colors.grey[100]!,
+            child: Column(
+              children: [
+                CircleAvatar(
+                  radius: mq.width(12.5),
+                  backgroundColor: Colors.grey[300],
+                ),
+                SizedBox(height: mq.height(1)),
+                Container(
+                  height: mq.width(5.5),
+                  width: mq.width(40),
+                  color: Colors.grey[300],
+                ),
+                SizedBox(height: mq.height(0.5)),
+                Container(
+                  height: mq.width(4),
+                  width: mq.width(30),
+                  color: Colors.grey[300],
+                ),
+              ],
+            ),
           );
         } else if (state is ProfileSuccess) {
           final user = state.user;
@@ -167,9 +189,7 @@ class _UserInfoState extends State<UserInfo> {
               CircleAvatar(
                 radius: mq.width(12.5),
                 backgroundImage: AssetImage(
-                
-                       AppString.profile // Fallback image if userImage is empty
-                     // Network Image URL
+                  AppString.profile,
                 ),
               ),
               SizedBox(height: mq.height(1)),

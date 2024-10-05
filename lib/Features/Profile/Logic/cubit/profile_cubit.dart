@@ -14,12 +14,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final user = await profileRepo.getProfile();
       if (user != null) {
-        emit(ProfileSuccess(user: user));
+        if (!isClosed) {
+          emit(ProfileSuccess(user: user));
+        }
       } else {
-        emit(ProfileError(message: 'Failed to fetch profile'));
+        if (!isClosed) {
+          emit(ProfileError(message: 'Failed to fetch profile'));
+        }
       }
     } catch (e) {
-      emit(ProfileError(message: e.toString()));
+      if (!isClosed) {
+        emit(ProfileError(message: e.toString()));
+      }
     }
   }
 
@@ -28,12 +34,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       final success = await profileRepo.updateProfile(user, profileId);
       if (success) {
-        emit(ProfileUpdated());
+        if (!isClosed) {
+          emit(ProfileUpdated());
+        }
       } else {
-        emit(ProfileError(message: 'Failed to update profile'));
+        if (!isClosed) {
+          emit(ProfileError(message: 'Failed to update profile'));
+        }
       }
     } catch (e) {
-      emit(ProfileError(message: e.toString()));
+      if (!isClosed) {
+        emit(ProfileError(message: e.toString()));
+      }
     }
   }
 }
