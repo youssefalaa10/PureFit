@@ -1,11 +1,10 @@
-import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
+import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../Core/Components/back_button.dart';
+import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/routes.dart';
 import '../Logic/cubit/profile_cubit.dart';
 import 'Widgets/profile_options.dart';
@@ -23,25 +22,46 @@ class ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     // Fetching profile data when the widget is initialized
-    context.read<ProfileCubit>().getProfile();
+    Future.microtask(() {
+      if (mounted) {
+        context.read<ProfileCubit>().getProfile();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Scaffold(
-      appBar: AppBar(elevation: 0, leading: const CustomBackButton()),
+      appBar: AppBar(
+        title: Text(
+          "Profile",
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout_outlined),
+            onPressed: () {
+              _showLogoutConfirmationDialog(context);
+            },
+          ),
+        ],
+        elevation: 0,
+        backgroundColor: Theme.of(context).cardColor,
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 20.h),
+          SizedBox(height: mq.height(2)),
           const UserInfo(),
-
-          SizedBox(height: 20.h),
-          const StatisticCards(), // Keeping this static for now
-          SizedBox(height: 20.h),
+          SizedBox(height: mq.height(2)),
+          const StatisticCards(),
+          SizedBox(height: mq.height(2)),
           Expanded(
             child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
               children: [
                 ProfileOption(
                   icon: Icons.person_outline,
@@ -67,15 +87,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                   label: 'Help Center',
                   onTap: () {},
                 ),
-                  ProfileOption(
-                        icon: Icons.logout,
-                        label: 'Log out',
-                        onTap: () async {
-                          SaveTokenDB.clearToken();
-                          await Navigator.pushNamedAndRemoveUntil(
-                              context, Routes.loginScreen, (route) => false);
-                        },
-                      ),
+                ProfileOption(
+                  icon: Icons.logout,
+                  label: 'Log out',
+                  onTap: () => _showLogoutConfirmationDialog(context),
+                ),
               ],
             ),
           ),
@@ -83,47 +99,105 @@ class ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+
+  void _showLogoutConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Logout"),
+          content: const Text("Are you sure you want to log out?"),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("Cancel"),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+            TextButton(
+              child: const Text(
+                "Logout",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () async {
+                Navigator.of(context).pop(); // Close the dialog
+                // Clear saved token using Dio
+                SaveTokenDB.clearToken();
+
+                // Show a snackbar message using CustomSnackbar
+                if (context.mounted) {
+                  CustomSnackbar.showSnackbar(context, "Success",  );
+                }
+
+                // Navigate to the login screen
+                if (context.mounted) {
+                  Navigator.pushReplacementNamed(context, Routes.loginScreen);
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 }
 
-class UserInfo extends StatelessWidget {
-  const UserInfo({
-    super.key,
-  });
+class UserInfo extends StatefulWidget {
+  const UserInfo({super.key});
 
   @override
+  State<UserInfo> createState() => _UserInfoState();
+}
+
+class _UserInfoState extends State<UserInfo> {
+  @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is ProfileSuccess) {
+        if (state is ProfileLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (state is ProfileSuccess) {
           final user = state.user;
           return Column(
             children: [
               CircleAvatar(
-                radius: 50.r,
-                backgroundImage: AssetImage(AppString.profile),
+                radius: mq.width(12.5),
+                backgroundImage: AssetImage(
+                
+                       AppString.profile // Fallback image if userImage is empty
+                     // Network Image URL
+                ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: mq.height(1)),
               Text(
                 user.userName,
                 style: TextStyle(
-                  fontSize: 22.sp,
+                  fontSize: mq.width(5.5),
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5.h),
+              SizedBox(height: mq.height(0.5)),
               Text(
                 user.userEmail,
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: mq.width(4),
                   color: Colors.grey,
                 ),
               ),
             ],
           );
         } else if (state is ProfileError) {
-          CustomSnackbar.showSnackbar(context,state.message);
-        } 
-        return const CircularProgressIndicator();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              CustomSnackbar.showSnackbar(context, "Error");
+            }
+          });
+        }
+        return const SizedBox.shrink(); // Empty state if no profile found
       },
     );
   }
@@ -134,8 +208,10 @@ class StatisticCards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

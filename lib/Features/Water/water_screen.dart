@@ -5,7 +5,7 @@ import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; // Correct import for CustomMQ
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
@@ -14,121 +14,140 @@ class WaterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ
+
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(context),
+            _buildHeaderSection(context, mq),
             const CustomSizedbox(height: 40),
-            _buildWelcomeMessage(),
+            _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 40),
-            _buildStackedLottieImage(),
+            _buildStackedLottieImage(mq),
             const CustomSizedbox(height: 40),
-            _buildPercentIndicator(),
+            _buildPercentIndicator(mq),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeaderSection(BuildContext context) {
+  Widget _buildHeaderSection(BuildContext context, CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(),
+          _buildHeaderTitle(mq),
           CustomIconButton(
-              icon: Icons.edit,
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.waterDetails);
-              })
+            icon: Icons.edit,
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.waterDetails);
+            },
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle() {
+  Widget _buildHeaderTitle(CustomMQ mq) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          textAlign: TextAlign.center,
           "Water Intake Details",
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: mq.width(4.5),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildWelcomeMessage() {
+  Widget _buildWelcomeMessage(CustomMQ mq) {
     return Column(
       children: [
-        Text(AppString.greatWork,
-            style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.bold,
-                color: ColorManager.lightGreyColor)),
+        Text(
+          AppString.greatWork,
+          style: TextStyle(
+            fontSize: mq.width(3.75),
+            fontWeight: FontWeight.bold,
+            color: ColorManager.lightGreyColor,
+          ),
+        ),
         const CustomSizedbox(height: 5),
         Text(
-          textAlign: TextAlign.center,
           AppString.yourDailytasksAlmostDone,
-          style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildPercentIndicator() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Center(
-          child: LinearPercentIndicator(
-            leading: Icon(Icons.water_drop,
-                color: ColorManager.blueColor, size: 32.sp),
-            barRadius: const Radius.circular(30),
-            lineHeight: 30.h,
-            width: 300.w,
-            animation: true,
-            animationDuration: 1000,
-            backgroundColor: const Color.fromARGB(255, 228, 225, 225),
-            progressColor: Colors.blue, // Use ColorManager.blueColor if defined
-            percent: (600 / 1000).clamp(0.0, 1.0), // Set water goal as 3000 ml
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: mq.width(7),
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],
     );
   }
 
-  Widget _buildStackedLottieImage() {
+  Widget _buildPercentIndicator(CustomMQ mq) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: LinearPercentIndicator(
+            leading: Icon(
+              Icons.water_drop,
+              color: ColorManager.blueColor,
+              size: mq.width(8),
+            ),
+            barRadius: const Radius.circular(30),
+            lineHeight: mq.height(3),
+            width: mq.width(75),
+            animation: true,
+            animationDuration: 1000,
+            backgroundColor: const Color.fromARGB(255, 228, 225, 225),
+            progressColor: Colors.blue,
+            percent: (600 / 1000).clamp(0.0, 1.0),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStackedLottieImage(CustomMQ mq) {
     return Center(
       child: SizedBox(
-        // Wrap both Lottie and text in a fixed-size container
-        height: 250.h,
-        width: 250.w,
+        height: mq.height(25),
+        width: mq.width(62.5),
         child: Stack(
-          alignment: Alignment.center, // Center all children within the stack
+          alignment: Alignment.center,
           children: [
             LottieBuilder.asset(
               AppString.waterLottie,
-              height: 250.h,
-              width: 250.w,
+              height: mq.height(25),
+              width: mq.width(62.5),
             ),
             Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
-                      text: "2",
-                      style: TextStyle(
-                          fontSize: 45.sp, fontWeight: FontWeight.w500)),
+                    text: "2",
+                    style: TextStyle(
+                      fontSize: mq.width(11.25),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   TextSpan(
-                      text: "lits",
-                      style: TextStyle(
-                          fontSize: 20.sp,
-                          color: ColorManager.backGroundColor)),
+                    text: "lits",
+                    style: TextStyle(
+                      fontSize: mq.width(5),
+                      color: ColorManager.backGroundColor,
+                    ),
+                  ),
                 ],
               ),
             ),

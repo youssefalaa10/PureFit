@@ -1,16 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  RegisterScreenState createState() => RegisterScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
+class RegisterScreenState extends State<RegisterScreen> {
   bool isHoveredEmail = false; // Hover state for email field
   bool isHoveredPassword = false; // Hover state for password field
   FocusNode emailFocusNode = FocusNode();
@@ -42,14 +40,14 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           width: double.infinity,
           height: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Let's get started",
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -58,8 +56,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: Colors.purple,
                 ),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 "Join our community and discover a healthier, stronger you!",
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -67,7 +65,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Image.asset(
                 "assets/images/logo.png",
                 height: 100,
@@ -88,13 +86,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.purple[100],
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           focusNode: emailFocusNode,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Name:",
                             border: InputBorder.none, // Remove default border
                           ),
@@ -104,7 +102,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
 
@@ -122,13 +120,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.purple[100],
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           focusNode: emailFocusNode,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Email:",
                             border: InputBorder.none, // Remove default border
                           ),
@@ -138,7 +136,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
 
@@ -156,13 +154,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.purple[100],
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           focusNode: emailFocusNode,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Password:",
                             border: InputBorder.none, // Remove default border
                           ),
@@ -173,7 +171,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
 
@@ -191,13 +189,13 @@ class _SignupScreenState extends State<SignupScreen> {
                     borderRadius: BorderRadius.circular(10),
                     color: Colors.purple[100],
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextField(
                           focusNode: emailFocusNode,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: "Re-type password:",
                             border: InputBorder.none, // Remove default border
                           ),
@@ -208,17 +206,17 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
 
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-              SizedBox(height: 20),
-              // Signup Button
+              const SizedBox(height: 20),
+              // Register Button
               SizedBox(
                 width: double.infinity, // Full width
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.purple,
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                         vertical: 15), // Adjust height only
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
@@ -226,7 +224,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     elevation: 10,
                     shadowColor: Colors.purple.withOpacity(0.5),
                   ),
-                  child: Text(
+                  child: const Text(
                     "Sign Up",
                     style: TextStyle(
                       fontSize: 20,
@@ -235,11 +233,11 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Already have an account?',
                     style: TextStyle(
                       fontSize: 16,

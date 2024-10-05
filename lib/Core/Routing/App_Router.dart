@@ -5,12 +5,9 @@ import 'package:fitpro/Features/AuthHelper/token_check.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_details.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
-import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
-import 'package:fitpro/Features/LoginScreen/Ui/login_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
-import 'package:fitpro/Features/Signup/Ui/signup_screen.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
@@ -19,11 +16,15 @@ import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
+import '../../Features/Auth/Login/Ui/login_screen.dart';
+
+import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import '../../Features/Auth/Register/Ui/register_screen.dart';
 import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
-import '../../Features/Signup/Logic/cubit/signup_cubit.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
@@ -74,8 +75,8 @@ class AppRouter {
       case Routes.registerScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => getIT<SignupCubit>(),
-            child: const SignupScreen(),
+            create: (context) => getIT<RegisterCubit>(),
+            child: const RegisterScreen(),
           ),
         );
 

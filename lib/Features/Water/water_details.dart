@@ -2,11 +2,11 @@ import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_icon_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Water/components/water_ruler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
 class WaterDetails extends StatelessWidget {
@@ -14,33 +14,38 @@ class WaterDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); 
+
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeaderSection(),
+            _buildHeaderSection(mq),
             const CustomSizedbox(height: 40),
-            const Padding(
-              padding: EdgeInsets.only(left: 20.0),
+            Padding(
+              padding: EdgeInsets.only(left: mq.width(5)),
               child: Text(
                 "Set New Target",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
+                style: TextStyle(
+                  fontSize: mq.width(7.5),
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
-            _buildStackedLottieImage(),
+            _buildStackedLottieImage(mq),
             const CustomSizedbox(height: 40),
             const WaterRuler(),
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: mq.height(2)),
             Center(
               child: CustomButton(
                 label: "Save",
                 onPressed: () {},
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: mq.width(32.5),
+                  vertical: mq.height(2),
+                ),
               ),
             )
           ],
@@ -49,77 +54,66 @@ class WaterDetails extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderSection() {
+  Widget _buildHeaderSection(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(),
-          CustomIconButton(icon: Icons.edit, onPressed: () {})
+          _buildHeaderTitle(mq),
+          CustomIconButton(icon: Icons.edit, onPressed: () {}),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle() {
+  Widget _buildHeaderTitle(CustomMQ mq) {
     return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
+        padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          textAlign: TextAlign.center,
           "Water Intake Details",
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: mq.width(4.5),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildWelcomeMessage() {
-    return Column(
-      children: [
-        Text(AppString.greatWork,
-            style: TextStyle(
-                fontSize: 15.sp,
-                fontWeight: FontWeight.bold,
-                color: ColorManager.lightGreyColor)),
-        const CustomSizedbox(height: 5),
-        Text(
-          textAlign: TextAlign.center,
-          AppString.yourDailytasksAlmostDone,
-          style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildStackedLottieImage() {
+  Widget _buildStackedLottieImage(CustomMQ mq) {
     return Center(
       child: SizedBox(
-        // Wrap both Lottie and text in a fixed-size container
-        height: 250.h,
-        width: 250.w,
+        height: mq.height(25),
+        width: mq.width(62.5),
         child: Stack(
-          alignment: Alignment.center, // Center all children within the stack
+          alignment: Alignment.center,
           children: [
             LottieBuilder.asset(
               AppString.waterLottie,
-              height: 250.h,
-              width: 250.w,
+              height: mq.height(25),
+              width: mq.width(62.5),
             ),
             Text.rich(
               TextSpan(
                 children: [
                   TextSpan(
-                      text: "2",
-                      style: TextStyle(
-                          fontSize: 45.sp, fontWeight: FontWeight.w500)),
+                    text: "2",
+                    style: TextStyle(
+                      fontSize: mq.width(11.25),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   TextSpan(
-                      text: "lits",
-                      style: TextStyle(
-                          fontSize: 20.sp,
-                          color: ColorManager.backGroundColor)),
+                    text: "lits",
+                    style: TextStyle(
+                      fontSize: mq.width(5),
+                      color: ColorManager.backGroundColor,
+                    ),
+                  ),
                 ],
               ),
             ),

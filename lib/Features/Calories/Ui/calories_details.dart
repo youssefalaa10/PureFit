@@ -4,12 +4,15 @@ import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/calories_ruler.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 
 class CaloriesDetails extends StatelessWidget {
   const CaloriesDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
@@ -19,35 +22,40 @@ class CaloriesDetails extends StatelessWidget {
             HeaderCalories(
               onPressed: () {},
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: mq.height(2), 
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
               child: Text(
                 "Set New Target!",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+                style: TextStyle(
+                  fontSize: mq.width(5), 
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: mq.height(2), 
             ),
             const CaloriesPercentage(),
-            const SizedBox(
-              height: 20,
+            SizedBox(
+              height: mq.height(2), 
             ),
             const CaloriesRuler(),
-            const SizedBox(
-              height: 40,
+            SizedBox(
+              height: mq.height(4), 
             ),
             Center(
               child: CustomButton(
                 label: "Save",
                 onPressed: () {},
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 130, vertical: 20),
+                padding: EdgeInsets.symmetric(
+                  horizontal: mq.width(35), 
+                  vertical: mq.height(2),   
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

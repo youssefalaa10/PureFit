@@ -1,9 +1,8 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../Core/Components/back_button.dart';
+import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_string.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -13,20 +12,23 @@ class EditProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
         title: Text(
-          'Edit Profile ',
+          'Edit Profile',
           style: TextStyle(
-            fontSize: 20.sp,
+            fontSize: mq.width(5), // Replacing 20.sp
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(
+            horizontal: mq.width(5), vertical: mq.height(1)),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -34,7 +36,7 @@ class EditProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const ProfileImageSection(),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 EditableField(
                   label: 'Your Name',
                   hintText: 'Youssef Alaa',
@@ -47,14 +49,14 @@ class EditProfileScreen extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 const EditableField(
                   label: 'Email',
                   hintText: 'youssef@gmail.com',
                   icon: Icons.email_outlined,
                   isReadOnly: true, // Make the email field read-only
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 EditableField(
                   label: 'Password',
                   hintText: '***********',
@@ -69,21 +71,21 @@ class EditProfileScreen extends StatelessWidget {
                     return null;
                   },
                 ),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 const GenderSelector(),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 const HeightSlider(),
-                SizedBox(height: 10.h),
+                SizedBox(height: mq.height(1)),
                 const WeightSlider(),
-                SizedBox(height: 20.h),
+                SizedBox(height: mq.height(2)),
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: ColorManager.primaryColor,
                       padding: EdgeInsets.symmetric(
-                          horizontal: 50.w, vertical: 10.h),
+                          horizontal: mq.width(12.5), vertical: mq.height(1)),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
+                        borderRadius: BorderRadius.circular(mq.width(2.5)),
                       ),
                     ),
                     onPressed: () {
@@ -93,7 +95,8 @@ class EditProfileScreen extends StatelessWidget {
                     },
                     child: Text(
                       'Save Changes',
-                      style: TextStyle(fontSize: 16.sp, color: Colors.white),
+                      style:
+                          TextStyle(fontSize: mq.width(4), color: Colors.white),
                     ),
                   ),
                 ),
@@ -111,20 +114,23 @@ class ProfileImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Center(
       child: Stack(
         children: [
           CircleAvatar(
-            radius: 50.r,
+            radius: mq.width(12.5),
             backgroundImage: AssetImage(AppString.profile),
           ),
           Positioned(
             bottom: 0,
             right: 0,
             child: CircleAvatar(
-              radius: 15.r,
+              radius: mq.width(3.75),
               backgroundColor: Colors.orange,
-              child: Icon(Icons.edit, size: 15.sp, color: Colors.white),
+              child:
+                  Icon(Icons.edit, size: mq.width(3.75), color: Colors.white),
             ),
           ),
         ],
@@ -153,14 +159,16 @@ class EditableField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: mq.height(0.8)),
         TextFormField(
           obscureText: obscureText,
           readOnly: isReadOnly,
@@ -168,7 +176,7 @@ class EditableField extends StatelessWidget {
             hintText: hintText,
             prefixIcon: Icon(icon),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
+              borderRadius: BorderRadius.circular(mq.width(2.5)),
             ),
           ),
           validator: validator,
@@ -190,16 +198,18 @@ class _WeightSliderState extends State<WeightSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Weight (kg)',
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
         ),
         Row(
           children: [
-            Text('40', style: TextStyle(fontSize: 14.sp)),
+            Text('40', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
                 value: _currentWeight,
@@ -214,8 +224,7 @@ class _WeightSliderState extends State<WeightSlider> {
                 },
               ),
             ),
-            Text('160',
-                style: TextStyle(fontSize: 14.sp)), // Maximum value label
+            Text('160', style: TextStyle(fontSize: mq.width(3.5))),
           ],
         ),
       ],
@@ -235,23 +244,24 @@ class _HeightSliderState extends State<HeightSlider> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Height (cm)',
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
         ),
         Row(
           children: [
-            Text('130', style: TextStyle(fontSize: 14.sp)),
+            Text('130', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
                 value: _currentHeight,
                 min: 130,
                 max: 200,
-                divisions:
-                    70, // Number of steps between 130 and 200 (1 cm increments)
+                divisions: 70, // Number of steps between 130 and 200
                 label: _currentHeight.round().toString(),
                 onChanged: (value) {
                   setState(() {
@@ -260,7 +270,7 @@ class _HeightSliderState extends State<HeightSlider> {
                 },
               ),
             ),
-            Text('200', style: TextStyle(fontSize: 14.sp)),
+            Text('200', style: TextStyle(fontSize: mq.width(3.5))),
           ],
         ),
       ],
@@ -280,14 +290,16 @@ class GenderSelectorState extends State<GenderSelector> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           'Gender',
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: mq.height(0.8)),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -299,16 +311,16 @@ class GenderSelectorState extends State<GenderSelector> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(1.w),
+                  padding: EdgeInsets.all(mq.width(0.25)),
                   decoration: BoxDecoration(
                     color: _selectedGender == "Male"
                         ? Colors.blue.withOpacity(0.1)
                         : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(mq.width(2.5)),
                     border: Border.all(
                       color:
                           _selectedGender == "Male" ? Colors.blue : Colors.grey,
-                      width: 2.w,
+                      width: mq.width(0.5),
                     ),
                   ),
                   child: Row(
@@ -323,17 +335,17 @@ class GenderSelectorState extends State<GenderSelector> {
                         },
                         activeColor: Colors.blue,
                       ),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: mq.width(2.5)),
                       Text(
                         "Male",
-                        style: TextStyle(fontSize: 16.sp),
+                        style: TextStyle(fontSize: mq.width(4)),
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-            SizedBox(width: 10.w),
+            SizedBox(width: mq.width(2.5)),
             Expanded(
               child: GestureDetector(
                 onTap: () {
@@ -342,17 +354,17 @@ class GenderSelectorState extends State<GenderSelector> {
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(1.w),
+                  padding: EdgeInsets.all(mq.width(0.25)),
                   decoration: BoxDecoration(
                     color: _selectedGender == "Female"
                         ? Colors.pink.withOpacity(0.1)
                         : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(10.r),
+                    borderRadius: BorderRadius.circular(mq.width(2.5)),
                     border: Border.all(
                       color: _selectedGender == "Female"
                           ? Colors.pink
                           : Colors.grey,
-                      width: 2.w,
+                      width: mq.width(0.5),
                     ),
                   ),
                   child: Row(
@@ -367,10 +379,10 @@ class GenderSelectorState extends State<GenderSelector> {
                         },
                         activeColor: Colors.pink,
                       ),
-                      SizedBox(width: 10.w),
+                      SizedBox(width: mq.width(2.5)),
                       Text(
                         "Female",
-                        style: TextStyle(fontSize: 16.sp),
+                        style: TextStyle(fontSize: mq.width(4)),
                       ),
                     ],
                   ),
@@ -380,27 +392,6 @@ class GenderSelectorState extends State<GenderSelector> {
           ],
         ),
       ],
-    );
-  }
-}
-
-class SaveSettingsButton extends StatelessWidget {
-  const SaveSettingsButton({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: CustomButton(
-        label: 'Save Changes',
-        onPressed: () {
-          // Implement save settings logic here
-        },
-        backgroundColor: ColorManager.primaryColor,
-        padding: EdgeInsets.symmetric(horizontal: 50.w, vertical: 10.h),
-        borderRadius: 10.r,
-        fontSize: 16.sp,
-        textColor: Colors.white,
-      ),
     );
   }
 }

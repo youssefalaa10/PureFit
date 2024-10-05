@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/LocalDB/TrakStepDb/track_steps_db.dart';
+import 'package:fitpro/Core/local_db/TrakStepDb/track_steps_db.dart';
 import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
 
 class Trackstepsrepo {

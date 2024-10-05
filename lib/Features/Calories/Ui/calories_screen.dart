@@ -1,4 +1,3 @@
-import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
@@ -7,15 +6,15 @@ import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../../Core/Components/custom_icon_button.dart';
-
+import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 class CaloriesScreen extends StatelessWidget {
   const CaloriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq =
+        CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
@@ -28,29 +27,27 @@ class CaloriesScreen extends StatelessWidget {
                   Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
                 },
               ),
-              const CustomSizedbox(height: 30),
-              _buildWelcomeMessage(),
-              const CustomSizedbox(height: 20),
+              CustomSizedbox(height: mq.height(3)),
+              _buildWelcomeMessage(mq),
+              CustomSizedbox(height: mq.height(2)),
               const CaloriesPercentage(),
-              const CustomSizedbox(height: 20),
-              _buildRowOfMyActictyandSteps(),
-              const CustomSizedbox(height: 10),
-              _buildCoulmnOfstaticsCFP(),
-              const CustomSizedbox(height: 10),
+              CustomSizedbox(height: mq.height(2)),
+              _buildRowOfMyActivityAndSteps(mq),
+              CustomSizedbox(height: mq.height(1)),
+              _buildColumnOfStaticsCFP(mq),
+              CustomSizedbox(height: mq.height(1)),
               Padding(
-                padding: EdgeInsets.only(
-                  left: 20.w,
-                  bottom: 5.h,
-                ),
+                padding:
+                    EdgeInsets.only(left: mq.width(5), bottom: mq.height(0.5)),
                 child: Text(
                   "Break Fast",
                   style: TextStyle(
-                      fontSize: 15.sp,
+                      fontSize: mq.width(4),
                       fontWeight: FontWeight.bold,
                       color: ColorManager.greyColor),
                 ),
               ),
-              _buildCaloriesStepsBloc(),
+              _buildCaloriesStepsBloc(mq),
             ],
           ),
         ),
@@ -58,108 +55,73 @@ class CaloriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderSection() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const CustomBackButton(),
-          _buildHeaderTitle(),
-          _buildEditButton(),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeaderTitle() {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30.w),
-        child: Text(
-          textAlign: TextAlign.center,
-          "Calories Details",
-          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildEditButton() {
-    return CustomIconButton(
-      icon: Icons.edit,
-      onPressed: () {
-        // Your edit action here
-      },
-    );
-  }
-
-  Widget _buildWelcomeMessage() {
+  Widget _buildWelcomeMessage(CustomMQ mq) {
     return Center(
       child: Column(
         children: [
           Text(AppString.keepGoing,
               style: TextStyle(
-                  fontSize: 15.sp,
+                  fontSize: mq.width(4),
                   fontWeight: FontWeight.bold,
                   color: ColorManager.lightGreyColor)),
           Text(
             AppString.youHavetoEatMoreCalories,
-            style: TextStyle(fontSize: 28.sp, fontWeight: FontWeight.bold),
+            style:
+                TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCaloriesStepsBloc() {
-    return _buildMyActivity(AppString.profile, "Apple", "2 apple in a day", 40);
+  Widget _buildCaloriesStepsBloc(CustomMQ mq) {
+    return _buildMyActivity(
+        AppString.profile, "Apple", "2 apple in a day", 40, mq);
   }
 
-  Widget _buildRowOfMyActictyandSteps() {
+  Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(AppString.myActivity,
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold)),
+              style: TextStyle(
+                  fontSize: mq.width(5), fontWeight: FontWeight.bold)),
           TextButton(
               onPressed: () {},
               child: Text("Today",
-                  style:
-                      TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold))),
+                  style: TextStyle(
+                      fontSize: mq.width(4), fontWeight: FontWeight.bold))),
         ],
       ),
     );
   }
 
-  Widget _buildCoulmnOfstaticsCFP() {
+  Widget _buildColumnOfStaticsCFP(CustomMQ mq) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+          padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("Carbs",
-                  style:
-                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600)),
-              Text(
-                "Fat",
-                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
-              ),
-              Text(
-                "Protein",
-                style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
-              ),
+                  style: TextStyle(
+                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+              Text("Fat",
+                  style: TextStyle(
+                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+              Text("Protein",
+                  style: TextStyle(
+                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
             ],
           ),
         ),
-        const CustomSizedbox(height: 12),
+        CustomSizedbox(height: mq.height(1.2)),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12.0.w),
+          padding: EdgeInsets.symmetric(horizontal: mq.width(3)),
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -174,9 +136,10 @@ class CaloriesScreen extends StatelessWidget {
   }
 
   Widget _buildMyActivity(
-      String image, String title, String amonunt, int calories) {
+      String image, String title, String amount, int calories, CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.only(left: 8.0.w, right: 8.0.w, bottom: 3.h),
+      padding: EdgeInsets.only(
+          left: mq.width(2), right: mq.width(2), bottom: mq.height(0.3)),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
@@ -185,16 +148,21 @@ class CaloriesScreen extends StatelessWidget {
           return ListTile(
             title: Text(
               title,
-              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w900),
+              style:
+                  TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w900),
             ),
-            trailing: Text("🔥 $calories Calories in",
-                style: TextStyle(
-                    fontSize: 12.sp, color: ColorManager.orangeColor)),
-            subtitle: Text(amonunt,
-                style: TextStyle(
-                    fontSize: 12.sp, color: ColorManager.lightGreyColor)),
+            trailing: Text(
+              "🔥 $calories Calories in",
+              style: TextStyle(
+                  fontSize: mq.width(3), color: ColorManager.orangeColor),
+            ),
+            subtitle: Text(
+              amount,
+              style: TextStyle(
+                  fontSize: mq.width(3), color: ColorManager.lightGreyColor),
+            ),
             leading: ClipRRect(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(mq.width(3)),
               child: Image.asset(
                 image,
               ),

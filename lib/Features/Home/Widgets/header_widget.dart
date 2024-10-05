@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import '../../../Core/Shared/app_string.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -8,6 +7,8 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -16,16 +17,22 @@ class HeaderWidget extends StatelessWidget {
           children: [
             Text(
               'Good Morning! 👋',
-              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                fontSize: mq.width(4.5), // Use CustomMQ for font size
+                fontWeight: FontWeight.w500,
+              ),
             ),
             Text(
               'Youssef Alaa',
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: mq.width(6), // Use CustomMQ for font size
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
         CircleAvatar(
-          radius: 25.r,
+          radius: mq.width(6.25), // Use CustomMQ for radius
           backgroundImage: AssetImage(AppString.profile),
         ),
       ],

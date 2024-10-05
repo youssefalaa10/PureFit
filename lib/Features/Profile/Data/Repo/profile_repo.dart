@@ -1,6 +1,7 @@
 import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
 
-import '../../../../Core/Networking/DioAuthApi/dio_profile_api.dart';
+import '../../../../Core/Networking/Dio/dio_profile_api.dart';
+
 
 class ProfileRepo {
   final DioProfileApi dioProfileApi;

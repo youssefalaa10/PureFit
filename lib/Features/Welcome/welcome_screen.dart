@@ -3,12 +3,15 @@
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+
     return Scaffold(
       body: SafeArea(
         child: Center(
@@ -17,40 +20,42 @@ class WelcomeScreen extends StatelessWidget {
             children: [
               // Logo Image
               Image.asset(
-                // "assets/images/logo.png",
                 AppString.profile,
-                height: 100,
+                height: mq.height(12),
               ),
 
               // Illustration Image
               Image.asset(
-                // "assets/images/welcomeimage",
                 AppString.profile,
-                height: 150,
+                height: mq.height(18),
               ),
               SizedBox(
-                height: 20,
+                height: mq.height(2),
               ),
               Container(
-                padding: EdgeInsets.all(20),
+                padding: EdgeInsets.all(mq.width(5)),
                 child: Text(
                   "Start your journey towards a healthier you!'",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: mq.width(5),
                     color: Colors.black,
                   ),
                 ),
               ),
-              SizedBox(height: 20),
-              //Get started Button
+              SizedBox(height: mq.height(2)),
+
+              // Get Started Button
               ElevatedButton(
                 onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorManager.primaryColor,
-                  padding: EdgeInsets.symmetric(horizontal: 120, vertical: 20),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: mq.width(30),
+                    vertical: mq.height(2.5),
+                  ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40),
+                    borderRadius: BorderRadius.circular(mq.width(10)),
                   ),
                   elevation: 10,
                   shadowColor: Colors.purple.withOpacity(0.5),
@@ -58,25 +63,27 @@ class WelcomeScreen extends StatelessWidget {
                 child: Text(
                   "Get Started",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: mq.width(5),
                     color: Colors.white,
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: mq.height(2)),
+
+              // Sign In Text
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Already have an account?',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: mq.width(4),
                     ),
                   ),
                   Text(
                     ' Sign In',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: mq.width(4),
                       fontWeight: FontWeight.bold,
                       color: ColorManager.primaryColor,
                       decoration: TextDecoration.underline,

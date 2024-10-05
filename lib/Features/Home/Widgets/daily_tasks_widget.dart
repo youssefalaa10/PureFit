@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 
 class DailyTaskWidget extends StatelessWidget {
   const DailyTaskWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -14,7 +16,10 @@ class DailyTaskWidget extends StatelessWidget {
           children: [
             Text(
               'Daily Task',
-              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: mq.width(5), // Use CustomMQ for font size to make it responsive
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),

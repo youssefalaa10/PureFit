@@ -1,6 +1,7 @@
-import 'package:fitpro/Core/Networking/DioAuthApi/dio_auth_api.dart';
-import 'package:fitpro/Features/LoginScreen/Data/Model/login_model.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../../../../Core/Networking/Dio/dio_auth_api.dart';
+import '../Model/login_model.dart';
 
 class LoginRepo {
   final DioAuthApi dioAuthApi;

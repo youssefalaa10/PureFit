@@ -1,13 +1,17 @@
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../Core/Components/media_query.dart';
+
 
 class GoalinProgress extends StatelessWidget {
   const GoalinProgress({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -15,9 +19,9 @@ class GoalinProgress extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              _buildGoalCard('Body Building', 'Full body workout', 35, 120),
-              SizedBox(width: 16.w),
-              _buildGoalCard('Six Pack', 'Core workout', 25, 100),
+              _buildGoalCard(mq, 'Body Building', 'Full body workout', 35, 120),
+              SizedBox(width: mq.width(4)), 
+              _buildGoalCard(mq, 'Six Pack', 'Core workout', 25, 100),
             ],
           ),
         ),
@@ -25,25 +29,22 @@ class GoalinProgress extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(
-      String title, String description, int minutes, int calories) {
+  Widget _buildGoalCard(CustomMQ mq, String title, String description, int minutes, int calories) {
     return Container(
-      margin: EdgeInsets.all(10.r), // Adding bottom margin
-      width: 220.w,
-      padding: EdgeInsets.all(10.w),
+      margin: EdgeInsets.all(mq.width(2.5)), 
+      width: mq.width(55), 
+      padding: EdgeInsets.all(mq.width(2.5)), 
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
             blurStyle: BlurStyle.outer,
-            color: ColorManager.lightGreyColor
-                .withOpacity(0.5), // Semi-transparent shadow
-            blurRadius: 10.r, // Increased blur for a more noticeable shadow
-            spreadRadius: 2.0, // Slightly increased spread
-            offset: const Offset(
-                2, 2), // More vertical offset to make the bottom shadow visible
+            color: ColorManager.lightGreyColor.withOpacity(0.5), // Semi-transparent shadow
+            blurRadius: mq.width(2.5), 
+            spreadRadius: mq.width(0.5), // Slightly increased spread, replacing 2.0 with mq.width(0.5)
+            offset: const Offset(2, 2), // More vertical offset to make the bottom shadow visible
           ),
         ],
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(mq.width(4)), 
       ),
       child: Stack(
         children: [
@@ -51,50 +52,49 @@ class GoalinProgress extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(mq.width(3)), 
                 child: Image.asset(
                   AppString.profile,
-                  height: 120.h,
+                  height: mq.height(12), 
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: mq.height(1)), 
               Text(
                 title,
-                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: mq.width(4.5), fontWeight: FontWeight.bold), 
               ),
               Text(
                 description,
-                style: TextStyle(fontSize: 14.sp, color: Colors.grey),
+                style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey), 
               ),
-              SizedBox(height: 10.h),
+              SizedBox(height: mq.height(1)), 
               Row(
                 children: [
-                  Icon(Icons.timer, color: Colors.green, size: 18.w),
-                  SizedBox(width: 5.w),
-                  Text('$minutes min', style: TextStyle(fontSize: 14.sp)),
+                  Icon(Icons.timer, color: Colors.green, size: mq.width(4.5)), 
+                  SizedBox(width: mq.width(1.25)), 
+                  Text('$minutes min', style: TextStyle(fontSize: mq.width(3.5))), 
                   const Spacer(),
-                  Icon(Icons.local_fire_department,
-                      color: Colors.orange, size: 18.w),
-                  SizedBox(width: 5.w),
-                  Text('$calories cal', style: TextStyle(fontSize: 14.sp)),
+                  Icon(Icons.local_fire_department, color: Colors.orange, size: mq.width(4.5)), 
+                  SizedBox(width: mq.width(1.25)), 
+                  Text('$calories cal', style: TextStyle(fontSize: mq.width(3.5))), 
                 ],
               ),
             ],
           ),
           Positioned(
-            top: 100.h,
-            right: 10.w,
+            top: mq.height(10), 
+            right: mq.width(2.5), 
             child: Container(
-              padding: EdgeInsets.all(8.w),
+              padding: EdgeInsets.all(mq.width(2)), 
               decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black12,
-                    blurRadius: 4.r,
+                    blurRadius: mq.width(1), 
                     offset: const Offset(0, 2),
                   ),
                 ],
@@ -102,7 +102,7 @@ class GoalinProgress extends StatelessWidget {
               child: Icon(
                 Icons.play_arrow,
                 color: Colors.orange,
-                size: 20.w,
+                size: mq.width(5), 
               ),
             ),
           ),

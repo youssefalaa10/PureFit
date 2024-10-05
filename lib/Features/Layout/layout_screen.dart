@@ -44,7 +44,7 @@ class LayoutScreenState extends State<LayoutScreen> {
       statusBarIconBrightness: Brightness.dark,
     ));
   }
-
+  // animation to slide between layoutscreens
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

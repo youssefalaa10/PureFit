@@ -2,7 +2,7 @@ import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; // Correct import for CustomMQ
 import '../../../Core/Components/custom_button.dart';
 import '../../../Core/Components/custom_icon_button.dart';
 
@@ -11,6 +11,8 @@ class ExerciseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive measurements
+
     return Scaffold(
       body: Stack(
         children: [
@@ -19,54 +21,52 @@ class ExerciseScreen extends StatelessWidget {
               children: [
                 Stack(
                   children: [
-                    _buildHeaderImage(),
-                    _buildHeaderOverlay(),
+                    _buildHeaderImage(mq),
+                    _buildHeaderOverlay(mq),
                   ],
                 ),
-                _buildContentSection(),
+                _buildContentSection(mq),
               ],
             ),
           ),
         ],
       ),
-      bottomNavigationBar: _buildStartNowButton(context),
+      bottomNavigationBar: _buildStartNowButton(context, mq),
     );
   }
 
-  // Use the CustomButton widget for "Start Now" button
-  Widget _buildStartNowButton(BuildContext context) {
+  Widget _buildStartNowButton(BuildContext context, CustomMQ mq) {
     return CustomButton(
       label: "Start Now",
       onPressed: () {},
       backgroundColor: ColorManager.primaryColor,
       padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 10.h,
+        horizontal: mq.width(4),
+        vertical: mq.height(1),
       ),
-      borderRadius: 10.r,
-      fontSize: 16.sp,
+      borderRadius: mq.width(2.5),
+      fontSize: mq.width(4),
       textColor: Colors.white,
     );
   }
 
-  // Program Image
-  Widget _buildHeaderImage() {
+  Widget _buildHeaderImage(CustomMQ mq) {
     return ClipRRect(
-      borderRadius: BorderRadius.vertical(bottom: Radius.circular(20.r)),
+      borderRadius: BorderRadius.vertical(bottom: Radius.circular(mq.width(5))),
       child: Image.asset(
         AppString.profile,
         width: double.infinity,
-        height: 250.h,
+        height: mq.height(25),
         fit: BoxFit.cover,
       ),
     );
   }
 
-  Widget _buildHeaderOverlay() {
+  Widget _buildHeaderOverlay(CustomMQ mq) {
     return Positioned(
-      top: 16.h,
-      left: 16.w,
-      right: 16.w,
+      top: mq.height(1.5),
+      left: mq.width(4),
+      right: mq.width(4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -74,7 +74,7 @@ class ExerciseScreen extends StatelessWidget {
           CustomIconButton(
             icon: Icons.more_vert,
             onPressed: () {
-              // Your more options action here
+              // More options action
             },
           ),
         ],
@@ -82,84 +82,84 @@ class ExerciseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildContentSection() {
+  Widget _buildContentSection(CustomMQ mq) {
     return Container(
-      transform: Matrix4.translationValues(0, -25.h, 0),
+      transform: Matrix4.translationValues(0, -mq.height(2.5), 0),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(mq.width(5))),
       ),
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(mq.width(4)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 16.h),
-          _buildWorkoutDescription(),
-          SizedBox(height: 24.h),
-          _buildDetailsRow(),
-          SizedBox(height: 24.h),
-          _buildExercisesSection(),
+          SizedBox(height: mq.height(1.5)),
+          _buildWorkoutDescription(mq),
+          SizedBox(height: mq.height(2.5)),
+          _buildDetailsRow(mq),
+          SizedBox(height: mq.height(2.5)),
+          _buildExercisesSection(mq),
         ],
       ),
     );
   }
 
-  Widget _buildWorkoutDescription() {
+  Widget _buildWorkoutDescription(CustomMQ mq) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           "Body Building",
-          style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: mq.width(5.5), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: mq.height(1)),
         Text(
           "Full body workout",
-          style: TextStyle(fontSize: 16.sp, color: Colors.grey),
+          style: TextStyle(fontSize: mq.width(4), color: Colors.grey),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: mq.height(1)),
         Text(
           "Day 1",
-          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 8.h),
+        SizedBox(height: mq.height(1)),
         Text(
           "Lose belly fat, get ripped abs in just 4 weeks with this efficient plan. It also helps pump ups arm, strengthen your back & shoulders. No equipment needed",
-          style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+          style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey[600]),
         ),
       ],
     );
   }
 
-  Widget _buildDetailsRow() {
+  Widget _buildDetailsRow(CustomMQ mq) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildDetailItem("Level", "Beginner"),
-        _buildDetailItem("Time", "35 Min"),
-        _buildDetailItem("Focus Area", "Chest"),
+        _buildDetailItem("Level", "Beginner", mq),
+        _buildDetailItem("Time", "35 Min", mq),
+        _buildDetailItem("Focus Area", "Chest", mq),
       ],
     );
   }
 
-  Widget _buildDetailItem(String title, String value) {
+  Widget _buildDetailItem(String title, String value, CustomMQ mq) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           title,
-          style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+          style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey[600]),
         ),
-        SizedBox(height: 4.h),
+        SizedBox(height: mq.height(0.5)),
         Text(
           value,
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w500),
         ),
       ],
     );
   }
 
-  Widget _buildExercisesSection() {
+  Widget _buildExercisesSection(CustomMQ mq) {
     List<Map<String, String>> exercises = [
       {"name": "Jumping Jacks", "duration": "00:20"},
       {"name": "Back Push-Ups", "duration": "00:30"},
@@ -178,11 +178,11 @@ class ExerciseScreen extends StatelessWidget {
       children: [
         Text(
           "Exercises (${exercises.length})",
-          style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.bold),
         ),
-        SizedBox(height: 16.h),
+        SizedBox(height: mq.height(1.5)),
         SizedBox(
-          height: 300.h,
+          height: mq.height(30),
           child: ListView.builder(
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -190,9 +190,8 @@ class ExerciseScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final exercise = exercises[index];
               return Padding(
-                padding: EdgeInsets.only(bottom: 16.h),
-                child: _buildExerciseItem(
-                    exercise["name"]!, exercise["duration"]!),
+                padding: EdgeInsets.only(bottom: mq.height(1.5)),
+                child: _buildExerciseItem(exercise["name"]!, exercise["duration"]!, mq),
               );
             },
           ),
@@ -201,22 +200,22 @@ class ExerciseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExerciseItem(String name, String duration) {
+  Widget _buildExerciseItem(String name, String duration, CustomMQ mq) {
     return Row(
       children: [
-        Icon(Icons.fitness_center, size: 32.sp),
-        SizedBox(width: 16.w),
+        Icon(Icons.fitness_center, size: mq.width(8)),
+        SizedBox(width: mq.width(4)),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               name,
-              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 4.h),
+            SizedBox(height: mq.height(0.5)),
             Text(
               duration,
-              style: TextStyle(fontSize: 14.sp, color: Colors.grey[600]),
+              style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey[600]),
             ),
           ],
         ),

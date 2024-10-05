@@ -1,36 +1,38 @@
 import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/MyPlan/component/static_card.dart';
 import 'package:fitpro/Features/MyPlan/component/workouts_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../Core/Components/media_query.dart';
 
 class MyPlanScreen extends StatelessWidget {
   const MyPlanScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); 
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorManager.backGroundColor,
         body: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: mq.width(
+                  4), 
+              vertical: mq.height(
+                  1), 
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(),
-                CustomSizedbox(height: 20.h),
-                _buildRowOfDailyPlanStatics(),
-                CustomSizedbox(height: 30.h),
-                _buildFourGridsofStatics(context),
-                CustomSizedbox(height: 30.h),
-                _goalProgressText(),
-                CustomSizedbox(height: 10.h),
-                _goalInProgressCard()
+                _buildHeader(mq),
+                _buildRowOfDailyPlanStatics(mq),
+                _buildFourGridsofStatics(context, mq),
+                _goalProgressText(mq),
+                _goalInProgressCard(mq),
               ],
             ),
           ),
@@ -39,52 +41,67 @@ class MyPlanScreen extends StatelessWidget {
     );
   }
 
-  Padding _goalInProgressCard() {
+  Padding _goalInProgressCard(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.only(left: 10.w),
+      padding: EdgeInsets.only(
+          left: mq.width(2.5)), 
       child: const GoalinProgress(),
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 10.h),
+      padding: EdgeInsets.symmetric(
+          vertical: mq.height(1)), 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(),
-          SizedBox(width: 48.w),
+          _buildHeaderTitle(mq),
+          SizedBox(
+              width: mq.width(
+                  12)), 
         ],
       ),
     );
   }
 
-  Padding _goalProgressText() {
+  Padding _goalProgressText(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.only(left: 20.w),
+      padding: EdgeInsets.only(
+          left: mq.width(5)), 
       child: Text(
         AppString.goalInProgress,
-        style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w800),
+        style: TextStyle(
+          fontSize: mq.width(5.5), 
+          fontWeight: FontWeight.w800,
+        ),
       ),
     );
   }
 
-  Widget _buildRowOfDailyPlanStatics() {
+  Widget _buildRowOfDailyPlanStatics(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      padding: EdgeInsets.symmetric(
+          horizontal: mq.width(5)), 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             AppString.dailyPlan,
-            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: mq.width(5), 
+              fontWeight: FontWeight.bold,
+            ),
           ),
           TextButton(
             onPressed: () {},
             child: Text(
               AppString.statics,
-              style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: mq.width(4.25), 
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
@@ -92,27 +109,31 @@ class MyPlanScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderTitle() {
+  Widget _buildHeaderTitle(CustomMQ mq) {
     return Expanded(
       child: Text(
         textAlign: TextAlign.center,
         AppString.myPlan,
-        style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          fontSize: mq.width(4.5), 
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
 
-  Widget _buildFourGridsofStatics(BuildContext context) {
+  Widget _buildFourGridsofStatics(BuildContext context, CustomMQ mq) {
     return SizedBox(
-      height: 300.h,
+      height: mq.height(35), // Setting the height of the GridView
       child: GridView.builder(
-        physics: const NeverScrollableScrollPhysics(),
+        physics:
+            const NeverScrollableScrollPhysics(), // Prevent scrolling within the grid
         itemCount: 4,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: 15.w,
-          mainAxisSpacing: 10.h,
-          crossAxisCount: 2,
-          mainAxisExtent: 140.h,
+          crossAxisSpacing: mq.width(3.75), 
+          mainAxisSpacing: mq.height(1), 
+          crossAxisCount: 2, // Number of columns in the grid
+          mainAxisExtent: mq.height(16), // Height of each item in the grid
         ),
         itemBuilder: (context, index) {
           return _buildStaticCard(context, index);

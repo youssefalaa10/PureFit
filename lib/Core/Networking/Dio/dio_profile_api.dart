@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fitpro/Core/Shared/api_constans.dart';
 import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
-import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
+import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:flutter/foundation.dart';
 
 class DioProfileApi {

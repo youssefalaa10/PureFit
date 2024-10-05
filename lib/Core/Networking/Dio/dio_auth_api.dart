@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/LocalDB/DioSavedToken/save_token.dart';
-import 'package:fitpro/Features/Signup/Data/Model/regsetier_model.dart';
-import 'package:fitpro/Features/LoginScreen/Data/Model/login_model.dart';
+import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
+
 import 'package:flutter/foundation.dart';
+
+import '../../../Features/Auth/Login/Data/Model/login_model.dart';
+import '../../../Features/Auth/Register/Data/Model/register_model.dart';
 
 class DioAuthApi {
   final Dio _dio;

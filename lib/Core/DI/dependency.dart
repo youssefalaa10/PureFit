@@ -1,18 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/LocalDB/TrakStepDb/track_steps_db.dart';
-import 'package:fitpro/Core/Networking/DioAuthApi/dio_auth_api.dart';
+import 'package:fitpro/Core/local_db/TrakStepDb/track_steps_db.dart';
+
 import 'package:fitpro/Core/Networking/interceptors/dio_interceptor.dart';
-import 'package:fitpro/Features/LoginScreen/Data/Repo/login_repo.dart';
-import 'package:fitpro/Features/LoginScreen/Logic/cubit/login_cubit.dart';
-import 'package:fitpro/Features/Signup/Data/Repo/signup_repo.dart';
-import 'package:fitpro/Features/Signup/Logic/cubit/signup_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Data/Repository/track_steps_repo.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../Features/Auth/Login/Data/Repo/login_repo.dart';
+import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
+import '../../Features/Auth/Register/Data/Repo/register_repo.dart';
+import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Profile/Data/Repo/profile_repo.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
-import '../Networking/DioAuthApi/dio_profile_api.dart';
+import '../Networking/Dio/dio_auth_api.dart';
+import '../Networking/Dio/dio_profile_api.dart';
+
 
 final getIT = GetIt.instance;
 
@@ -32,12 +34,13 @@ Future<void> setUpGit() async {
   getIT.registerFactory<LoginCubit>(() => LoginCubit(getIT()));
 
   //Sign up
-  getIT
-      .registerLazySingleton<SignupRepo>(() => SignupRepo(dioAuthApi: getIT()));
-  getIT.registerFactory<SignupCubit>(() => SignupCubit(getIT()));
+  getIT.registerLazySingleton<RegisterRepo>(
+      () => RegisterRepo(dioAuthApi: getIT()));
+  getIT.registerFactory<RegisterCubit>(() => RegisterCubit(getIT()));
 
-    // Profile - Adding new dependencies
+  // Profile - Adding new dependencies
   getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
-  getIT.registerLazySingleton<ProfileRepo>(() => ProfileRepo(dioProfileApi: getIT()));
+  getIT.registerLazySingleton<ProfileRepo>(
+      () => ProfileRepo(dioProfileApi: getIT()));
   getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT<ProfileRepo>()));
 }

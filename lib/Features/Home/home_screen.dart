@@ -3,8 +3,8 @@ import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
 import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
 import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../Core/Components/media_query.dart';
 import 'Widgets/daily_tasks_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,24 +12,26 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const HeaderWidget(),
-                SizedBox(height: 20.h),
+                SizedBox(height: mq.height(2)),
                 const PlanCard(),
-                SizedBox(height: 20.h),
+                SizedBox(height: mq.height(2)),
                 const NewGoalWidget(),
-                SizedBox(height: 20.h),
+                SizedBox(height: mq.height(2)),
                 const DailyTaskWidget(),
-                SizedBox(height: 10.h),
-                const DailyListTasks()
+                SizedBox(height: mq.height(1)),
+                const DailyListTasks(),
               ],
             ),
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../Core/Components/media_query.dart';
 import '../../../../Core/Shared/app_colors.dart';
 
 class StatisticCard extends StatelessWidget {
@@ -17,14 +17,15 @@ class StatisticCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); 
+
     return Container(
-      width: 160.w,
-      height: 100.w,
-      padding: EdgeInsets.all(16.w),
+      width: mq.width(40),
+      height: mq.width(25),
+      padding: EdgeInsets.all(mq.width(4)),
       decoration: BoxDecoration(
         border: Border.all(color: ColorManager.greyColor),
-        // color: Colors.grey[900], // Dark color for the card background
-        borderRadius: BorderRadius.circular(15.r),
+        borderRadius: BorderRadius.circular(mq.width(3.75)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,34 +34,31 @@ class StatisticCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 8.w,
-                height: 8.w,
+                width: mq.width(2),
+                height: mq.width(2),
                 decoration: BoxDecoration(
                   color: color,
-                  borderRadius: BorderRadius.circular(4.r),
+                  borderRadius: BorderRadius.circular(mq.width(1)),
                 ),
               ),
-              SizedBox(width: 10.w),
+              SizedBox(width: mq.width(2.5)),
               Expanded(
-                // Wrap with Expanded to handle overflow
                 child: Text(
                   value,
                   style: TextStyle(
-                    fontSize: 20.sp,
+                    fontSize: mq.width(5),
                     fontWeight: FontWeight.bold,
-                    // color: Colors.white,//if you apply Dark color for the card background
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
-          SizedBox(height: 8.h),
+          SizedBox(height: mq.height(1)),
           Text(
             label,
             style: TextStyle(
-              fontSize: 14.sp,
-              // color: Colors.white70, //if you apply Dark color for the card background
+              fontSize: mq.width(3.5),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
