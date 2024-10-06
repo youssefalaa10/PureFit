@@ -29,6 +29,7 @@ import '../../Features/Exercises/UI/training_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
+import '../../Features/Sleep/Components/timer_picker.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
@@ -120,6 +121,10 @@ class AppRouter {
 
       case Routes.setAlarm:
         return MaterialPageRoute(builder: (_) => const SetAlarm());
+
+      case Routes.timerPicker:
+        return MaterialPageRoute(builder: (_) => const TimerPickerScreen());
+
 
       default:
         return null;
