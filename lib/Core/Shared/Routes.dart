@@ -24,4 +24,5 @@ class Routes {
   static const String trainingScreen = "/trainingScreen";
   static const String setAlarm = "/setAlarm";
   static const String timerPicker = "/timerPicker";
+  static const String waterAddScreen = "/waterAddScreen";
 }

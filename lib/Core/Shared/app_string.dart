@@ -3,6 +3,9 @@ class AppString {
   static String profile = "assets/images/profile.jpeg";
   static String waterLottie = "assets/lottie/water_lottie.json";
   static String sleepLottie = "assets/lottie/sleep_lottie.json";
+  static String bottlewater = "assets/lottie/bottle.json";
+  static String cupwater = "assets/lottie/cupWater.json";
+
   // UserAgeScreen ---------------------------------------------------
   static String howOldAreYou = "How old Are You?";
   static String helpUsCreateYourPersonalizedPlan =

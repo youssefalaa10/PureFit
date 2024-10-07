@@ -12,8 +12,10 @@ import 'package:fitpro/Features/Sleep/set_alarm.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
-import 'package:fitpro/Features/Water/water_details.dart';
+import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
+import 'package:fitpro/Features/Water/water_add.dart';
 import 'package:fitpro/Features/Water/water_screen.dart';
+import 'package:fitpro/Features/Water/water_target.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -73,7 +75,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CaloriesScreen());
 
       case Routes.waterScreen:
-        return MaterialPageRoute(builder: (_) => const WaterScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<WaterIntakeCubit>(),
+                  child: const WaterScreen(),
+                ));
 
       case Routes.sleepScreen:
         return MaterialPageRoute(builder: (_) => const SleepScrean());
@@ -125,6 +131,12 @@ class AppRouter {
       case Routes.timerPicker:
         return MaterialPageRoute(builder: (_) => const TimerPickerScreen());
 
+      case Routes.waterAddScreen:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<WaterIntakeCubit>(),
+                  child: const WaterAdd(),
+                ));
 
       default:
         return null;

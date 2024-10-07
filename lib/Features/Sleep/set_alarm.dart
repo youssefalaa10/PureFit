@@ -36,7 +36,10 @@ class SetAlarm extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: 3,
                   itemBuilder: (cont, index) {
-                    return const Alarmitem();
+                    return const Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      child: Alarmitem(),
+                    );
                   })
             ],
           ),

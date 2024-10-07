@@ -33,7 +33,7 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SizedBox(height: mq.height(4)),
+                SizedBox(height: mq.height(0)),
                 TimerPickerSection(
                   mq: mq,
                   selectedHour: selectedHour,
@@ -47,7 +47,7 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                     });
                   },
                 ),
-                SizedBox(height: mq.height(4)),
+                SizedBox(height: mq.height(7)),
                 Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -144,7 +144,18 @@ class TimerPickerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+              spreadRadius: 4,
+              blurRadius: 3,
+              blurStyle: BlurStyle.outer,
+              color: ColorManager.lightGreyColor,
+              offset: const Offset(2, 5))
+        ],
+        borderRadius: BorderRadius.circular(15),
+      ),
       height: mq.height(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -380,7 +391,14 @@ class BottomButtonsSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        TextButton(
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 1,
+            backgroundColor: ColorManager.backGroundColor,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
           onPressed: () {},
           child: Text(
             'Cancel',
