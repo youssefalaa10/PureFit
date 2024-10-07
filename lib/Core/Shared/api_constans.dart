@@ -6,4 +6,5 @@ class ApiConstans {
   static String apiToken = "/api/token";
   static String apiGetProfile = "/api/profile";
   static String apiEditProfile = "/api/profile/$profileId";
+  static String apiExercise = "/api/exercises/";
 }

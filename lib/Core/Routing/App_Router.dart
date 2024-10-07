@@ -23,6 +23,7 @@ import '../../Features/Auth/Login/Ui/login_screen.dart';
 
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
+import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
 import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/get_ready_screen.dart';
 import '../../Features/Exercises/UI/rest_screen.dart';
@@ -96,8 +97,22 @@ class AppRouter {
                   create: (context) => getIT<LoginCubit>(),
                   child: const LoginScreen(),
                 ));
-      case Routes.exerciseScreen:
-        return MaterialPageRoute(builder: (_) => const ExerciseScreen());
+case Routes.exerciseScreen:
+  return MaterialPageRoute(
+    builder: (context) {
+      final bodyPart = settings.arguments as String? ?? 'chest';
+      return BlocProvider(
+        create: (context) {
+          final cubit = getIT<ExerciseCubit>();
+          cubit.fetchExercises(bodyPart);
+          return cubit;
+        },
+        child: ExerciseScreen(bodyPart: bodyPart),
+      );
+    },
+  );
+
+
       case Routes.weeklyExerciseScreen:
         return MaterialPageRoute(builder: (_) => const WeeklyExerciseScreen());
 

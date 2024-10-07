@@ -1,6 +1,8 @@
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive measurements
+import 'package:fitpro/Core/Components/media_query.dart';
+
+import '../../../Core/Shared/Routes.dart'; // Import CustomMQ for responsive measurements
 
 class DailyListTasks extends StatelessWidget {
   const DailyListTasks({super.key});
@@ -14,13 +16,19 @@ class DailyListTasks extends StatelessWidget {
       itemCount: 6,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return _buildTaskItem('Exercise 1', 5, 120, mq);
+        return _buildTaskItem('Exercise 1', 5, 120, mq,context);
       },
     );
   }
 
-  Widget _buildTaskItem(String title, int minutes, int calories, CustomMQ mq) {
+  Widget _buildTaskItem(String title, int minutes, int calories, CustomMQ mq,context) {
     return ListTile(
+      onTap: () {
+      Navigator.of(context).pushNamed(
+  Routes.exerciseScreen,
+  arguments: 'back',
+);
+      },
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(mq.width(3)),
         child: Image.asset(
