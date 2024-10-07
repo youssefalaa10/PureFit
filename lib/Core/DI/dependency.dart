@@ -10,9 +10,12 @@ import '../../Features/Auth/Login/Data/Repo/login_repo.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Register/Data/Repo/register_repo.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import '../../Features/Exercises/Data/Repo/exercise_repo.dart';
+import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
 import '../../Features/Profile/Data/Repo/profile_repo.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../Networking/Dio/dio_auth_api.dart';
+import '../Networking/Dio/dio_exercise_api.dart';
 import '../Networking/Dio/dio_profile_api.dart';
 
 
@@ -23,6 +26,8 @@ Future<void> setUpGit() async {
   dio.interceptors.add(DioInterceptor());
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
   getIT.registerLazySingleton<TrackStepsDB>(() => TrackStepsDB());
+    getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
+   getIT.registerLazySingleton<DioExerciseApi>(() => DioExerciseApi(dio: dio));
 
   // TrackSteps
   getIT.registerLazySingleton<Trackstepsrepo>(
@@ -39,8 +44,13 @@ Future<void> setUpGit() async {
   getIT.registerFactory<RegisterCubit>(() => RegisterCubit(getIT()));
 
   // Profile - Adding new dependencies
-  getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
+
   getIT.registerLazySingleton<ProfileRepo>(
       () => ProfileRepo(dioProfileApi: getIT()));
   getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT<ProfileRepo>()));
+
+  //Exercise
+  getIT.registerLazySingleton<ExerciseRepo>(() => ExerciseRepo(dioExerciseApi: getIT<DioExerciseApi>()));
+  getIT.registerFactory<ExerciseCubit>(() => ExerciseCubit(getIT<ExerciseRepo>()));
+
 }

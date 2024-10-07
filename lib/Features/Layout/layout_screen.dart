@@ -27,7 +27,7 @@ class LayoutScreenState extends State<LayoutScreen> {
     const HomeScreen(),
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
-    const ExerciseScreen(),
+    const ExerciseScreen(bodyPart: 'chest',),
     BlocProvider(
       create: (context) => getIT<ProfileCubit>(),
       child: const ProfileScreen(),
