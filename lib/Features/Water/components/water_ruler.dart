@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
 class WaterRuler extends StatefulWidget {
-  const WaterRuler({super.key});
+  final Function(num) onValueChanged; // Callback parameter
+
+  const WaterRuler({super.key, required this.onValueChanged});
 
   @override
   HeightPickerState createState() => HeightPickerState();
@@ -11,7 +13,7 @@ class WaterRuler extends StatefulWidget {
 
 class HeightPickerState extends State<WaterRuler> {
   RulerPickerController? _rulerPickerController;
-  num currentValue = 10;
+  num currentValue = 5;
 
   @override
   void initState() {
@@ -63,6 +65,7 @@ class HeightPickerState extends State<WaterRuler> {
               setState(() {
                 currentValue = value;
               });
+              widget.onValueChanged(value); // Invoke the callback
             },
             width: MediaQuery.of(context).size.width,
             height: 80,

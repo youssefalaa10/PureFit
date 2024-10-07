@@ -1,10 +1,8 @@
-import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 
 class Item {
@@ -16,8 +14,9 @@ class Item {
 }
 
 class WaterAdd extends StatefulWidget {
-  const WaterAdd({super.key});
+  const WaterAdd({super.key, required this.waterIntakeCubit});
 
+  final WaterIntakeCubit waterIntakeCubit;
   @override
   WaterAddState createState() => WaterAddState();
 }
@@ -56,26 +55,21 @@ class WaterAddState extends State<WaterAdd> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _buildHeaderSection(),
-          _buildTitle(),
-          _buildPageView(screenHeight),
-          _buildDots(),
-          _buildAddDrinkButton(),
-        ],
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _buildTitle(),
+        _buildPageView(screenHeight),
+        _buildDots(),
+        _buildAddDrinkButton(),
+      ],
     );
   }
 
   Widget _buildTitle() {
     return const Text(
       "Today, I would like to drink",
-      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w600),
+      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
     );
   }
 
@@ -195,27 +189,11 @@ class WaterAddState extends State<WaterAdd> {
           value = 1000;
         }
 
-        context.read<WaterIntakeCubit>().addWaterIntake(value);
+        widget.waterIntakeCubit.addWaterIntake(value);
 
         Navigator.pop(context, true);
       },
       padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
-    );
-  }
-
-  Widget _buildHeaderSection() {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10),
-      child: Row(
-        children: [
-          CustomBackButton(),
-          SizedBox(width: 5),
-          Text(
-            "Drink Water",
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-          ),
-        ],
-      ),
     );
   }
 }

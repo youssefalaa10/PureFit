@@ -6,11 +6,13 @@ import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
+import 'package:fitpro/Features/Water/water_add.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart'; // Correct import for CustomMQ
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WaterScreen extends StatefulWidget {
   const WaterScreen({super.key});
@@ -20,22 +22,28 @@ class WaterScreen extends StatefulWidget {
 }
 
 class _WaterScreenState extends State<WaterScreen> {
+  int goalValue = 2; // Initial default goal value
+
   @override
   void initState() {
     super.initState();
+    _fetchGoalValue();
     BlocProvider.of<WaterIntakeCubit>(context).fetchTodayIntake();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // This will refresh the data every time the screen comes into view
-    BlocProvider.of<WaterIntakeCubit>(context).fetchTodayIntake();
+  void _fetchGoalValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      goalValue =
+          prefs.getInt("waterGoal") ?? 2; // Update the class-level goalValue
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Instantiate CustomMQ
+
+    WaterIntakeCubit waterIntakeCubit = context.read<WaterIntakeCubit>();
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
@@ -46,14 +54,24 @@ class _WaterScreenState extends State<WaterScreen> {
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 30),
-            _buildStackedLottieImage(mq),
+            _buildStackedLottieImage(mq, goalValue.toString()),
             const CustomSizedbox(height: 30),
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
             CustomButton(
                 label: "Add Water Intake +",
                 onPressed: () {
-                  Navigator.pushNamed(context, Routes.waterAddScreen);
+                  showModalBottomSheet(
+                      backgroundColor: ColorManager.backGroundColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(30))),
+                      context: context,
+                      builder: (_) {
+                        return WaterAdd(
+                          waterIntakeCubit: waterIntakeCubit,
+                        );
+                      });
                 })
           ],
         ),
@@ -73,13 +91,9 @@ class _WaterScreenState extends State<WaterScreen> {
             icon: Icons.edit,
             onPressed: () async {
               final result =
-                  await Navigator.pushNamed(context, Routes.waterAddScreen);
-              print(result);
-              // Check if the result is true
+                  await Navigator.pushNamed(context, Routes.waterDetails);
               if (result == true) {
-                print("D");
-                // Fetch the updated water intake after the user adds water
-                BlocProvider.of<WaterIntakeCubit>(context).fetchTodayIntake();
+                _fetchGoalValue();
               }
             },
           ),
@@ -133,7 +147,7 @@ class _WaterScreenState extends State<WaterScreen> {
         builder: (context, state) {
       if (state is WaterIntakeSuccess) {
         int intake = state.totalIntake;
-        print(intake);
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -151,7 +165,7 @@ class _WaterScreenState extends State<WaterScreen> {
                 animationDuration: 1000,
                 backgroundColor: const Color.fromARGB(255, 228, 225, 225),
                 progressColor: Colors.blue,
-                percent: (intake / 20000).clamp(0.0, 1.0),
+                percent: (intake / (goalValue * 1000)).clamp(0.0, 1.0),
               ),
             ),
           ],
@@ -162,41 +176,40 @@ class _WaterScreenState extends State<WaterScreen> {
   }
 }
 
-Widget _buildStackedLottieImage(CustomMQ mq) {
+Widget _buildStackedLottieImage(CustomMQ mq, String value) {
   return Center(
-    child: SizedBox(
-      height: mq.height(25),
-      width: mq.width(62.5),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          LottieBuilder.asset(
-            AppString.waterLottie,
-            height: mq.height(25),
-            width: mq.width(62.5),
-          ),
-          Text.rich(
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: "2",
-                  style: TextStyle(
-                    fontSize: mq.width(11.25),
-                    fontWeight: FontWeight.w500,
-                  ),
+      child: SizedBox(
+    height: mq.height(25),
+    width: mq.width(62.5),
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        LottieBuilder.asset(
+          AppString.waterLottie,
+          height: mq.height(25),
+          width: mq.width(62.5),
+        ),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                text: value,
+                style: TextStyle(
+                  fontSize: mq.width(11.25),
+                  fontWeight: FontWeight.w500,
                 ),
-                TextSpan(
-                  text: "lits",
-                  style: TextStyle(
-                    fontSize: mq.width(5),
-                    color: ColorManager.backGroundColor,
-                  ),
+              ),
+              TextSpan(
+                text: "lits",
+                style: TextStyle(
+                  fontSize: mq.width(5),
+                  color: ColorManager.backGroundColor,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     ),
-  );
+  ));
 }

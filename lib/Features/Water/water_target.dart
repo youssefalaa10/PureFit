@@ -8,13 +8,41 @@ import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Water/components/water_ruler.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class WaterDetails extends StatelessWidget {
+class WaterDetails extends StatefulWidget {
   const WaterDetails({super.key});
 
   @override
+  WaterDetailsState createState() => WaterDetailsState();
+}
+
+class WaterDetailsState extends State<WaterDetails> {
+  int goalValue = 2; // Initial default goal value
+  late CustomMQ mq;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadGoalValue();
+  }
+
+  Future<void> _loadGoalValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      goalValue =
+          prefs.getInt("waterGoal") ?? 2; // Load saved value or default to 2
+    });
+  }
+
+  Future<void> _saveGoalValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt("waterGoal", goalValue); // Save the current goal value
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); 
+    mq = CustomMQ(context);
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
@@ -36,18 +64,30 @@ class WaterDetails extends StatelessWidget {
             ),
             _buildStackedLottieImage(mq),
             const CustomSizedbox(height: 40),
-            const WaterRuler(),
+            WaterRuler(
+              onValueChanged: (value) {
+                setState(() {
+                  goalValue = value.toInt(); // Update goal value from the ruler
+                });
+              },
+            ),
             SizedBox(height: mq.height(2)),
             Center(
               child: CustomButton(
                 label: "Save",
-                onPressed: () {},
+                onPressed: () async {
+                  await _saveGoalValue();
+                  if (mounted) {
+                    Navigator.pop(context, true);
+                  }
+// Save the updated goal value
+                },
                 padding: EdgeInsets.symmetric(
                   horizontal: mq.width(32.5),
                   vertical: mq.height(2),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -101,14 +141,14 @@ class WaterDetails extends StatelessWidget {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "2",
+                    text: "$goalValue", // Display the current goal value
                     style: TextStyle(
                       fontSize: mq.width(11.25),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   TextSpan(
-                    text: "lits",
+                    text: " lits",
                     style: TextStyle(
                       fontSize: mq.width(5),
                       color: ColorManager.backGroundColor,
