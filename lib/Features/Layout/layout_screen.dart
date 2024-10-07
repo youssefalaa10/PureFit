@@ -1,16 +1,14 @@
 import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
+import 'package:fitpro/Features/Sleep/Components/timer_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-
-import '../../Core/Shared/app_colors.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -27,7 +25,7 @@ class LayoutScreenState extends State<LayoutScreen> {
     const HomeScreen(),
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
-    const ExerciseScreen(bodyPart: 'chest',),
+    const TimerPickerScreen(),
     BlocProvider(
       create: (context) => getIT<ProfileCubit>(),
       child: const ProfileScreen(),
@@ -37,20 +35,28 @@ class LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Customize the system UI overlay (e.g., status bar style)
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.white,
       statusBarIconBrightness: Brightness.dark,
     ));
   }
-  // animation to slide between layoutscreens
+
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+    // تحقق مما إذا كانت الصفحة الجديدة مجاورة
+    if ((index - _selectedIndex).abs() == 1) {
+      // إذا كانت مجاورة، استخدم الرسوم المتحركة
+      setState(() {
+        _selectedIndex = index;
+      });
       _pageController.animateToPage(index,
-          duration: const Duration(milliseconds: 400), curve: Curves.linear);
-    });
+          duration: const Duration(milliseconds: 400), curve: Curves.easeInOut);
+    } else {
+      // إذا كانت بعيدة، انتقل مباشرة
+      setState(() {
+        _selectedIndex = index;
+      });
+      _pageController.jumpToPage(index);
+    }
   }
 
   List<BottomNavigationBarItem> _navBarItems() {
@@ -82,7 +88,7 @@ class LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: ColorManager.backGroundColor,
+        backgroundColor: Colors.white,
         body: PageView(
           controller: _pageController,
           onPageChanged: (index) {
@@ -95,9 +101,9 @@ class LayoutScreenState extends State<LayoutScreen> {
         bottomNavigationBar: SnakeNavigationBar.color(
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor: ColorManager.primaryColor,
-          selectedItemColor: ColorManager.primaryColor,
-          unselectedItemColor: ColorManager.greyColor,
+          snakeViewColor: Colors.blue,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.grey,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: _navBarItems(),

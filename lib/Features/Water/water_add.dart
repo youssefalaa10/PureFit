@@ -1,4 +1,5 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
@@ -17,6 +18,7 @@ class WaterAdd extends StatefulWidget {
   const WaterAdd({super.key, required this.waterIntakeCubit});
 
   final WaterIntakeCubit waterIntakeCubit;
+
   @override
   WaterAddState createState() => WaterAddState();
 }
@@ -35,10 +37,8 @@ class WaterAddState extends State<WaterAdd> {
   @override
   void initState() {
     super.initState();
-    _controller = PageController(
-        initialPage: 1, viewportFraction: 0.5); // Set to 0 for the first image
+    _controller = PageController(initialPage: 1, viewportFraction: 0.5);
     _controller.addListener(() {
-      // Update the current index based on the PageController's page
       setState(() {
         currentIndex = _controller.page!.round();
       });
@@ -53,42 +53,44 @@ class WaterAddState extends State<WaterAdd> {
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
+    final mq = CustomMQ(context); // Initialize your custom media query
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildTitle(),
-        _buildPageView(screenHeight),
-        _buildDots(),
-        _buildAddDrinkButton(),
+        _buildTitle(mq),
+        _buildPageView(mq),
+        _buildDots(mq),
+        _buildAddDrinkButton(mq),
       ],
     );
   }
 
-  Widget _buildTitle() {
-    return const Text(
+  Widget _buildTitle(CustomMQ mq) {
+    return Text(
       "Today, I would like to drink",
-      style: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
+      style: TextStyle(
+          fontSize: mq.height(3),
+          fontWeight: FontWeight.w600), // Adjust font size based on height
     );
   }
 
-  Widget _buildPageView(double screenHeight) {
+  Widget _buildPageView(CustomMQ mq) {
     return SizedBox(
-      height: screenHeight * 0.3,
+      height: mq.height(30), // Adjust height based on custom media query
       width: double.infinity,
       child: PageView.builder(
         controller: _controller,
         itemCount: items.length,
         itemBuilder: (context, index) {
           Item item = items[index];
-          return _buildImageItem(index, item);
+          return _buildImageItem(index, item, mq);
         },
       ),
     );
   }
 
-  Widget _buildImageItem(int index, Item item) {
+  Widget _buildImageItem(int index, Item item, CustomMQ mq) {
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
@@ -97,8 +99,8 @@ class WaterAddState extends State<WaterAdd> {
 
         if (_controller.position.haveDimensions) {
           double value = (_controller.page! - index).abs();
-          scale = (1 - (value * 0.9)).clamp(0.8, 1.0); // Scale effect
-          opacity = (1 - value).clamp(0.0, 1.0); // Fade effect
+          scale = (1 - (value * 0.9)).clamp(0.8, 1.0);
+          opacity = (1 - value).clamp(0.0, 1.0);
         }
 
         return Center(
@@ -107,7 +109,8 @@ class WaterAddState extends State<WaterAdd> {
             child: Transform.scale(
               scale: scale,
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(
+                    mq.height(2)), // Adjust padding based on custom media query
                 child:
                     _buildImageContainer(item.image, item.title, item.subtitle),
               ),
@@ -154,22 +157,24 @@ class WaterAddState extends State<WaterAdd> {
     );
   }
 
-  Row _buildDots() {
+  Row _buildDots(CustomMQ mq) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-        3,
-        (index) => _buildDot(index),
+        items.length,
+        (index) => _buildDot(index, mq),
       ),
     );
   }
 
-  Container _buildDot(int index) {
-    final screenWidth = MediaQuery.of(context).size.width;
+  Container _buildDot(int index, CustomMQ mq) {
     return Container(
-      height: screenWidth * 0.025,
-      width: currentIndex == index ? screenWidth * 0.06 : screenWidth * 0.025,
-      margin: EdgeInsets.only(right: screenWidth * 0.012),
+      height: mq.width(2.5), // Use custom media query for height
+      width: currentIndex == index
+          ? mq.width(6)
+          : mq.width(2.5), // Use custom media query for width
+      margin: EdgeInsets.only(
+          right: mq.width(1.2)), // Use custom media query for margin
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: currentIndex == index ? Colors.blue : Colors.grey,
@@ -177,7 +182,7 @@ class WaterAddState extends State<WaterAdd> {
     );
   }
 
-  CustomButton _buildAddDrinkButton() {
+  CustomButton _buildAddDrinkButton(CustomMQ mq) {
     return CustomButton(
       label: "Add Drink  +",
       onPressed: () {
@@ -190,10 +195,11 @@ class WaterAddState extends State<WaterAdd> {
         }
 
         widget.waterIntakeCubit.addWaterIntake(value);
-
         Navigator.pop(context, true);
       },
-      padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 20),
+      padding: EdgeInsets.symmetric(
+          horizontal: mq.width(25),
+          vertical: mq.height(2)), // Adjust button padding
     );
   }
 }

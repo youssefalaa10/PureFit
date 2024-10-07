@@ -146,17 +146,9 @@ class TimerPickerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-              spreadRadius: 4,
-              blurRadius: 3,
-              blurStyle: BlurStyle.outer,
-              color: ColorManager.lightGreyColor,
-              offset: const Offset(2, 5))
-        ],
         borderRadius: BorderRadius.circular(15),
       ),
-      height: mq.height(20),
+      height: mq.height(12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
