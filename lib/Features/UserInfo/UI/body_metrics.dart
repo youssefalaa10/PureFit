@@ -1,5 +1,6 @@
-import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
 import '../../../Core/Components/back_button.dart';
@@ -33,8 +34,10 @@ class BodyMetricsScreen extends StatelessWidget {
                         padding: EdgeInsets.only(right: mq.width(5)),
                         child: LinearProgressIndicator(
                           value: .75,
-                          backgroundColor: ColorManager.greyColor.withOpacity(0.5),
-                          valueColor: AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
+                          backgroundColor:
+                              ColorManager.greyColor.withOpacity(0.5),
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              ColorManager.primaryColor),
                           minHeight: mq.height(0.5),
                         ),
                       ),
@@ -50,7 +53,6 @@ class BodyMetricsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: mq.height(2)),
-
               Text(
                 AppString.tellUsYourWeight,
                 style: TextStyle(
@@ -60,7 +62,6 @@ class BodyMetricsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: mq.height(1)),
-
               Text(
                 AppString.helpUsCreateYourPersonalizedPlan,
                 style: TextStyle(
@@ -69,14 +70,11 @@ class BodyMetricsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: mq.height(4)),
-
               const Expanded(
                 flex: 1,
                 child: WeightPicker(),
               ),
-
               SizedBox(height: mq.height(4)),
-
               Text(
                 AppString.tellUsYourHeight,
                 style: TextStyle(
@@ -86,36 +84,9 @@ class BodyMetricsScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: mq.height(1)),
-
               const Expanded(
                 flex: 1,
                 child: HeightPicker(),
-              ),
-
-              Padding(
-                padding: EdgeInsets.only(bottom: mq.height(2)),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.trackStepsScreen);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.primaryColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: mq.width(20),
-                      vertical: mq.height(1.5),
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text(
-                    AppString.next,
-                    style: TextStyle(
-                      fontSize: mq.width(4.5),
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
@@ -158,7 +129,6 @@ class WeightPickerState extends State<WeightPicker> {
             ),
           ),
           SizedBox(height: mq.height(2)),
-
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
             controller: _rulerPickerController!,
@@ -192,6 +162,8 @@ class WeightPickerState extends State<WeightPicker> {
               setState(() {
                 currentValue = value;
               });
+
+              context.read<RegisterCubit>().updateWeight(currentValue.toInt());
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),
@@ -244,7 +216,6 @@ class HeightPickerState extends State<HeightPicker> {
             ),
           ),
           SizedBox(height: mq.height(2)),
-
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
             controller: _rulerPickerController!,
@@ -278,6 +249,7 @@ class HeightPickerState extends State<HeightPicker> {
               setState(() {
                 currentValue = value;
               });
+              context.read<RegisterCubit>().updateHeight(currentValue.toInt());
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),

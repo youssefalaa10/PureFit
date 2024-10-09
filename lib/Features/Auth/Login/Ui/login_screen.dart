@@ -116,6 +116,7 @@ class LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         CustomTextField(
+                          controller: emailController,
                           textInput: TextInputType.emailAddress,
                           isPassword: false,
                           hintText: "john@email.com",
@@ -135,6 +136,7 @@ class LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         CustomTextField(
+                          controller: passwordController,
                           textInput: TextInputType.visiblePassword,
                           isPassword: true,
                           hintText: "*********",
@@ -224,7 +226,7 @@ class LoginScreenState extends State<LoginScreen> {
                             TextButton(
                               onPressed: () {
                                 Navigator.pushNamed(
-                                    context, Routes.registerScreen);
+                                    context, Routes.infoPageView);
                               },
                               child: Text(
                                 'Sign Up',

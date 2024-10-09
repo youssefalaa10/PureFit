@@ -8,20 +8,22 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon? prefixIcon;
   final Icon? suffixIcon;
-
+  final TextEditingController controller;
   const CustomTextField(
       {super.key,
       required this.textInput,
       required this.isPassword,
       required this.hintText,
       this.prefixIcon,
-      this.suffixIcon});
+      this.suffixIcon,
+      required this.controller});
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
 
     return TextField(
+        controller: controller,
         keyboardType: textInput,
         obscureText: isPassword,
         decoration: InputDecoration(

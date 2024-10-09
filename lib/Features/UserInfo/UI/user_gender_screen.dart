@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
-import '../../../Core/Shared/routes.dart';
 
 class UserGenderScreen extends StatefulWidget {
   const UserGenderScreen({super.key});
@@ -41,9 +41,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
 
               // Spacer to push "Next" button to bottom
               const Spacer(),
-
-              // Section 4: Next Button
-              _buildNextButton(screenHeight, screenWidth),
             ],
           ),
         ),
@@ -116,6 +113,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             onTap: () {
               setState(() {
                 selectedGender = AppString.male;
+                context.read<RegisterCubit>().updateGender(selectedGender);
               });
             },
             child: Container(
@@ -144,6 +142,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               setState(() {
                 selectedGender = AppString.female;
               });
+              context.read<RegisterCubit>().updateGender(selectedGender);
             },
             child: Container(
               height: screenHeight * 0.15,
@@ -164,28 +163,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // Section 4: Next Button
-  Widget _buildNextButton(double screenHeight, double screenWidth) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-      child: CustomButton(
-        label: AppString.next,
-        onPressed: () {
-          // Navigate to the next screen
-          Navigator.pushNamed(context, Routes.userAgeScreen);
-        },
-        backgroundColor: ColorManager.primaryColor,
-        padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.3,
-          vertical: screenHeight * 0.01,
-        ),
-        borderRadius: 30.0,
-        fontSize: screenHeight * 0.025,
-        textColor: Colors.white,
       ),
     );
   }

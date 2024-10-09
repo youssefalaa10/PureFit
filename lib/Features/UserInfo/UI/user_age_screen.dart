@@ -1,9 +1,9 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Components/back_button.dart';
-import '../../../Core/Shared/Routes.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class UserAgeScreen extends StatefulWidget {
@@ -95,6 +95,8 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         setState(() {
                           selectedAge = index + minAge;
                         });
+                        context.read<RegisterCubit>().updateAge(selectedAge);
+                        print(selectedAge);
                       },
                       perspective: 0.003,
                       diameterRatio: 2.0,
@@ -160,26 +162,6 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                       ),
                     ),
                   ],
-                ),
-              ),
-
-              // Next button
-              Padding(
-                padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-                child: CustomButton(
-                  label: AppString.next,
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.bodyMetricsScreen);
-                    // Handle next action
-                  },
-                  backgroundColor: ColorManager.primaryColor,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: screenWidth * 0.3,
-                    vertical: screenHeight * 0.01,
-                  ),
-                  borderRadius: 30.0,
-                  fontSize: screenHeight * 0.025,
-                  textColor: Colors.white,
                 ),
               ),
             ],

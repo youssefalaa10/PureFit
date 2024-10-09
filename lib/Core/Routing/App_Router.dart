@@ -12,6 +12,7 @@ import 'package:fitpro/Features/Sleep/set_alarm.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
+import 'package:fitpro/Features/UserInfo/UI/info_pageveiw.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:fitpro/Features/Water/water_screen.dart';
 import 'package:fitpro/Features/Water/water_target.dart';
@@ -57,6 +58,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
       case Routes.bodyMetricsScreen:
         return MaterialPageRoute(builder: (_) => const BodyMetricsScreen());
+
+      case Routes.infoPageView:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<RegisterCubit>(),
+                  child: const InfoPageView(),
+                ));
       case Routes.profileScreen:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
@@ -97,21 +105,20 @@ class AppRouter {
                   create: (context) => getIT<LoginCubit>(),
                   child: const LoginScreen(),
                 ));
-case Routes.exerciseScreen:
-  return MaterialPageRoute(
-    builder: (context) {
-      final bodyPart = settings.arguments as String? ?? 'chest';
-      return BlocProvider(
-        create: (context) {
-          final cubit = getIT<ExerciseCubit>();
-          cubit.fetchExercises(bodyPart);
-          return cubit;
-        },
-        child: ExerciseScreen(bodyPart: bodyPart),
-      );
-    },
-  );
-
+      case Routes.exerciseScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            final bodyPart = settings.arguments as String? ?? 'chest';
+            return BlocProvider(
+              create: (context) {
+                final cubit = getIT<ExerciseCubit>();
+                cubit.fetchExercises(bodyPart);
+                return cubit;
+              },
+              child: ExerciseScreen(bodyPart: bodyPart),
+            );
+          },
+        );
 
       case Routes.weeklyExerciseScreen:
         return MaterialPageRoute(builder: (_) => const WeeklyExerciseScreen());

@@ -1,7 +1,10 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:fitpro/Features/Auth/Register/Ui/regestierBlocListner.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/custom_sizedbox.dart';
 import '../../../../Core/Components/custom_text_field.dart';
@@ -16,6 +19,11 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final TextEditingController userController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
@@ -83,6 +91,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     CustomTextField(
+                      controller: userController,
                       textInput: TextInputType.emailAddress,
                       isPassword: false,
                       hintText: "john smith",
@@ -105,6 +114,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     CustomTextField(
+                      controller: emailController,
                       textInput: TextInputType.emailAddress,
                       isPassword: false,
                       hintText: "john@email.com",
@@ -127,6 +137,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     CustomTextField(
+                      controller: passwordController,
                       textInput: TextInputType.number,
                       isPassword: true,
                       hintText: "*********",
@@ -146,6 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     CustomTextField(
+                      controller: passwordController,
                       textInput: TextInputType.number,
                       isPassword: true,
                       hintText: "*********",
@@ -160,7 +172,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     // Sign Up Button
                     CustomButton(
                       label: "Sign Up",
-                      onPressed: () {},
+                      onPressed: () {
+                        context
+                            .read<RegisterCubit>()
+                            .updatePassword(passwordController.text);
+                        context
+                            .read<RegisterCubit>()
+                            .updateUserEmail(emailController.text);
+                        context
+                            .read<RegisterCubit>()
+                            .updateUserName(userController.text);
+
+                        context.read<RegisterCubit>().doRegister();
+                      },
                       fontSize: mq.width(5.0),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20.0, vertical: 10.0),
@@ -202,6 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
           ),
+          const RegisterBlocListener()
         ],
       ),
     );
