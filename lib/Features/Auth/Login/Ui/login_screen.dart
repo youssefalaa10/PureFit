@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ
-
 import '../Data/Model/login_model.dart';
 import '../Logic/cubit/login_cubit.dart';
+import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:fitpro/Core/Components/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,32 +17,12 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   bool isChecked = false;
-  bool isHoveredEmail = false;
-  bool isHoveredPassword = false;
-
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   @override
-  void initState() {
-    super.initState();
-
-    emailFocusNode.addListener(() {
-      setState(() {});
-    });
-
-    passwordFocusNode.addListener(() {
-      setState(() {});
-    });
-  }
-
-  @override
   void dispose() {
-    emailFocusNode.dispose();
-    passwordFocusNode.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -53,6 +33,7 @@ class LoginScreenState extends State<LoginScreen> {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.primaryColor,
       body: SafeArea(
         child: BlocListener<LoginCubit, LoginState>(
           listener: (context, state) {
@@ -80,216 +61,187 @@ class LoginScreenState extends State<LoginScreen> {
               );
             }
           },
-          child: Container(
-            padding: EdgeInsets.all(mq.width(5)),
-            width: double.infinity,
-            height: double.infinity,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Welcome Back, Login To Continue!",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: mq.width(6),
-                      color: Colors.black,
+          child: Column(
+            children: [
+              // Header (Hello Sign In and logo)
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: mq.width(10.0),
+                  vertical: mq.height(9.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hello\nSign In',
+                      style: TextStyle(
+                        fontSize: mq.width(7.0),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Image.asset(
+                      "assets/images/AppLogo_white.png",
+                      height: mq.height(10.0),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Expanded container for form with scroll
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: ColorManager
+                        .backGroundColor, // White background for the form
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(mq.width(15.0)),
+                      topRight: Radius.circular(mq.width(15.0)),
                     ),
                   ),
-                  SizedBox(height: mq.height(2)),
-                  Image.asset(
-                    AppString.profile,
-                    height: mq.height(20),
-                  ),
-                  SizedBox(height: mq.height(2)),
-                  MouseRegion(
-                    onEnter: (_) => setState(() => isHoveredEmail = true),
-                    onExit: (_) => setState(() => isHoveredEmail = false),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: ColorManager.blackColor,
-                          width: 2.0,
-                        ),
-                        borderRadius: BorderRadius.circular(mq.width(2.5)),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: mq.width(2.5)),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.person,
-                            size: mq.width(5),
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(mq.width(10.0)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Email Field
+                        Text(
+                          "Email:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: mq.width(5.0),
+                            color: ColorManager.primaryColor,
+                            fontWeight: FontWeight.bold,
                           ),
-                          Expanded(
-                            child: TextField(
-                              controller: emailController,
-                              focusNode: emailFocusNode,
-                              decoration: const InputDecoration(
-                                hintText: "Your Email:",
-                                border: InputBorder.none,
+                        ),
+                        CustomTextField(
+                          textInput: TextInputType.emailAddress,
+                          isPassword: false,
+                          hintText: "john@email.com",
+                          suffixIcon: Icon(Icons.email,
+                              color: ColorManager.primaryColor),
+                        ),
+                        SizedBox(height: mq.height(6.0)),
+
+                        // Password Field
+                        Text(
+                          "Password:",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: mq.width(5.0),
+                            color: ColorManager.primaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        CustomTextField(
+                          textInput: TextInputType.visiblePassword,
+                          isPassword: true,
+                          hintText: "*********",
+                          suffixIcon: Icon(Icons.lock,
+                              color: ColorManager.primaryColor),
+                        ),
+                        SizedBox(height: mq.height(2)),
+
+                        // Remember me Checkbox
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: isChecked,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      isChecked = value ?? false;
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  'Remember me',
+                                  style: TextStyle(fontSize: mq.width(4)),
+                                ),
+                              ],
+                            ),
+                            // Forgot Password Button
+                            TextButton(
+                              onPressed: () {
+                                // Forgot password action
+                              },
+                              child: Text(
+                                'Forgot password?',
+                                style: TextStyle(color: ColorManager.greyColor),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: mq.height(2)),
-                  MouseRegion(
-                    onEnter: (_) => setState(() => isHoveredPassword = true),
-                    onExit: (_) => setState(() => isHoveredPassword = false),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: ColorManager.blackColor,
-                          width: 1.0,
+                          ],
                         ),
-                        borderRadius: BorderRadius.circular(mq.width(2.5)),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: mq.width(2.5)),
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.lock,
-                            size: mq.width(5),
+                        SizedBox(height: mq.height(4)),
+                        // Sign In Button
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            label: "Sign In",
+                            onPressed: () {
+                              final String email = emailController.text.trim();
+                              final String password =
+                                  passwordController.text.trim();
+
+                              if (email.isNotEmpty && password.isNotEmpty) {
+                                final loginModel = LoginModel(
+                                  userEmail: email,
+                                  userPassword: password,
+                                );
+                                context.read<LoginCubit>().doLogin(loginModel);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                        'Please enter both email and password'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              }
+                            },
+                            padding:
+                                EdgeInsets.symmetric(vertical: mq.height(1)),
+                            borderRadius: mq.width(2.5),
+                            fontSize: mq.width(5),
+                            backgroundColor: ColorManager.primaryColor,
+                            textColor: Colors.white,
                           ),
-                          Expanded(
-                            child: TextField(
-                              controller: passwordController,
-                              focusNode: passwordFocusNode,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                hintText: "Password:",
-                                border: InputBorder.none,
-                                suffixIcon: Icon(
-                                  Icons.visibility,
-                                  size: mq.width(5),
-                                  color: Colors.purple[900],
+                        ),
+                        SizedBox(height: mq.height(3)),
+
+                        // Sign Up Section
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Text(
+                              "Don't have an account?",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, Routes.registerScreen);
+                              },
+                              child: Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  color: ColorManager.primaryColor,
+                                  fontSize: mq.height(2.0),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(height: mq.height(2)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked = value ?? false;
-                              });
-                            },
-                          ),
-                          Text(
-                            'Remember me',
-                            style: TextStyle(fontSize: mq.width(4)),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.grey, fontSize: mq.width(4)),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: mq.height(2)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        final String email = emailController.text.trim();
-                        final String password = passwordController.text.trim();
-              
-                        if (email.isNotEmpty && password.isNotEmpty) {
-                          final loginModel = LoginModel(
-                            userEmail: email,
-                            userPassword: password,
-                          );
-                          context.read<LoginCubit>().doLogin(loginModel);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please enter both email and password'),
-                              duration: Duration(seconds: 2),
-                            ),
-                          );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primaryColor,
-                        padding: EdgeInsets.symmetric(vertical: mq.height(2)),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(mq.width(2.5)),
-                        ),
-                        elevation: 10,
-                        shadowColor: Colors.purple.withOpacity(0.5),
-                      ),
-                      child: Text(
-                        "Sign In",
-                        style: TextStyle(
-                          fontSize: mq.width(5),
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: mq.height(2)),
-                  Text(
-                    "Don't have an account?",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: mq.width(4),
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: mq.height(2)),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.purple,
-                          width: 1.5,
-                        ),
-                        borderRadius: BorderRadius.circular(mq.width(4)),
-                      ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, Routes.registerScreen);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          padding: EdgeInsets.symmetric(vertical: mq.height(2)),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(mq.width(4)),
-                          ),
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          "Create Account",
-                          style: TextStyle(
-                            fontSize: mq.width(5),
-                            color: Colors.purple,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),
