@@ -7,4 +7,5 @@ class ApiConstans {
   static String apiGetProfile = "/api/profile";
   static String apiEditProfile = "/api/profile/$profileId";
   static String apiExercise = "/api/exercises/";
+  static String apiWorkoutCategories = "/api/categories";
 }

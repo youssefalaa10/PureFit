@@ -1,13 +1,15 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
+import 'package:fitpro/Features/Exercises/Logic/cubit/workout_programs_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
+import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NewGoalWidget extends StatelessWidget {
   const NewGoalWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+    final mq = CustomMQ(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -17,7 +19,8 @@ class NewGoalWidget extends StatelessWidget {
           children: [
             Text(
               'Start New Goal',
-              style: TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
+              style:
+                  TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
             ),
             Text(
               'See all',
@@ -26,21 +29,35 @@ class NewGoalWidget extends StatelessWidget {
           ],
         ),
         SizedBox(height: mq.height(1)),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              _buildGoalCard('Body Building', 'Full body workout', 35, 120, mq),
-              SizedBox(width: mq.width(4)),
-              _buildGoalCard('Six Pack', 'Core workout', 25, 100, mq),
-            ],
-          ),
+        BlocBuilder<WorkoutProgramsCubit, WorkoutProgramsState>(
+          builder: (context, state) {
+            if (state is WorkoutProgramsLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is WorkoutProgramsSuccess) {
+              return SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: state.workoutPrograms.map((workoutCategory) {
+                    return Padding(
+                      padding: EdgeInsets.only(right: mq.width(4)),
+                      child: _buildGoalCard(workoutCategory, mq),
+                    );
+                  }).toList(),
+                ),
+              );
+            } else if (state is WorkoutProgramsError) {
+              return Center(child: Text(state.message));
+            } else {
+              return const Center(
+                  child: Text('Unexpected Error from Workout Category Api'));
+            }
+          },
         ),
       ],
     );
   }
 
-  Widget _buildGoalCard(String title, String description, int minutes, int calories, CustomMQ mq) {
+  Widget _buildGoalCard(WorkoutCategoriesModel workoutCategories, CustomMQ mq) {
     return Container(
       width: mq.width(55),
       padding: EdgeInsets.all(mq.width(4)),
@@ -54,8 +71,8 @@ class NewGoalWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(mq.width(3)),
-                child: Image.asset(
-                  AppString.profile,
+                child: Image.network(
+                  workoutCategories.thumbnail,
                   height: mq.height(15),
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -63,11 +80,12 @@ class NewGoalWidget extends StatelessWidget {
               ),
               SizedBox(height: mq.height(1)),
               Text(
-                title,
-                style: TextStyle(fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+                workoutCategories.programName,
+                style: TextStyle(
+                    fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
               ),
               Text(
-                description,
+                workoutCategories.workoutName,
                 style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey),
               ),
               SizedBox(height: mq.height(1)),
@@ -75,11 +93,14 @@ class NewGoalWidget extends StatelessWidget {
                 children: [
                   Icon(Icons.timer, color: Colors.green, size: mq.width(4.5)),
                   SizedBox(width: mq.width(1.25)),
-                  Text('$minutes min', style: TextStyle(fontSize: mq.width(3.5))),
+                  Text(workoutCategories.timeOfFullProgram,
+                      style: TextStyle(fontSize: mq.width(3.5))),
                   const Spacer(),
-                  Icon(Icons.local_fire_department, color: Colors.orange, size: mq.width(4.5)),
+                  Icon(Icons.local_fire_department,
+                      color: Colors.orange, size: mq.width(4.5)),
                   SizedBox(width: mq.width(1.25)),
-                  Text('$calories cal', style: TextStyle(fontSize: mq.width(3.5))),
+                  Text('${workoutCategories.burnedCalories.toString()} cal',
+                      style: TextStyle(fontSize: mq.width(3.5))),
                 ],
               ),
             ],
