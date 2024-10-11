@@ -11,10 +11,10 @@ class RegisterCubit extends Cubit<RegisterState> {
     password: "",
     userName: "",
     userEmail: "",
-    age: 0,
-    userHeight: 0,
-    userWeight: 0,
-    gender: "",
+    age: 9,
+    userHeight: 170,
+    userWeight: 58,
+    gender: "male",
   );
 
   RegisterCubit(this.registerRepo) : super(RegisterInitial());
@@ -49,44 +49,14 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   // Validate the registration fields
-  String? validateFields() {
-    if (registerModel.userEmail.isEmpty) {
-      return "Email cannot be empty.";
-    } else if (registerModel.password.isEmpty) {
-      return "Password cannot be empty.";
-    } else if (registerModel.userName.isEmpty) {
-      return "User name cannot be empty.";
-    } else if (registerModel.age < 9) {
-      return "Age must be at least 9.";
-    } else if (registerModel.userHeight <= 0) {
-      return "Height must be greater than 0.";
-    } else if (registerModel.userWeight <= 0) {
-      return "Weight must be greater than 0.";
-    } else if (registerModel.gender.isEmpty) {
-      return "Gender must be specified.";
-    }
-    return null; // All fields are valid
-  }
 
   // Perform the registration
   Future<void> doRegister() async {
-    emit(RegisterLoading());
-
-    print(registerModel.userHeight);
-    // Validate the fields before proceeding
-    final error = validateFields();
-    if (error != null) {
-      emit(RegisterFailure(message: error));
-      return; // Exit if validation fails
-    }
-
     try {
+      emit(RegisterLoading());
       final success = await registerRepo.doRegister(registerModel);
       if (success) {
         emit(RegisterSuccess());
-      } else {
-        emit(
-            RegisterFailure(message: "Registration failed. Please try again."));
       }
     } catch (e) {
       emit(RegisterFailure(message: "An error occurred: ${e.toString()}"));

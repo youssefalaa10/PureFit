@@ -8,17 +8,17 @@ part 'login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   final LoginRepo loginRepo;
-  LoginCubit(this.loginRepo) : super (LoginInitial());
+  LoginCubit(this.loginRepo) : super(LoginInitial());
 
   doLogin(LoginModel userlogin) async {
-    emit(LoginLoading());
     try {
+      emit(LoginLoading());
       SaveTokenDB.clearToken();
-      await loginRepo.doLogin(userlogin);
       String? token = await SaveTokenDB.getToken();
       if (token != null || token!.isNotEmpty) {
         emit(LoginSuccess());
-      }
+      } else {}
+      await loginRepo.doLogin(userlogin);
     } catch (e) {
       emit(LoginFaliuer(message: e.toString()));
     }

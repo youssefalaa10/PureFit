@@ -1,5 +1,5 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/Auth/Register/Ui/register_screen.dart';
 import 'package:fitpro/Features/UserInfo/UI/body_metrics.dart';
 import 'package:fitpro/Features/UserInfo/UI/user_age_screen.dart';
 import 'package:fitpro/Features/UserInfo/UI/user_gender_screen.dart';
@@ -9,10 +9,10 @@ class InfoPageView extends StatefulWidget {
   const InfoPageView({super.key});
 
   @override
-  _InfoPageViewState createState() => _InfoPageViewState();
+  InfoPageViewState createState() => InfoPageViewState();
 }
 
-class _InfoPageViewState extends State<InfoPageView> {
+class InfoPageViewState extends State<InfoPageView> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -23,7 +23,7 @@ class _InfoPageViewState extends State<InfoPageView> {
   }
 
   void _nextPage() {
-    if (_currentPage < 2) {
+    if (_currentPage < 3) {
       _pageController.animateToPage(
         _currentPage + 1,
         duration: const Duration(milliseconds: 300),
@@ -59,6 +59,7 @@ class _InfoPageViewState extends State<InfoPageView> {
                 UserGenderScreen(),
                 UserAgeScreen(),
                 BodyMetricsScreen(),
+                RegisterScreen(),
               ],
             ),
           ),
@@ -73,18 +74,12 @@ class _InfoPageViewState extends State<InfoPageView> {
                         label: "Back",
                       )
                     : const SizedBox.shrink(),
-                _currentPage < 2
+                _currentPage < 3
                     ? CustomButton(
                         onPressed: _nextPage,
                         label: 'Next',
                       )
-                    : CustomButton(
-                        onPressed: () {
-                          // Submit form or handle final step
-                          Navigator.pushNamed(context, Routes.registerScreen);
-                        },
-                        label: 'Submit',
-                      ),
+                    : const SizedBox.shrink()
               ],
             ),
           ),

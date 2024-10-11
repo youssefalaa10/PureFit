@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
@@ -22,7 +23,7 @@ class RegisterBlocListener extends StatelessWidget {
             ),
           );
         } else if (state is RegisterSuccess) {
-          Navigator.pop(context);
+          Navigator.pushNamed(context, Routes.layoutScreen);
           showSuccessDialog(context);
         } else if (state is RegisterFailure) {
           setupErrorState(context, state.message);
@@ -54,7 +55,7 @@ void showSuccessDialog(BuildContext context) {
               disabledForegroundColor: Colors.grey.withOpacity(0.38),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, Routes.layoutScreen);
+              Navigator.pop(context);
             },
             child: const Text('Continue'),
           ),
@@ -66,29 +67,5 @@ void showSuccessDialog(BuildContext context) {
 
 void setupErrorState(BuildContext context, String error) {
   Navigator.pop(context);
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      icon: const Icon(
-        Icons.error,
-        color: Colors.red,
-        size: 32,
-      ),
-      content: Text(
-        error,
-        style: const TextStyle(color: Colors.blue),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text(
-            'Got it',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-      ],
-    ),
-  );
+  CustomSnackbar.showSnackbar(context, error.toString());
 }

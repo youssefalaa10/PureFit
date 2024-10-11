@@ -250,6 +250,7 @@ class HeightPickerState extends State<HeightPicker> {
                 currentValue = value;
               });
               context.read<RegisterCubit>().updateHeight(currentValue.toInt());
+              print(currentValue.toInt());
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),
