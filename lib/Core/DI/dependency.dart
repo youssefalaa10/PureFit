@@ -26,10 +26,11 @@ final getIT = GetIt.instance;
 Future<void> setUpGit() async {
   Dio dio = Dio();
   dio.interceptors.add(DioInterceptor());
+
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
   getIT.registerLazySingleton<TrackStepsDB>(() => TrackStepsDB());
-    getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
-   getIT.registerLazySingleton<DioExerciseApi>(() => DioExerciseApi(dio: dio));
+  getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
+  getIT.registerLazySingleton<DioExerciseApi>(() => DioExerciseApi(dio: dio));
   getIT.registerLazySingleton<WatererDb>(() => WatererDb());
 
   // TrackSteps
@@ -53,9 +54,10 @@ Future<void> setUpGit() async {
   getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT<ProfileRepo>()));
 
   //Exercise
-  getIT.registerLazySingleton<ExerciseRepo>(() => ExerciseRepo(dioExerciseApi: getIT<DioExerciseApi>()));
-  getIT.registerFactory<ExerciseCubit>(() => ExerciseCubit(getIT<ExerciseRepo>()));
-
+  getIT.registerLazySingleton<ExerciseRepo>(
+      () => ExerciseRepo(dioExerciseApi: getIT<DioExerciseApi>()));
+  getIT.registerFactory<ExerciseCubit>(
+      () => ExerciseCubit(getIT<ExerciseRepo>()));
 
   //Water intake
   getIT.registerLazySingleton<WaterRepo>(() => WaterRepo(watererDb: getIT()));
