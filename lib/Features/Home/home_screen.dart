@@ -32,11 +32,11 @@ class HomeScreen extends StatelessWidget {
                 SizedBox(height: mq.height(2)),
                 BlocProvider(
                   create: (context) {
-    // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
-    final cubit = getIT<WorkoutProgramsCubit>();
-    cubit.fetchWorkoutPrograms(); // Fetch the workout programs
-    return cubit;
-  },
+                    // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
+                    final cubit = getIT<WorkoutProgramsCubit>();
+                    cubit.fetchWorkoutPrograms(); // Fetch the workout programs
+                    return cubit;
+                  },
                   child: const NewGoalWidget(),
                 ),
                 SizedBox(height: mq.height(2)),

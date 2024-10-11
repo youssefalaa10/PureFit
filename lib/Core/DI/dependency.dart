@@ -29,6 +29,7 @@ final getIT = GetIt.instance;
 Future<void> setUpGit() async {
   Dio dio = Dio();
   dio.interceptors.add(DioInterceptor());
+
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
   getIT.registerLazySingleton<TrackStepsDB>(() => TrackStepsDB());
   getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));

@@ -40,11 +40,8 @@ class DioAuthApi {
         return true;
       }
       return false;
-    } catch (e) {
-      if (kDebugMode) {
-        print("Registration error: $e");
-      }
-      return false;
+    } on DioException catch (dioError) {
+      throw dioError.response?.data;
     }
   }
 
@@ -63,28 +60,32 @@ class DioAuthApi {
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
-        await _saveToken(response.data['token']);
-        return true;
+        if (response.data['success'] == true &&
+            response.data['token'] != null) {
+          await _saveToken(response.data['token']);
+          print(response.data['message']); // Successful login message
+          return true;
+        } else {
+          // Handle cases where the token is not returned or success is false
+          print(response.data[
+              'message']); // Error message from the API (e.g. "Invalid email or password")
+          return false;
+        }
+      } else {
+        print("Unexpected response: ${response.statusCode}");
+        return false;
+      }
+    } on DioException catch (dioError) {
+      // Handle Dio-related errors (such as server-side errors)
+      if (dioError.response != null) {
+        print("Server Error: ${dioError.response?.data['message']}");
+      } else {
+        print("Connection Error: ${dioError.message}");
       }
       return false;
     } catch (e) {
-      if (e is DioException) {
-        if (kDebugMode) {
-          print("Login error [${e.type}]: ${e.message}");
-        }
-        if (e.response != null) {
-          if (kDebugMode) {
-            print("Response data: ${e.response?.data}");
-          }
-          if (kDebugMode) {
-            print("Status code: ${e.response?.statusCode}");
-          }
-        }
-      } else {
-        if (kDebugMode) {
-          print("Unexpected error: $e");
-        }
-      }
+      // Handle other types of exceptions (e.g., null pointer exceptions)
+      print("Other Exception: ${e.toString()}");
       return false;
     }
   }
