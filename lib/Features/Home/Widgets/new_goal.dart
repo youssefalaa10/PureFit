@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Core/Shared/Routes.dart';
+
 class NewGoalWidget extends StatelessWidget {
   const NewGoalWidget({super.key});
 
@@ -34,15 +36,29 @@ class NewGoalWidget extends StatelessWidget {
             if (state is WorkoutProgramsLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is WorkoutProgramsSuccess) {
-              return SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: state.workoutPrograms.map((workoutCategory) {
-                    return Padding(
-                      padding: EdgeInsets.only(right: mq.width(4)),
-                      child: _buildGoalCard(workoutCategory, mq),
+              return SizedBox(
+                height: mq.height(
+                    30), // Set an appropriate height for the horizontal ListView
+                child: ListView.builder(
+                  scrollDirection:
+                      Axis.horizontal, // Make the ListView scroll horizontally
+                  itemCount: state.workoutPrograms.length,
+                  itemBuilder: (context, index) {
+                    final workoutCategory = state.workoutPrograms[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          Routes.exerciseScreen,
+                          arguments: workoutCategory.id,
+                        );
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: mq.width(4)),
+                        child: _buildGoalCard(workoutCategory, mq),
+                      ),
                     );
-                  }).toList(),
+                  },
                 ),
               );
             } else if (state is WorkoutProgramsError) {

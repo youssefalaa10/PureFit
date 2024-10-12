@@ -112,14 +112,14 @@ class AppRouter {
       case Routes.exerciseScreen:
         return MaterialPageRoute(
           builder: (context) {
-            final bodyPart = settings.arguments as String? ?? 'chest';
+            final categoryId = settings.arguments as String ;
             return BlocProvider(
               create: (context) {
                 final cubit = getIT<ExerciseCubit>();
-                cubit.fetchExercises(bodyPart);
+                cubit.fetchExercises(categoryId);
                 return cubit;
               },
-              child: ExerciseScreen(bodyPart: bodyPart),
+              child: ExerciseScreen(categoryId: categoryId),
             );
           },
         );

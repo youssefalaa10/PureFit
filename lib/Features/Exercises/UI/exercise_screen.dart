@@ -13,9 +13,9 @@ import '../Data/Model/exercise_model.dart';
 import '../Logic/cubit/exercise_cubit.dart';
 
 class ExerciseScreen extends StatelessWidget {
-  final String bodyPart;
+  final String categoryId;
 
-  const ExerciseScreen({super.key, required this.bodyPart});
+  const ExerciseScreen({super.key, required this.categoryId});
 
   @override
   Widget build(BuildContext context) {
@@ -209,38 +209,42 @@ class ExerciseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildExerciseItem(Exercise exercise, CustomMQ mq) {
-    return Row(
-      children: [
-        Icon(Icons.fitness_center, size: mq.width(8)),
-        // Image.network(
-        //   exercise.gifUrl,
-        //   width: mq.width(15),
-        //   height: mq.width(15),
-        //   fit: BoxFit.cover,
-        // ),
-        SizedBox(width: mq.width(4)),
-        Column(
+Widget _buildExerciseItem(Exercise exercise, CustomMQ mq) {
+  return Row(
+    children: [
+      // Icon(Icons.fitness_center, size: mq.width(8)),
+      Image.network(
+        exercise.gifUrl!,
+        width: mq.width(15),
+        height: mq.width(15),
+        fit: BoxFit.cover,
+      ),
+      SizedBox(width: mq.width(4)),
+      // Wrap the Column in an Expanded widget to make it take up the remaining space
+      Expanded(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               exercise.name,
-              overflow: TextOverflow.ellipsis,
-              style:
-                  TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.bold),
+              overflow: TextOverflow.ellipsis, // Use ellipsis if text overflows
+              style: TextStyle(
+                  fontSize: mq.width(4), fontWeight: FontWeight.bold),
             ),
             SizedBox(height: mq.height(0.5)),
             Text(
               exercise.equipment,
-              overflow: TextOverflow.ellipsis,
+              overflow: TextOverflow.ellipsis, // Use ellipsis for equipment text too
               style:
                   TextStyle(fontSize: mq.width(3.5), color: Colors.grey[600]),
             ),
           ],
         ),
-      ],
-    );
-  }
+      ),
+    ],
+  );
+}
+
 
   Widget _buildShimmerLoadingUI(CustomMQ mq) {
     return Shimmer.fromColors(

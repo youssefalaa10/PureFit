@@ -9,14 +9,14 @@ class ExerciseCubit extends Cubit<ExerciseState> {
 
   ExerciseCubit(this.exerciseRepo) : super(ExerciseInitial());
 
-  Future<void> fetchExercises(String bodyPart) async {
+  Future<void> fetchExercises(String categoryId) async {
     emit(ExerciseLoading());
     try {
-      final exercises = await exerciseRepo.getExercises(bodyPart);
+      final exercises = await exerciseRepo.getExercises(categoryId);
       if (exercises != null && exercises.isNotEmpty) {
         emit(ExerciseLoaded(exercises));
       } else {
-        emit(ExerciseError("No exercises found for $bodyPart"));
+        emit(ExerciseError("No exercises found for $categoryId"));
       }
     } catch (e) {
       emit(ExerciseError("Failed to load exercises: $e"));

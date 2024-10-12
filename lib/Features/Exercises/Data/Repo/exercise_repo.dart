@@ -8,9 +8,9 @@ class ExerciseRepo {
 
   ExerciseRepo({required this.dioExerciseApi});
 
-  Future<List<Exercise>?> getExercises(String bodyPart) async {
+  Future<List<Exercise>?> getExercises(String categoryId) async {
     try {
-      final exercisesJson = await dioExerciseApi.getExercises(bodyPart);
+      final exercisesJson = await dioExerciseApi.getExercises(categoryId);
       if (exercisesJson != null) {
         return exercisesJson.map((json) => Exercise.fromJson(json)).toList();
       }

@@ -7,10 +7,10 @@ class DioExerciseApi {
 
   DioExerciseApi({required Dio dio}) : _dio = dio;
 
-  Future<List<Map<String, dynamic>>?> getExercises(String bodyPart) async {
+  Future<List<Map<String, dynamic>>?> getExercises(String categoryId) async {
     try {
       final response = await _dio.get(
-        "${ApiConstans.baseUrl}${ApiConstans.apiExercise}$bodyPart",
+        "${ApiConstans.baseUrl}${ApiConstans.apiExercise}$categoryId",
         options: Options(
           headers: {
             'Content-Type': 'application/json',
