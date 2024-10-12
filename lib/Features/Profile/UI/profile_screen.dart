@@ -65,12 +65,15 @@ class ProfileScreenState extends State<ProfileScreen> {
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
               children: [
                 ProfileOption(
-                  icon: Icons.person_outline,
-                  label: 'Your profile',
-                  onTap: () {
-                    Navigator.pushNamed(context, Routes.editProfileScreen);
-                  },
-                ),
+                    icon: Icons.person_outline,
+                    label: 'Your profile',
+                    onTap: () {
+                      final state = context.read<ProfileCubit>().user;
+                      CustomSnackbar.showSnackbar(context, state!.userName);
+
+                      Navigator.pushNamed(context, Routes.editProfileScreen,
+                          arguments: state);
+                    }),
                 ProfileOption(
                   icon: Icons.fitness_center,
                   label: 'My Workout',
@@ -80,7 +83,20 @@ class ProfileScreenState extends State<ProfileScreen> {
                   icon: Icons.settings,
                   label: 'Settings',
                   onTap: () {
-                    Navigator.pushNamed(context, Routes.bodyMetricsScreen);
+                    final state = context.read<ProfileCubit>().user;
+                    CustomSnackbar.showSnackbar(context, state!.userName);
+
+                    if (state is ProfileSuccess) {
+                      // If the user data is available, navigate to the EditProfileScreen
+                      Navigator.pushNamed(context, Routes.editProfileScreen,
+                          arguments: state);
+                    } else if (state is ProfileLoading) {
+                      CustomSnackbar.showSnackbar(
+                          context, "Profile is still loading...");
+                    } else {
+                      CustomSnackbar.showSnackbar(
+                          context, "Failed to load profile");
+                    }
                   },
                 ),
                 ProfileOption(

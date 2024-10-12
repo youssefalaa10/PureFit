@@ -7,6 +7,7 @@ import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
+import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
 import 'package:fitpro/Features/Sleep/set_alarm.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
@@ -72,8 +73,11 @@ class AppRouter {
                   child: const ProfileScreen(),
                 ));
       case Routes.editProfileScreen:
-        return MaterialPageRoute(builder: (_) => EditProfileScreen());
-
+        final user =
+            settings.arguments as UserModel; // Get the passed user object
+        return MaterialPageRoute(
+          builder: (_) => EditProfileScreen(userModel: user),
+        );
       case Routes.layoutScreen:
         return MaterialPageRoute(builder: (_) => const LayoutScreen());
 

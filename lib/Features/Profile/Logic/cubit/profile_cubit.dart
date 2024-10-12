@@ -8,7 +8,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo profileRepo;
 
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
-
+  UserModel? user;
   getProfile() async {
     emit(ProfileLoading());
     try {
@@ -16,6 +16,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       if (user != null) {
         if (!isClosed) {
           emit(ProfileSuccess(user: user));
+          this.user = user;
         }
       } else {
         if (!isClosed) {

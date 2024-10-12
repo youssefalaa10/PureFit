@@ -1,14 +1,29 @@
+import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
+import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_string.dart';
 
-class EditProfileScreen extends StatelessWidget {
-  EditProfileScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  final UserModel userModel;
+  const EditProfileScreen({super.key, required this.userModel});
 
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +54,7 @@ class EditProfileScreen extends StatelessWidget {
                 SizedBox(height: mq.height(1)),
                 EditableField(
                   label: 'Your Name',
-                  hintText: 'Youssef Alaa',
+                  hintText: widget.userModel.userName,
                   obscureText: true,
                   icon: Icons.person_outline,
                   validator: (value) {
@@ -50,9 +65,9 @@ class EditProfileScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: mq.height(1)),
-                const EditableField(
+                EditableField(
                   label: 'Email',
-                  hintText: 'youssef@gmail.com',
+                  hintText: widget.userModel.userEmail,
                   icon: Icons.email_outlined,
                   isReadOnly: true, // Make the email field read-only
                 ),
@@ -74,29 +89,35 @@ class EditProfileScreen extends StatelessWidget {
                 SizedBox(height: mq.height(1)),
                 const GenderSelector(),
                 SizedBox(height: mq.height(1)),
-                const HeightSlider(),
+                HeightSlider(
+                  height: widget.userModel.userHeight,
+                ),
                 SizedBox(height: mq.height(1)),
-                const WeightSlider(),
+                WeightSlider(weighslider: widget.userModel.userWeight),
                 SizedBox(height: mq.height(2)),
-                Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorManager.primaryColor,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: mq.width(12.5), vertical: mq.height(1)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(mq.width(2.5)),
+                BlocProvider(
+                  create: (context) => getIT<ProfileCubit>(),
+                  child: Center(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ColorManager.primaryColor,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: mq.width(12.5), vertical: mq.height(1)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(mq.width(2.5)),
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Process data here if form is valid
-                      }
-                    },
-                    child: Text(
-                      'Save Changes',
-                      style:
-                          TextStyle(fontSize: mq.width(4), color: Colors.white),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          context.read<ProfileCubit>().updateProfile(
+                              widget.userModel, widget.userModel.userId);
+                        }
+                      },
+                      child: Text(
+                        'Save Changes',
+                        style: TextStyle(
+                            fontSize: mq.width(4), color: Colors.white),
+                      ),
                     ),
                   ),
                 ),
@@ -187,7 +208,8 @@ class EditableField extends StatelessWidget {
 }
 
 class WeightSlider extends StatefulWidget {
-  const WeightSlider({super.key});
+  final int weighslider;
+  const WeightSlider({super.key, required this.weighslider});
 
   @override
   _WeightSliderState createState() => _WeightSliderState();
@@ -195,6 +217,11 @@ class WeightSlider extends StatefulWidget {
 
 class _WeightSliderState extends State<WeightSlider> {
   double _currentWeight = 40;
+  @override
+  void initState() {
+    super.initState();
+    _currentWeight = widget.weighslider.toDouble();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +260,8 @@ class _WeightSliderState extends State<WeightSlider> {
 }
 
 class HeightSlider extends StatefulWidget {
-  const HeightSlider({super.key});
+  final int height;
+  const HeightSlider({super.key, required this.height});
 
   @override
   _HeightSliderState createState() => _HeightSliderState();
@@ -241,6 +269,11 @@ class HeightSlider extends StatefulWidget {
 
 class _HeightSliderState extends State<HeightSlider> {
   double _currentHeight = 130;
+  @override
+  void initState() {
+    super.initState();
+    _currentHeight = widget.height.toDouble();
+  }
 
   @override
   Widget build(BuildContext context) {

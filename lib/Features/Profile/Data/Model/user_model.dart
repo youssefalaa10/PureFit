@@ -1,5 +1,5 @@
 class UserModel {
-  // final String userId;
+  final String userId;
   final String userEmail;
   final String userName;
   final int age;
@@ -7,16 +7,14 @@ class UserModel {
   final int userWeight;
   final String gender;
 
-
   UserModel({
-    // required this.userId,
+    required this.userId,
     required this.userName,
     required this.userEmail,
     required this.age,
     required this.userHeight,
     required this.userWeight,
     required this.gender,
-
   });
 
   Map<String, dynamic> toMap() {
@@ -28,14 +26,12 @@ class UserModel {
       'userHeight': userHeight,
       'userWeight': userWeight,
       'gender': gender,
-
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      // userId: userId,
-
+      userId: map['id'],
       userEmail: map['userEmail'] as String,
       userName: map['userName'] as String,
       age: map['age'] as int,
@@ -78,17 +74,15 @@ class UserModel {
     int? userHeight,
     int? userWeight,
     String? gender,
-
   }) {
     return UserModel(
-      // userId: userId ?? this.userId,
+      userId: userId ?? this.userId,
       userEmail: userEmail ?? this.userEmail,
       userName: userName ?? this.userName,
       age: age ?? this.age,
       userHeight: userHeight ?? this.userHeight,
       userWeight: userWeight ?? this.userWeight,
       gender: gender ?? this.gender,
-
     );
   }
 }
