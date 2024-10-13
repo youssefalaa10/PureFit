@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,11 +79,14 @@ class ExerciseScreen extends StatelessWidget {
       CustomMQ mq, WorkoutCategoriesModel workoutCategory) {
     return ClipRRect(
       borderRadius: BorderRadius.vertical(bottom: Radius.circular(mq.width(5))),
-      child: Image.network(
-        workoutCategory.thumbnail,
+      child: CachedNetworkImage(
+        imageUrl: workoutCategory.thumbnail,
         width: double.infinity,
         height: mq.height(25),
         fit: BoxFit.cover,
+        placeholder: (context, url) =>
+            const Center(child: CircularProgressIndicator()),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
       ),
     );
   }
@@ -203,11 +207,14 @@ class ExerciseScreen extends StatelessWidget {
     return Row(
       children: [
         Icon(Icons.fitness_center, size: mq.width(8)),
-        // Image.network(
-        //   exercise.gifUrl!,
+        // CachedNetworkImage(
+        //   imageUrl: exercise.gifUrl!,
         //   width: mq.width(15),
         //   height: mq.width(15),
         //   fit: BoxFit.cover,
+        //   placeholder: (context, url) =>
+        //       const Center(child: CircularProgressIndicator()),
+        //   errorWidget: (context, url, error) => const Icon(Icons.error),
         // ),
         SizedBox(width: mq.width(4)),
         // Wrap the Column in an Expanded widget to make it take up the remaining space

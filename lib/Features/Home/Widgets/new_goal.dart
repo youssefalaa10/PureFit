@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
 import 'package:fitpro/Features/Exercises/Logic/cubit/workout_programs_cubit.dart';
@@ -88,11 +89,14 @@ class NewGoalWidget extends StatelessWidget {
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(mq.width(3)),
-                child: Image.network(
-                  workoutCategories.thumbnail,
+                child: CachedNetworkImage(
+                  imageUrl: workoutCategories.thumbnail,
                   height: mq.height(15),
                   width: double.infinity,
                   fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
               SizedBox(height: mq.height(1)),
