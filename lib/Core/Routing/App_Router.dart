@@ -25,6 +25,7 @@ import '../../Features/Auth/Login/Ui/login_screen.dart';
 
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
+import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
 import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
 import '../../Features/Exercises/UI/exercise_screen.dart';
 import '../../Features/Exercises/UI/get_ready_screen.dart';
@@ -112,14 +113,14 @@ class AppRouter {
       case Routes.exerciseScreen:
         return MaterialPageRoute(
           builder: (context) {
-            final categoryId = settings.arguments as String ;
+            final categoryId = settings.arguments as WorkoutCategoriesModel ;
             return BlocProvider(
               create: (context) {
                 final cubit = getIT<ExerciseCubit>();
-                cubit.fetchExercises(categoryId);
+                cubit.fetchExercises(categoryId.id );
                 return cubit;
               },
-              child: ExerciseScreen(categoryId: categoryId),
+              child: ExerciseScreen(workoutCategory: categoryId),
             );
           },
         );

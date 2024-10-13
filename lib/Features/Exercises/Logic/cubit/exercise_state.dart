@@ -7,7 +7,7 @@ class ExerciseInitial extends ExerciseState {}
 class ExerciseLoading extends ExerciseState {}
 
 class ExerciseLoaded extends ExerciseState {
-  final List<Exercise> exercises;
+  final List<ExerciseModel> exercises;
 
   ExerciseLoaded(this.exercises);
 }

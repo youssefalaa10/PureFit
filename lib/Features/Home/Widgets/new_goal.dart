@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
 import 'package:fitpro/Features/Exercises/Logic/cubit/workout_programs_cubit.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ class NewGoalWidget extends StatelessWidget {
             } else if (state is WorkoutProgramsSuccess) {
               return SizedBox(
                 height: mq.height(
-                    30), // Set an appropriate height for the horizontal ListView
+                    29), // Set an appropriate height for the horizontal ListView
                 child: ListView.builder(
                   scrollDirection:
                       Axis.horizontal, // Make the ListView scroll horizontally
@@ -50,7 +51,7 @@ class NewGoalWidget extends StatelessWidget {
                         Navigator.pushNamed(
                           context,
                           Routes.exerciseScreen,
-                          arguments: workoutCategory.id,
+                          arguments: workoutCategory,
                         );
                       },
                       child: Padding(
@@ -98,11 +99,11 @@ class NewGoalWidget extends StatelessWidget {
               Text(
                 workoutCategories.programName,
                 style: TextStyle(
-                    fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+                    fontSize: mq.width(4), fontWeight: FontWeight.bold),
               ),
               Text(
                 workoutCategories.workoutName,
-                style: TextStyle(fontSize: mq.width(3.5), color: Colors.grey),
+                style: TextStyle(fontSize: mq.width(3.2), color: Colors.grey),
               ),
               SizedBox(height: mq.height(1)),
               Row(
@@ -139,7 +140,7 @@ class NewGoalWidget extends StatelessWidget {
               ),
               child: Icon(
                 Icons.play_arrow,
-                color: Colors.orange,
+                color: ColorManager.primaryColor,
                 size: mq.width(5),
               ),
             ),

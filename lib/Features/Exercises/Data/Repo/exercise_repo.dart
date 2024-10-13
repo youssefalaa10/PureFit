@@ -8,11 +8,13 @@ class ExerciseRepo {
 
   ExerciseRepo({required this.dioExerciseApi});
 
-  Future<List<Exercise>?> getExercises(String categoryId) async {
+  Future<List<ExerciseModel>?> getExercises(String categoryId) async {
     try {
       final exercisesJson = await dioExerciseApi.getExercises(categoryId);
       if (exercisesJson != null) {
-        return exercisesJson.map((json) => Exercise.fromJson(json)).toList();
+        return exercisesJson
+            .map((json) => ExerciseModel.fromJson(json))
+            .toList();
       }
     } catch (e) {
       if (kDebugMode) {
