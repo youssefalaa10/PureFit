@@ -1,19 +1,23 @@
 import 'dart:async';
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Exercises/UI/training_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../Core/Components/media_query.dart';
+import '../Data/Model/exercise_model.dart';
 
 class GetReadyScreen extends StatefulWidget {
-  const GetReadyScreen({super.key});
+  final List<ExerciseModel> exercises;
+
+  const GetReadyScreen({super.key, required this.exercises});
 
   @override
-  _GetReadyScreenState createState() => _GetReadyScreenState();
+  GetReadyScreenState createState() => GetReadyScreenState();
 }
 
-class _GetReadyScreenState extends State<GetReadyScreen> {
+class GetReadyScreenState extends State<GetReadyScreen> {
   late CustomMQ mq;
-  int countdownValue = 5; 
+  int countdownValue = 5;
   Timer? countdownTimer;
 
   @override
@@ -42,10 +46,10 @@ class _GetReadyScreenState extends State<GetReadyScreen> {
   }
 
   void navigateToNextExercise() {
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(builder: (context) => ),
-    // );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TrainingScreen()),
+    );
   }
 
   @override
@@ -55,8 +59,8 @@ class _GetReadyScreenState extends State<GetReadyScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title:
-            const Text('Exercises 1/10', style: TextStyle(color: Colors.black)),
+        title: Text('Exercises ${1/ widget.exercises.length}',
+            style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -68,7 +72,10 @@ class _GetReadyScreenState extends State<GetReadyScreen> {
           children: [
             ExerciseImage(mq: mq),
             SizedBox(height: mq.height(3)),
-            ReadyMessage(mq: mq),
+            ReadyMessage(
+              mq: mq,
+              exercises: widget.exercises,
+            ),
             SizedBox(height: mq.height(2)),
             CircularCounter(
               mq: mq,
@@ -76,7 +83,10 @@ class _GetReadyScreenState extends State<GetReadyScreen> {
               onSkip: navigateToNextExercise,
             ),
             SizedBox(height: mq.height(2)),
-            NextExerciseInfo(mq: mq),
+            NextExerciseInfo(
+              mq: mq,
+              exercises: widget.exercises,
+            ),
           ],
         ),
       ),
@@ -103,8 +113,8 @@ class ExerciseImage extends StatelessWidget {
 
 class ReadyMessage extends StatelessWidget {
   final CustomMQ mq;
-
-  const ReadyMessage({super.key, required this.mq});
+  final List<ExerciseModel> exercises;
+  const ReadyMessage({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +130,7 @@ class ReadyMessage extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          'Back Push-Ups',
+          exercises[1].name,
           style: TextStyle(
             fontSize: mq.height(2.5),
             fontWeight: FontWeight.w500,
@@ -168,7 +178,7 @@ class CircularCounter extends StatelessWidget {
             style:
                 TextStyle(fontSize: mq.height(4), fontWeight: FontWeight.bold),
           ),
-     
+
           Positioned(
             right: mq.width(0),
             child: GestureDetector(
@@ -189,8 +199,8 @@ class CircularCounter extends StatelessWidget {
 class NextExerciseInfo extends StatelessWidget {
   final CustomMQ mq;
 
-  const NextExerciseInfo({super.key, required this.mq});
-
+    final List<ExerciseModel> exercises;
+  const NextExerciseInfo({super.key, required this.mq, required this.exercises});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -205,7 +215,7 @@ class NextExerciseInfo extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          'Incline Push-Ups',
+          exercises[1].name, // need it ne
           style: TextStyle(
             fontSize: mq.height(2.5),
             fontWeight: FontWeight.bold,

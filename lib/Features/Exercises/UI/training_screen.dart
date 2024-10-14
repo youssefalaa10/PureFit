@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Exercises/UI/rest_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Components/media_query.dart';
@@ -36,6 +37,12 @@ class _TrainingScreenState extends State<TrainingScreen> {
       if (countdownValue > 0 && !isPaused) {
         setState(() {
           countdownValue--;
+          if (countdownValue == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const RestScreen()),
+            );
+          }
         });
       } else if (countdownValue == 0) {
         timer.cancel();

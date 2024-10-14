@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
+
 class UserModel {
   final String userId;
   final String userEmail;
@@ -40,29 +44,29 @@ class UserModel {
       gender: map['gender'] as String,
     );
   }
-  // // Save the UserModel to SharedPreferences as a JSON string
-  // Future<void> saveToPreferences() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final userJson = jsonEncode(toMap());
-  //   await prefs.setString('userModel', userJson);
-  // }
+  // Save the UserModel to SharedPreferences as a JSON string
+  Future<void> saveToPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = jsonEncode(toMap());
+    await prefs.setString('userModel', userJson);
+  }
 
-  // // Load the UserModel from SharedPreferences
-  // static Future<UserModel?> loadFromPreferences() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   final userJson = prefs.getString('userModel');
-  //   if (userJson != null) {
-  //     final userMap = jsonDecode(userJson) as Map<String, dynamic>;
-  //     return UserModel.fromMap(userMap, userMap['userId']);
-  //   }
-  //   return null;
-  // }
+  // Load the UserModel from SharedPreferences
+  static Future<UserModel?> loadFromPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userJson = prefs.getString('userModel');
+    if (userJson != null) {
+      final userMap = jsonDecode(userJson) as Map<String, dynamic>;
+      return UserModel.fromMap(userMap);
+    }
+    return null;
+  }
 
-  // // Clear the UserModel from SharedPreferences
-  // static Future<void> clearFromPreferences() async {
-  //   final prefs = await SharedPreferences.getInstance();
-  //   await prefs.remove('userModel');
-  // }
+  // Clear the UserModel from SharedPreferences
+  static Future<void> clearFromPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userModel');
+  }
 
 // Create a copy of a UserModel with updated fields
   UserModel copyWith({
