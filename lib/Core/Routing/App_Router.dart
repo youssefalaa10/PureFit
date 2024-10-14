@@ -183,11 +183,13 @@ class AppRouter {
 
       // Rest Screen ======================================================
       case Routes.restScreen:
-        return MaterialPageRoute(builder: (_) => const RestScreen());
+      final exercises = settings.arguments as List<ExerciseModel>;
+        return MaterialPageRoute(builder: (_) =>  RestScreen(exercises: exercises,));
 
       // Training Screen ==================================================
       case Routes.trainingScreen:
-        return MaterialPageRoute(builder: (_) => const TrainingScreen());
+        final exercises = settings.arguments as List<ExerciseModel>;
+        return MaterialPageRoute(builder: (_) =>  TrainingScreen(exercises: exercises,));
 
       // Set Alarm Screen ======================================================
       case Routes.setAlarm:

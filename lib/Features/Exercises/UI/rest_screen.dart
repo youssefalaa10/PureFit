@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Components/media_query.dart';
+import '../Data/Model/exercise_model.dart';
 
 class RestScreen extends StatefulWidget {
-  const RestScreen({super.key});
+     final List<ExerciseModel> exercises;
+  const RestScreen({super.key, required this.exercises});
 
   @override
   _RestScreenState createState() => _RestScreenState();
@@ -79,7 +80,7 @@ class _RestScreenState extends State<RestScreen> {
             SizedBox(height: mq.height(5)),
             NextExerciseSection(mq: mq),
             SizedBox(height: mq.height(3)),
-            ExerciseImageSection(mq: mq),
+            ExerciseImageSection(mq: mq, exercises: widget.exercises,),
           ],
         ),
       ),
@@ -210,15 +211,16 @@ class NextExerciseSection extends StatelessWidget {
 
 class ExerciseImageSection extends StatelessWidget {
   final CustomMQ mq;
-
-  const ExerciseImageSection({super.key, required this.mq});
+  final List<ExerciseModel> exercises;
+  const ExerciseImageSection({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: mq.height(25),
-      child: Image.asset(
-        AppString.profile,
+      child: Image.network(
+        exercises[0].gifUrl!,
+        width: double.infinity,
         fit: BoxFit.contain,
       ),
     );

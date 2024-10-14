@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Exercises/UI/training_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../Core/Components/media_query.dart';
@@ -48,7 +47,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
   void navigateToNextExercise() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => TrainingScreen()),
+      MaterialPageRoute(builder: (context) => TrainingScreen(exercises: widget.exercises,)),
     );
   }
 
@@ -59,7 +58,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
     return Scaffold(
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text('Exercises ${1/ widget.exercises.length}',
+        title: Text('Exercises ${1/ widget.exercises.length.round()}',
             style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -70,7 +69,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ExerciseImage(mq: mq),
+            ExerciseImage(mq: mq, exercises: widget.exercises,),
             SizedBox(height: mq.height(3)),
             ReadyMessage(
               mq: mq,
@@ -96,15 +95,16 @@ class GetReadyScreenState extends State<GetReadyScreen> {
 
 class ExerciseImage extends StatelessWidget {
   final CustomMQ mq;
-
-  const ExerciseImage({super.key, required this.mq});
+  final List<ExerciseModel> exercises;
+  const ExerciseImage({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: mq.height(22),
-      child: Image.asset(
-        AppString.profile,
+      height: mq.height(24),
+      child: Image.network(
+        exercises[1].gifUrl!,
+        width: double.infinity,
         fit: BoxFit.cover,
       ),
     );

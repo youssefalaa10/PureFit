@@ -25,7 +25,6 @@ class ExerciseScreen extends StatefulWidget {
 }
 
 class _ExerciseScreenState extends State<ExerciseScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -220,13 +219,13 @@ Widget _buildExercisesSection(CustomMQ mq, List<ExerciseModel> exercises) {
 
 Widget _buildExerciseItem(ExerciseModel exercise, CustomMQ mq) {
   return Row(
-    children: [     
+    children: [
       Image.network(
         exercise.gifUrl!,
         width: mq.width(15),
         height: mq.width(15),
         fit: BoxFit.cover,
-      )     , 
+      ),
 
       // Icon(Icons.fitness_center, size: mq.width(8)),
       // CachedNetworkImage(

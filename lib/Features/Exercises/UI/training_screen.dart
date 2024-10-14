@@ -1,15 +1,15 @@
 import 'dart:async';
 
 import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Exercises/UI/rest_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Components/media_query.dart';
+import '../Data/Model/exercise_model.dart';
 
 class TrainingScreen extends StatefulWidget {
-  const TrainingScreen({super.key});
-
+   final List<ExerciseModel> exercises;
+  const TrainingScreen({super.key, required this.exercises});
   @override
   _TrainingScreenState createState() => _TrainingScreenState();
 }
@@ -40,7 +40,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
           if (countdownValue == 0) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const RestScreen()),
+              MaterialPageRoute(builder: (context) =>  RestScreen(exercises: widget.exercises,)),
             );
           }
         });
@@ -74,16 +74,16 @@ class _TrainingScreenState extends State<TrainingScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ExerciseImageSection(mq: mq),
+            ExerciseImageSection(mq: mq, exercises: widget.exercises,),
             SizedBox(height: mq.height(4)),
-            TitleSection(mq: mq),
+            TitleSection(mq: mq, exercises: widget.exercises,),
             SizedBox(height: mq.height(2)),
             TimerSection(mq: mq, countdownValue: countdownValue),
             SizedBox(height: mq.height(2)),
             PausePlayButtonSection(
                 mq: mq, isPaused: isPaused, onPressed: togglePausePlay),
             SizedBox(height: mq.height(4)),
-            NextExerciseSection(mq: mq),
+            NextExerciseSection(mq: mq, exercises: widget.exercises,),
           ],
         ),
       ),
@@ -93,15 +93,16 @@ class _TrainingScreenState extends State<TrainingScreen> {
 
 class ExerciseImageSection extends StatelessWidget {
   final CustomMQ mq;
-
-  const ExerciseImageSection({super.key, required this.mq});
+ final List<ExerciseModel> exercises;
+  const ExerciseImageSection({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: mq.height(30),
-      child: Image.asset(
-        AppString.profile,
+      child: Image.network(
+        exercises[0].gifUrl!,
+        width: double.infinity,
         fit: BoxFit.cover,
       ),
     );
@@ -110,13 +111,13 @@ class ExerciseImageSection extends StatelessWidget {
 
 class TitleSection extends StatelessWidget {
   final CustomMQ mq;
-
-  const TitleSection({super.key, required this.mq});
+ final List<ExerciseModel> exercises;
+  const TitleSection({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      'Back Push-Ups',
+     exercises[0].name,
       style: TextStyle(
         fontSize: mq.height(3),
         fontWeight: FontWeight.bold,
@@ -173,8 +174,8 @@ class PausePlayButtonSection extends StatelessWidget {
 
 class NextExerciseSection extends StatelessWidget {
   final CustomMQ mq;
-
-  const NextExerciseSection({super.key, required this.mq});
+   final List<ExerciseModel> exercises;
+  const NextExerciseSection({super.key, required this.mq, required this.exercises});
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +190,7 @@ class NextExerciseSection extends StatelessWidget {
           ),
         ),
         Text(
-          'Incline Push-Ups',
+          exercises[1].name,
           style: TextStyle(
             fontSize: mq.height(3),
             fontWeight: FontWeight.bold,
