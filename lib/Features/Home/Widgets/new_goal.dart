@@ -22,7 +22,7 @@ class NewGoalWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Start New Goal',
+              'Workouts',
               style:
                   TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
             ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
@@ -86,17 +88,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                     final state = context.read<ProfileCubit>().user;
                     CustomSnackbar.showSnackbar(context, state!.userName);
 
-                    if (state is ProfileSuccess) {
-                      // If the user data is available, navigate to the EditProfileScreen
-                      Navigator.pushNamed(context, Routes.editProfileScreen,
-                          arguments: state);
-                    } else if (state is ProfileLoading) {
-                      CustomSnackbar.showSnackbar(
-                          context, "Profile is still loading...");
-                    } else {
-                      CustomSnackbar.showSnackbar(
-                          context, "Failed to load profile");
-                    }
+                    // If the user data is available, navigate to the EditProfileScreen
+                    Navigator.pushNamed(context, Routes.editProfileScreen,
+                        arguments: state);
                   },
                 ),
                 ProfileOption(
@@ -202,12 +196,19 @@ class _UserInfoState extends State<UserInfo> {
           final user = state.user;
           return Column(
             children: [
-              CircleAvatar(
+      CircleAvatar(
                 radius: mq.width(12.5),
-                backgroundImage: AssetImage(
-                  AppString.profile,
-                ),
+                backgroundImage: user.image != null && user.image!.isNotEmpty
+                    ? FileImage(File(user.image!))
+                    :  AssetImage(AppString.profile) as ImageProvider,
               ),
+              // if have server
+              //     CircleAvatar(
+              //   radius: mq.width(12.5),
+              //   backgroundImage: user.image != null && user.image!.isNotEmpty
+              //       ? NetworkImage(user.image!) // Fetching image from network
+              //       :  AssetImage(AppString.profile) as ImageProvider,
+              // ),
               SizedBox(height: mq.height(1)),
               Text(
                 user.userName,
@@ -247,7 +248,7 @@ class StatisticCards extends StatelessWidget {
     final mq = CustomMQ(context);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(7)),
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

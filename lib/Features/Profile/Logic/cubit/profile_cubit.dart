@@ -31,22 +31,17 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void updateProfile(UserModel user, String profileId) async {
-    emit(ProfileUpdating());
+    emit(ProfileLoading());
     try {
-      final success = await profileRepo.updateProfile(user, profileId);
-      if (success) {
-        if (!isClosed) {
-          emit(ProfileUpdated());
-        }
-      } else {
-        if (!isClosed) {
-          emit(ProfileError(message: 'Failed to update profile'));
-        }
-      }
+      // Call your repository method to update the profile.
+      await profileRepo.updateProfile(user, profileId);
+
+      // Emit success state after updating the profile.
+      emit(ProfileSuccess(user: user));
+      getProfile();
     } catch (e) {
-      if (!isClosed) {
-        emit(ProfileError(message: e.toString()));
-      }
+      // Emit error state if there is an exception.
+      emit(ProfileError(message: e.toString()));
     }
   }
 }

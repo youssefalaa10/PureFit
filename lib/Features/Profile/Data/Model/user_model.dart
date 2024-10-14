@@ -10,6 +10,7 @@ class UserModel {
   final int userHeight;
   final int userWeight;
   final String gender;
+  final String? image;
 
   UserModel({
     required this.userId,
@@ -19,6 +20,7 @@ class UserModel {
     required this.userHeight,
     required this.userWeight,
     required this.gender,
+    this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class UserModel {
       'userHeight': userHeight,
       'userWeight': userWeight,
       'gender': gender,
+      'image': image,
     };
   }
 
@@ -42,6 +45,7 @@ class UserModel {
       userHeight: map['userHeight'] as int,
       userWeight: map['userWeight'] as int,
       gender: map['gender'] as String,
+      image: map['image'] as String?,
     );
   }
   // Save the UserModel to SharedPreferences as a JSON string
@@ -78,6 +82,7 @@ class UserModel {
     int? userHeight,
     int? userWeight,
     String? gender,
+    String? image,
   }) {
     return UserModel(
       userId: userId ?? this.userId,
@@ -87,6 +92,7 @@ class UserModel {
       userHeight: userHeight ?? this.userHeight,
       userWeight: userWeight ?? this.userWeight,
       gender: gender ?? this.gender,
+      image: image ?? this.image,
     );
   }
 }
