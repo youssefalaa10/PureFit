@@ -12,8 +12,8 @@ android {
     
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
     }
 
     defaultConfig {
@@ -38,6 +38,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat-resources:1.6.1'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
+
+    // If you're using Jetifier and AndroidX
+    implementation 'androidx.core:core-ktx:1.10.1'
+
+    // Multidex if needed
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    // Other dependencies
 }
 
 flutter {
