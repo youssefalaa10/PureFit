@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Shared/Routes.dart';
+import '../../../Core/Routing/Routes.dart';
 
 class NewGoalWidget extends StatelessWidget {
   const NewGoalWidget({super.key});

@@ -1,7 +1,8 @@
 import 'package:fitpro/Core/Routing/app_router.dart';
 import 'package:fitpro/Core/Services/notificationcontroler.dart';
-import 'package:fitpro/Core/Shared/Routes.dart';
 import 'package:flutter/material.dart';
+
+import 'Core/Routing/Routes.dart';
 
 class FitproApp extends StatelessWidget {
   final AppRouter appRouter;

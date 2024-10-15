@@ -2,7 +2,8 @@ import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 
-import '../../../Core/Shared/Routes.dart'; // Import CustomMQ for responsive measurements
+import '../../../Core/Routing/Routes.dart';
+
 
 class DailyListTasks extends StatelessWidget {
   const DailyListTasks({super.key});

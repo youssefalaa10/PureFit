@@ -1,7 +1,9 @@
 import 'package:fitpro/Features/AuthHelper/cubit/tokencheck_cubit.dart';
-import 'package:fitpro/Core/Shared/Routes.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../Core/Routing/Routes.dart';
 
 class TokenCheck extends StatefulWidget {
   const TokenCheck({super.key});

@@ -11,7 +11,7 @@ import 'package:shimmer/shimmer.dart';
 
 import 'package:fitpro/Core/Components/media_query.dart';
 
-import '../../../Core/Shared/Routes.dart';
+import '../../../Core/Routing/Routes.dart';
 import '../Data/Model/exercise_model.dart';
 import '../Logic/cubit/exercise_cubit.dart';
 
