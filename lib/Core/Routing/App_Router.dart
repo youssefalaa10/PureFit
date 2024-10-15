@@ -9,8 +9,10 @@ import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
 import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
 import 'package:fitpro/Features/Profile/UI/edit_profile_screen.dart';
+import 'package:fitpro/Features/Sleep/Logic/cubit/sleep_cubit.dart';
 import 'package:fitpro/Features/Sleep/set_alarm.dart';
 import 'package:fitpro/Features/Sleep/sleep_screan.dart';
+import 'package:fitpro/Features/Sleep/timer_picker.dart';
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/TrackSteps/Ui/track_step_details.dart';
 import 'package:fitpro/Features/UserInfo/UI/info_pageveiw.dart';
@@ -34,7 +36,6 @@ import '../../Features/Exercises/UI/training_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
-import '../../Features/Sleep/Components/timer_picker.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
@@ -95,7 +96,11 @@ class AppRouter {
                 ));
 
       case Routes.sleepScreen:
-        return MaterialPageRoute(builder: (_) => const SleepScrean());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<SleepCubit>(),
+                  child: const SleepScreen(),
+                ));
       case Routes.registerScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -113,11 +118,11 @@ class AppRouter {
       case Routes.exerciseScreen:
         return MaterialPageRoute(
           builder: (context) {
-            final categoryId = settings.arguments as WorkoutCategoriesModel ;
+            final categoryId = settings.arguments as WorkoutCategoriesModel;
             return BlocProvider(
               create: (context) {
                 final cubit = getIT<ExerciseCubit>();
-                cubit.fetchExercises(categoryId.id );
+                cubit.fetchExercises(categoryId.id);
                 return cubit;
               },
               child: ExerciseScreen(workoutCategory: categoryId),

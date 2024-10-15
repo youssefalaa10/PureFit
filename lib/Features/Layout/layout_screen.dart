@@ -4,7 +4,7 @@ import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
-import 'package:fitpro/Features/Sleep/Components/timer_picker.dart';
+import 'package:fitpro/Features/Sleep/timer_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

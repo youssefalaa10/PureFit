@@ -116,7 +116,13 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                   ),
                 ),
                 const Spacer(),
-                BottomButtonsSection(mq: mq),
+                BottomButtonsSection(
+                  mq: mq,
+                  selectedDays: selectedDays,
+                  selectedHours: selectedHour,
+                  selectedMin: selectedMinute,
+                  period: period,
+                ),
               ],
             ),
           ),
@@ -373,9 +379,18 @@ class AlarmDetailsSection extends StatelessWidget {
 class BottomButtonsSection extends StatelessWidget {
   final CustomMQ mq;
 
+  final int selectedHours;
+  final int selectedMin;
+  final String period;
+  final List<bool> selectedDays;
+
   const BottomButtonsSection({
     super.key,
     required this.mq,
+    required this.selectedHours,
+    required this.selectedMin,
+    required this.period,
+    required this.selectedDays,
   });
 
   @override
@@ -391,7 +406,9 @@ class BottomButtonsSection extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
           child: Text(
             'Cancel',
             style: TextStyle(
@@ -401,7 +418,13 @@ class BottomButtonsSection extends StatelessWidget {
           ),
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context, {
+              'hour': selectedHours,
+              'minute': selectedMin,
+              'period': period,
+            });
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: ColorManager.primaryColor,
             shape: RoundedRectangleBorder(

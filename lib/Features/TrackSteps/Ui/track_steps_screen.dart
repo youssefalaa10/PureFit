@@ -85,6 +85,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       }
     }
 
+
     if (_lastRecordedDate != todayDate) {
       await _resetForNewDay(todayDate);
       _initialSteps = event.steps;

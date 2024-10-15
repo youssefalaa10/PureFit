@@ -91,7 +91,7 @@ class NewGoalWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(mq.width(3)),
                 child: CachedNetworkImage(
                   imageUrl: workoutCategories.thumbnail,
-                  height: mq.height(15),
+                  height: mq.height(14),
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
