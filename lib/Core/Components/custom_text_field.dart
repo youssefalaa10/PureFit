@@ -9,7 +9,7 @@ class CustomTextField extends StatelessWidget {
   final Icon? prefixIcon;
   final Icon? suffixIcon;
   final Function(String)? validator;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   const CustomTextField(
       {super.key,
       required this.textInput,
