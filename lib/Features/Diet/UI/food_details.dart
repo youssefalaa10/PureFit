@@ -3,7 +3,7 @@ import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Diet/UI/food_diary.dart';
+import 'package:fitpro/Features/Diet/UI/food_diet.dart';
 
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const FoodDiaryScreen()),
+              MaterialPageRoute(builder: (context) => const FoodDietScreen()),
             );
           },
         ),
@@ -77,7 +77,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             // Food Image
             Center(
               child: Image.asset(
-               AppString.profile, 
+                AppString.profile,
                 width: mq.width(50.0),
               ),
             ),
