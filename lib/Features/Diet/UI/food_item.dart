@@ -1,9 +1,11 @@
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/local_db/food_db/food_db.dart';
 import 'package:flutter/material.dart';
 
-class FoodItem extends StatelessWidget {
+class FoodItem extends StatefulWidget {
   final String foodImage;
   final String foodName;
   final String quantity;
@@ -21,11 +23,17 @@ class FoodItem extends StatelessWidget {
   });
 
   @override
+  State<FoodItem> createState() => _FoodItemState();
+}
+
+class _FoodItemState extends State<FoodItem> {
+ bool isFavorite = false;
+  @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
 
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Card(
         color: ColorManager.backGroundColor,
         elevation: 2.0,
@@ -35,7 +43,7 @@ class FoodItem extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Image.network(foodImage,
+              Image.network(widget.foodImage,
                   width: mq.width(8.7), height: mq.height(5)),
 
               CustomSizedbox(
@@ -47,14 +55,14 @@ class FoodItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    foodName,
+                    widget.foodName,
                     style: TextStyle(
                       fontSize: mq.width(4.5),
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   Text(
-                    '$quantity - $calories',
+                    '${widget.quantity} - ${widget.calories}',
                     style: TextStyle(
                       fontSize: mq.width(3.5),
                     ),
@@ -73,7 +81,7 @@ class FoodItem extends StatelessWidget {
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton<String>(
-                    value: quantity,
+                    value: widget.quantity,
                     items:
                         <String>['100 g', '200 g', '300 g'].map((String value) {
                       return DropdownMenuItem<String>(
@@ -94,18 +102,43 @@ class FoodItem extends StatelessWidget {
 
               SizedBox(width: mq.width(2.0)),
 
-              //  "Add" button
+              //  "Add to favorite" button
               SizedBox(
                 width: mq.width(10.0), // Set width
                 height: mq.width(10.0), // Set height
                 child: FloatingActionButton(
-                  onPressed: onTap,
-                  heroTag: heroTag,
+                  onPressed: () async {
+                    final dbHelper = FoodDb();
+                    
+                    if (isFavorite) {
+                      // Remove from favorites
+                      await dbHelper.removeFavorite(widget.foodName);
+                      CustomSnackbar.showSnackbar(
+                          context, '${widget.foodName} removed from favorites!');
+                    } else {
+                      // Add to favorites
+                      await dbHelper.addFavorite(
+                        widget.foodName,
+                        widget.foodName,
+                        widget.foodImage,
+                        widget.calories,
+                        widget.quantity,
+                      );
+                      CustomSnackbar.showSnackbar(
+                          context, '${widget.foodName} added to favorites!');
+                    }
+
+                    // Toggle the favorite status
+                    setState(() {
+                      isFavorite = !isFavorite;
+                    });
+                  },
+                  heroTag: widget.heroTag,
                   backgroundColor: ColorManager.primaryColor, //background color
                   elevation: 5.0,
                   child: Icon(
-                    Icons.add,
-                    color: ColorManager.backGroundColor, // Icon color
+                    isFavorite ? Icons.favorite : Icons.favorite_outline,
+                    color: ColorManager.backGroundColor, 
                   ),
                 ),
               ),

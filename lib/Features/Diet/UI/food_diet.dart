@@ -78,9 +78,9 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                     });
                   },
                   tabs: const [
-                    Tab(text: 'Favorites'),
                     Tab(text: 'Foods'),
                     Tab(text: 'Drinks'),
+                    Tab(text: 'Favorites'),
                   ],
                   labelStyle: TextStyle(
                     fontSize: mq.width(4.5),
