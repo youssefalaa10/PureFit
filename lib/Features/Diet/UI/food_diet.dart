@@ -5,6 +5,7 @@ import 'package:fitpro/Features/Diet/UI/food_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
+import '../../../Core/Routing/routes.dart';
 import '../Logic/cubit/foods_cubit.dart';
 import '../Logic/cubit/foods_state.dart';
 import 'package:shimmer/shimmer.dart';
@@ -118,23 +119,28 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                     if (state is FoodsLoading) {
                       return _buildShimmerLoading(mq);
                     } else if (state is FoodsSuccess) {
-                      return ListView.builder(
-                        itemCount: state.foods.length,
-                        itemBuilder: (context, index) {
-                          final food = state.foods[index];
-                          return Column(
-                            children: [
-                              FoodItem(
-                                foodImage: food.image,
-                                foodName: food.name,
-                                quantity: '100 g',
-                                calories: '${food.calories} kcal',
-                              ),
-                              CustomSizedbox(height: mq.height(1.0)),
-                            ],
-                          );
-                        },
-                      );
+                    return ListView.builder(
+  itemCount: state.foods.length,
+  itemBuilder: (context, index) {
+    final food = state.foods[index];
+    return Column(
+      children: [
+        FoodItem(
+          foodImage: food.image,
+          foodName: food.name,
+          quantity: '100 g',
+          calories: '${food.calories} kcal',
+          onTap: () {
+            // Navigate to FoodDetailScreen and pass food object
+            Navigator.pushNamed(context, Routes.foodDetailsScreen, arguments: food);
+          },
+           heroTag: 'food_item_${food.id}',
+        ),
+        CustomSizedbox(height: mq.height(1.0)),
+      ],
+    );
+  },
+);
                     } else {
                       return const Center(child: Text('No foods found'));
                     }

@@ -12,6 +12,7 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
+import '../../Features/Diet/Data/Model/foods_model.dart';
 import '../../Features/Diet/Logic/cubit/foods_cubit.dart';
 import '../../Features/Diet/UI/food_details.dart';
 import '../../Features/Diet/UI/food_diet.dart';
@@ -229,8 +230,11 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const FoodItem());
 
       // Food Details Screen ===================================================
-      case Routes.foodDetialsScreen:
-        return MaterialPageRoute(builder: (_) => const FoodDetailScreen());
+case Routes.foodDetailsScreen:
+  final food = settings.arguments as FoodsModel; // Retrieve FoodsModel object
+  return MaterialPageRoute(
+    builder: (_) => FoodDetailScreen(food: food), // Pass FoodsModel to the screen
+  );
 
       // Change Password =========================================================
       case Routes.changePasswordScreen:

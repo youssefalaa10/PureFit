@@ -28,7 +28,7 @@ class Routes {
   static const String infoPageView = "/infoPageView";
   static const String foodItem = "/foodItem";
   static const String foodDietScreen = "/foodDietScreen";
-  static const String foodDetialsScreen = "/foodDetialsScreen";
+  static const String foodDetailsScreen = "/foodDetialsScreen";
   static const String forgotPasswordScreen = "/forgotPasswordScreen";
   static const String verificationScreen = "/verificationScreen";
   static const String changePasswordScreen = "/changePasswordScreen";
