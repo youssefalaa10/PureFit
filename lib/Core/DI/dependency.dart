@@ -65,7 +65,8 @@ Future<void> setUpGit() async {
 
   getIT.registerLazySingleton<ProfileRepo>(
       () => ProfileRepo(dioProfileApi: getIT()));
-  getIT.registerFactory<ProfileCubit>(() => ProfileCubit(getIT<ProfileRepo>()));
+  getIT.registerLazySingleton<ProfileCubit>(
+      () => ProfileCubit(getIT<ProfileRepo>()));
 
   //Exercise
   getIT.registerLazySingleton<ExerciseRepo>(
@@ -76,7 +77,7 @@ Future<void> setUpGit() async {
   //WorkoutProgram
   getIT.registerLazySingleton<WorkoutCategoriesRepo>(
       () => WorkoutCategoriesRepo(dioWorkoutCategoriesApi: getIT()));
-  getIT.registerFactory<WorkoutProgramsCubit>(
+  getIT.registerLazySingleton<WorkoutProgramsCubit>(
       () => WorkoutProgramsCubit(getIT()));
   //Water intake
   getIT.registerLazySingleton<WaterRepo>(() => WaterRepo(watererDb: getIT()));
