@@ -22,14 +22,16 @@ class FoodItem extends StatelessWidget {
     final mq = CustomMQ(context);
 
     return Card(
-      color: const Color.fromARGB(255, 212, 234, 249),
+      color: ColorManager.backGroundColor,
+      elevation: 2.0,
       child: Padding(
-        padding: EdgeInsets.all(mq.width(2.0)),
+        padding: EdgeInsets.symmetric(horizontal: mq.width(3.0), vertical: mq.height(1)),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Image.asset(foodImage, height: mq.height(5.0)),
 
-            CustomSizedbox(height: mq.height(9.0)),
+            CustomSizedbox(height: mq.height(9.0),width: mq.width(5.0),),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +58,7 @@ class FoodItem extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: mq.width(2.0)),
               decoration: BoxDecoration(
-                color: Colors.white, // Background color for dropdown
+                color: ColorManager.softGreyColor, 
                 borderRadius: BorderRadius.circular(8),
               ),
               child: DropdownButtonHideUnderline(
@@ -92,9 +94,9 @@ class FoodItem extends StatelessWidget {
                 },
                 backgroundColor: ColorManager.primaryColor, //background color
                 elevation: 5.0,
-                child: const Icon(
+                child:  Icon(
                   Icons.add,
-                  color: Colors.white, // Icon color
+                  color: ColorManager.backGroundColor, // Icon color
                 ),
               ),
             ),

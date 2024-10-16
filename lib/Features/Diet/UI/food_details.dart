@@ -1,9 +1,10 @@
+import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Diet/UI/food_diet.dart';
+
 
 import 'package:flutter/material.dart';
 
@@ -26,15 +27,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const FoodDietScreen()),
-            );
-          },
-        ),
+        leading: const CustomBackButton(),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -112,30 +105,18 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNutritionData('Kcal', '378'),
-                _buildNutritionData('Fat', '28g'),
-                _buildNutritionData('Carbs', '41g'),
-                _buildNutritionData('Protein', '32g'),
+                _buildNutritionData('kcal', '555',mq),
+                _buildNutritionData('Fat', '28g',mq),
+                _buildNutritionData('Carbs', '41g',mq),
+                _buildNutritionData('Protein', '32g',mq),
               ],
             ),
             CustomSizedbox(
               height: mq.height(3.0),
             ),
-            // Description
-            Text(
-              'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy eirmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy eirmod tempor incididunt ut labore et dolore magna aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy eirmod tempor incididunt ut labore et dolore magna aliqua.',
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey[700],
-              ),
-            ),
-            CustomSizedbox(
-              height: mq.height(2.0),
-            ),
-
             // "Add Meal" Button
             Center(
-              child: CustomButton(label: "Add meal", onPressed: () {}),
+              child: CustomButton(label: "Add meal", onPressed: () {},padding: EdgeInsets.symmetric(vertical: mq.height(2),horizontal: mq.width(30)),),
             ),
           ],
         ),
@@ -150,13 +131,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         decoration: BoxDecoration(
-          color: isPressed ? ColorManager.babyBlueColor : Colors.transparent,
+          color: isPressed ? ColorManager.softGreyColor : Colors.transparent,
           borderRadius: BorderRadius.circular(mq.height(3.0)),
         ),
         child: Text(
           text,
           style: TextStyle(
-            fontSize: mq.width(3.0),
+            fontSize: mq.width(3.8),
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -165,22 +146,24 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     );
   }
 
-  Widget _buildNutritionData(String label, String value) {
+  Widget _buildNutritionData(String label, String value,CustomMQ mq) {
     return Column(
       children: [
-        Text(
-          value,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
+        
         Text(
           label,
           style: TextStyle(
-            fontSize: 12,
+            fontSize: mq.width(4.0),
+            fontWeight: FontWeight.bold,
             color: Colors.grey[600],
+          ),
+        ),
+        Text(
+          value,
+          style:  TextStyle(
+            fontSize: mq.width(5.0),
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
         ),
       ],

@@ -17,9 +17,10 @@ class FoodDietScreen extends StatelessWidget {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: ColorManager.backGroundColor,
         appBar: AppBar(
           title: Text(
-            'Food Diary',
+            'Food Diet',
             style: TextStyle(
               fontSize: mq.width(7.0),
               fontWeight: FontWeight.bold,
@@ -28,14 +29,14 @@ class FoodDietScreen extends StatelessWidget {
           ),
           // Adding margin to the TabBar
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(mq.height(6.0)),
+            preferredSize: Size.fromHeight(mq.height(8)),
             child: Padding(
               // Margin for the tabs
               padding: EdgeInsets.symmetric(horizontal: mq.width(4.0)),
               child: Container(
                 decoration: BoxDecoration(
                   // the background color for the tab container
-                  color: ColorManager.lightBlueColor,
+                  color: ColorManager.softGreyColor,
                   borderRadius: BorderRadius.circular(25), // Rounded corners
                 ),
                 child: TabBar(
