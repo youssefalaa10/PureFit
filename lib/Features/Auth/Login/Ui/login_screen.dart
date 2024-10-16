@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
+import '../../../../Core/Routing/routes.dart';
 import '../Data/Model/login_model.dart';
 import '../Logic/cubit/login_cubit.dart';
 import 'package:fitpro/Core/Components/custom_button.dart';

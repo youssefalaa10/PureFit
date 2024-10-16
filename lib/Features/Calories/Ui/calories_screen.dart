@@ -1,12 +1,14 @@
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
+
 import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
+import 'package:fitpro/Core/Components/media_query.dart';
+
+import '../../../Core/Routing/routes.dart'; 
 class CaloriesScreen extends StatelessWidget {
   const CaloriesScreen({super.key});
 

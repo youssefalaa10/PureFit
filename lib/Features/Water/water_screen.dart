@@ -4,15 +4,17 @@ import 'package:fitpro/Core/Components/custom_icon_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
+
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:fitpro/Features/Water/water_add.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Correct import for CustomMQ
+import 'package:fitpro/Core/Components/media_query.dart'; 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Core/Routing/routes.dart';
 
 class WaterScreen extends StatefulWidget {
   const WaterScreen({super.key});

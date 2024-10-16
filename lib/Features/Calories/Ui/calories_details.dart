@@ -4,14 +4,14 @@ import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/calories_ruler.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
+import 'package:fitpro/Core/Components/media_query.dart'; 
 
 class CaloriesDetails extends StatelessWidget {
   const CaloriesDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+    final mq = CustomMQ(context); 
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,

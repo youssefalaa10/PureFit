@@ -1,6 +1,6 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
-import 'package:fitpro/Features/Auth/Register/Ui/regestierBlocListner.dart';
+import 'package:fitpro/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';

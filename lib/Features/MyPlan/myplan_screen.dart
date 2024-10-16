@@ -1,11 +1,11 @@
 import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/MyPlan/component/static_card.dart';
 import 'package:fitpro/Features/MyPlan/component/workouts_card.dart';
 import 'package:flutter/material.dart';
 import '../../Core/Components/media_query.dart';
+import '../../Core/Routing/routes.dart';
 
 class MyPlanScreen extends StatelessWidget {
   const MyPlanScreen({super.key});

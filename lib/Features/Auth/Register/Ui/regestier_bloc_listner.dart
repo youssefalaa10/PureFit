@@ -1,10 +1,11 @@
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/routes.dart';
 import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../Core/Routing/routes.dart';
 
 class RegisterBlocListener extends StatelessWidget {
   const RegisterBlocListener({super.key});

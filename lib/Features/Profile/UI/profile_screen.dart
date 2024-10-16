@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../Core/Components/media_query.dart';
-import '../../../Core/Shared/routes.dart';
+import '../../../Core/Routing/routes.dart';
 import '../Logic/cubit/profile_cubit.dart';
 import 'Widgets/profile_options.dart';
 import 'Widgets/statistic_card.dart';

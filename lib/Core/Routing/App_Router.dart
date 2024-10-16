@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,10 +5,15 @@ import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Login/Ui/login_screen.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
+import '../../Features/Auth/Verifiy/UI/change_password.dart';
+import '../../Features/Auth/Verifiy/UI/forgot_password.dart';
+import '../../Features/Auth/Verifiy/UI/verification.dart';
 import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
+import '../../Features/Diet/UI/food_details.dart';
+import '../../Features/Diet/UI/food_diet.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
 import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
@@ -33,6 +37,7 @@ import '../../Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import '../../Features/TrackSteps/Ui/track_step_details.dart';
 import '../../Features/TrackSteps/Ui/track_steps_screen.dart';
 import '../../Features/UserInfo/UI/body_metrics.dart';
+import '../../Features/UserInfo/UI/fitness_goal_screen.dart';
 import '../../Features/UserInfo/UI/info_pageveiw.dart';
 import '../../Features/UserInfo/UI/user_age_screen.dart';
 import '../../Features/UserInfo/UI/user_gender_screen.dart';
@@ -115,7 +120,7 @@ class AppRouter {
                   child: const WaterScreen(),
                 ));
 
-        case Routes.sleepScreen:
+      case Routes.sleepScreen:
         return MaterialPageRoute(
             builder: (_) => BlocProvider(
                   create: (context) => getIT<SleepCubit>(),
@@ -188,13 +193,19 @@ class AppRouter {
 
       // Rest Screen ======================================================
       case Routes.restScreen:
-      final exercises = settings.arguments as List<ExerciseModel>;
-        return MaterialPageRoute(builder: (_) =>  RestScreen(exercises: exercises,));
+        final exercises = settings.arguments as List<ExerciseModel>;
+        return MaterialPageRoute(
+            builder: (_) => RestScreen(
+                  exercises: exercises,
+                ));
 
       // Training Screen ==================================================
       case Routes.trainingScreen:
         final exercises = settings.arguments as List<ExerciseModel>;
-        return MaterialPageRoute(builder: (_) =>  TrainingScreen(exercises: exercises,));
+        return MaterialPageRoute(
+            builder: (_) => TrainingScreen(
+                  exercises: exercises,
+                ));
 
       // Set Alarm Screen ======================================================
       case Routes.setAlarm:
@@ -203,6 +214,34 @@ class AppRouter {
       // Timer Picker Screen ======================================================
       case Routes.timerPicker:
         return MaterialPageRoute(builder: (_) => const TimerPickerScreen());
+
+      // FoodDiet ===============================================================
+      case Routes.foodDietScreen:
+        return MaterialPageRoute(builder: (_) => const FoodDietScreen());
+
+      // Food Item Screen =======================================================
+      // case Routes.foodItem:
+      //   return MaterialPageRoute(builder: (_) => const FoodItem());
+
+      // Food Details Screen ===================================================
+      case Routes.foodDetialsScreen:
+        return MaterialPageRoute(builder: (_) => const FoodDetailScreen());
+
+      // Change Password =========================================================
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
+
+      // Forgot Password ========================================================
+      case Routes.forgotPasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+
+      // Verification Screen ====================================================
+      case Routes.verificationScreen:
+        return MaterialPageRoute(builder: (_) => const VerificationScreen());
+
+      // Fitness Goal Screen ===================================================
+      case Routes.fitnessGoalScreen:
+        return MaterialPageRoute(builder: (_) => const FitnessGoalScreen());
 
       default:
         return null;
