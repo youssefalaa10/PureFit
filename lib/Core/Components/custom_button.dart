@@ -15,35 +15,34 @@ class CustomButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.backgroundColor,
-    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
     this.borderRadius = 30.0,
-    this.fontSize = 16.0,
+    this.fontSize = 20.0,
     this.textColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          vertical: MediaQuery.of(context).size.height * 0.01,
-          horizontal: MediaQuery.of(context).size.width * 0.07),
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? ColorManager.primaryColor,
-          padding: padding,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
+    return  SizedBox(
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: onPressed,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: backgroundColor ?? ColorManager.primaryColor,
+            padding: padding,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: fontSize,
+              color: textColor,
+            ),
           ),
         ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: fontSize,
-            color: textColor,
-          ),
-        ),
-      ),
+  
     );
   }
 }

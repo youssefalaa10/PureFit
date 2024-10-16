@@ -1,5 +1,7 @@
 class Routes {
   static const String homeScreen = "/homeScreen";
+  static const String foodDiary = "/foodDiary";
+  static const String foodDatails = "/foodDetails";
   static const String trackStepsScreen = "/trackStepsScreen";
   static const String trackStepsDetailsScreen = "/trackStepsDetailsScreen";
   static const String userAgeScreen = "/userAgeScreen";
@@ -15,6 +17,9 @@ class Routes {
   static const String waterScreen = "/waterScreen";
   static const String sleepScreen = "/sleepScreen";
   static const String loginScreen = "/loginScreen";
+  static const String forgotPasswordScreen = "/forgotPasswordScreen";
+  static const String verificationScreen = "/verificationScreen";
+  static const String changePasswordScreen = "/changePasswordScreen";
   static const String registerScreen = "/registerScreen";
   static const String exerciseScreen = "/exerciseScreen";
   static const String weeklyExerciseScreen = "/weeklyExerciseScreen";

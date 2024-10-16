@@ -17,7 +17,7 @@ class CustomTextField extends StatelessWidget {
       required this.hintText,
       this.prefixIcon,
       this.suffixIcon,
-      required this.controller,
+    required this.controller,
       this.validator});
 
   @override
@@ -28,7 +28,7 @@ class CustomTextField extends StatelessWidget {
         validator: (value) {
           return validator!(value!);
         },
-        controller: controller,
+    controller: controller,
         keyboardType: textInput,
         obscureText: isPassword,
         decoration: InputDecoration(

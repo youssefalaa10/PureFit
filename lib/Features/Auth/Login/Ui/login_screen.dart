@@ -1,4 +1,6 @@
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
+import 'package:fitpro/Features/Auth/ForgotPassword/UI/forgot_password.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -164,7 +166,13 @@ class LoginScreenState extends State<LoginScreen> {
                               // Forgot Password Button
                               TextButton(
                                 onPressed: () {
-                                  // Forgot password action
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgotPasswordScreen(), // Navigate to Forgot Password Screen
+                                    ),
+                                  );
                                 },
                                 child: Text(
                                   'Forgot password?',

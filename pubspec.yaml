@@ -42,6 +42,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   get_it: ^8.0.0
   lottie: ^3.1.2
+  flutter_otp_text_field: ^1.2.0
   path: ^1.9.0
   pedometer: ^4.0.2
   percent_indicator: ^4.2.3

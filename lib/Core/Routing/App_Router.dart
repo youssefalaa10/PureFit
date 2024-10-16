@@ -1,9 +1,15 @@
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/Auth/ChangePassword/UI/change_password.dart';
+import 'package:fitpro/Features/Auth/ForgotPassword/UI/forgot_password.dart';
+import 'package:fitpro/Features/Auth/Verification/UI/verification_screen.dart';
+
 import 'package:fitpro/Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import 'package:fitpro/Features/AuthHelper/token_check.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_details.dart';
 import 'package:fitpro/Features/Calories/Ui/calories_screen.dart';
+import 'package:fitpro/Features/FoodDiary/ui/food_details.dart';
+import 'package:fitpro/Features/FoodDiary/ui/food_diary.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Layout/layout_screen.dart';
@@ -54,6 +60,12 @@ class AppRouter {
 
       case Routes.userGenderScreen:
         return MaterialPageRoute(builder: (_) => const UserGenderScreen());
+
+      case Routes.foodDiary:
+        return MaterialPageRoute(builder: (_) => const FoodDiaryScreen());
+
+      case Routes.foodDatails:
+        return MaterialPageRoute(builder: (_) => const FoodDetailScreen());
 
       case Routes.userAgeScreen:
         return MaterialPageRoute(builder: (_) => const UserAgeScreen());
@@ -109,6 +121,16 @@ class AppRouter {
                   create: (context) => getIT<LoginCubit>(),
                   child: const LoginScreen(),
                 ));
+
+      case Routes.forgotPasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+
+      case Routes.verificationScreen:
+        return MaterialPageRoute(builder: (_) => const VerificationScreen());
+
+      case Routes.changePasswordScreen:
+        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
+
       case Routes.exerciseScreen:
         return MaterialPageRoute(
           builder: (context) {
