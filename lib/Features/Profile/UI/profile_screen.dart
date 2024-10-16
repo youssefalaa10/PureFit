@@ -25,7 +25,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    
+
     // Fetching profile data when the widget is initialized
     Future.microtask(() {
       if (mounted) {
@@ -41,7 +41,6 @@ class ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
-        
         title: const Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -197,15 +196,14 @@ class _UserInfoState extends State<UserInfo> {
             ),
           );
         } else if (state is ProfileSuccess) {
-          final user = state.user;
+          final imageFile = File(state.user.image!);
           return Column(
             children: [
               CircleAvatar(
-                radius: mq.width(12.5),
-                backgroundImage: user.image != null && user.image!.isNotEmpty
-                    ? FileImage(File(user.image!))
-                    : AssetImage(AppString.profile) as ImageProvider,
-              ),
+                  radius: mq.width(12.5),
+                  backgroundImage: imageFile.existsSync()
+                      ? FileImage(imageFile)
+                      : AssetImage(AppString.profile) as ImageProvider),
               // if have server
               //     CircleAvatar(
               //   radius: mq.width(12.5),
@@ -215,7 +213,7 @@ class _UserInfoState extends State<UserInfo> {
               // ),
               SizedBox(height: mq.height(1)),
               Text(
-                user.userName,
+                state.user.userName,
                 style: TextStyle(
                   fontSize: mq.width(5.5),
                   fontWeight: FontWeight.bold,
@@ -223,7 +221,7 @@ class _UserInfoState extends State<UserInfo> {
               ),
               SizedBox(height: mq.height(0.5)),
               Text(
-                user.userEmail,
+                state.user.userEmail,
                 style: TextStyle(
                   fontSize: mq.width(4),
                   color: Colors.grey,
