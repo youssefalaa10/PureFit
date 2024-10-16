@@ -3,13 +3,13 @@ import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-
+import 'package:fitpro/Features/Diet/Data/Model/foods_model.dart';
 
 import 'package:flutter/material.dart';
 
 class FoodDetailScreen extends StatefulWidget {
-  const FoodDetailScreen({super.key});
+  final FoodsModel food;
+  const FoodDetailScreen({super.key, required this.food});
 
   @override
   State<FoodDetailScreen> createState() => _FoodDetailScreenState();
@@ -23,7 +23,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final food = widget.food;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -41,36 +41,39 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Food Title and Brand
-            Text(
-              'Quarter Pounder®* with Cheese',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: mq.width(7.0),
-                fontWeight: FontWeight.bold,
-                color: ColorManager.primaryColor,
-              ),
-            ),
-            CustomSizedbox(
-              height: mq.height(2.0),
-            ),
             Center(
               child: Text(
-                'McDonald\'s',
+                food.name,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: mq.width(4.0),
-                  color: ColorManager.greyColor,
+                  fontSize: mq.width(7.0),
+                  fontWeight: FontWeight.bold,
+                  color: ColorManager.primaryColor,
                 ),
               ),
             ),
+            // CustomSizedbox(
+            //   height: mq.height(2.0),
+            // ),
+            // Center(
+            //   child: Text(
+            //     'McDonald\'s',
+            //     textAlign: TextAlign.center,
+            //     style: TextStyle(
+            //       fontSize: mq.width(4.0),
+            //       color: ColorManager.greyColor,
+            //     ),
+            //   ),
+            // ),
             CustomSizedbox(
               height: mq.height(2.0),
             ),
 
             // Food Image
             Center(
-              child: Image.asset(
-                AppString.profile,
+              child: Image.network(
+                food.image,
+                height: mq.height(30.0),
                 width: mq.width(50.0),
               ),
             ),
@@ -105,10 +108,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNutritionData('kcal', '555',mq),
-                _buildNutritionData('Fat', '28g',mq),
-                _buildNutritionData('Carbs', '41g',mq),
-                _buildNutritionData('Protein', '32g',mq),
+                _buildNutritionData('kcal', '${food.calories}', mq),
+                _buildNutritionData('Fat', '${food.fats}', mq),
+                // _buildNutritionData('Carbs', '${food.protein}',mq),
+                _buildNutritionData('Protein', '${food.protein}', mq),
               ],
             ),
             CustomSizedbox(
@@ -116,7 +119,12 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             ),
             // "Add Meal" Button
             Center(
-              child: CustomButton(label: "Add meal", onPressed: () {},padding: EdgeInsets.symmetric(vertical: mq.height(2),horizontal: mq.width(30)),),
+              child: CustomButton(
+                label: "Add meal",
+                onPressed: () {},
+                padding: EdgeInsets.symmetric(
+                    vertical: mq.height(2), horizontal: mq.width(30)),
+              ),
             ),
           ],
         ),
@@ -146,10 +154,9 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
     );
   }
 
-  Widget _buildNutritionData(String label, String value,CustomMQ mq) {
+  Widget _buildNutritionData(String label, String value, CustomMQ mq) {
     return Column(
       children: [
-        
         Text(
           label,
           style: TextStyle(
@@ -160,7 +167,7 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         ),
         Text(
           value,
-          style:  TextStyle(
+          style: TextStyle(
             fontSize: mq.width(5.0),
             fontWeight: FontWeight.bold,
             color: Colors.black,

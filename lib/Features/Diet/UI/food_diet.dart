@@ -5,6 +5,7 @@ import 'package:fitpro/Features/Diet/UI/food_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
+import '../../../Core/Routing/routes.dart';
 import '../Logic/cubit/foods_cubit.dart';
 import '../Logic/cubit/foods_state.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,6 +19,19 @@ class FoodDietScreen extends StatefulWidget {
 
 class _FoodDietScreenState extends State<FoodDietScreen> {
   int selectedTabIndex = 1; // Default to 'Foods' tab
+  final TextEditingController _searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    // Fetch foods initially
+    context.read<FoodsCubit>().fetchFoods();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +78,9 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                     });
                   },
                   tabs: const [
-                    Tab(text: 'Favorites'),
                     Tab(text: 'Foods'),
                     Tab(text: 'Drinks'),
+                    Tab(text: 'Favorites'),
                   ],
                   labelStyle: TextStyle(
                     fontSize: mq.width(4.5),
@@ -91,6 +105,12 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
           child: Column(
             children: [
               TextField(
+                controller: _searchController,
+                onChanged: (query) {
+                  context
+                      .read<FoodsCubit>()
+                      .searchFoods(query); // Call search method
+                },
                 decoration: InputDecoration(
                   hintText: 'Name of food product',
                   prefixIcon: const Icon(Icons.search),
@@ -129,6 +149,13 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                                 foodName: food.name,
                                 quantity: '100 g',
                                 calories: '${food.calories} kcal',
+                                onTap: () {
+                                  // Navigate to FoodDetailScreen and pass food object
+                                  Navigator.pushNamed(
+                                      context, Routes.foodDetailsScreen,
+                                      arguments: food);
+                                },
+                                heroTag: 'food_item_${food.id}',
                               ),
                               CustomSizedbox(height: mq.height(1.0)),
                             ],
