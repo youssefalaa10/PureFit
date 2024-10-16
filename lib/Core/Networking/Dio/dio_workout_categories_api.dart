@@ -22,7 +22,6 @@ class DioWorkoutCategoriesApi {
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         List data = response.data;
-        print(data.toString());
         return data.map((e) => e as Map<String, dynamic>).toList();
       } else {
         if (kDebugMode) {

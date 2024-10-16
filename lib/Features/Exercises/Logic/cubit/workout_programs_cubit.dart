@@ -6,16 +6,19 @@ part 'workout_programs_state.dart';
 
 class WorkoutProgramsCubit extends Cubit<WorkoutProgramsState> {
   final WorkoutCategoriesRepo workoutCategoriesRepo;
+  List<WorkoutCategoriesModel> allWorkoutPrograms = []; // Store the full list
 
   WorkoutProgramsCubit(this.workoutCategoriesRepo)
       : super(WorkoutProgramsInitial());
 
+  // Fetch all workout programs
   fetchWorkoutPrograms() async {
     emit(WorkoutProgramsLoading());
     try {
       final workoutPrograms =
           await workoutCategoriesRepo.getWorkoutCategories();
       if (workoutPrograms != null && workoutPrograms.isNotEmpty) {
+        allWorkoutPrograms = workoutPrograms; // Save the full list
         if (!isClosed) {
           emit(WorkoutProgramsSuccess(workoutPrograms));
         }

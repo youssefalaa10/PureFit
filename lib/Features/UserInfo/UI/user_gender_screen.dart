@@ -22,6 +22,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -62,7 +63,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: LinearProgressIndicator(
-                value: 0.25,
+                value: 0.20,
                 backgroundColor:
                     ColorManager.greyColor.withOpacity(0.5).withOpacity(.5),
                 valueColor:
@@ -72,7 +73,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             ),
           ),
           // Step indicator
-          const Text('1/3'),
+          const Text('1/5'),
         ],
       ),
     );

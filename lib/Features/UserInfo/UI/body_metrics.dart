@@ -16,6 +16,7 @@ class BodyMetricsScreen extends StatelessWidget {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: mq.height(1)),
@@ -33,7 +34,7 @@ class BodyMetricsScreen extends StatelessWidget {
                       child: Padding(
                         padding: EdgeInsets.only(right: mq.width(5)),
                         child: LinearProgressIndicator(
-                          value: .75,
+                          value: 0.60,
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(0.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -44,7 +45,7 @@ class BodyMetricsScreen extends StatelessWidget {
                     ),
                     SizedBox(width: mq.width(5)),
                     const Text(
-                      '3/4',
+                      '3/5',
                       style: TextStyle(
                         fontSize: 15,
                       ),

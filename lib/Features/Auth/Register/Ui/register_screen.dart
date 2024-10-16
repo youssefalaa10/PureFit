@@ -78,12 +78,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomSizedbox(
-                        height: mq.height(
-                          3,
-                        ),
-                      ), // Assuming CustomSizedbox is a spacing widget
-
                       // Full Name Field
                       Text(
                         "Full Name:",

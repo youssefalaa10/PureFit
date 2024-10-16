@@ -3,14 +3,14 @@ import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Components/back_button.dart';
 
-class FitnessGoalScreen extends StatefulWidget {
-  const FitnessGoalScreen({super.key});
+class AcitivtyLevelScreen extends StatefulWidget {
+  const AcitivtyLevelScreen({super.key});
 
   @override
-  FitnessGoalScreenState createState() => FitnessGoalScreenState();
+  AcitivtyLevelScreenState createState() => AcitivtyLevelScreenState();
 }
 
-class FitnessGoalScreenState extends State<FitnessGoalScreen> {
+class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
   String? _selectedGoal; // Holds the selected radio input value
 
   @override
@@ -61,7 +61,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
               child: LinearProgressIndicator(
-                value: 1,
+                value: 0.80,
                 backgroundColor: ColorManager.greyColor.withOpacity(0.5),
                 valueColor:
                     AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
@@ -69,7 +69,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
               ),
             ),
           ),
-          const Text('5/5'),
+          const Text('4/5'),
         ],
       ),
     );
@@ -79,7 +79,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
     return Column(
       children: [
         Text(
-          "What's Your Goal?",
+          "What's Your Activity Level?",
           style: TextStyle(
             fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,
@@ -152,11 +152,15 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
   Widget buildGoalOptions(CustomMQ mq) {
     return Column(
       children: [
-        _buildGoalOption('Gain Weight', mq),
+        _buildGoalOption('Little/no exercise', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Fat Loss', mq),
+        _buildGoalOption('Light exercise', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Building Muscles', mq),
+        _buildGoalOption('Moderate exercise', mq),
+        SizedBox(height: mq.height(1)),
+        _buildGoalOption('Very active', mq),
+        SizedBox(height: mq.height(1)),
+        _buildGoalOption('Extra active', mq),
       ],
     );
   }

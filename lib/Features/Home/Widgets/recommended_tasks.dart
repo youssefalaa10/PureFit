@@ -6,15 +6,17 @@ import 'package:fitpro/Features/Home/Widgets/shimmerloadingexercises.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../Core/Routing/Routes.dart';
 
-class NewGoalWidget extends StatelessWidget {
-  const NewGoalWidget({super.key});
+class RecommendedTasks extends StatelessWidget {
+  const RecommendedTasks({super.key});
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +25,7 @@ class NewGoalWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Workouts',
+              'Recommended Workouts',
               style:
                   TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
             ),
@@ -39,15 +41,16 @@ class NewGoalWidget extends StatelessWidget {
             if (state is WorkoutProgramsLoading) {
               return Shimmerloadingexercises(mq: mq);
             } else if (state is WorkoutProgramsSuccess) {
+              final filteredPrograms = state.workoutPrograms
+                  .where((program) => program.goals.contains("build muscles"))
+                  .toList();
               return SizedBox(
-                height: mq.height(
-                    29), // Set an appropriate height for the horizontal ListView
+                height: mq.height(29),
                 child: ListView.builder(
-                  scrollDirection:
-                      Axis.horizontal, // Make the ListView scroll horizontally
-                  itemCount: state.workoutPrograms.length,
+                  scrollDirection: Axis.horizontal,
+                  itemCount: filteredPrograms.length,
                   itemBuilder: (context, index) {
-                    final workoutCategory = state.workoutPrograms[index];
+                    final workoutCategory = filteredPrograms[index];
                     return GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
@@ -68,11 +71,74 @@ class NewGoalWidget extends StatelessWidget {
               return Center(child: Text(state.message));
             } else {
               return const Center(
-                  child: Text('Unexpected Error from Workout Category Api'));
+                  child: Text('Unexpected Error from Workout Category API'));
             }
           },
         ),
       ],
+    );
+  }
+
+  // Shimmer effect while loading
+  Widget _buildShimmerLoading(CustomMQ mq) {
+    return SizedBox(
+      height: mq.height(15), // Set the height for the shimmer effect
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 3, // Number of shimmer items to display
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(right: mq.width(4)),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: mq.width(55),
+                padding: EdgeInsets.all(mq.width(4)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(mq.width(4)),
+                  color: Colors.white, // Background color for shimmer
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: mq.height(14),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(mq.width(3)),
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(height: mq.height(1)),
+                    Container(
+                      height: mq.height(2),
+                      width: mq.width(40),
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: mq.height(1)),
+                    Row(
+                      children: [
+                        Container(
+                          height: mq.width(4.5),
+                          width: mq.width(4.5),
+                          color: Colors.white,
+                        ),
+                        SizedBox(width: mq.width(1.25)),
+                        Container(
+                          height: mq.width(3.5),
+                          width: mq.width(10),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 

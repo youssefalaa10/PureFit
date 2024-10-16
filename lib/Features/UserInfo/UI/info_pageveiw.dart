@@ -1,5 +1,7 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Auth/Register/Ui/register_screen.dart';
+import 'package:fitpro/Features/UserInfo/UI/activity_level_screen.dart';
 import 'package:fitpro/Features/UserInfo/UI/body_metrics.dart';
 import 'package:fitpro/Features/UserInfo/UI/fitness_goal_screen.dart';
 import 'package:fitpro/Features/UserInfo/UI/user_age_screen.dart';
@@ -24,7 +26,7 @@ class InfoPageViewState extends State<InfoPageView> {
   }
 
   void _nextPage() {
-    if (_currentPage < 4) {
+    if (_currentPage < 5) {
       _pageController.animateToPage(
         _currentPage + 1,
         duration: const Duration(milliseconds: 300),
@@ -46,6 +48,7 @@ class InfoPageViewState extends State<InfoPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: Column(
         children: [
           Expanded(
@@ -60,13 +63,14 @@ class InfoPageViewState extends State<InfoPageView> {
                 UserGenderScreen(),
                 UserAgeScreen(),
                 BodyMetricsScreen(),
+                AcitivtyLevelScreen(),
                 FitnessGoalScreen(),
                 RegisterScreen(),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -76,7 +80,7 @@ class InfoPageViewState extends State<InfoPageView> {
                         label: "Back",
                       )
                     : const SizedBox.shrink(),
-                _currentPage < 4
+                _currentPage < 5
                     ? CustomButton(
                         onPressed: _nextPage,
                         label: 'Next',

@@ -23,6 +23,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -41,7 +42,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                       child: Padding(
                         padding: EdgeInsets.only(right: screenWidth * 0.05),
                         child: LinearProgressIndicator(
-                          value: 0.5, // 2/3 progress as per your image
+                          value: 0.40, // 2/3 progress as per your image
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -52,10 +53,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                     ),
                     SizedBox(width: screenWidth * 0.05),
                     const Text(
-                      '2/4',
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
+                      '2/5',
                     )
                   ],
                 ),
@@ -96,7 +94,6 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                           selectedAge = index + minAge;
                         });
                         context.read<RegisterCubit>().updateAge(selectedAge);
-                        print(selectedAge);
                       },
                       perspective: 0.003,
                       diameterRatio: 2.0,
