@@ -1,8 +1,10 @@
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
-import '../../../Core/Shared/routes.dart';
 
 class UserGenderScreen extends StatefulWidget {
   const UserGenderScreen({super.key});
@@ -39,9 +41,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
 
               // Spacer to push "Next" button to bottom
               const Spacer(),
-
-              // Section 4: Next Button
-              _buildNextButton(screenHeight, screenWidth),
             ],
           ),
         ),
@@ -57,19 +56,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           // Back button
-          Container(
-            decoration: BoxDecoration(
-              border:
-                  Border.all(color: ColorManager.greyColor.withOpacity(0.5)),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                // Handle back button action
-              },
-            ),
-          ),
+          const CustomBackButton(),
           // Progress indicator
           Expanded(
             child: Padding(
@@ -126,6 +113,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             onTap: () {
               setState(() {
                 selectedGender = AppString.male;
+                context.read<RegisterCubit>().updateGender(selectedGender);
               });
             },
             child: Container(
@@ -154,6 +142,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               setState(() {
                 selectedGender = AppString.female;
               });
+              context.read<RegisterCubit>().updateGender(selectedGender);
             },
             child: Container(
               height: screenHeight * 0.15,
@@ -174,36 +163,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // Section 4: Next Button
-  Widget _buildNextButton(double screenHeight, double screenWidth) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: screenHeight * 0.05),
-      child: ElevatedButton(
-        onPressed: () {
-          // Navigate to the next screen
-          Navigator.pushNamed(context, Routes.userAgeScreen);
-        },
-        style: ElevatedButton.styleFrom(
-          backgroundColor: ColorManager.primaryColor,
-          padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.3,
-            vertical: screenHeight * 0.01,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30),
-          ),
-        ),
-        child: Text(
-          AppString.next,
-          style: TextStyle(
-            fontSize: screenHeight * 0.025,
-            color: Colors.white,
-          ),
-        ),
       ),
     );
   }

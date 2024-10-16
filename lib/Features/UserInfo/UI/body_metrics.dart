@@ -1,8 +1,10 @@
-import 'package:fitpro/Core/Shared/Routes.dart';
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../Core/Components/back_button.dart';
+import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Shared/app_string.dart';
 
@@ -11,46 +13,36 @@ class BodyMetricsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h),
+          padding: EdgeInsets.symmetric(vertical: mq.height(1)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Back button + progress indicator
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorManager.greyColor),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back, color: Colors.black),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    SizedBox(width: 20.w),
+                    const CustomBackButton(),
+                    SizedBox(width: mq.width(5)),
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(right: 20.w),
+                        padding: EdgeInsets.only(right: mq.width(5)),
                         child: LinearProgressIndicator(
                           value: .75,
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(0.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
                               ColorManager.primaryColor),
-                          minHeight: 5.h,
+                          minHeight: mq.height(0.5),
                         ),
                       ),
                     ),
-                    SizedBox(width: 20.w),
+                    SizedBox(width: mq.width(5)),
                     const Text(
                       '3/4',
                       style: TextStyle(
@@ -60,79 +52,41 @@ class BodyMetricsScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20.h),
-
-              // "Tell us your weight" title
+              SizedBox(height: mq.height(2)),
               Text(
                 AppString.tellUsYourWeight,
                 style: TextStyle(
-                  fontSize: 24.sp,
+                  fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10.h),
-
-              // Subtext
+              SizedBox(height: mq.height(1)),
               Text(
                 AppString.helpUsCreateYourPersonalizedPlan,
                 style: TextStyle(
-                  fontSize: 16.sp,
+                  fontSize: mq.width(4),
                   color: ColorManager.greyColor,
                 ),
               ),
-              SizedBox(height: 40.h),
-
-              // Ruler Picker for weight selection
+              SizedBox(height: mq.height(4)),
               const Expanded(
                 flex: 1,
                 child: WeightPicker(),
               ),
-
-              SizedBox(height: 40.h),
-
-              // "Tell us your height" title
+              SizedBox(height: mq.height(4)),
               Text(
                 AppString.tellUsYourHeight,
                 style: TextStyle(
-                  fontSize: 24.sp,
+                  fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(height: 10.h),
-
-              // Ruler Picker for height selection
+              SizedBox(height: mq.height(1)),
               const Expanded(
                 flex: 1,
                 child: HeightPicker(),
-              ),
-
-              // Next button
-              Padding(
-                padding: EdgeInsets.only(bottom: 20.h),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.trackStepsScreen);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: ColorManager.primaryColor,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 80.w,
-                      vertical: 15.h,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text(
-                    AppString.next,
-                    style: TextStyle(
-                      fontSize: 18.sp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
@@ -161,21 +115,20 @@ class WeightPickerState extends State<WeightPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Center(
       child: Column(
         children: [
-          // Display current weight value
           Text(
             '${currentValue.toStringAsFixed(1)} kg',
             style: TextStyle(
-              fontSize: 32.sp,
+              fontSize: mq.width(8),
               fontWeight: FontWeight.bold,
               color: ColorManager.primaryColor,
             ),
           ),
-          SizedBox(height: 20.h),
-
-          // Ruler Picker
+          SizedBox(height: mq.height(2)),
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
             controller: _rulerPickerController!,
@@ -209,13 +162,15 @@ class WeightPickerState extends State<WeightPicker> {
               setState(() {
                 currentValue = value;
               });
+
+              context.read<RegisterCubit>().updateWeight(currentValue.toInt());
             },
             width: MediaQuery.of(context).size.width,
-            height: 80.h,
-            rulerMarginTop: 8.h,
+            height: mq.height(8),
+            rulerMarginTop: mq.height(0.8),
             marker: Container(
-              width: 4.w,
-              height: 50.h,
+              width: mq.width(1),
+              height: mq.height(5),
               decoration: BoxDecoration(
                 color: ColorManager.primaryColor.withAlpha(100),
                 borderRadius: BorderRadius.circular(5),
@@ -247,21 +202,20 @@ class HeightPickerState extends State<HeightPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
     return Center(
       child: Column(
         children: [
-          // Display current height value
           Text(
             '${currentValue.toStringAsFixed(1)} cm',
             style: TextStyle(
-              fontSize: 32.sp,
+              fontSize: mq.width(8),
               fontWeight: FontWeight.bold,
               color: ColorManager.primaryColor,
             ),
           ),
-          SizedBox(height: 20.h),
-
-          // Ruler Picker
+          SizedBox(height: mq.height(2)),
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
             controller: _rulerPickerController!,
@@ -295,13 +249,15 @@ class HeightPickerState extends State<HeightPicker> {
               setState(() {
                 currentValue = value;
               });
+              context.read<RegisterCubit>().updateHeight(currentValue.toInt());
+              print(currentValue.toInt());
             },
             width: MediaQuery.of(context).size.width,
-            height: 80.h,
-            rulerMarginTop: 8.h,
+            height: mq.height(8),
+            rulerMarginTop: mq.height(0.8),
             marker: Container(
-              width: 4.w,
-              height: 50.h,
+              width: mq.width(1),
+              height: mq.height(5),
               decoration: BoxDecoration(
                 color: ColorManager.primaryColor.withAlpha(100),
                 borderRadius: BorderRadius.circular(5),

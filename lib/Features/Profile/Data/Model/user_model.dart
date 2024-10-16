@@ -10,42 +10,42 @@ class UserModel {
   final int userHeight;
   final int userWeight;
   final String gender;
-  final int goalSteps;
-  
+  final String? image;
+
   UserModel({
-      required this.userId,
-      required this.userName,
-      required this.userEmail,
-      required this.age,
-      required this.userHeight,
-      required this.userWeight,
-      required this.gender,
-      required this.goalSteps,
-      });
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    required this.age,
+    required this.userHeight,
+    required this.userWeight,
+    required this.gender,
+    this.image,
+  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'userId': userId,
+      // 'userId': userId,
       'userEmail': userEmail,
       'userName': userName,
       'age': age,
       'userHeight': userHeight,
       'userWeight': userWeight,
       'gender': gender,
-      'goalSteps': goalSteps,
+      'image': image,
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map,String userId) {
+  factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: userId,
+      userId: map['id'],
       userEmail: map['userEmail'] as String,
       userName: map['userName'] as String,
       age: map['age'] as int,
       userHeight: map['userHeight'] as int,
       userWeight: map['userWeight'] as int,
       gender: map['gender'] as String,
-      goalSteps: map['goalSteps'] as int,
+      image: map['image'] as String?,
     );
   }
   // Save the UserModel to SharedPreferences as a JSON string
@@ -61,7 +61,7 @@ class UserModel {
     final userJson = prefs.getString('userModel');
     if (userJson != null) {
       final userMap = jsonDecode(userJson) as Map<String, dynamic>;
-      return UserModel.fromMap(userMap, userMap['userId']);
+      return UserModel.fromMap(userMap);
     }
     return null;
   }
@@ -72,9 +72,9 @@ class UserModel {
     await prefs.remove('userModel');
   }
 
-  
 // Create a copy of a UserModel with updated fields
   UserModel copyWith({
+    String? password,
     String? userId,
     String? userEmail,
     String? userName,
@@ -82,7 +82,7 @@ class UserModel {
     int? userHeight,
     int? userWeight,
     String? gender,
-    int? goalSteps,
+    String? image,
   }) {
     return UserModel(
       userId: userId ?? this.userId,
@@ -92,7 +92,7 @@ class UserModel {
       userHeight: userHeight ?? this.userHeight,
       userWeight: userWeight ?? this.userWeight,
       gender: gender ?? this.gender,
-      goalSteps: goalSteps ?? this.goalSteps,
+      image: image ?? this.image,
     );
   }
 }

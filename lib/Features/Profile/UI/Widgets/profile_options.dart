@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../../../Core/Components/media_query.dart';
+
 
 class ProfileOption extends StatelessWidget {
   final IconData icon;
@@ -16,14 +17,16 @@ class ProfileOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context); 
+
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(vertical: 8.h),
-      leading: Icon(icon, size: 28.sp),
+      contentPadding: EdgeInsets.symmetric(vertical: mq.height(1)), 
+      leading: Icon(icon, size: mq.width(7)), 
       title: Text(
         label,
-        style: TextStyle(fontSize: 18.sp),
+        style: TextStyle(fontSize: mq.width(4.5)), 
       ),
-      trailing: Icon(Icons.arrow_forward_ios, size: 20.sp),
+      trailing: Icon(Icons.arrow_forward_ios, size: mq.width(5)), 
       onTap: onTap,
     );
   }

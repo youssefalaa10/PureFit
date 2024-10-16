@@ -1,0 +1,36 @@
+class Routes {
+  static const String homeScreen = "/homeScreen";
+  static const String trackStepsScreen = "/trackStepsScreen";
+  static const String trackStepsDetailsScreen = "/trackStepsDetailsScreen";
+  static const String userAgeScreen = "/userAgeScreen";
+  static const String userGenderScreen = "/userGenderScreen";
+  static const String bodyMetricsScreen = "/bodyMetricsScreen";
+  static const String profileScreen = "/profileScreen";
+  static const String editProfileScreen = "/editProfileScreen";
+  static const String myPlanScreen = "/myPlanScreen";
+  static const String layoutScreen = "/layoutScreen";
+  static const String caloriesScreen = "/caloriesScreen";
+  static const String detaildCaloriesScreen = "/detaildCaloriesScreen";
+  static const String waterDetails = "/waterDetails";
+  static const String waterScreen = "/waterScreen";
+  static const String sleepScreen = "/sleepScreen";
+  static const String loginScreen = "/loginScreen";
+  static const String registerScreen = "/registerScreen";
+  static const String exerciseScreen = "/exerciseScreen";
+  static const String weeklyExerciseScreen = "/weeklyExerciseScreen";
+  static const String checkToken = "/checkToken";
+  static const String getReadyScreen = "/getReadyScreen";
+  static const String restScreen = "/restScreen";
+  static const String trainingScreen = "/trainingScreen";
+  static const String setAlarm = "/setAlarm";
+  static const String timerPicker = "/timerPicker";
+  static const String waterAddScreen = "/waterAddScreen";
+  static const String infoPageView = "/infoPageView";
+  static const String foodItem = "/foodItem";
+  static const String foodDietScreen = "/foodDietScreen";
+  static const String foodDetialsScreen = "/foodDetialsScreen";
+  static const String forgotPasswordScreen = "/forgotPasswordScreen";
+  static const String verificationScreen = "/verificationScreen";
+  static const String changePasswordScreen = "/changePasswordScreen";
+  static const String fitnessGoalScreen = "/fitnessGoalScreen";
+}
