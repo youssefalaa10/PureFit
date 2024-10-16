@@ -18,6 +18,8 @@ import '../../Features/Auth/Login/Data/Repo/login_repo.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Register/Data/Repo/register_repo.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import '../../Features/Diet/Data/Repo/foods_repo.dart';
+import '../../Features/Diet/Logic/cubit/foods_cubit.dart';
 import '../../Features/Exercises/Data/Repo/exercise_repo.dart';
 import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
 import '../../Features/Exercises/Logic/cubit/workout_programs_cubit.dart';
@@ -25,6 +27,7 @@ import '../../Features/Profile/Data/Repo/profile_repo.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../Networking/Dio/dio_auth_api.dart';
 import '../Networking/Dio/dio_exercise_api.dart';
+import '../Networking/Dio/dio_food_api.dart';
 import '../Networking/Dio/dio_profile_api.dart';
 
 final getIT = GetIt.instance;
@@ -36,6 +39,7 @@ Future<void> setUpGit() async {
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
   getIT.registerLazySingleton<TrackStepsDB>(() => TrackStepsDB());
   getIT.registerLazySingleton<SleepDb>(() => SleepDb());
+  getIT.registerLazySingleton<DioFoodsApi>(() => DioFoodsApi(dio: dio));
 
   getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
   getIT.registerLazySingleton<DioExerciseApi>(() => DioExerciseApi(dio: dio));
@@ -82,4 +86,8 @@ Future<void> setUpGit() async {
 
   getIT.registerLazySingleton<SleepRepo>(() => SleepRepo(db: getIT()));
   getIT.registerFactory<SleepCubit>(() => SleepCubit(getIT()));
+
+  // Food
+  getIT.registerLazySingleton<FoodsRepo>(() => FoodsRepo(dioFoodsApi: getIT()));
+  getIT.registerFactory<FoodsCubit>(() => FoodsCubit(getIT()));
 }

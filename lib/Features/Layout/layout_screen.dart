@@ -1,4 +1,6 @@
 import 'package:fitpro/Core/DI/dependency.dart';
+import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Features/Diet/Logic/cubit/foods_cubit.dart';
 import 'package:fitpro/Features/Diet/UI/food_diet.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
@@ -25,7 +27,10 @@ class LayoutScreenState extends State<LayoutScreen> {
     const HomeScreen(),
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
-    const FoodDietScreen(),
+    BlocProvider(
+      create: (context) => getIT<FoodsCubit>(),
+      child: const FoodDietScreen(),
+    ),
     BlocProvider(
       create: (context) => getIT<ProfileCubit>(),
       child: const ProfileScreen(),
@@ -101,8 +106,8 @@ class LayoutScreenState extends State<LayoutScreen> {
         bottomNavigationBar: SnakeNavigationBar.color(
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor: Colors.blue,
-          selectedItemColor: Colors.blue,
+          snakeViewColor: ColorManager.primaryColor,
+          selectedItemColor: ColorManager.primaryColor,
           unselectedItemColor: Colors.grey,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

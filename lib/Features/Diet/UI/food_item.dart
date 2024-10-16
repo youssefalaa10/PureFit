@@ -25,13 +25,18 @@ class FoodItem extends StatelessWidget {
       color: ColorManager.backGroundColor,
       elevation: 2.0,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: mq.width(3.0), vertical: mq.height(1)),
+        padding: EdgeInsets.symmetric(
+            horizontal: mq.width(3.0), vertical: mq.height(1)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Image.asset(foodImage, height: mq.height(5.0)),
+            Image.network(foodImage,
+                width: mq.width(8.7), height: mq.height(5)),
 
-            CustomSizedbox(height: mq.height(9.0),width: mq.width(5.0),),
+            CustomSizedbox(
+              height: mq.height(9.0),
+              width: mq.width(5.0),
+            ),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,7 +63,7 @@ class FoodItem extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: mq.width(2.0)),
               decoration: BoxDecoration(
-                color: ColorManager.softGreyColor, 
+                color: ColorManager.softGreyColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: DropdownButtonHideUnderline(
@@ -94,7 +99,7 @@ class FoodItem extends StatelessWidget {
                 },
                 backgroundColor: ColorManager.primaryColor, //background color
                 elevation: 5.0,
-                child:  Icon(
+                child: Icon(
                   Icons.add,
                   color: ColorManager.backGroundColor, // Icon color
                 ),

@@ -12,6 +12,7 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
+import '../../Features/Diet/Logic/cubit/foods_cubit.dart';
 import '../../Features/Diet/UI/food_details.dart';
 import '../../Features/Diet/UI/food_diet.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
@@ -217,7 +218,11 @@ class AppRouter {
 
       // FoodDiet ===============================================================
       case Routes.foodDietScreen:
-        return MaterialPageRoute(builder: (_) => const FoodDietScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<FoodsCubit>(),
+                  child: const FoodDietScreen(),
+                ));
 
       // Food Item Screen =======================================================
       // case Routes.foodItem:
