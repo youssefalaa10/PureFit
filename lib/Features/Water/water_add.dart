@@ -77,7 +77,7 @@ class WaterAddState extends State<WaterAdd> {
 
   Widget _buildPageView(CustomMQ mq) {
     return SizedBox(
-      height: mq.height(30), // Adjust height based on custom media query
+      height: mq.height(32), // Adjust height based on custom media query
       width: double.infinity,
       child: PageView.builder(
         controller: _controller,

@@ -35,6 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+
     _nameController = TextEditingController(text: widget.userModel.userName);
     _ageController =
         TextEditingController(text: widget.userModel.age.toString());
@@ -62,7 +63,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
+        backgroundColor: ColorManager.backGroundColor,
         elevation: 0,
         leading: const CustomBackButton(),
         title: Text(
@@ -213,35 +216,37 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
   }
 
   @override
-Widget build(BuildContext context) {
-  final mq = CustomMQ(context);
+  Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
 
-  return Center(
-    child: Stack(
-      children: [
-        CircleAvatar(
-          radius: mq.width(12.5),
-          backgroundImage: _imageFile != null
-              ? FileImage(File(_imageFile!.path))
-              : AssetImage(AppString.profile), // Use the asset image if no file is present
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: CircleAvatar(
-            radius: mq.width(3.75),
-            backgroundColor: Colors.orange,
-            child: IconButton(
-              icon: Icon(Icons.camera_alt, size: mq.width(3.75), color: Colors.white), // Changed to camera icon
-              onPressed: _pickImage,
+    return Center(
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: mq.width(12.5),
+            backgroundImage: _imageFile != null
+                ? FileImage(File(_imageFile!.path))
+                : AssetImage(AppString
+                    .profile), // Use the asset image if no file is present
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: CircleAvatar(
+              radius: mq.width(3.75),
+              backgroundColor: Colors.orange,
+              child: IconButton(
+                icon: Icon(Icons.camera_alt,
+                    size: mq.width(3.75),
+                    color: Colors.white), // Changed to camera icon
+                onPressed: _pickImage,
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 }
 
 class EditableField extends StatelessWidget {

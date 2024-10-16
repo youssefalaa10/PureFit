@@ -28,7 +28,12 @@ class LayoutScreenState extends State<LayoutScreen> {
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
     BlocProvider(
-      create: (context) => getIT<FoodsCubit>(),
+      create: (context) {
+        // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
+        final cubit = getIT<FoodsCubit>();
+        cubit.fetchFoods(); // Fetch the workout programs
+        return cubit;
+      },
       child: const FoodDietScreen(),
     ),
     BlocProvider(
@@ -104,6 +109,7 @@ class LayoutScreenState extends State<LayoutScreen> {
           children: _screens,
         ),
         bottomNavigationBar: SnakeNavigationBar.color(
+          backgroundColor: ColorManager.backGroundColor,
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
           snakeViewColor: ColorManager.primaryColor,

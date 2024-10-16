@@ -10,17 +10,24 @@ class WorkoutProgramsCubit extends Cubit<WorkoutProgramsState> {
   WorkoutProgramsCubit(this.workoutCategoriesRepo)
       : super(WorkoutProgramsInitial());
 
- fetchWorkoutPrograms() async {
+  fetchWorkoutPrograms() async {
     emit(WorkoutProgramsLoading());
     try {
-      final workoutPrograms = await workoutCategoriesRepo.getWorkoutCategories();
+      final workoutPrograms =
+          await workoutCategoriesRepo.getWorkoutCategories();
       if (workoutPrograms != null && workoutPrograms.isNotEmpty) {
-        emit(WorkoutProgramsSuccess(workoutPrograms));
+        if (!isClosed) {
+          emit(WorkoutProgramsSuccess(workoutPrograms));
+        }
       } else {
-        emit(WorkoutProgramsError("No workout programs found"));
+        if (!isClosed) {
+          emit(WorkoutProgramsError("No workout programs found"));
+        }
       }
     } catch (e) {
-      emit(WorkoutProgramsError("Failed to load workout programs: $e"));
+      if (!isClosed) {
+        emit(WorkoutProgramsError("Failed to load workout programs: $e"));
+      }
     }
   }
 }

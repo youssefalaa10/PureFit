@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
@@ -24,6 +25,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
+    
     // Fetching profile data when the widget is initialized
     Future.microtask(() {
       if (mounted) {
@@ -37,7 +39,9 @@ class ProfileScreenState extends State<ProfileScreen> {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
+        
         title: const Text(
           "Profile",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -52,7 +56,7 @@ class ProfileScreenState extends State<ProfileScreen> {
           ),
         ],
         elevation: 0,
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor: ColorManager.backGroundColor,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -196,11 +200,11 @@ class _UserInfoState extends State<UserInfo> {
           final user = state.user;
           return Column(
             children: [
-      CircleAvatar(
+              CircleAvatar(
                 radius: mq.width(12.5),
                 backgroundImage: user.image != null && user.image!.isNotEmpty
                     ? FileImage(File(user.image!))
-                    :  AssetImage(AppString.profile) as ImageProvider,
+                    : AssetImage(AppString.profile) as ImageProvider,
               ),
               // if have server
               //     CircleAvatar(

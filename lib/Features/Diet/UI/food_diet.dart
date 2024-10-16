@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import '../Logic/cubit/foods_cubit.dart';
 import '../Logic/cubit/foods_state.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FoodDietScreen extends StatefulWidget {
   const FoodDietScreen({super.key});
@@ -19,19 +20,25 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
   int selectedTabIndex = 1; // Default to 'Foods' tab
 
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<FoodsCubit>(context).fetchFoods();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: CustomButton(
+          label: "Add to breakfast",
+          onPressed: () {},
+          padding: EdgeInsets.symmetric(
+            vertical: mq.height(1.5),
+            horizontal: mq.width(10),
+          ),
+        ),
         backgroundColor: ColorManager.backGroundColor,
         appBar: AppBar(
+          surfaceTintColor: ColorManager.backGroundColor,
+          toolbarHeight: 40,
+          backgroundColor: ColorManager.backGroundColor,
           title: Text(
             'Food Diet',
             style: TextStyle(
@@ -50,6 +57,7 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: TabBar(
+                  dividerColor: ColorManager.backGroundColor,
                   onTap: (index) {
                     setState(() {
                       selectedTabIndex = index; // Update the selected tab index
@@ -86,8 +94,13 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                 decoration: InputDecoration(
                   hintText: 'Name of food product',
                   prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: ColorManager.lightGreyColor),
+                      borderRadius: BorderRadius.circular(25)),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: ColorManager.primaryColor),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                 ),
               ),
@@ -103,9 +116,8 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                   },
                   builder: (context, state) {
                     if (state is FoodsLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return _buildShimmerLoading(mq);
                     } else if (state is FoodsSuccess) {
-                      
                       return ListView.builder(
                         itemCount: state.foods.length,
                         itemBuilder: (context, index) {
@@ -113,10 +125,10 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                           return Column(
                             children: [
                               FoodItem(
-                                foodImage: food.image, 
+                                foodImage: food.image,
                                 foodName: food.name,
-                                quantity: '100 g', 
-                                calories: '${food.calories} kcal', 
+                                quantity: '100 g',
+                                calories: '${food.calories} kcal',
                               ),
                               CustomSizedbox(height: mq.height(1.0)),
                             ],
@@ -129,17 +141,31 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                   },
                 ),
               ),
-              CustomButton(
-                label: "Add to breakfast",
-                onPressed: () {},
-                padding: EdgeInsets.symmetric(
-                  vertical: mq.height(2),
-                  horizontal: mq.width(20),
-                ),
-              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildShimmerLoading(CustomMQ mq) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: ListView.builder(
+        itemCount: 5, // Show 5 shimmer items
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(vertical: mq.height(1)),
+            child: Container(
+              height: mq.height(10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

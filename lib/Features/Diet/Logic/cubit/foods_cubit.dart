@@ -13,12 +13,18 @@ class FoodsCubit extends Cubit<FoodsState> {
     try {
       final foods = await foodsRepo.getFoods();
       if (foods != null && foods.isNotEmpty) {
-        emit(FoodsSuccess(foods));
+        if (!isClosed) {
+          emit(FoodsSuccess(foods));
+        }
       } else {
-        emit(FoodsError("No foods found"));
+        if (!isClosed) {
+          emit(FoodsError("No foods found"));
+        }
       }
     } catch (e) {
-      emit(FoodsError("Failed to load foods: $e"));
+      if (!isClosed) {
+        emit(FoodsError("Failed to load foods: $e"));
+      }
     }
   }
 }
