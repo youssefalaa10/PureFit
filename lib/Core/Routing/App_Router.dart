@@ -230,11 +230,13 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const FoodItem());
 
       // Food Details Screen ===================================================
-case Routes.foodDetailsScreen:
-  final food = settings.arguments as FoodsModel; // Retrieve FoodsModel object
-  return MaterialPageRoute(
-    builder: (_) => FoodDetailScreen(food: food), // Pass FoodsModel to the screen
-  );
+      case Routes.foodDetailsScreen:
+        final food =
+            settings.arguments as FoodsModel; // Retrieve FoodsModel object
+        return MaterialPageRoute(
+          builder: (_) =>
+              FoodDetailScreen(food: food), // Pass FoodsModel to the screen
+        );
 
       // Change Password =========================================================
       case Routes.changePasswordScreen:

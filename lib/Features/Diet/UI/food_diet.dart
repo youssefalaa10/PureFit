@@ -19,6 +19,19 @@ class FoodDietScreen extends StatefulWidget {
 
 class _FoodDietScreenState extends State<FoodDietScreen> {
   int selectedTabIndex = 1; // Default to 'Foods' tab
+  final TextEditingController _searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    // Fetch foods initially
+    context.read<FoodsCubit>().fetchFoods();
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +105,12 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
           child: Column(
             children: [
               TextField(
+                controller: _searchController,
+                onChanged: (query) {
+                  context
+                      .read<FoodsCubit>()
+                      .searchFoods(query); // Call search method
+                },
                 decoration: InputDecoration(
                   hintText: 'Name of food product',
                   prefixIcon: const Icon(Icons.search),
@@ -119,28 +138,30 @@ class _FoodDietScreenState extends State<FoodDietScreen> {
                     if (state is FoodsLoading) {
                       return _buildShimmerLoading(mq);
                     } else if (state is FoodsSuccess) {
-                    return ListView.builder(
-  itemCount: state.foods.length,
-  itemBuilder: (context, index) {
-    final food = state.foods[index];
-    return Column(
-      children: [
-        FoodItem(
-          foodImage: food.image,
-          foodName: food.name,
-          quantity: '100 g',
-          calories: '${food.calories} kcal',
-          onTap: () {
-            // Navigate to FoodDetailScreen and pass food object
-            Navigator.pushNamed(context, Routes.foodDetailsScreen, arguments: food);
-          },
-           heroTag: 'food_item_${food.id}',
-        ),
-        CustomSizedbox(height: mq.height(1.0)),
-      ],
-    );
-  },
-);
+                      return ListView.builder(
+                        itemCount: state.foods.length,
+                        itemBuilder: (context, index) {
+                          final food = state.foods[index];
+                          return Column(
+                            children: [
+                              FoodItem(
+                                foodImage: food.image,
+                                foodName: food.name,
+                                quantity: '100 g',
+                                calories: '${food.calories} kcal',
+                                onTap: () {
+                                  // Navigate to FoodDetailScreen and pass food object
+                                  Navigator.pushNamed(
+                                      context, Routes.foodDetailsScreen,
+                                      arguments: food);
+                                },
+                                heroTag: 'food_item_${food.id}',
+                              ),
+                              CustomSizedbox(height: mq.height(1.0)),
+                            ],
+                          );
+                        },
+                      );
                     } else {
                       return const Center(child: Text('No foods found'));
                     }
