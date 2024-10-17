@@ -142,9 +142,10 @@ class LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: mq.height(2)),
 
                           // Remember me Checkbox
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Remember me Checkbox
                               Row(
                                 children: [
                                   Checkbox(
@@ -162,14 +163,18 @@ class LoginScreenState extends State<LoginScreen> {
                                 ],
                               ),
                               // Forgot Password Button
-                              TextButton(
-                                onPressed: () {
-                                  // Forgot password action
-                                },
-                                child: Text(
-                                  'Forgot password?',
-                                  style:
-                                      TextStyle(color: ColorManager.greyColor),
+                              Align(
+                                alignment: Alignment
+                                    .centerRight, // Align the Forgot password to the right
+                                child: TextButton(
+                                  onPressed: () {
+                                    // Forgot password action
+                                  },
+                                  child: Text(
+                                    'Forgot password?',
+                                    style: TextStyle(
+                                        color: ColorManager.greyColor),
+                                  ),
                                 ),
                               ),
                             ],
