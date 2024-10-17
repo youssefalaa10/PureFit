@@ -114,7 +114,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             onTap: () {
               setState(() {
                 selectedGender = AppString.male;
-                context.read<RegisterCubit>().updateGender(selectedGender);
+                context.read<RegisterCubit>().gender = selectedGender;
               });
             },
             child: Container(
@@ -143,7 +143,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               setState(() {
                 selectedGender = AppString.female;
               });
-              context.read<RegisterCubit>().updateGender(selectedGender);
+              context.read<RegisterCubit>().gender = selectedGender;
             },
             child: Container(
               height: screenHeight * 0.15,

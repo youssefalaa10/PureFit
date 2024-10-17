@@ -196,7 +196,8 @@ class _UserInfoState extends State<UserInfo> {
             ),
           );
         } else if (state is ProfileSuccess) {
-          final imageFile = File(state.user.image!);
+          final user = state.user;
+          final imageFile = File(user.image!);
           return Column(
             children: [
               CircleAvatar(

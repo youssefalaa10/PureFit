@@ -194,15 +194,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomButton(
                         label: "Sign Up",
                         onPressed: () {
-                          context
-                              .read<RegisterCubit>()
-                              .updatePassword(passwordController.text);
-                          context
-                              .read<RegisterCubit>()
-                              .updateUserEmail(emailController.text);
-                          context
-                              .read<RegisterCubit>()
-                              .updateUserName(userController.text);
+                          context.read<RegisterCubit>().password =
+                              (passwordController.text);
+
+                          context.read<RegisterCubit>().userEmail =
+                              (emailController.text);
+                          context.read<RegisterCubit>().userName =
+                              (userController.text);
                           validateThenDoSignup(context);
                         },
                         fontSize: mq.width(5.0),
