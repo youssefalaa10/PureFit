@@ -1,4 +1,5 @@
-import 'package:fitpro/Features/Auth/Verifiy/UI/change_password.dart';
+import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:fitpro/Core/Routing/routes.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Core/Components/custom_button.dart';
@@ -15,50 +16,44 @@ class VerificationScreen extends StatefulWidget {
 class _VerificationScreenState extends State<VerificationScreen> {
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Verify Password"),
-      ),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.symmetric(
+              horizontal: mq.width(5), vertical: mq.height(10)),
           child: Column(
             children: [
-              Image.asset(
-                "assets/images/logo.png",
-                height: 200,
-              ),
-              const SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Verification",
                   style: TextStyle(
-                    fontSize: 35,
-                    color:ColorManager.primaryColor,
+                    fontSize: mq.width(11),
+                    color: ColorManager.primaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: mq.height(2.0)),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "we send code to your email, check it",
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: mq.width(4.5),
                     color: ColorManager.lightGreyColor,
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: mq.height(5)),
               OtpTextField(
-                numberOfFields: 5,
+                numberOfFields: 4,
                 fieldWidth: 65,
-                borderColor: const Color(0xFF512DA8),
+                borderColor: ColorManager.primaryColor,
                 borderRadius: BorderRadius.circular(20),
-                cursorColor: Colors.purple,
+                cursorColor: ColorManager.primaryColor,
                 //set to true to show as box or false to show as dash
                 showFieldAsBox: true,
                 //runs when a code is typed in
@@ -77,29 +72,28 @@ class _VerificationScreenState extends State<VerificationScreen> {
                       });
                 }, // end onSubmit
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: mq.height(5)),
               CustomButton(
                   label: "Continue",
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ChangePasswordScreen(), // Navigate to ChangePasswordScreen
-                      ),
-                    );
-                  }),
-              const SizedBox(height: 20),
-              /*
-                  Text(
-                    "Resend Code",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black45,
-                    ),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: mq.width(20),
+                    vertical: mq.height(2),
                   ),
-                  */
+                  onPressed: () {
+                    Navigator.pushNamed(context, Routes.changePasswordScreen);
+                  }),
+              SizedBox(height: mq.height(2)),
+              TextButton(
+                child: Text(
+                  "Resend Code",
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: mq.width(4.5),
+                    color: Colors.black45,
+                  ),
+                ),
+                onPressed: () {},
+              ),
             ],
           ),
         ),
