@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Diet/Data/Model/foods_model.dart';
 
+import '../../Data/Model/diet_model.dart';
 import '../../Data/Repo/foods_repo.dart';
 import 'foods_state.dart';
 
 class FoodsCubit extends Cubit<FoodsState> {
   final FoodsRepo foodsRepo;
-  List<FoodsModel> allFoods = []; // Store all foods
-  List<FoodsModel> filteredFoods = []; // Store filtered foods
+  List<DietModel> allFoods = []; // Store all foods
+  List<DietModel> filteredFoods = []; // Store filtered foods
   FoodsCubit(this.foodsRepo) : super(FoodsInitial());
 
   fetchFoods() async {

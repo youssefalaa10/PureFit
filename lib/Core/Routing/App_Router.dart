@@ -12,10 +12,9 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
-import '../../Features/Diet/Data/Model/foods_model.dart';
-import '../../Features/Diet/Logic/cubit/foods_cubit.dart';
-import '../../Features/Diet/UI/food_details.dart';
-import '../../Features/Diet/UI/food_diet.dart';
+import '../../Features/Diet/Data/Model/diet_model.dart';
+
+import '../../Features/Diet/UI/diet_detials_screen.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
 import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
@@ -218,24 +217,19 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TimerPickerScreen());
 
       // FoodDiet ===============================================================
-      case Routes.foodDietScreen:
-        return MaterialPageRoute(
-            builder: (_) => BlocProvider(
-                  create: (context) => getIT<FoodsCubit>(),
-                  child: const FoodDietScreen(),
-                ));
-
-      // Food Item Screen =======================================================
+      // case Routes.foodDietScreen:
+      //   return MaterialPageRoute(
+      //       builder: (_) => const DietScreen()); //in laDietScreen// Food Item Screen =========================DietModel====================
       // case Routes.foodItem:
       //   return MaterialPageRoute(builder: (_) => const FoodItem());
 
       // Food Details Screen ===================================================
-      case Routes.foodDetailsScreen:
-        final food =
-            settings.arguments as FoodsModel; // Retrieve FoodsModel object
+      case Routes.detailsScreen:
+        final dietItems =
+            settings.arguments as DietModel; // Retrieve FoodsModel object
         return MaterialPageRoute(
-          builder: (_) =>
-              FoodDetailScreen(food: food), // Pass FoodsModel to the screen
+          builder: (_) => DetailScreen(
+              dietItem: dietItems), // Pass FoodsModel to the screen
         );
 
       // Change Password =========================================================

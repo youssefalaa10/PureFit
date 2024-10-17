@@ -1,14 +1,14 @@
-import 'package:fitpro/Features/Diet/Data/Model/foods_model.dart';
 
-abstract class FoodsState {
-}
+import '../../Data/Model/diet_model.dart';
+
+abstract class FoodsState {}
 
 class FoodsInitial extends FoodsState {}
 
 class FoodsLoading extends FoodsState {}
 
 class FoodsSuccess extends FoodsState {
-  final List<FoodsModel> foods;
+  final List<DietModel> foods;
 
   FoodsSuccess(this.foods);
 }
@@ -18,4 +18,3 @@ class FoodsError extends FoodsState {
 
   FoodsError(this.message);
 }
-

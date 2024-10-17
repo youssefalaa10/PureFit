@@ -9,4 +9,5 @@ class ApiConstans {
   static String apiExercise = "/api/exercises/";
   static String apiWorkoutCategories = "/api/categories";
   static String apiFoods = "/api/foods";
+  static String apiDrinks = "/api/drinks";
 }

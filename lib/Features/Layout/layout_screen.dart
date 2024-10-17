@@ -1,7 +1,7 @@
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Diet/Logic/cubit/foods_cubit.dart';
-import 'package:fitpro/Features/Diet/UI/food_diet.dart';
+import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
+import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+
+import '../Diet/UI/diet_screen.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -27,14 +29,26 @@ class LayoutScreenState extends State<LayoutScreen> {
     const HomeScreen(),
     const MyPlanScreen(),
     const WeeklyExerciseScreen(),
-    BlocProvider(
-      create: (context) {
-        // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
-        final cubit = getIT<FoodsCubit>();
-        cubit.fetchFoods(); // Fetch the workout programs
-        return cubit;
-      },
-      child: const FoodDietScreen(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
+            final cubit = getIT<FoodsCubit>();
+            cubit.fetchFoods(); // Fetch the workout programs
+            return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            final cubit = getIT<DrinksCubit>();
+            cubit.fetchDrinks();
+            return cubit;
+          },
+
+        ),
+      ],
+      child: const DietScreen(),
     ),
     BlocProvider(
       create: (context) => getIT<ProfileCubit>(),
