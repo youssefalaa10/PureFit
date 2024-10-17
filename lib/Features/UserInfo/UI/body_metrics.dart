@@ -164,7 +164,7 @@ class WeightPickerState extends State<WeightPicker> {
                 currentValue = value;
               });
 
-              context.read<RegisterCubit>().updateWeight(currentValue.toInt());
+              context.read<RegisterCubit>().userWeight = currentValue.toInt();
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),
@@ -250,8 +250,7 @@ class HeightPickerState extends State<HeightPicker> {
               setState(() {
                 currentValue = value;
               });
-              context.read<RegisterCubit>().updateHeight(currentValue.toInt());
-              print(currentValue.toInt());
+              context.read<RegisterCubit>().userHeight = currentValue.toInt();
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),

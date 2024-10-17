@@ -1,4 +1,6 @@
+import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Components/back_button.dart';
@@ -105,6 +107,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
         setState(() {
           _selectedGoal = title;
         });
+        context.read<RegisterCubit>().goal = _selectedGoal;
       },
       child: Container(
         padding: EdgeInsets.all(mq.height(.8)),

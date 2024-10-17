@@ -93,7 +93,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         setState(() {
                           selectedAge = index + minAge;
                         });
-                        context.read<RegisterCubit>().updateAge(selectedAge);
+                        context.read<RegisterCubit>().age = selectedAge;
                       },
                       perspective: 0.003,
                       diameterRatio: 2.0,
