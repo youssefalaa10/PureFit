@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Core/Components/custom_button.dart';
@@ -17,54 +18,56 @@ final TextEditingController _codeNumberController = TextEditingController();
 final TextEditingController _confirmCodeController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final mq=CustomMQ(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Change Password"),
-      ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding:  EdgeInsets.symmetric(vertical: mq.height(10),horizontal: mq.width(5)),
           width: double.infinity,
           height: double.infinity,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(
-                "assets/images/logo.png",
-                height: 100,
-              ),
-              const SizedBox(height: 20),
               Text(
                 "Change Password!",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 35,
+                  fontSize: mq.width(10),
                   color:ColorManager.primaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 20),
+               SizedBox(height: mq.height(2)),
                Text(
                 "Enter your new password",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: mq.height(3),
                   color: ColorManager.lightGreyColor,
                 ),
               ),
-              const SizedBox(height: 20),
+               SizedBox(height: mq.height(3)),
               CustomTextField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Please enter a password!';
+                    }
+                  },
                   controller: _codeNumberController,
                   textInput: TextInputType.number,
                   isPassword: true,
                   hintText: "Enter your new password"),
-              const SizedBox(height: 20),
+               SizedBox(height: mq.height(3)),
               CustomTextField(
                   controller: _confirmCodeController,
                   textInput: TextInputType.number,
                   isPassword: true,
                   hintText: "Confirm your new password"),
-              const SizedBox(height: 20),
-              CustomButton(label: "Continue", onPressed: (){}),
+               SizedBox(height: mq.height(3)),
+              CustomButton(label: "Continue", onPressed: (){},    padding: EdgeInsets.symmetric(
+                    horizontal: mq.width(20),
+                    vertical: mq.height(2),
+                  ),),
             ],
           ),
         ),

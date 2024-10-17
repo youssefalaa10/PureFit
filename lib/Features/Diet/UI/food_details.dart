@@ -29,10 +29,15 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         elevation: 0,
         leading: const CustomBackButton(),
         actions: [
+            IconButton(
+            icon: const Icon(Icons.favorite_outline, color: Colors.black),
+            onPressed: () {},
+          ),
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
             onPressed: () {},
           ),
+        
         ],
       ),
       body: SingleChildScrollView(
