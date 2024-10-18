@@ -8,6 +8,7 @@ import '../../../Core/Components/custom_sizedbox.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import 'widgets/drinks_view.dart';
+import 'widgets/favorite_view.dart';
 import 'widgets/foods_view.dart';
 
 class DietScreen extends StatefulWidget {
@@ -126,7 +127,7 @@ class _DietScreenState extends State<DietScreen> {
                   children: [
                     foodsView(),
                     drinksView(),
-                    Container(),
+                    favoriteView()
                   ],
                 ),
               ),

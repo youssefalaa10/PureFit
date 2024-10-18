@@ -1,25 +1,54 @@
-class FavoritesModel {
-  final List<String> favoriteFoods; // List of food IDs
-  final List<String> favoriteDrinks; // List of drink IDs
+import 'base_diet_model.dart';
 
-  FavoritesModel({
-    required this.favoriteFoods,
-    required this.favoriteDrinks,
+class FavoriteModel implements BaseDietModel {
+  @override
+  final String id;
+  int? localId;
+  @override
+  final String name;
+  @override
+  final int calories;
+  @override
+  final double protein;
+  @override
+  final double fats;
+  @override
+  final String image;
+  
+  // Use a constructor parameter to determine if it's a favorite
+  @override
+  final bool isFavorite; // Now this holds the actual favorite state
+
+  FavoriteModel({
+    this.localId,
+    required this.id,
+    required this.name,
+    required this.calories,
+    required this.protein,
+    required this.fats,
+    required this.image,
+    required this.isFavorite, // Capture the isFavorite state
   });
 
-  // Factory method to create a FavoritesModel object from JSON
-  factory FavoritesModel.fromJson(Map<String, dynamic> json) {
-    return FavoritesModel(
-      favoriteFoods: List<String>.from(json["favoriteFoods"] ?? []),
-      favoriteDrinks: List<String>.from(json["favoriteDrinks"] ?? []),
-    );
-  }
+  factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
+        id: json['id'], // Auto-generated
+        localId: json['localId'],
+        name: json["name"],
+        calories: json["calories"],
+        protein: (json["protein"] is int) ? (json["protein"] as int).toDouble() : json["protein"] as double,
+        fats: (json["fats"] is int) ? (json["fats"] as int).toDouble() : json["fats"] as double,
+        image: json["image"], 
+        isFavorite: json['isFavorite'] == 1, // Convert 1 or 0 to boolean
+      );
 
-  // Method to convert a FavoritesModel object to JSON
-  Map<String, dynamic> toJson() {
-    return {
-      "favoriteFoods": favoriteFoods,
-      "favoriteDrinks": favoriteDrinks,
-    };
-  }
+  @override
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "calories": calories,
+        "protein": protein,
+        "fats": fats,
+        "image": image,
+        "isFavorite": isFavorite ? 1 : 0,
+      };
 }

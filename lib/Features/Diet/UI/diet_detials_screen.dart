@@ -1,15 +1,18 @@
-import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Features/Diet/Data/Model/favorites_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../Data/Model/diet_model.dart';
+import '../Data/Model/base_diet_model.dart';
+
+import '../Logic/favorite_cubit/favorite_cubit.dart';
 
 class DetailScreen extends StatefulWidget {
-  final DietModel dietItem;
+  final BaseDietModel dietItem;
   const DetailScreen({super.key, required this.dietItem});
 
   @override
@@ -28,11 +31,44 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        leading: const CustomBackButton(),
+        leading: IconButton(
+            onPressed: () {
+              // sendToApi();
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.favorite_outline, color: Colors.black),
-            onPressed: () {},
+          BlocBuilder<FavoriteCubit, FavoriteState>(
+            builder: (context, state) {
+              bool isFavorite = (dietItem.isFavorite);
+              print('isFavorite: ${isFavorite}');
+              print('dietItem: ${dietItem.isFavorite}');
+              print('ssssssssssssssssssssssssss');
+              return IconButton(
+                icon: Icon(
+                  isFavorite ? Icons.favorite : Icons.favorite_outline,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  print('dietItemId: ${dietItem.id}');
+
+                  // Toggle favorite status when pressed
+                  context.read<FavoriteCubit>().toggleFavorite(
+                        dietItem.id,
+                        FavoriteModel(
+                          id: dietItem.id,
+                          name: dietItem.name,
+                          calories: dietItem.calories,
+                          protein: dietItem.protein,
+                          fats: dietItem.fats,
+                          image: dietItem.image,
+                          isFavorite: dietItem.isFavorite,
+                        ),
+                        dietItem.isFavorite,
+                      );
+                },
+              );
+            },
           ),
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -45,7 +81,6 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // dietItem Title and Brand
             Center(
               child: Text(
                 dietItem.name,
@@ -57,24 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
             ),
-            // CustomSizedbox(
-            //   height: mq.height(2.0),
-            // ),
-            // Center(
-            //   child: Text(
-            //     'McDonald\'s',
-            //     textAlign: TextAlign.center,
-            //     style: TextStyle(
-            //       fontSize: mq.width(4.0),
-            //       color: ColorManager.greyColor,
-            //     ),
-            //   ),
-            // ),
-            CustomSizedbox(
-              height: mq.height(2.0),
-            ),
-
-            // dietItem Image
+            CustomSizedbox(height: mq.height(2.0)),
             Center(
               child: Image.network(
                 dietItem.image,
@@ -82,11 +100,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 width: mq.width(50.0),
               ),
             ),
-            CustomSizedbox(
-              height: mq.height(2.0),
-            ),
-
-            // Nutritional Information
+            CustomSizedbox(height: mq.height(2.0)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -107,22 +121,16 @@ class _DetailScreenState extends State<DetailScreen> {
                 }),
               ],
             ),
-            CustomSizedbox(
-              height: mq.height(5.0),
-            ),
+            CustomSizedbox(height: mq.height(5.0)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _buildNutritionData('kcal', '${dietItem.calories}', mq),
                 _buildNutritionData('Fat', '${dietItem.fats}', mq),
-                // _buildNutritionData('Carbs', '${dietItem.protein}',mq),
                 _buildNutritionData('Protein', '${dietItem.protein}', mq),
               ],
             ),
-            CustomSizedbox(
-              height: mq.height(3.0),
-            ),
-            // "Add Meal" Button
+            CustomSizedbox(height: mq.height(3.0)),
             Center(
               child: CustomButton(
                 label: "Add meal",
