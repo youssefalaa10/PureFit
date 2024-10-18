@@ -25,9 +25,9 @@ class Routes {
   static const String timerPicker = "/timerPicker";
   static const String waterAddScreen = "/waterAddScreen";
   static const String infoPageView = "/infoPageView";
-  static const String foodItem = "/foodItem";
-  static const String foodDietScreen = "/foodDietScreen";
-  static const String foodDetailsScreen = "/foodDetialsScreen";
+  static const String dietItem = "/dietItem";
+  static const String dietScreen = "/dietScreen";
+  static const String detailsScreen = "/detialsScreen";
   static const String forgotPasswordScreen = "/forgotPasswordScreen";
   static const String verificationScreen = "/verificationScreen";
   static const String changePasswordScreen = "/changePasswordScreen";

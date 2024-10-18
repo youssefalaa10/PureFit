@@ -1,4 +1,4 @@
-class FoodsModel {
+class DietModel {
   final String id;
   final String name;
   final int calories;
@@ -6,7 +6,7 @@ class FoodsModel {
   final double fats;
   final String image;
 
-  FoodsModel({
+  DietModel({
     required this.id,
     required this.name,
     required this.calories,
@@ -16,14 +16,18 @@ class FoodsModel {
   });
 
   // Factory method to create a Food object from JSON
-  factory FoodsModel.fromJson(Map<String, dynamic> json) {
-    return FoodsModel(
+  factory DietModel.fromJson(Map<String, dynamic> json) {
+    return DietModel(
       id: json["_id"],
       name: json["name"],
       calories: json["calories"],
       // Cast to double if the API returns int
-      protein: (json["protein"] is int) ? (json["protein"] as int).toDouble() : json["protein"] as double,
-      fats: (json["fats"] is int) ? (json["fats"] as int).toDouble() : json["fats"] as double,
+      protein: (json["protein"] is int)
+          ? (json["protein"] as int).toDouble()
+          : json["protein"] as double,
+      fats: (json["fats"] is int)
+          ? (json["fats"] as int).toDouble()
+          : json["fats"] as double,
       image: json["image"],
     );
   }

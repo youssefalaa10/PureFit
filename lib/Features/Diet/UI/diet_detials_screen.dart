@@ -3,19 +3,20 @@ import 'package:fitpro/Core/Components/custom_button.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Diet/Data/Model/foods_model.dart';
 
 import 'package:flutter/material.dart';
 
-class FoodDetailScreen extends StatefulWidget {
-  final FoodsModel food;
-  const FoodDetailScreen({super.key, required this.food});
+import '../Data/Model/diet_model.dart';
+
+class DetailScreen extends StatefulWidget {
+  final DietModel dietItem;
+  const DetailScreen({super.key, required this.dietItem});
 
   @override
-  State<FoodDetailScreen> createState() => _FoodDetailScreenState();
+  State<DetailScreen> createState() => _DetailScreenState();
 }
 
-class _FoodDetailScreenState extends State<FoodDetailScreen> {
+class _DetailScreenState extends State<DetailScreen> {
   bool isPressed1 = false;
   bool isPressed2 = false;
   bool isPressed3 = false;
@@ -23,13 +24,13 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-    final food = widget.food;
+    final dietItem = widget.dietItem;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
         actions: [
-            IconButton(
+          IconButton(
             icon: const Icon(Icons.favorite_outline, color: Colors.black),
             onPressed: () {},
           ),
@@ -37,7 +38,6 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             icon: const Icon(Icons.more_vert, color: Colors.black),
             onPressed: () {},
           ),
-        
         ],
       ),
       body: SingleChildScrollView(
@@ -45,10 +45,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Food Title and Brand
+            // dietItem Title and Brand
             Center(
               child: Text(
-                food.name,
+                dietItem.name,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: mq.width(7.0),
@@ -74,10 +74,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
               height: mq.height(2.0),
             ),
 
-            // Food Image
+            // dietItem Image
             Center(
               child: Image.network(
-                food.image,
+                dietItem.image,
                 height: mq.height(30.0),
                 width: mq.width(50.0),
               ),
@@ -113,10 +113,10 @@ class _FoodDetailScreenState extends State<FoodDetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNutritionData('kcal', '${food.calories}', mq),
-                _buildNutritionData('Fat', '${food.fats}', mq),
-                // _buildNutritionData('Carbs', '${food.protein}',mq),
-                _buildNutritionData('Protein', '${food.protein}', mq),
+                _buildNutritionData('kcal', '${dietItem.calories}', mq),
+                _buildNutritionData('Fat', '${dietItem.fats}', mq),
+                // _buildNutritionData('Carbs', '${dietItem.protein}',mq),
+                _buildNutritionData('Protein', '${dietItem.protein}', mq),
               ],
             ),
             CustomSizedbox(
