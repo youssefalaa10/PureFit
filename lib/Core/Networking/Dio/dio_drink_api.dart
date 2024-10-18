@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../Shared/api_constans.dart';
+import '../../Shared/api_constants.dart';
 
 class DioDrinksApi {
   final Dio _dio;
@@ -11,7 +11,7 @@ class DioDrinksApi {
   Future<List<Map<String, dynamic>>?> getDrinks() async {
     try {
       final response = await _dio.get(
-        "${ApiConstans.baseUrl}${ApiConstans.apiDrinks}", 
+        "${ApiConstants.baseUrl}${ApiConstants.apiDrinks}",
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -26,8 +26,7 @@ class DioDrinksApi {
         return data.map((e) => e as Map<String, dynamic>).toList();
       } else {
         if (kDebugMode) {
-          print(
-              "Error fetching drinks: Status Code ${response.statusCode}");
+          print("Error fetching drinks: Status Code ${response.statusCode}");
         }
       }
     } catch (e) {
