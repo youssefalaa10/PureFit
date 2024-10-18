@@ -1,0 +1,135 @@
+import 'dart:async';
+
+import 'package:bloc/bloc.dart';
+import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
+part 'training_cubit_state.dart';
+
+
+class TrainingCubitCubit extends Cubit<TrainingCubitState> {
+  List<ExerciseModel>? passExercises;
+  Timer? _timer;
+  int currentExercise = 0;
+  final int getReadyDuration = 3;
+  final int exerciseDuration = 10;
+  int restDuration = 15; // Can be modified dynamically
+  bool isPaused = false; // Pause flag
+  int? remainingTime; // Remaining time to continue from when paused
+  EnumTrainingStage? currentStage; // Store the current stage
+
+  TrainingCubitCubit(List<ExerciseModel> exercises)
+      : super(TrainingInitial()) {
+    passExercises = exercises;
+  }
+
+  // Start the stages
+  void startExerciseRoutine() {
+    if (passExercises != null && passExercises!.isNotEmpty) {
+      _startGetReadyStage();
+    } else {
+      emit(TrainingError("No exercises available"));
+    }
+  }
+
+  // Start Get Ready Stage and First Stage
+  void _startGetReadyStage() {
+    currentStage = EnumTrainingStage.getReady;
+    _startTimer(getReadyDuration, _startExerciseStage);
+  }
+
+  // Start Exercise Stage and This is Second Stage
+  void _startExerciseStage() {
+    currentStage = EnumTrainingStage.start;
+    _startTimer(exerciseDuration, _startRestStage);
+  }
+
+  // Start Rest Stage and This Third Stage
+  void _startRestStage() {
+    currentStage = EnumTrainingStage.rest;
+    _startTimer(restDuration, _nextExercise);
+  }
+
+  // Move to the next exercise
+  void _nextExercise() {
+    currentExercise++;
+    if (currentExercise < (passExercises?.length ?? 0)) {
+      _startGetReadyStage(); // Start the next exercise
+    } else {
+      _timer?.cancel();
+      emit(TrainingCompleted());
+    }
+  }
+
+  // Start Timer with specified duration
+  void _startTimer(int duration, Function onComplete) {
+    _timer?.cancel();
+    remainingTime = duration;
+    emit(TrainingStage(currentStage!, currentExercise, remainingTime!));
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (isPaused) {
+        return;
+      }
+      remainingTime = remainingTime! - 1;
+      emit(TrainingStage(currentStage!, currentExercise, remainingTime!));
+
+      if (remainingTime == 0) {
+        timer.cancel();
+        onComplete();
+      }
+    });
+  }
+
+  // Pause the routine
+  void pauseRoutine() {
+    isPaused = true;
+  }
+
+  // Resume the routine
+  void resumeRoutine() {
+    isPaused = false;
+    // Use the remaining time for the timer
+    _startTimer(remainingTime!, () {
+      if (currentStage == EnumTrainingStage.getReady) {
+        _startExerciseStage();
+      } else if (currentStage == EnumTrainingStage.start) {
+        _startRestStage();
+      } else if (currentStage == EnumTrainingStage.rest) {
+        _nextExercise();
+      }
+    });
+  }
+
+  // Skip Get Ready Stage
+  void skipGetReady() {
+    if (currentStage == EnumTrainingStage.getReady) {
+      _timer?.cancel();
+      _startExerciseStage();
+    }
+  }
+
+  // Skip Rest Stage
+  void skipRest() {
+    if (currentStage == EnumTrainingStage.rest) {
+      _timer?.cancel();
+      _nextExercise();
+    }
+  }
+
+  // Add extra time to rest
+  void addRestTime(int extraSeconds) {
+    restDuration += extraSeconds;
+    if (currentStage == EnumTrainingStage.rest) {
+      // Restart rest timer with new duration if currently in rest stage
+      _timer?.cancel();
+      _startRestStage();
+    }
+  }
+
+  // Cancel the timer when the cubit is closed
+  @override
+  Future<void> close() {
+    _timer?.cancel();
+    return super.close();
+  }
+}
+
