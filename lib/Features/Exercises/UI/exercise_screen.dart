@@ -78,7 +78,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       onPressed: () {
         final state = context.read<ExerciseCubit>().passExercises;
 
-        Navigator.pushNamed(context, Routes.getReadyScreen, arguments: state);
+        Navigator.pushNamed(context, Routes.trainingScreen, arguments: state);
       },
       backgroundColor: ColorManager.primaryColor,
       padding: EdgeInsets.symmetric(

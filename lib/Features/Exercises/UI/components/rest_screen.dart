@@ -1,14 +1,16 @@
 import 'dart:async';
 
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
 import 'package:flutter/material.dart';
-
-import '../../../Core/Components/media_query.dart';
-import '../Data/Model/exercise_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestScreen extends StatefulWidget {
-     final List<ExerciseModel> exercises;
-  const RestScreen({super.key, required this.exercises});
+  final List<ExerciseModel> exercises;
+  final int index;
+  const RestScreen({super.key, required this.exercises, required this.index});
 
   @override
   _RestScreenState createState() => _RestScreenState();
@@ -16,13 +18,14 @@ class RestScreen extends StatefulWidget {
 
 class _RestScreenState extends State<RestScreen> {
   late CustomMQ mq;
-  int countdownValue = 30;
+  int countdownValue = 1;
   Timer? countdownTimer;
 
   @override
   void initState() {
     super.initState();
     startCountdown();
+    countdownValue = context.read<TrainingCubitCubit>().restDuration;
   }
 
   @override
@@ -33,26 +36,14 @@ class _RestScreenState extends State<RestScreen> {
 
   void startCountdown() {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (countdownValue > 0) {
+      if (countdownValue > 1) {
         setState(() {
           countdownValue--;
         });
       } else {
         timer.cancel();
-        // Navigate to the next screen or action.
       }
     });
-  }
-
-  void addTime() {
-    setState(() {
-      countdownValue += 20;
-    });
-  }
-
-  void skipTimer() {
-    countdownTimer?.cancel();
-    // Navigate to the next screen or action.
   }
 
   @override
@@ -60,6 +51,7 @@ class _RestScreenState extends State<RestScreen> {
     mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
         title: const Text('Rest Screen', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
@@ -74,13 +66,26 @@ class _RestScreenState extends State<RestScreen> {
             RestTimerSection(
               mq: mq,
               countdownValue: countdownValue,
-              onAddTime: addTime,
-              onSkip: skipTimer,
+              onAddTime: () {
+                setState(() {
+                  context.read<TrainingCubitCubit>().addRestTime(20);
+                  countdownValue =
+                      context.read<TrainingCubitCubit>().restDuration;
+                });
+              },
+              onSkip: () {
+                context.read<TrainingCubitCubit>().skipRest();
+              },
             ),
             SizedBox(height: mq.height(5)),
-            NextExerciseSection(mq: mq),
+            NextExerciseSection(
+                index: widget.index, exercises: widget.exercises, mq: mq),
             SizedBox(height: mq.height(3)),
-            ExerciseImageSection(mq: mq, exercises: widget.exercises,),
+            ExerciseImageSection(
+              index: widget.index,
+              mq: mq,
+              exercises: widget.exercises,
+            ),
           ],
         ),
       ),
@@ -169,41 +174,48 @@ class RestTimerSection extends StatelessWidget {
 
 class NextExerciseSection extends StatelessWidget {
   final CustomMQ mq;
-
-  const NextExerciseSection({super.key, required this.mq});
+  final List<ExerciseModel> exercises;
+  final int index;
+  const NextExerciseSection(
+      {super.key,
+      required this.mq,
+      required this.exercises,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Next',
-              style: TextStyle(
-                fontSize: mq.height(2),
-                fontWeight: FontWeight.w400,
-                color: Colors.grey,
+        // The column that contains 'Next' and the exercise name
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Next',
+                style: TextStyle(
+                  fontSize: mq.height(2),
+                  fontWeight: FontWeight.w400,
+                  color: Colors.grey,
+                ),
               ),
-            ),
-            Text(
-              'Jumping Jack',
-              style: TextStyle(
-                fontSize: mq.height(3),
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        Text(
-          'x 5',
-          style: TextStyle(
-            fontSize: mq.height(3),
-            fontWeight: FontWeight.bold,
+              SizedBox(
+                width: mq.width(90), // Limit width for proper overflow handling
+                child: Text(
+                  exercises[index + 1].name,
+                  style: TextStyle(
+                    fontSize: mq.height(3),
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
           ),
         ),
+        // The 'x 5' text
       ],
     );
   }
@@ -212,14 +224,19 @@ class NextExerciseSection extends StatelessWidget {
 class ExerciseImageSection extends StatelessWidget {
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
-  const ExerciseImageSection({super.key, required this.mq, required this.exercises});
+  final int index;
+  const ExerciseImageSection(
+      {super.key,
+      required this.mq,
+      required this.exercises,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: mq.height(25),
       child: Image.network(
-        exercises[0].gifUrl!,
+        exercises[index].gifUrl!,
         width: double.infinity,
         fit: BoxFit.contain,
       ),

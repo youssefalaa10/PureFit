@@ -1,14 +1,18 @@
 import 'dart:async';
 import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Features/Exercises/UI/training_screen.dart';
+import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
 import 'package:flutter/material.dart';
-import '../../../Core/Components/media_query.dart';
-import '../Data/Model/exercise_model.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../Core/Components/media_query.dart';
+import '../../Data/Model/exercise_model.dart';
 
 class GetReadyScreen extends StatefulWidget {
   final List<ExerciseModel> exercises;
+  final int index;
 
-  const GetReadyScreen({super.key, required this.exercises});
+  const GetReadyScreen(
+      {super.key, required this.exercises, required this.index});
 
   @override
   GetReadyScreenState createState() => GetReadyScreenState();
@@ -16,13 +20,13 @@ class GetReadyScreen extends StatefulWidget {
 
 class GetReadyScreenState extends State<GetReadyScreen> {
   late CustomMQ mq;
-  int countdownValue = 5;
   Timer? countdownTimer;
-
+  int countdownValue = 1;
   @override
   void initState() {
     super.initState();
     startCountdown();
+    countdownValue = context.read<TrainingCubitCubit>().getReadyDuration;
   }
 
   @override
@@ -39,16 +43,8 @@ class GetReadyScreenState extends State<GetReadyScreen> {
         });
       } else {
         timer.cancel();
-        navigateToNextExercise();
       }
     });
-  }
-
-  void navigateToNextExercise() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TrainingScreen(exercises: widget.exercises,)),
-    );
   }
 
   @override
@@ -56,9 +52,10 @@ class GetReadyScreenState extends State<GetReadyScreen> {
     mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text('Exercises ${1/ widget.exercises.length.round()}',
+        title: Text('Exercises ${widget.index + 1}/10',
             style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -69,9 +66,14 @@ class GetReadyScreenState extends State<GetReadyScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            ExerciseImage(mq: mq, exercises: widget.exercises,),
+            ExerciseImage(
+              mq: mq,
+              exercises: widget.exercises,
+              index: widget.index,
+            ),
             SizedBox(height: mq.height(3)),
             ReadyMessage(
+              index: widget.index,
               mq: mq,
               exercises: widget.exercises,
             ),
@@ -79,10 +81,10 @@ class GetReadyScreenState extends State<GetReadyScreen> {
             CircularCounter(
               mq: mq,
               countdownValue: countdownValue,
-              onSkip: navigateToNextExercise,
             ),
             SizedBox(height: mq.height(2)),
             NextExerciseInfo(
+              index: widget.index,
               mq: mq,
               exercises: widget.exercises,
             ),
@@ -96,14 +98,19 @@ class GetReadyScreenState extends State<GetReadyScreen> {
 class ExerciseImage extends StatelessWidget {
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
-  const ExerciseImage({super.key, required this.mq, required this.exercises});
+  final int index;
+  const ExerciseImage(
+      {super.key,
+      required this.mq,
+      required this.exercises,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: mq.height(24),
       child: Image.network(
-        exercises[1].gifUrl!,
+        exercises[index].gifUrl!,
         width: double.infinity,
         fit: BoxFit.cover,
       ),
@@ -114,7 +121,12 @@ class ExerciseImage extends StatelessWidget {
 class ReadyMessage extends StatelessWidget {
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
-  const ReadyMessage({super.key, required this.mq, required this.exercises});
+  final int index;
+  const ReadyMessage(
+      {super.key,
+      required this.mq,
+      required this.exercises,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +142,7 @@ class ReadyMessage extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          exercises[1].name,
+          exercises[index].name,
           style: TextStyle(
             fontSize: mq.height(2.5),
             fontWeight: FontWeight.w500,
@@ -144,13 +156,11 @@ class ReadyMessage extends StatelessWidget {
 class CircularCounter extends StatelessWidget {
   final CustomMQ mq;
   final int countdownValue;
-  final VoidCallback onSkip;
 
   const CircularCounter({
     super.key,
     required this.mq,
     required this.countdownValue,
-    required this.onSkip,
   });
 
   @override
@@ -166,7 +176,8 @@ class CircularCounter extends StatelessWidget {
             width: mq.width(30),
             height: mq.width(30),
             child: CircularProgressIndicator(
-              value: countdownValue / 5,
+              value: countdownValue /
+                  context.read<TrainingCubitCubit>().getReadyDuration,
               strokeWidth: mq.width(2),
               color: Colors.teal,
               backgroundColor: Colors.grey.shade300,
@@ -182,7 +193,6 @@ class CircularCounter extends StatelessWidget {
           Positioned(
             right: mq.width(0),
             child: GestureDetector(
-              onTap: onSkip,
               child: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.grey,
@@ -198,9 +208,14 @@ class CircularCounter extends StatelessWidget {
 
 class NextExerciseInfo extends StatelessWidget {
   final CustomMQ mq;
+  final int index;
 
-    final List<ExerciseModel> exercises;
-  const NextExerciseInfo({super.key, required this.mq, required this.exercises});
+  final List<ExerciseModel> exercises;
+  const NextExerciseInfo(
+      {super.key,
+      required this.mq,
+      required this.exercises,
+      required this.index});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -215,7 +230,7 @@ class NextExerciseInfo extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          exercises[1].name, // need it ne
+          exercises[index].name, // need it ne
           style: TextStyle(
             fontSize: mq.height(2.5),
             fontWeight: FontWeight.bold,

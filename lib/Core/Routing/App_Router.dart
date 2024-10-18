@@ -1,3 +1,8 @@
+import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
+import 'package:fitpro/Features/Exercises/Logic/cubit/exercise_cubit.dart';
+
+import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
+import 'package:fitpro/Features/Exercises/UI/exercisepageveiw_.dart';
 import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,11 +25,6 @@ import '../../Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import '../../Features/Diet/UI/diet_detials_screen.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
-import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
-import '../../Features/Exercises/UI/exercise_screen.dart';
-import '../../Features/Exercises/UI/get_ready_screen.dart';
-import '../../Features/Exercises/UI/rest_screen.dart';
-import '../../Features/Exercises/UI/training_screen.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Home/home_screen.dart';
 import '../../Features/Layout/layout_screen.dart';
@@ -189,27 +189,30 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const TrackStepDetails());
 
       // Get Ready Screen ======================================================
-      case Routes.getReadyScreen:
-        final exercises = settings.arguments as List<ExerciseModel>;
-        return MaterialPageRoute(
-          builder: (_) => GetReadyScreen(exercises: exercises),
-        );
-
-      // Rest Screen ======================================================
-      case Routes.restScreen:
-        final exercises = settings.arguments as List<ExerciseModel>;
-        return MaterialPageRoute(
-            builder: (_) => RestScreen(
-                  exercises: exercises,
-                ));
-
-      // Training Screen ==================================================
       case Routes.trainingScreen:
         final exercises = settings.arguments as List<ExerciseModel>;
         return MaterialPageRoute(
-            builder: (_) => TrainingScreen(
-                  exercises: exercises,
-                ));
+          builder: (_) => BlocProvider(
+            create: (context) => TrainingCubitCubit(exercises),
+            child: ExerciseStages(exercises: exercises),
+          ),
+        );
+
+      // // Rest Screen ======================================================
+      // case Routes.restScreen:
+      //   final exercises = settings.arguments as List<ExerciseModel>;
+      //   return MaterialPageRoute(
+      //       builder: (_) => RestScreen(
+      //             exercises: exercises,
+      //           ));
+
+      // // Training Screen ==================================================
+      // case Routes.trainingScreen:
+      //   final exercises = settings.arguments as List<ExerciseModel>;
+      //   return MaterialPageRoute(
+      //       builder: (_) => TrainingScreen(
+      //             exercises: exercises,
+      //           ));
 
       // Set Alarm Screen ======================================================
       case Routes.setAlarm:

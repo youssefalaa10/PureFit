@@ -19,9 +19,8 @@ class Routes {
   static const String exerciseScreen = "/exerciseScreen";
   static const String weeklyExerciseScreen = "/weeklyExerciseScreen";
   static const String checkToken = "/checkToken";
-  static const String getReadyScreen = "/getReadyScreen";
-  static const String restScreen = "/restScreen";
   static const String trainingScreen = "/trainingScreen";
+  static const String restScreen = "/restScreen";
   static const String setAlarm = "/setAlarm";
   static const String timerPicker = "/timerPicker";
   static const String waterAddScreen = "/waterAddScreen";
