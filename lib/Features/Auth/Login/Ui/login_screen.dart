@@ -197,10 +197,9 @@ class LoginScreenState extends State<LoginScreen> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.pushNamedAndRemoveUntil(
+                                Navigator.pushNamed(
                                   context,
                                   Routes.infoPageView,
-                                  (route) => false,
                                 );
                               },
                               child: Text(

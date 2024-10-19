@@ -56,8 +56,13 @@ class DioAuthApi {
           },
         ),
       );
-
-      await _saveToken(response.data['token']);
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
+        await _saveToken(response.data['token']);
+        return true;
+      }
+      return false;
     } on DioException catch (dioError) {
       throw dioError.response?.data["message"];
     }

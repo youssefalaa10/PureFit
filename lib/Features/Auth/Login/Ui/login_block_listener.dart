@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class LoginBlockListener extends StatelessWidget {
               ),
             );
           } else if (state is LoginSuccess) {
+            CustomSnackbar.showSnackbar(context, 'Login Success');
             Navigator.pushNamedAndRemoveUntil(
               context,
               Routes.layoutScreen,
