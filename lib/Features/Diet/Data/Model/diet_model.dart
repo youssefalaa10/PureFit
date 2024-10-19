@@ -14,6 +14,10 @@ class DietModel implements BaseDietModel {
   @override
   final String image;
 
+  // Add isFavorite attribute
+  @override
+  bool isFavorite;
+
   DietModel({
     required this.id,
     required this.name,
@@ -21,11 +25,8 @@ class DietModel implements BaseDietModel {
     required this.protein,
     required this.fats,
     required this.image,
+    this.isFavorite = false, // Default value is false
   });
-
-  // Default implementation for isFavorite
-  @override
-  bool get isFavorite => false;
 
   factory DietModel.fromJson(Map<String, dynamic> json) {
     return DietModel(
@@ -51,7 +52,7 @@ class DietModel implements BaseDietModel {
       "protein": protein,
       "fats": fats,
       "image": image,
-      // isFavorite is not included in DietModel's JSON representation
+      // isFavorite is not included in JSON representation
     };
   }
 }

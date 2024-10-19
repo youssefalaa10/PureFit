@@ -20,4 +20,18 @@ class FoodsRepo {
     }
     return null;
   }
+
+  Future<List<DietModel>?> getFavouriteFoods(String id) async {
+    try {
+      final foodsJson = await dioFoodsApi.getFavouriteFoods(id);
+      if (foodsJson != null) {
+        return foodsJson.map((json) => DietModel.fromJson(json)).toList();
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error in FoodsRepo: $e");
+      }
+    }
+    return null;
+  }
 }
