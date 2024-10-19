@@ -4,6 +4,7 @@ import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:fitpro/Core/Components/custom_snackbar.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:fitpro/Core/local_db/food_db/food_db.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -25,13 +26,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-
-    // Fetching profile data when the widget is initialized
-    Future.microtask(() {
-      if (mounted) {
-        context.read<ProfileCubit>().getProfile();
-      }
-    });
+    context.read<ProfileCubit>().getProfile();
   }
 
   @override
@@ -137,8 +132,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                 Navigator.of(context).pop(); // Close the dialog
                 // Clear saved token using Dio
                 SaveTokenDB.clearToken();
-
-                // Show a snackbar message using CustomSnackbar
+                DietFavoriteDb()
+                    .deleteAllData(); // Show a snackbar message using CustomSnackbar
                 if (context.mounted) {
                   CustomSnackbar.showSnackbar(context, "Success");
                 }

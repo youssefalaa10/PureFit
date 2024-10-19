@@ -6,17 +6,22 @@ part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo profileRepo;
+  UserModel? user;
 
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
-  UserModel? user;
-  getProfile() async {
+
+  Future<void> getProfile() async {
+    // Avoid emitting if cubit is closed
+    if (isClosed) return;
+
     emit(ProfileLoading());
     try {
-      final user = await profileRepo.getProfile();
-      if (user != null) {
+      final fetchedUser = await profileRepo.getProfile();
+      if (fetchedUser != null) {
+        user = fetchedUser;
+        // Check again if the cubit is closed before emitting
         if (!isClosed) {
-          emit(ProfileSuccess(user: user));
-          this.user = user;
+          emit(ProfileSuccess(user: user!));
         }
       } else {
         if (!isClosed) {
@@ -30,18 +35,23 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void updateProfile(UserModel user, String profileId) async {
+  Future<void> updateProfile(UserModel updatedUser, String profileId) async {
+    // Avoid emitting if cubit is closed
+    if (isClosed) return;
+
     emit(ProfileLoading());
     try {
-      // Call your repository method to update the profile.
-      await profileRepo.updateProfile(user, profileId);
+      await profileRepo.updateProfile(updatedUser, profileId);
+      user = updatedUser;
 
-      // Emit success state after updating the profile.
-      emit(ProfileSuccess(user: user));
-      getProfile();
+      if (!isClosed) {
+        emit(ProfileSuccess(user: updatedUser));
+        await getProfile(); // Optionally refresh the profile
+      }
     } catch (e) {
-      // Emit error state if there is an exception.
-      emit(ProfileError(message: e.toString()));
+      if (!isClosed) {
+        emit(ProfileError(message: e.toString()));
+      }
     }
   }
 }
