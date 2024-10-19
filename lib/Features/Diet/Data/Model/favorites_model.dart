@@ -14,10 +14,8 @@ class FavoriteModel implements BaseDietModel {
   final double fats;
   @override
   final String image;
-  
-  // Use a constructor parameter to determine if it's a favorite
   @override
-  final bool isFavorite; // Now this holds the actual favorite state
+  final bool isFavorite;
 
   FavoriteModel({
     this.localId,
@@ -27,18 +25,45 @@ class FavoriteModel implements BaseDietModel {
     required this.protein,
     required this.fats,
     required this.image,
-    required this.isFavorite, // Capture the isFavorite state
+    required this.isFavorite,
   });
 
+  // Create a copyWith method to easily clone and modify values
+  FavoriteModel copyWith({
+    int? localId,
+    String? id,
+    String? name,
+    int? calories,
+    double? protein,
+    double? fats,
+    String? image,
+    bool? isFavorite,
+  }) {
+    return FavoriteModel(
+      localId: localId ?? this.localId,
+      id: id ?? this.id,
+      name: name ?? this.name,
+      calories: calories ?? this.calories,
+      protein: protein ?? this.protein,
+      fats: fats ?? this.fats,
+      image: image ?? this.image,
+      isFavorite: isFavorite ?? this.isFavorite,
+    );
+  }
+
   factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
-        id: json['id'], // Auto-generated
+        id: json['id'],
         localId: json['localId'],
         name: json["name"],
         calories: json["calories"],
-        protein: (json["protein"] is int) ? (json["protein"] as int).toDouble() : json["protein"] as double,
-        fats: (json["fats"] is int) ? (json["fats"] as int).toDouble() : json["fats"] as double,
-        image: json["image"], 
-        isFavorite: json['isFavorite'] == 1, // Convert 1 or 0 to boolean
+        protein: (json["protein"] is int)
+            ? (json["protein"] as int).toDouble()
+            : json["protein"] as double,
+        fats: (json["fats"] is int)
+            ? (json["fats"] as int).toDouble()
+            : json["fats"] as double,
+        image: json["image"],
+        isFavorite: json['isFavorite'] == 1,
       );
 
   @override

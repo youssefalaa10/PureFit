@@ -1,5 +1,7 @@
+import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:fitpro/Features/Diet/UI/diet_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/custom_sizedbox.dart';
 import '../../../../Core/Components/media_query.dart';
@@ -24,7 +26,9 @@ Widget dietListView(List items, context) {
                 context,
                 Routes.detailsScreen,
                 arguments: item,
-              );
+              ).then((value) {
+                context.read<FavoriteCubit>().loadFavorites();
+              });
             },
           ),
           CustomSizedbox(height: mq.height(1.0)),

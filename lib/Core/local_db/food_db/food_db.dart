@@ -6,7 +6,7 @@ import '../../../Features/Diet/Data/Model/favorites_model.dart';
 class DietFavoriteDb {
   static final DietFavoriteDb _instance = DietFavoriteDb._init();
   factory DietFavoriteDb() => _instance;
-  
+
   static Database? _database;
 
   DietFavoriteDb._init();
@@ -39,7 +39,7 @@ class DietFavoriteDb {
         fats REAL,
         protein REAL,
         image TEXT,
-        isFavorite INTEGER DEFAULT 0
+        isFavorite INTEGER 
       )
     ''');
   }

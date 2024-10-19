@@ -3,12 +3,9 @@ import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Diet/Data/Model/favorites_model.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../Data/Model/base_diet_model.dart';
-
 import '../Logic/favorite_cubit/favorite_cubit.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -20,9 +17,14 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  bool isPressed1 = false;
-  bool isPressed2 = false;
-  bool isPressed3 = false;
+  late bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the isFavorite state based on the dietItem data
+    isFavorite = widget.dietItem.isFavorite;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,42 +35,40 @@ class _DetailScreenState extends State<DetailScreen> {
         elevation: 0,
         leading: IconButton(
             onPressed: () {
-              // sendToApi();
               Navigator.pop(context);
             },
             icon: const Icon(Icons.arrow_back)),
         actions: [
-          BlocBuilder<FavoriteCubit, FavoriteState>(
-            builder: (context, state) {
-              bool isFavorite = (dietItem.isFavorite);
-              print('isFavorite: ${isFavorite}');
-              print('dietItem: ${dietItem.isFavorite}');
-              print('ssssssssssssssssssssssssss');
-              return IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_outline,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  print('dietItemId: ${dietItem.id}');
-
-                  // Toggle favorite status when pressed
-                  context.read<FavoriteCubit>().toggleFavorite(
-                        dietItem.id,
-                        FavoriteModel(
-                          id: dietItem.id,
-                          name: dietItem.name,
-                          calories: dietItem.calories,
-                          protein: dietItem.protein,
-                          fats: dietItem.fats,
-                          image: dietItem.image,
-                          isFavorite: dietItem.isFavorite,
-                        ),
-                        dietItem.isFavorite,
-                      );
-                },
-              );
+          BlocListener<FavoriteCubit, FavoriteState>(
+            listener: (context, state) {
+              if (state is FavoriteAdded || state is FavoriteRemoved) {
+                setState(() {
+                  isFavorite = !isFavorite;
+                });
+              }
             },
+            child: IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_outline,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                // Toggle favorite status when pressed
+                context.read<FavoriteCubit>().toggleFavorite(
+                      dietItem.id,
+                      FavoriteModel(
+                        id: dietItem.id,
+                        name: dietItem.name,
+                        calories: dietItem.calories,
+                        protein: dietItem.protein,
+                        fats: dietItem.fats,
+                        image: dietItem.image,
+                        isFavorite: isFavorite, // Use the current local state
+                      ),
+                      isFavorite,
+                    );
+              },
+            ),
           ),
           IconButton(
             icon: const Icon(Icons.more_vert, color: Colors.black),
@@ -104,21 +104,9 @@ class _DetailScreenState extends State<DetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildCustomButton('Per 100 g', isPressed1, () {
-                  setState(() {
-                    isPressed1 = !isPressed1;
-                  });
-                }),
-                _buildCustomButton('Per Portion', true, () {
-                  setState(() {
-                    isPressed2 = !isPressed2;
-                  });
-                }),
-                _buildCustomButton('Per Grams', isPressed3, () {
-                  setState(() {
-                    isPressed3 = !isPressed3;
-                  });
-                }),
+                _buildCustomButton('Per 100 g', false, () {}),
+                _buildCustomButton('Per Portion', true, () {}),
+                _buildCustomButton('Per Grams', false, () {}),
               ],
             ),
             CustomSizedbox(height: mq.height(5.0)),

@@ -7,7 +7,6 @@ part 'favorite_state.dart';
 class FavoriteCubit extends Cubit<FavoriteState> {
   final FavoriteRepo favoriteRepo;
 
-
   FavoriteCubit({required this.favoriteRepo}) : super(FavoriteInitial());
 
   // Load favorites from the local database
@@ -22,36 +21,33 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     }
   }
 
-  Future<void> insertFavorite(FavoriteModel favorite) async {
-    await favoriteRepo.insertFavoriteLocally(favorite);
-  }
-
-  Future<void> removeFavorite(String dietItemId) async {
-    await favoriteRepo.removeFavoriteLocally(dietItemId);
-  }
-
-  // Toggle favorite status locally
   Future<void> toggleFavorite(
-      String dietItemId, FavoriteModel favoriteModel,
-      bool? isFavorite,
-      ) async {
-    isFavorite = !isFavorite!;
+    String dietItemId,
+    FavoriteModel favoriteModel,
+    bool isFavorite, // Use non-nullable bool
+  ) async {
+    // Toggle the favorite status
+    isFavorite = !isFavorite;
+
+    // Use copyWith to update the isFavorite field only
+    final updatedFavorite = favoriteModel.copyWith(isFavorite: isFavorite);
+
+    // Update the favorite status in the repository
     await favoriteRepo.updateFavoriteStatus(dietItemId, isFavorite);
 
-    if (isFavorite == true) {
-
-      await insertFavorite(favoriteModel);
-
+    if (isFavorite) {
+      // Insert the updated favorite model
+      await favoriteRepo.insertFavoriteLocally(updatedFavorite);
       emit(FavoriteAdded());
     } else {
-      await removeFavorite(dietItemId);
-
+      // Remove the favorite if isFavorite is false
+      await favoriteRepo.removeFavoriteLocally(dietItemId);
       emit(FavoriteRemoved());
     }
-    await loadFavorites(); // Reload to refresh state
+
+    // Reload the favorites list to reflect changes
+    await loadFavorites();
   }
-
-
 
   // Sync local changes with the API
   // Future<void> syncFavoriteWithApi(String dietItemId) async {
