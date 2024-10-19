@@ -15,7 +15,6 @@ import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../Core/Components/media_query.dart';
 
 class TrackStepsScreen extends StatefulWidget {
@@ -43,14 +42,18 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   Future<void> _loadData() async {
     _getHistoryTracks();
     final String todayDate = _getFormattedDate(DateTime.now());
+
+    // Load saved steps and last recorded date
     _savedSteps =
         await context.read<TrackStepCubit>().readStepsByDate(todayDate);
+    print(_savedSteps); // For debugging purposes
 
     if (mounted) {
       _lastRecordedDate =
           await context.read<TrackStepCubit>().getLastRecordedDate();
     }
 
+    // Set state with loaded steps
     if (mounted) {
       setState(() {
         _fullStepsOfToday = _savedSteps ?? 0;
@@ -68,16 +71,19 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   Future<void> _onStepCount(StepCount event) async {
     String todayDate = _getFormattedDate(DateTime.now());
     final prefs = await SharedPreferences.getInstance();
+
     bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
     _savedSteps = prefs.getInt('savedSteps') ?? 0;
     _initialSteps = prefs.getInt('initialSteps') ?? event.steps;
 
+    // Handle first app launch
     if (isFirstLaunch) {
       _savedSteps = 0;
       _initialSteps = event.steps;
       await prefs.setInt('initialSteps', _initialSteps);
       await prefs.setInt('savedSteps', _savedSteps!);
       await prefs.setBool('isFirstLaunch', false);
+
       if (mounted) {
         await context
             .read<TrackStepCubit>()
@@ -85,22 +91,30 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       }
     }
 
-
+    // Handle date change
     if (_lastRecordedDate != todayDate) {
       await _resetForNewDay(todayDate);
       _initialSteps = event.steps;
+
       await prefs.setInt('initialSteps', _initialSteps);
       _savedSteps = 0;
       await prefs.setInt('savedSteps', _savedSteps!);
     }
 
-    int todaySteps = event.steps - _initialSteps + _savedSteps!;
-    todaySteps = todaySteps < 0 ? 0 : todaySteps;
-
+    // Calculate today's steps
+    int todaySteps;
+    if (event.steps == 0) {
+      todaySteps = event.steps + _savedSteps!;
+    } else {
+      todaySteps = event.steps - _initialSteps;
+      todaySteps = todaySteps < 0 ? 0 : todaySteps;
+    }
+    // Persist the updated steps
     if (mounted) {
       await context.read<TrackStepCubit>().upsertSteps(todaySteps, todayDate);
     }
 
+    // Update UI
     setState(() {
       _fullStepsOfToday = todaySteps;
     });
@@ -176,8 +190,10 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         child: Text(
           "Steps Details",
           textAlign: TextAlign.center,
-          style:
-              TextStyle(fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: mq.width(4.5),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -201,14 +217,18 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         Text(
           AppString.greatWork,
           style: TextStyle(
-              fontSize: mq.width(3.75),
-              fontWeight: FontWeight.bold,
-              color: ColorManager.lightGreyColor),
+            fontSize: mq.width(3.75),
+            fontWeight: FontWeight.bold,
+            color: ColorManager.lightGreyColor,
+          ),
         ),
         Text(
           AppString.yourDailytasksAlmostDone,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: mq.width(7),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -243,23 +263,33 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.directions_walk,
-                        color: ColorManager.primaryColor, size: mq.width(8.75)),
+                    Icon(
+                      Icons.directions_walk,
+                      color: ColorManager.primaryColor,
+                      size: mq.width(8.75),
+                    ),
                     const CustomSizedbox(height: 10),
-                    Text("$_fullStepsOfToday",
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold)),
-                    Text(AppString.steps,
-                        style: TextStyle(
-                            fontSize: mq.width(3.75),
-                            color: ColorManager.lightGreyColor,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      "$_fullStepsOfToday",
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      AppString.steps,
+                      style: TextStyle(
+                        fontSize: mq.width(3.75),
+                        color: ColorManager.lightGreyColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -295,16 +325,23 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(AppString.myActivity,
-              style: TextStyle(
-                  fontSize: mq.width(5), fontWeight: FontWeight.bold)),
+          Text(
+            AppString.myActivity,
+            style: TextStyle(
+              fontSize: mq.width(5),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           TextButton(
             onPressed: () {},
-            child: Text(AppString.steps,
-                style: TextStyle(
-                    fontSize: mq.width(3.75),
-                    fontWeight: FontWeight.bold,
-                    color: ColorManager.primaryColor)),
+            child: Text(
+              AppString.steps,
+              style: TextStyle(
+                fontSize: mq.width(3.75),
+                fontWeight: FontWeight.bold,
+                color: ColorManager.primaryColor,
+              ),
+            ),
           ),
         ],
       ),
