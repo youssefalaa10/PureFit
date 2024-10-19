@@ -11,13 +11,20 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   // Load favorites from the local database
   Future<void> loadFavorites() async {
-    emit(FavoriteLoading()); // Emit loading state before fetching
+    if (!isClosed) {
+      emit(FavoriteLoading());
+    }
+// Emit loading state before fetching
     final favorites = await favoriteRepo.fetchFavoritesLocally();
 
     if (favorites.isNotEmpty) {
-      emit(FavoriteLoaded(favorites));
+      if (!isClosed) {
+        emit(FavoriteLoaded(favorites));
+      }
     } else {
-      emit(FavoriteEmpty());
+      if (!isClosed) {
+        emit(FavoriteEmpty());
+      }
     }
   }
 
@@ -34,15 +41,20 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
     // Update the favorite status in the repository
     await favoriteRepo.updateFavoriteStatus(dietItemId, isFavorite);
+    syncFavoriteWithApi(dietItemId, isFavorite);
 
     if (isFavorite) {
       // Insert the updated favorite model
       await favoriteRepo.insertFavoriteLocally(updatedFavorite);
-      emit(FavoriteAdded());
+      if (!isClosed) {
+        emit(FavoriteAdded());
+      }
     } else {
       // Remove the favorite if isFavorite is false
       await favoriteRepo.removeFavoriteLocally(dietItemId);
-      emit(FavoriteRemoved());
+      if (!isClosed) {
+        emit(FavoriteRemoved());
+      }
     }
 
     // Reload the favorites list to reflect changes
@@ -50,11 +62,11 @@ class FavoriteCubit extends Cubit<FavoriteState> {
   }
 
   // Sync local changes with the API
-  // Future<void> syncFavoriteWithApi(String dietItemId) async {
-  //   if (isFavorite == true) {
-  //     await favoriteRepo.syncFavoritesWithApi(dietItemId, true);
-  //   } else {
-  //     await favoriteRepo.syncFavoritesWithApi(dietItemId, false);
-  //   }
-  // }
+  Future<void> syncFavoriteWithApi(String dietItemId, bool isFavorite) async {
+    if (isFavorite == true) {
+      await favoriteRepo.syncFavoritesWithApi(dietItemId, true);
+    } else {
+      await favoriteRepo.syncFavoritesWithApi(dietItemId, false);
+    }
+  }
 }

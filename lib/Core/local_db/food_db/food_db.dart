@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import '../../../Features/Diet/Data/Model/favorites_model.dart';
 
 class DietFavoriteDb {
@@ -9,6 +8,7 @@ class DietFavoriteDb {
 
   static Database? _database;
 
+  String paths = '';
   DietFavoriteDb._init();
 
   Future<Database> get database async {
@@ -21,7 +21,7 @@ class DietFavoriteDb {
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, filePath);
-
+    paths = path;
     return await openDatabase(
       path,
       version: 1,
@@ -84,5 +84,15 @@ class DietFavoriteDb {
       where: 'id = ?',
       whereArgs: [id],
     );
+  }
+
+  // Method to delete all data from the favorites table
+  Future<void> deleteAllData() async {
+    final db = await _instance.database;
+
+    // Delete all records from the favorites table
+    await db.delete('favorites');
+
+    print('All data deleted from favorites table.');
   }
 }

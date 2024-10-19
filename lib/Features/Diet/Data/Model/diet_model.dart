@@ -32,8 +32,12 @@ class DietModel implements BaseDietModel {
       id: json["_id"],
       name: json["name"],
       calories: json["calories"],
-      protein: (json["protein"] is int) ? (json["protein"] as int).toDouble() : json["protein"] as double,
-      fats: (json["fats"] is int) ? (json["fats"] as int).toDouble() : json["fats"] as double,
+      protein: (json["protein"] is int)
+          ? (json["protein"] as int).toDouble()
+          : json["protein"] as double,
+      fats: (json["fats"] is int)
+          ? (json["fats"] as int).toDouble()
+          : json["fats"] as double,
       image: json["image"],
     );
   }

@@ -2,7 +2,6 @@ import '../../../../Core/Networking/Dio/dio_favorite_api.dart';
 import '../../../../Core/local_db/food_db/food_db.dart';
 import '../Model/favorites_model.dart';
 
-
 class FavoriteRepo {
   final DioFavoriteApi dioFavoriteApi;
   final DietFavoriteDb dietFavoriteDb;
@@ -15,16 +14,16 @@ class FavoriteRepo {
   }
 
   // Fetch all favorite items from the local database (SQFlite)
-Future<List<FavoriteModel>> fetchFavoritesLocally() async {
-  final favorites = await dietFavoriteDb.fetchFavorites();
-  print('Fetched from local DB: $favorites'); // Debugging purpose
-  return favorites;
-}
-
+  Future<List<FavoriteModel>> fetchFavoritesLocally() async {
+    final favorites = await dietFavoriteDb.fetchFavorites();
+    print('Fetched from local DB: $favorites'); // Debugging purpose
+    return favorites;
+  }
 
   // Remove a specific favorite item by id
   Future<void> removeFavoriteLocally(String dietItemId) async {
-    await dietFavoriteDb.deleteFavorite(dietItemId); // Implement this method in DietFavoriteDb
+    await dietFavoriteDb
+        .deleteFavorite(dietItemId); // Implement this method in DietFavoriteDb
   }
 
   // Sync favorites with the API
@@ -41,9 +40,8 @@ Future<List<FavoriteModel>> fetchFavoritesLocally() async {
       return false;
     }
   }
+
   Future<void> updateFavoriteStatus(String id, bool isFavorite) async {
     await dietFavoriteDb.updateFavoriteStatus(id, isFavorite);
   }
-
-
 }

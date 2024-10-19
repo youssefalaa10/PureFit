@@ -31,7 +31,9 @@ class _DetailScreenState extends State<DetailScreen> {
     final mq = CustomMQ(context);
     final dietItem = widget.dietItem;
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
+        backgroundColor: ColorManager.backGroundColor,
         elevation: 0,
         leading: IconButton(
             onPressed: () {

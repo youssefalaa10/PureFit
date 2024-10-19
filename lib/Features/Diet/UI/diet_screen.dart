@@ -124,11 +124,7 @@ class _DietScreenState extends State<DietScreen> {
               CustomSizedbox(height: mq.height(2.0)),
               Expanded(
                 child: TabBarView(
-                  children: [
-                    foodsView(),
-                    drinksView(),
-                    favoriteView()
-                  ],
+                  children: [foodsView(), drinksView(), favoriteView()],
                 ),
               ),
             ],
@@ -137,6 +133,4 @@ class _DietScreenState extends State<DietScreen> {
       ),
     );
   }
-
- 
 }
