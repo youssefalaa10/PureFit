@@ -24,7 +24,11 @@ class RegisterBlocListener extends StatelessWidget {
             ),
           );
         } else if (state is RegisterSuccess) {
-          Navigator.pushNamed(context, Routes.layoutScreen);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.layoutScreen,
+            (route) => false,
+          );
           showSuccessDialog(context);
         } else if (state is RegisterFailure) {
           setupErrorState(context, state.message);

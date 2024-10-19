@@ -1,4 +1,5 @@
 import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:fitpro/Core/Routing/routes.dart';
 import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:fitpro/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
 
@@ -9,7 +10,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/custom_sizedbox.dart';
 import '../../../../Core/Components/custom_text_field.dart';
 import '../../../../Core/Components/media_query.dart';
-import '../../Login/Ui/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -25,6 +25,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
 
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmpassowrdController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +122,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return "Please enter an email addres!";
+                          } else if (!value.contains("@")) {
+                            return "Please enter a valid email addres!";
                           }
                         },
                         controller: emailController,
@@ -176,9 +180,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return 'Please confirm a passowrd!';
+                          } else if (value != passwordController.text) {
+                            return 'Password does not match';
                           }
                         },
-                        controller: passwordController,
+                        controller: confirmpassowrdController,
                         textInput: TextInputType.number,
                         isPassword: true,
                         hintText: "*********",
@@ -221,11 +227,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
+                              Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
+                                Routes.loginScreen,
+                                (route) => false,
                               );
                             },
                             child: Text(

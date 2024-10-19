@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Routing/Routes.dart';
 
-
 class LoginBlockListener extends StatelessWidget {
   const LoginBlockListener({super.key});
 
@@ -16,15 +15,18 @@ class LoginBlockListener extends StatelessWidget {
           if (state is LoginLoading || state is LoginInitial) {
             showDialog(
               context: context,
-              builder: (context) =>  Center(
+              builder: (context) => Center(
                 child: CircularProgressIndicator(
                   color: ColorManager.primaryColor,
                 ),
               ),
             );
           } else if (state is LoginSuccess) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, Routes.layoutScreen);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Routes.layoutScreen,
+              (route) => false,
+            );
           } else if (state is LoginFaliuer) {
             setupErrorState(context, state.message);
           }
