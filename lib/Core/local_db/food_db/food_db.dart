@@ -1,66 +1,88 @@
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
-class FoodDb {
-  static final FoodDb _instance = FoodDb._internal();
-  factory FoodDb() => _instance;
-  FoodDb._internal();
+import '../../../Features/Diet/Data/Model/favorites_model.dart';
 
+class DietFavoriteDb {
+  static final DietFavoriteDb _instance = DietFavoriteDb._init();
+  factory DietFavoriteDb() => _instance;
+  
   static Database? _database;
+
+  DietFavoriteDb._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB();
+
+    _database = await _initDB('favorites.db');
     return _database!;
   }
 
-  Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'favorites.db');
+  Future<Database> _initDB(String filePath) async {
+    final dbPath = await getDatabasesPath();
+    final path = join(dbPath, filePath);
+
     return await openDatabase(
       path,
       version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE favorites (
-            id TEXT PRIMARY KEY,
-            name TEXT,
-            image TEXT,
-            calories TEXT,
-            quantity TEXT
-          )
-        ''');
-      },
+      onCreate: _createDB,
     );
   }
 
-  Future<void> addFavorite(String id, String name, String image,
-      String calories, String quantity) async {
-    final db = await database;
-    await db.insert(
-      'favorites',
-      {
-        'id': id,
-        'name': name,
-        'image': image,
-        'calories': calories,
-        'quantity': quantity
-      },
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-  
-  // Method to remove a food item from favorites
-  Future<void> removeFavorite(String name) async {
-    final db = await database;
-    await db.delete(
-      'favorites',
-      where: 'name = ?',
-      whereArgs: [name],
-    );
+  Future _createDB(Database db, int version) async {
+    await db.execute('''
+      CREATE TABLE favorites(
+        localId INTEGER PRIMARY KEY AUTOINCREMENT,
+        id TEXT,
+        name TEXT,
+        calories INTEGER,
+        fats REAL,
+        protein REAL,
+        image TEXT,
+        isFavorite INTEGER DEFAULT 0
+      )
+    ''');
   }
 
-  Future<List<Map<String, dynamic>>> getFavorites() async {
-    final db = await database;
-    return await db.query('favorites');
+  Future<void> insertFavorite(FavoriteModel favorite) async {
+    final db = await _instance.database;
+
+    // Check if the favorite already exists
+    final existingFavorites = await db.query(
+      'favorites',
+      where: 'id = ?',
+      whereArgs: [favorite.id],
+    );
+
+    // If it exists, return; otherwise, insert the new favorite
+    if (existingFavorites.isNotEmpty) {
+      return; // Avoid inserting duplicate
+    }
+
+    await db.insert('favorites', favorite.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<FavoriteModel>> fetchFavorites() async {
+    final db = await _instance.database;
+    final result = await db.query('favorites');
+    return result.map((json) => FavoriteModel.fromJson(json)).toList();
+  }
+
+  Future<void> deleteFavorite(String id) async {
+    final db = await _instance.database;
+    await db.delete('favorites', where: 'id = ?', whereArgs: [id]);
+  }
+
+  // Method to update the isFavorite status
+  Future<void> updateFavoriteStatus(String id, bool isFavorite) async {
+    final db = await _instance.database;
+
+    await db.update(
+      'favorites',
+      {'isFavorite': isFavorite ? 1 : 0}, // Convert boolean to integer
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
+import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+
 
 import '../Diet/UI/diet_screen.dart';
 
@@ -47,6 +49,15 @@ class LayoutScreenState extends State<LayoutScreen> {
           },
 
         ),
+        BlocProvider(
+          create: (context){
+            final cubit = getIT<FavoriteCubit>();
+            cubit.loadFavorites();
+            return cubit;
+          
+        }
+        
+        ,),
       ],
       child: const DietScreen(),
     ),

@@ -1,9 +1,17 @@
-class DietModel {
+import 'base_diet_model.dart';
+
+class DietModel implements BaseDietModel {
+  @override
   final String id;
+  @override
   final String name;
+  @override
   final int calories;
+  @override
   final double protein;
+  @override
   final double fats;
+  @override
   final String image;
 
   DietModel({
@@ -15,24 +23,22 @@ class DietModel {
     required this.image,
   });
 
-  // Factory method to create a Food object from JSON
+  // Default implementation for isFavorite
+  @override
+  bool get isFavorite => false;
+
   factory DietModel.fromJson(Map<String, dynamic> json) {
     return DietModel(
       id: json["_id"],
       name: json["name"],
       calories: json["calories"],
-      // Cast to double if the API returns int
-      protein: (json["protein"] is int)
-          ? (json["protein"] as int).toDouble()
-          : json["protein"] as double,
-      fats: (json["fats"] is int)
-          ? (json["fats"] as int).toDouble()
-          : json["fats"] as double,
+      protein: (json["protein"] is int) ? (json["protein"] as int).toDouble() : json["protein"] as double,
+      fats: (json["fats"] is int) ? (json["fats"] as int).toDouble() : json["fats"] as double,
       image: json["image"],
     );
   }
 
-  // Method to convert a Food object to JSON
+  @override
   Map<String, dynamic> toJson() {
     return {
       "_id": id,
@@ -41,6 +47,7 @@ class DietModel {
       "protein": protein,
       "fats": fats,
       "image": image,
+      // isFavorite is not included in DietModel's JSON representation
     };
   }
 }

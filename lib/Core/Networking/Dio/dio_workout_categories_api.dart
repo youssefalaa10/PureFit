@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../Shared/api_constans.dart';
+import '../../Shared/api_constants.dart';
 
 class DioWorkoutCategoriesApi {
   final Dio _dio;
@@ -11,7 +11,7 @@ class DioWorkoutCategoriesApi {
   Future<List<Map<String, dynamic>>?> getWorkoutCategories() async {
     try {
       final response = await _dio.get(
-        "${ApiConstans.baseUrl}${ApiConstans.apiWorkoutCategories}",
+        "${ApiConstants.baseUrl}${ApiConstants.apiWorkoutCategories}",
         options: Options(
           headers: {
             'Content-Type': 'application/json',

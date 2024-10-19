@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/Shared/api_constans.dart';
+import 'package:fitpro/Core/Shared/api_constants.dart';
 import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
 import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:flutter/foundation.dart';
@@ -13,7 +13,7 @@ class DioProfileApi {
     try {
       final token = await SaveTokenDB.getToken();
       final response = await _dio.get(
-        "${ApiConstans.baseUrl}${ApiConstans.apiGetProfile}",
+        "${ApiConstants.baseUrl}${ApiConstants.apiGetProfile}",
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -26,7 +26,7 @@ class DioProfileApi {
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
         final user = UserModel.fromMap(response.data);
- 
+
         return user;
       }
     } catch (e) {
@@ -41,7 +41,7 @@ class DioProfileApi {
     try {
       final token = await SaveTokenDB.getToken();
       final response = await _dio.put(
-        "${ApiConstans.baseUrl}${ApiConstans.apiGetProfile}/$profileId",
+        "${ApiConstants.baseUrl}${ApiConstants.apiGetProfile}/$profileId",
         data: user.toMap(),
         options: Options(
           headers: {
