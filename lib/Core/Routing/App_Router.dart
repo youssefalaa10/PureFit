@@ -1,3 +1,4 @@
+import 'package:fitpro/Features/Auth/Verifiy/Logic/forgot_pass_cubit/forgot_password_cubit.dart';
 import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
 import 'package:fitpro/Features/Exercises/Logic/cubit/exercise_cubit.dart';
 
@@ -11,6 +12,8 @@ import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Login/Ui/login_screen.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import '../../Features/Auth/Register/Ui/register_screen.dart';
+import '../../Features/Auth/Verifiy/Logic/change_password_cubit/change_password_cubit.dart';
+import '../../Features/Auth/Verifiy/Logic/verifiy_cubit/verification_cubit.dart';
 import '../../Features/Auth/Verifiy/UI/change_password.dart';
 import '../../Features/Auth/Verifiy/UI/forgot_password.dart';
 import '../../Features/Auth/Verifiy/UI/verification.dart';
@@ -18,7 +21,6 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
-
 
 import '../../Features/Diet/Data/Repo/favorite_repo.dart';
 import '../../Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
@@ -230,26 +232,47 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const FoodItem());
 
       // Food Details Screen ===================================================
- case Routes.detailsScreen:
-  final dietItem = settings.arguments as BaseDietModel;
-  return MaterialPageRoute(
-    builder: (context) => BlocProvider(
-      create: (context) => FavoriteCubit(favoriteRepo: getIT<FavoriteRepo>()),
-      child: DetailScreen(dietItem: dietItem),
-    ),
-  );
+      case Routes.detailsScreen:
+        final dietItem = settings.arguments as BaseDietModel;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                FavoriteCubit(favoriteRepo: getIT<FavoriteRepo>()),
+            child: DetailScreen(dietItem: dietItem),
+          ),
+        );
 
       // Change Password =========================================================
       case Routes.changePasswordScreen:
-        return MaterialPageRoute(builder: (_) => const ChangePasswordScreen());
+        return MaterialPageRoute(
+          builder: (context) {
+            final email = settings.arguments as String;
+            return BlocProvider(
+              create: (context) => getIT<ChangePasswordCubit>(),
+              child: ChangePasswordScreen(email: email),
+            );
+          },
+        );
 
       // Forgot Password ========================================================
       case Routes.forgotPasswordScreen:
-        return MaterialPageRoute(builder: (_) => const ForgotPasswordScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<ForgotPasswordCubit>(),
+                  child: const ForgotPasswordScreen(),
+                ));
 
       // Verification Screen ====================================================
       case Routes.verificationScreen:
-        return MaterialPageRoute(builder: (_) => const VerificationScreen());
+        return MaterialPageRoute(
+          builder: (context) {
+            final email = settings.arguments as String;
+            return BlocProvider(
+              create: (context) => getIT<VerificationCubit>(),
+              child: VerificationScreen(email: email),
+            );
+          },
+        );
 
       // Fitness Goal Screen ===================================================
       case Routes.fitnessGoalScreen:

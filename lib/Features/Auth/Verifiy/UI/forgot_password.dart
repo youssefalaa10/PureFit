@@ -1,10 +1,12 @@
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:flutter/material.dart';
+import 'package:fitpro/Core/DI/dependency.dart';
 
+import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:fitpro/Core/Routing/routes.dart';
+import 'package:flutter/material.dart';
 import '../../../../Core/Components/custom_button.dart';
 import '../../../../Core/Components/custom_text_field.dart';
-import '../../../../Core/Routing/routes.dart';
 import '../../../../Core/Shared/app_colors.dart';
+import '../Logic/forgot_pass_cubit/forgot_password_cubit.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -15,6 +17,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final ForgotPasswordCubit _forgotPasswordCubit = getIT<ForgotPasswordCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +43,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             SizedBox(height: mq.width(4)),
             Text(
-              "Enter your email, we will send you code on your email",
+              "Enter your email, we will send you a code on your email",
               textAlign: TextAlign.left,
               style: TextStyle(
                 fontSize: mq.width(4),
@@ -49,10 +52,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             ),
             SizedBox(height: mq.width(4)),
             CustomTextField(
-                controller: _emailController,
-                textInput: TextInputType.text,
-                isPassword: false,
-                hintText: "Enter your email"),
+              controller: _emailController,
+              textInput: TextInputType.text,
+              isPassword: false,
+              hintText: "Enter your email",
+            ),
             SizedBox(height: mq.width(4)),
             CustomButton(
               label: "Continue",
@@ -61,7 +65,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 vertical: mq.height(2),
               ),
               onPressed: () {
-                Navigator.pushNamed(context, Routes.verificationScreen);
+                _forgotPasswordCubit.sendCode(_emailController.text);
+                 Navigator.pushNamed(
+                  context,
+                  Routes.verificationScreen,
+                  arguments: _emailController.text,
+                );
               },
             ),
           ],
