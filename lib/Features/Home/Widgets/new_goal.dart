@@ -96,7 +96,10 @@ class NewGoalWidget extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
+                       _buildShimmerBox(
+                        double.infinity,
+                        mq.height(8),
+                       ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
@@ -154,4 +157,11 @@ class NewGoalWidget extends StatelessWidget {
       ),
     );
   }
+  Widget _buildShimmerBox(double width, double height) {
+  return Container(
+    width: width,
+    height: height,
+    color: Colors.grey[300],
+  );
+}
 }

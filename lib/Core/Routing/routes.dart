@@ -32,4 +32,5 @@ class Routes {
   static const String verificationScreen = "/verificationScreen";
   static const String changePasswordScreen = "/changePasswordScreen";
   static const String fitnessGoalScreen = "/fitnessGoalScreen";
+  static const String userProfileScreen = "/userProfileScreen";
 }

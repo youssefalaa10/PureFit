@@ -234,7 +234,7 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
             right: 0,
             child: CircleAvatar(
               radius: mq.width(3.75),
-              backgroundColor: Colors.orange,
+              backgroundColor: ColorManager.backGroundColor,
               child: IconButton(
                 icon: Icon(Icons.camera_alt,
                     size: mq.width(3.75),
