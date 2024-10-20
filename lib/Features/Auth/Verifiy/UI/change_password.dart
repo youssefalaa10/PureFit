@@ -20,7 +20,8 @@ class ChangePasswordScreen extends StatefulWidget {
 
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       body: SafeArea(
         child: BlocListener<ChangePasswordCubit, ChangePasswordState>(
           listener: (context, state) {
+            if (state is ChangePasswordLoading) {
+              showDialog(
+                context: context,
+                builder: (context) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
             if (state is ChangePasswordSuccess) {
-              CustomSnackbar.showSnackbar(context, state.message);
-              // Navigate to login screen after a delay to let the user read the snackbar
               Future.delayed(const Duration(milliseconds: 500), () {
                 Navigator.pushReplacementNamed(context, Routes.loginScreen);
               });
-            } else if (state is ChangePasswordError) {
+            }
+            if (state is ChangePasswordError) {
               CustomSnackbar.showSnackbar(context, state.error);
             }
           },
@@ -92,15 +100,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             onPressed: () {
                               if (_newPasswordController.text ==
                                   _confirmPasswordController.text) {
-                                final cubit = context.read<ChangePasswordCubit>();
+                                final cubit =
+                                    context.read<ChangePasswordCubit>();
                                 cubit.changePassword(
-                                  widget.email, 
-                                  _newPasswordController.text, 
+                                  widget.email,
+                                  _newPasswordController.text,
                                   context,
                                 );
                               } else {
                                 CustomSnackbar.showSnackbar(
-                                  context, 
+                                  context,
                                   "Passwords do not match!",
                                 );
                               }

@@ -7,7 +7,7 @@ class ForgotPasswordRepo {
 
   ForgotPasswordRepo(this._dioForgotPasswordApi);
 
-  Future<String> sendCode(String email) async {
-    return await _dioForgotPasswordApi.sendVerificationCode(email);
+  Future<void> sendCode(String email) async {
+     await _dioForgotPasswordApi.sendVerificationCode(email);
   }
 }

@@ -8,8 +8,8 @@ class ChangePasswordRepo {
   ChangePasswordRepo
 (this._api);
 
-  Future<String> changePassword(String email, String newPassword) async {
+  Future<void> changePassword(String email, String newPassword) async {
     final model = ChangePasswordModel(email: email, newPassword: newPassword);
-    return await _api.changePassword(model);
+     await _api.changePassword(model);
   }
 }

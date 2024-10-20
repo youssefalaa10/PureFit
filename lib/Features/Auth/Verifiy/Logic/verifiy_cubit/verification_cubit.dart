@@ -12,21 +12,19 @@ class VerificationCubit extends Cubit<VerificationState> {
 
   Future<void> verifyCode(
       String email, String code, BuildContext context) async {
-    emit(VerificationLoading());
+    try {
+      emit(VerificationLoading());
 
-    final verificationModel =
-        VerificationModel(email: email, verificationCode: code);
+      final verificationModel =
+          VerificationModel(email: email, verificationCode: code);
 
-    final response = await _repo.verifyCode(
-      verificationModel.email,
-      verificationModel.verificationCode,
-    );
-
-    if (response == "Verification Successful") {
-      emit(VerificationSuccess(response));
-    
-    } else {
-      emit(VerificationError(response));
+      await _repo.verifyCode(
+        verificationModel.email,
+        verificationModel.verificationCode,
+      );
+      emit(VerificationSuccess());
+    } catch (e) {
+      emit(VerificationError(e.toString()));
     }
   }
 }

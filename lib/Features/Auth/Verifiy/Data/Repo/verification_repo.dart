@@ -5,7 +5,7 @@ class VerificationRepo {
 
   VerificationRepo(this._api);
 
-  Future<String> verifyCode(String email, String code) async {
-    return await _api.verifyCode(email, code);
+  Future<void> verifyCode(String email, String code) async {
+     await _api.verifyCode(email, code);
   }
 }

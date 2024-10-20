@@ -4,11 +4,7 @@ class VerificationInitial extends VerificationState {}
 
 class VerificationLoading extends VerificationState {}
 
-class VerificationSuccess extends VerificationState {
-  final String message;
-
-  VerificationSuccess(this.message);
-}
+class VerificationSuccess extends VerificationState {}
 
 class VerificationError extends VerificationState {
   final String error;

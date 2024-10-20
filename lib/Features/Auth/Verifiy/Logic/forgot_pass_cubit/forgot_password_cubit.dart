@@ -8,14 +8,13 @@ class ForgotPasswordCubit extends Cubit<ForgotPasswordState> {
   ForgotPasswordCubit(this._repo) : super(ForgotPasswordInitial());
 
   Future<void> sendCode(String email) async {
-    emit(ForgotPasswordLoading());
+    try {
+      emit(ForgotPasswordLoading());
 
-    final response = await _repo.sendCode(email);
-
-    if (response == "Verification Code Send") {
-      emit(ForgotPasswordSuccess(response));
-    } else {
-      emit(ForgotPasswordError("Failed to send verification code."));
+      await _repo.sendCode(email);
+      emit(ForgotPasswordSuccess());
+    } catch (e) {
+      emit(ForgotPasswordError(e.toString()));
     }
   }
 }
