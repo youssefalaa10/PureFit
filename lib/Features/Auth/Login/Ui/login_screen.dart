@@ -149,10 +149,11 @@ class LoginScreenState extends State<LoginScreen> {
                             // Forgot Password Button
                             Align(
                               alignment: Alignment
-                                  .centerRight, // Align the Forgot password to the right
+                                  .centerRight, 
                               child: TextButton(
                                 onPressed: () {
-                                  // Forgot password action
+                                  Navigator.pushNamed(
+                                      context, Routes.forgotPasswordScreen);
                                 },
                                 child: Text(
                                   'Forgot password?',
