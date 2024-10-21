@@ -1,4 +1,4 @@
-part of 'training_cubit_cubit.dart';
+part of 'training_cubit.dart';
 
 enum EnumTrainingStage { getReady, start, rest }
 

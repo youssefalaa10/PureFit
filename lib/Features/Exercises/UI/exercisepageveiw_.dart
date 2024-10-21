@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Routing/Routes.dart';
-import '../Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
+import '../Logic/training_cubit/training_cubit.dart';
 import 'components/rest_screen.dart';
 import 'components/training_screen.dart';
 
@@ -24,7 +24,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
   void initState() {
     super.initState();
     _pageController = PageController(initialPage: 0);
-    context.read<TrainingCubitCubit>().startExerciseRoutine();
+    context.read<TrainingCubit>().startExerciseRoutine();
   }
 
   @override
@@ -36,7 +36,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<TrainingCubitCubit, TrainingCubitState>(
+      body: BlocBuilder<TrainingCubit, TrainingCubitState>(
         builder: (context, state) {
           if (state is TrainingLoading) {
             return const Center(child: CircularProgressIndicator());

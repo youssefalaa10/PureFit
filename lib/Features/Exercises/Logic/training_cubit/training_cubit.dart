@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
-part 'training_cubit_state.dart';
+part 'training_state.dart';
 
-
-class TrainingCubitCubit extends Cubit<TrainingCubitState> {
+class TrainingCubit extends Cubit<TrainingCubitState> {
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
@@ -16,8 +15,7 @@ class TrainingCubitCubit extends Cubit<TrainingCubitState> {
   int? remainingTime; // Remaining time to continue from when paused
   EnumTrainingStage? currentStage; // Store the current stage
 
-  TrainingCubitCubit(List<ExerciseModel> exercises)
-      : super(TrainingInitial()) {
+  TrainingCubit(List<ExerciseModel> exercises) : super(TrainingInitial()) {
     passExercises = exercises;
   }
 
@@ -132,4 +130,3 @@ class TrainingCubitCubit extends Cubit<TrainingCubitState> {
     return super.close();
   }
 }
-

@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
-import '../Exercises/Logic/cubit/workout_programs_cubit.dart';
+import '../Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

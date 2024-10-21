@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
+
 import 'package:fitpro/Core/Networking/Dio/dio_workout_categories_api.dart';
+import 'package:fitpro/Core/Networking/interceptors/dio_interceptor.dart';
 import 'package:fitpro/Core/local_db/SleepDb/sleepdb.dart';
 import 'package:fitpro/Core/local_db/TrakStepDb/track_steps_db.dart';
-
-import 'package:fitpro/Core/Networking/interceptors/dio_interceptor.dart';
 import 'package:fitpro/Core/local_db/WaterIntakeDb/waterer_db.dart';
 import 'package:fitpro/Features/Auth/Verifiy/Data/Repo/forgot_password_repo.dart';
 import 'package:fitpro/Features/Auth/Verifiy/Logic/verifiy_cubit/verification_cubit.dart';
@@ -15,7 +16,6 @@ import 'package:fitpro/Features/TrackSteps/Data/Repository/track_steps_repo.dart
 import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:fitpro/Features/Water/Data/Repo/water_repo.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
-import 'package:get_it/get_it.dart';
 
 import '../../Features/Auth/Login/Data/Repo/login_repo.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
@@ -31,8 +31,8 @@ import '../../Features/Diet/Data/Repo/foods_repo.dart';
 import '../../Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import '../../Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import '../../Features/Exercises/Data/Repo/exercise_repo.dart';
-import '../../Features/Exercises/Logic/cubit/exercise_cubit.dart';
-import '../../Features/Exercises/Logic/cubit/workout_programs_cubit.dart';
+import '../../Features/Exercises/Logic/exercise_cubit/exercise_cubit.dart';
+import '../../Features/Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
 import '../../Features/Profile/Data/Repo/profile_repo.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../Networking/Dio/dio_auth_api.dart';

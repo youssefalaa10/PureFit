@@ -1,11 +1,11 @@
 import 'dart:async';
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/media_query.dart';
 import '../../Data/Model/exercise_model.dart';
+import '../../Logic/training_cubit/training_cubit.dart';
 
 class GetReadyScreen extends StatefulWidget {
   final List<ExerciseModel> exercises;
@@ -26,7 +26,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
   void initState() {
     super.initState();
     startCountdown();
-    countdownValue = context.read<TrainingCubitCubit>().getReadyDuration;
+    countdownValue = context.read<TrainingCubit>().getReadyDuration;
   }
 
   @override
@@ -177,7 +177,7 @@ class CircularCounter extends StatelessWidget {
             height: mq.width(30),
             child: CircularProgressIndicator(
               value: countdownValue /
-                  context.read<TrainingCubitCubit>().getReadyDuration,
+                  context.read<TrainingCubit>().getReadyDuration,
               strokeWidth: mq.width(2),
               color: Colors.teal,
               backgroundColor: Colors.grey.shade300,

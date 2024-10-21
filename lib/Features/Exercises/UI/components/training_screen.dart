@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/media_query.dart';
 import '../../Data/Model/exercise_model.dart';
-import '../../Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
+import '../../Logic/training_cubit/training_cubit.dart';
 
 class TrainingScreen extends StatefulWidget {
   final int index;
@@ -27,8 +27,8 @@ class _TrainingScreenState extends State<TrainingScreen> {
   @override
   void initState() {
     super.initState();
-    countdownValue = context.read<TrainingCubitCubit>().exerciseDuration;
-    Paused = context.read<TrainingCubitCubit>().isPaused;
+    countdownValue = context.read<TrainingCubit>().exerciseDuration;
+    Paused = context.read<TrainingCubit>().isPaused;
 
     startCountdown();
   }
@@ -88,9 +88,9 @@ class _TrainingScreenState extends State<TrainingScreen> {
             SizedBox(height: mq.height(2)),
             PausePlayButtonSection(
               mq: mq,
-              isPaused: context.read<TrainingCubitCubit>().isPaused,
+              isPaused: context.read<TrainingCubit>().isPaused,
               onPressed: () {
-                final cubit = context.read<TrainingCubitCubit>();
+                final cubit = context.read<TrainingCubit>();
                 if (cubit.isPaused) {
                   cubit.resumeRoutine(); // Resume the timer
                 } else {

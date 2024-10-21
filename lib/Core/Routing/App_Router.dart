@@ -1,12 +1,10 @@
-import 'package:fitpro/Features/Auth/Verifiy/Logic/forgot_pass_cubit/forgot_password_cubit.dart';
-import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
-import 'package:fitpro/Features/Exercises/Logic/cubit/exercise_cubit.dart';
-
-import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
-import 'package:fitpro/Features/Exercises/UI/exercisepageveiw_.dart';
-import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:fitpro/Features/Auth/Verifiy/Logic/forgot_pass_cubit/forgot_password_cubit.dart';
+import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
+import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
+import 'package:fitpro/Features/Exercises/UI/exercisepageveiw_.dart';
 
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Login/Ui/login_screen.dart';
@@ -21,12 +19,13 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
-
 import '../../Features/Diet/Data/Repo/favorite_repo.dart';
 import '../../Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import '../../Features/Diet/UI/diet_detials_screen.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
+import '../../Features/Exercises/Logic/exercise_cubit/exercise_cubit.dart';
+import '../../Features/Exercises/Logic/training_cubit/training_cubit.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Home/home_screen.dart';
 import '../../Features/Layout/layout_screen.dart';
@@ -195,7 +194,7 @@ class AppRouter {
         final exercises = settings.arguments as List<ExerciseModel>;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (context) => TrainingCubitCubit(exercises),
+            create: (context) => TrainingCubit(exercises),
             child: ExerciseStages(exercises: exercises),
           ),
         );

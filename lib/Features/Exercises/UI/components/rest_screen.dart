@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
-import 'package:fitpro/Features/Exercises/Logic/TrainingCubit/cubit/training_cubit_cubit.dart';
+import 'package:fitpro/Features/Exercises/Logic/training_cubit/training_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class _RestScreenState extends State<RestScreen> {
   void initState() {
     super.initState();
     startCountdown();
-    countdownValue = context.read<TrainingCubitCubit>().restDuration;
+    countdownValue = context.read<TrainingCubit>().restDuration;
   }
 
   @override
@@ -68,13 +68,12 @@ class _RestScreenState extends State<RestScreen> {
               countdownValue: countdownValue,
               onAddTime: () {
                 setState(() {
-                  context.read<TrainingCubitCubit>().addRestTime(20);
-                  countdownValue =
-                      context.read<TrainingCubitCubit>().restDuration;
+                  context.read<TrainingCubit>().addRestTime(20);
+                  countdownValue = context.read<TrainingCubit>().restDuration;
                 });
               },
               onSkip: () {
-                context.read<TrainingCubitCubit>().skipRest();
+                context.read<TrainingCubit>().skipRest();
               },
             ),
             SizedBox(height: mq.height(5)),

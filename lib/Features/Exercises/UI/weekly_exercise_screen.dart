@@ -46,14 +46,9 @@ class WeeklyExerciseScreen extends StatelessWidget {
     return Stack(
       children: [
         Container(
+          color: ColorManager.primaryColor,
           height: mq.height(25),
           width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppString.profile),
-              fit: BoxFit.cover,
-            ),
-          ),
         ),
         Container(
           height: mq.height(25),
@@ -70,9 +65,12 @@ class WeeklyExerciseScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CustomBackButton(),
+                  CustomBackButton(
+                    iconColor: ColorManager.backGroundColor,
+                  ),
                   CustomIconButton(
                     icon: Icons.more_vert,
+                    iconColor: ColorManager.backGroundColor,
                     onPressed: () {
                       // Handle more actions
                     },
@@ -84,7 +82,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'FULL BODY\n',
+                      text: 'Weekly Exercise\n',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -126,7 +124,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 value: 0.18,
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 valueColor:
-                    AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
+                    AlwaysStoppedAnimation<Color>(ColorManager.backGroundColor),
                 minHeight: mq.height(0.8),
               ),
             ],
