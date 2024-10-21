@@ -18,7 +18,6 @@ class FoodsCubit extends Cubit<FoodsState> {
       // final favoriteIds = await foodsRepo.getFavouriteFoods(); // Fetch favorite IDs
 
       if (foods != null && foods.isNotEmpty) {
-        
         // Set allFoods and mark favorites
         allFoods = foods.map((food) {
           return DietModel(
@@ -34,12 +33,18 @@ class FoodsCubit extends Cubit<FoodsState> {
 
         // Initialize filteredFoods with all foods
         filteredFoods = allFoods;
-        emit(FoodsSuccess(filteredFoods));
+        if (!isClosed) {
+          emit(FoodsSuccess(filteredFoods));
+        }
       } else {
-        emit(FoodsError("No foods found"));
+        if (!isClosed) {
+          emit(FoodsError("No foods found"));
+        }
       }
     } catch (e) {
-      emit(FoodsError("Failed to load foods: $e"));
+      if (!isClosed) {
+        emit(FoodsError("Failed to load foods: $e"));
+      }
     }
   }
 
@@ -51,6 +56,8 @@ class FoodsCubit extends Cubit<FoodsState> {
         return food.name.toLowerCase().contains(query.toLowerCase());
       }).toList();
     }
-    emit(FoodsSuccess(filteredFoods)); // Emit the filtered foods
+    if (!isClosed) {
+      emit(FoodsSuccess(filteredFoods));
+    } // Emit the filtered foods
   }
 }

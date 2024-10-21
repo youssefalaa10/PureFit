@@ -16,10 +16,11 @@ class ApiConstants {
   // Exercises and Workout Categories
   static String apiExercise = "/api/exercises/";
   static String apiWorkoutCategories = "/api/categories";
-  
+
   // Foods and Drinks
   static String apiFoods = "/api/foods";
   static String apiDrinks = "/api/drinks";
+  static String gemini = "/api/gemini";
   static String apiFavorite(String dietItemId) {
     return "/api/favorites/$dietItemId";
   }

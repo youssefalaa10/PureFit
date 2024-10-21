@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:fitpro/Core/Networking/Dio/dio_aichat.dart';
 import 'package:fitpro/Core/Networking/Dio/dio_workout_categories_api.dart';
 import 'package:fitpro/Core/local_db/SleepDb/sleepdb.dart';
 import 'package:fitpro/Core/local_db/TrakStepDb/track_steps_db.dart';
 
 import 'package:fitpro/Core/Networking/interceptors/dio_interceptor.dart';
 import 'package:fitpro/Core/local_db/WaterIntakeDb/waterer_db.dart';
+import 'package:fitpro/Features/AiChat/Data/Repository/ai_chat_repo.dart';
+import 'package:fitpro/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
 import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:fitpro/Features/Exercises/Data/Repo/workout_categories_repo.dart';
 import 'package:fitpro/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
@@ -49,7 +52,7 @@ Future<void> setUpGit() async {
   getIT.registerLazySingleton<DietFavoriteDb>(() => DietFavoriteDb());
   getIT.registerLazySingleton<DioFoodsApi>(() => DioFoodsApi(dio: dio));
   getIT.registerLazySingleton<DioDrinksApi>(() => DioDrinksApi(dio: dio));
-
+  getIT.registerLazySingleton<DioChatApi>(() => DioChatApi(dio: dio));
   getIT.registerLazySingleton<DioProfileApi>(() => DioProfileApi(dio: dio));
   getIT.registerLazySingleton<DioExerciseApi>(() => DioExerciseApi(dio: dio));
   getIT.registerLazySingleton<DioWorkoutCategoriesApi>(
@@ -106,13 +109,19 @@ Future<void> setUpGit() async {
   getIT.registerFactory<DrinksCubit>(() => DrinksCubit(getIT()));
 
   // Favorite
-getIT.registerLazySingleton<DioFavoriteApi>(() => DioFavoriteApi(dio: dio));
+  getIT.registerLazySingleton<DioFavoriteApi>(() => DioFavoriteApi(dio: dio));
 
 // Now register FavoriteRepo
-getIT.registerLazySingleton<FavoriteRepo>(() => FavoriteRepo(
-      dioFavoriteApi: getIT<DioFavoriteApi>(),
-      dietFavoriteDb: getIT<DietFavoriteDb>(),
-    ));
+  getIT.registerLazySingleton<FavoriteRepo>(() => FavoriteRepo(
+        dioFavoriteApi: getIT<DioFavoriteApi>(),
+        dietFavoriteDb: getIT<DietFavoriteDb>(),
+      ));
 
- getIT.registerFactory<FavoriteCubit>(()=>FavoriteCubit(favoriteRepo: getIT()));   
+  getIT.registerFactory<FavoriteCubit>(
+      () => FavoriteCubit(favoriteRepo: getIT()));
+
+//Ai chat
+  getIT
+      .registerLazySingleton<AiChatRepo>(() => AiChatRepo(dioChatApi: getIT()));
+  getIT.registerFactory<AichatCubit>(() => AichatCubit(getIT()));
 }

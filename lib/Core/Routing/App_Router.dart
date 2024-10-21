@@ -7,6 +7,7 @@ import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../Features/AiChat/trainer_chat.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Login/Ui/login_screen.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
@@ -18,7 +19,6 @@ import '../../Features/AuthHelper/cubit/tokencheck_cubit.dart';
 import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
-
 
 import '../../Features/Diet/Data/Repo/favorite_repo.dart';
 import '../../Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
@@ -230,14 +230,15 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (_) => const FoodItem());
 
       // Food Details Screen ===================================================
- case Routes.detailsScreen:
-  final dietItem = settings.arguments as BaseDietModel;
-  return MaterialPageRoute(
-    builder: (context) => BlocProvider(
-      create: (context) => FavoriteCubit(favoriteRepo: getIT<FavoriteRepo>()),
-      child: DetailScreen(dietItem: dietItem),
-    ),
-  );
+      case Routes.detailsScreen:
+        final dietItem = settings.arguments as BaseDietModel;
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider(
+            create: (context) =>
+                FavoriteCubit(favoriteRepo: getIT<FavoriteRepo>()),
+            child: DetailScreen(dietItem: dietItem),
+          ),
+        );
 
       // Change Password =========================================================
       case Routes.changePasswordScreen:
@@ -254,6 +255,9 @@ class AppRouter {
       // Fitness Goal Screen ===================================================
       case Routes.fitnessGoalScreen:
         return MaterialPageRoute(builder: (_) => const FitnessGoalScreen());
+      // Trainer  Screen ===================================================
+      case Routes.trainerChat:
+        return MaterialPageRoute(builder: (_) => const TrainerChat());
 
       default:
         return null;
