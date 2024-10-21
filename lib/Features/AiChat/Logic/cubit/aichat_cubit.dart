@@ -13,7 +13,8 @@ class AichatCubit extends Cubit<AichatState> {
     try {
       final response = await aiChatRepo.doChatting(message);
       final cleanedResponse = response.replaceAll('**', '')
-        ..replaceAll("##", '');
+        ..replaceAll("##", '')
+        ..replaceAll("*", '');
       emit(AichatLoaded(message: cleanedResponse));
     } on Exception catch (e) {
       emit(AichatError(message: e.toString()));
