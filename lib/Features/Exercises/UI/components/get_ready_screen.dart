@@ -55,7 +55,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
       backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
         leading: const CustomBackButton(),
-        title: Text('Exercises ${widget.index + 1}/10',
+        title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
             style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fitpro/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:fitpro/Core/Networking/Dio/dio_workout_categories_api.dart';
@@ -31,6 +32,7 @@ import '../../Features/Diet/Data/Repo/foods_repo.dart';
 import '../../Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import '../../Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import '../../Features/Exercises/Data/Repo/exercise_repo.dart';
+import '../../Features/Exercises/Data/Repo/weekly_execises_repo.dart';
 import '../../Features/Exercises/Logic/exercise_cubit/exercise_cubit.dart';
 import '../../Features/Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
 import '../../Features/Profile/Data/Repo/profile_repo.dart';
@@ -44,6 +46,7 @@ import '../Networking/Dio/dio_food_api.dart';
 import '../Networking/Dio/dio_forgot_password_api.dart';
 import '../Networking/Dio/dio_profile_api.dart';
 import '../Networking/Dio/dio_verification_api.dart';
+import '../Networking/Dio/dio_weekly_execises_api.dart';
 import '../local_db/food_db/food_db.dart';
 
 final getIT = GetIt.instance;
@@ -82,22 +85,20 @@ Future<void> setUpGit() async {
   getIT.registerLazySingleton<ForgotPasswordRepo>(
       () => ForgotPasswordRepo(getIT()));
 
-
   // Verification
   getIT.registerLazySingleton<DioVerificationApi>(
       () => DioVerificationApi(dio: dio));
   getIT.registerFactory<VerificationCubit>(() => VerificationCubit(getIT()));
-  getIT.registerLazySingleton<VerificationRepo>(
-      () => VerificationRepo(getIT()));
+  getIT
+      .registerLazySingleton<VerificationRepo>(() => VerificationRepo(getIT()));
 
   // Change Password
   getIT.registerLazySingleton<DioChangePasswordApi>(
       () => DioChangePasswordApi(dio: dio));
-  getIT.registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIT()));
+  getIT
+      .registerFactory<ChangePasswordCubit>(() => ChangePasswordCubit(getIT()));
   getIT.registerLazySingleton<ChangePasswordRepo>(
       () => ChangePasswordRepo(getIT()));
-
-
 
   //Sign up
   getIT.registerLazySingleton<RegisterRepo>(
@@ -122,6 +123,15 @@ Future<void> setUpGit() async {
       () => WorkoutCategoriesRepo(dioWorkoutCategoriesApi: getIT()));
   getIT.registerLazySingleton<WorkoutProgramsCubit>(
       () => WorkoutProgramsCubit(getIT()));
+
+  // Weekly Exercise
+  getIT.registerLazySingleton<DioWeeklyExerciseApi>(
+      () => DioWeeklyExerciseApi(dio: dio));
+  getIT.registerLazySingleton<WeeklyExerciseRepo>(
+      () => WeeklyExerciseRepo(dioWeeklyExerciseApi: getIT()));
+  getIT.registerFactory<WeeklyExerciseCubit>(
+      () => WeeklyExerciseCubit(getIT()));
+
   //Water intake
   getIT.registerLazySingleton<WaterRepo>(() => WaterRepo(watererDb: getIT()));
   getIT.registerFactory<WaterIntakeCubit>(() => WaterIntakeCubit(getIT()));

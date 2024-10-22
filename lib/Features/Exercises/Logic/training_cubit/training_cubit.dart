@@ -8,9 +8,9 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
-  final int getReadyDuration = 3;
-  final int exerciseDuration = 10;
-  int restDuration = 15; // Can be modified dynamically
+  final int getReadyDuration = 1;
+  final int exerciseDuration = 1;
+  int restDuration = 1; // Can be modified dynamically
   bool isPaused = false; // Pause flag
   int? remainingTime; // Remaining time to continue from when paused
   EnumTrainingStage? currentStage; // Store the current stage
@@ -30,6 +30,9 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
   // Start Get Ready Stage and First Stage
   void _startGetReadyStage() {
+      if (currentExercise >= (passExercises?.length ?? 0)) {
+      emit(TrainingCompleted());
+    }
     currentStage = EnumTrainingStage.getReady;
     _startTimer(getReadyDuration, _startExerciseStage);
   }
@@ -37,7 +40,17 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   // Start Exercise Stage and This is Second Stage
   void _startExerciseStage() {
     currentStage = EnumTrainingStage.start;
-    _startTimer(exerciseDuration, _startRestStage);
+    // _startTimer(exerciseDuration, _startRestStage);
+      _startTimer(exerciseDuration, () {
+      if (currentExercise == (passExercises?.length ?? 0) - 1) {
+        // If this is the last exercise, mark training as completed
+        emit(TrainingCompleted());
+      } else {
+        // Otherwise, start the rest stage
+        _startRestStage();
+      }
+    });
+
   }
 
   // Start Rest Stage and This Third Stage

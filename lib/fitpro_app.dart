@@ -32,6 +32,7 @@ class FitproApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       navigatorKey: navigatorKey, // Set the navigator key for the MaterialApp
+      // initialRoute: Routes.weeklyExerciseScreen,
       initialRoute: Routes.checkToken,
       onGenerateRoute: appRouter.generateRoute,
     );

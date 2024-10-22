@@ -8,10 +8,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
 import '../Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
+import '../Profile/Logic/cubit/profile_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProfileCubit>().getProfile();
+  }
+  
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);

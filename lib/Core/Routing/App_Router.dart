@@ -26,6 +26,7 @@ import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
 import '../../Features/Exercises/Logic/exercise_cubit/exercise_cubit.dart';
 import '../../Features/Exercises/Logic/training_cubit/training_cubit.dart';
+import '../../Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import '../../Features/Exercises/UI/weekly_exercise_screen.dart';
 import '../../Features/Home/home_screen.dart';
 import '../../Features/Layout/layout_screen.dart';
@@ -166,9 +167,16 @@ class AppRouter {
         );
 
       // Weekly Exercise Screen ===============================================
-      case Routes.weeklyExerciseScreen:
-        return MaterialPageRoute(builder: (_) => const WeeklyExerciseScreen());
-
+    case Routes.weeklyExerciseScreen:
+  return MaterialPageRoute(
+    builder: (context) {
+      // final profileId = settings.arguments as String;
+      return BlocProvider(
+        create: (context) => getIT<WeeklyExerciseCubit>(),
+        child: WeeklyExerciseScreen(), // Pass profileId
+      );
+    },
+  );
       // Token Check Screen ===================================================
       case Routes.checkToken:
         return MaterialPageRoute(

@@ -202,7 +202,7 @@ class NextExerciseSection extends StatelessWidget {
               SizedBox(
                 width: mq.width(90), // Limit width for proper overflow handling
                 child: Text(
-                  exercises[index + 1].name,
+                  exercises[index].name,
                   style: TextStyle(
                     fontSize: mq.height(3),
                     fontWeight: FontWeight.bold,

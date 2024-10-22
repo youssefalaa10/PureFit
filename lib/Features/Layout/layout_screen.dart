@@ -3,6 +3,7 @@ import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
+import 'package:fitpro/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
@@ -28,7 +29,10 @@ class LayoutScreenState extends State<LayoutScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const MyPlanScreen(),
-    const WeeklyExerciseScreen(),
+    BlocProvider(
+      create: (context) => getIT<WeeklyExerciseCubit>(),
+      child: const WeeklyExerciseScreen(),
+    ),
     MultiBlocProvider(
       providers: [
         BlocProvider(

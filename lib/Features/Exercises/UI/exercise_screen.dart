@@ -326,6 +326,7 @@ Widget _buildShimmerContentSection(CustomMQ mq) {
   );
 }
 
+
 Widget _buildShimmerBox(double width, double height) {
   return Container(
     width: width,

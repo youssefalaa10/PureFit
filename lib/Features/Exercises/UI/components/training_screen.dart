@@ -61,7 +61,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
-        title: Text('Exercises ${widget.index + 1}/10',
+        title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
             style: const TextStyle(color: Colors.black)),
         backgroundColor: Colors.transparent,
         elevation: 0,
