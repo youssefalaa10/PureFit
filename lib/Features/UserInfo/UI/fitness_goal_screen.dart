@@ -155,11 +155,11 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
   Widget buildGoalOptions(CustomMQ mq) {
     return Column(
       children: [
-        _buildGoalOption('Gain Weight', mq),
+        _buildGoalOption('gain weight', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Fat Loss', mq),
+        _buildGoalOption('fat lose', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Building Muscles', mq),
+        _buildGoalOption('build muscles', mq),
       ],
     );
   }

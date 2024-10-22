@@ -31,8 +31,8 @@ class RegisterCubit extends Cubit<RegisterState> {
         userHeight: userHeight!,
         userWeight: userWeight!,
         gender: gender!,
-        goal: goal,
-        activity: activity,
+        goal: goal ?? 'fat lose',
+        activity: activity ?? ' ',
         image: "");
 
     try {

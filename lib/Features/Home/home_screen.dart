@@ -2,6 +2,7 @@ import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
 import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
 import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
 import 'package:fitpro/Features/Home/Widgets/recommended_tasks.dart';
+import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,8 +10,21 @@ import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
 import '../Exercises/Logic/cubit/workout_programs_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ProfileCubit>().getProfile();
+    print("x");
+  }
 
   @override
   Widget build(BuildContext context) {

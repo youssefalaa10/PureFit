@@ -159,11 +159,11 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
         SizedBox(height: mq.height(1)),
         _buildGoalOption('Light exercise', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Moderate exercise', mq),
+        _buildGoalOption('Moderate exercise (3-5 days/wk)', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Very active', mq),
+        _buildGoalOption('Very active (6-7 days/wk)', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Extra active', mq),
+        _buildGoalOption('Extra active (very active & physical job)', mq),
       ],
     );
   }
