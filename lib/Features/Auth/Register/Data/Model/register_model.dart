@@ -42,7 +42,7 @@ class RegisterModel {
       'gender': gender,
       'goalSteps': goalSteps,
       'image': image,
-      'actitivty': activity,
+      'activity': activity,
       'goal': goal,
     };
   }

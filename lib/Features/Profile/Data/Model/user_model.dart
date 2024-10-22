@@ -11,8 +11,12 @@ class UserModel {
   final int userWeight;
   final String gender;
   final String? image;
+  final String? activity;
+  final String? goal;
 
   UserModel({
+    this.activity,
+    this.goal,
     required this.userId,
     required this.userName,
     required this.userEmail,
@@ -33,6 +37,9 @@ class UserModel {
       'userWeight': userWeight,
       'gender': gender,
       'image': image,
+      'activity': activity,
+      'goal': goal,
+      // Add other fields as needed'
     };
   }
 
@@ -46,6 +53,8 @@ class UserModel {
       userWeight: map['userWeight'] as int,
       gender: map['gender'] as String,
       image: map['image'] as String?,
+      activity: map['activity'] as String?,
+      goal: map['goal'] as String?,
     );
   }
   // Save the UserModel to SharedPreferences as a JSON string

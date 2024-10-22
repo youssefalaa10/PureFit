@@ -53,7 +53,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
   }
 
-  // Start Rest Stage and This Third Stage
+  // Start Rest Stage (skipped for the last exercise)
   void _startRestStage() {
     currentStage = EnumTrainingStage.rest;
     _startTimer(restDuration, _nextExercise);
@@ -66,7 +66,8 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
       _startGetReadyStage(); // Start the next exercise
     } else {
       _timer?.cancel();
-      emit(TrainingCompleted());
+      emit(
+          TrainingCompleted()); // Just in case, ensure we emit completion here too
     }
   }
 

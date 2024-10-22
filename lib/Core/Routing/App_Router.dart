@@ -6,6 +6,7 @@ import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
 import 'package:fitpro/Features/Exercises/UI/exercisepageveiw_.dart';
 
+import '../../Features/AiChat/trainer_chat.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import '../../Features/Auth/Login/Ui/login_screen.dart';
 import '../../Features/Auth/Register/Logic/cubit/register_cubit.dart';
@@ -284,6 +285,9 @@ class AppRouter {
       // Fitness Goal Screen ===================================================
       case Routes.fitnessGoalScreen:
         return MaterialPageRoute(builder: (_) => const FitnessGoalScreen());
+      // Trainer  Screen ===================================================
+      case Routes.trainerChat:
+        return MaterialPageRoute(builder: (_) => const TrainerChat());
 
       default:
         return null;

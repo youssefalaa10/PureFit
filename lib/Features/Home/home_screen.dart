@@ -2,13 +2,14 @@ import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
 import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
 import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
 import 'package:fitpro/Features/Home/Widgets/recommended_tasks.dart';
+import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
 import '../Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
-import '../Profile/Logic/cubit/profile_cubit.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

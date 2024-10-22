@@ -1,16 +1,40 @@
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
+import 'package:fitpro/Core/Shared/calculator.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/Shared/app_string.dart';
 
 import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
+import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Routing/routes.dart'; 
-class CaloriesScreen extends StatelessWidget {
+import '../../../Core/Routing/routes.dart';
+
+class CaloriesScreen extends StatefulWidget {
   const CaloriesScreen({super.key});
+
+  @override
+  State<CaloriesScreen> createState() => _CaloriesScreenState();
+}
+
+class _CaloriesScreenState extends State<CaloriesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final user = context.read<ProfileCubit>().user;
+    final calories = Calculator().getBmrActivity(
+        activityLevel: user!.activity!,
+        weight: user.userWeight,
+        height: user.userHeight,
+        age: user.age);
+    print(calories);
+
+    final bmi = Calculator().getBmiActivity(user.userWeight, user.userHeight);
+    print(bmi);
+  }
 
   @override
   Widget build(BuildContext context) {
