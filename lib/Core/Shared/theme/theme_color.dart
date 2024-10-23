@@ -7,9 +7,9 @@ ThemeData lightTheme = ThemeData(
   scaffoldBackgroundColor: ColorManager.backGroundColor,
   colorScheme: ColorScheme(
     primary: ColorManager.primaryColor,
-    primaryContainer: ColorManager.lightBlueColor, // Optional
+    primaryContainer: ColorManager.greyColor, // Optional
     secondary: ColorManager.blueColor,
-    secondaryContainer: ColorManager.lightGreenColor, // Optional
+    secondaryContainer: ColorManager.lightGreyColor, // Optional
     surface: Colors.white,
     error: Colors.red,
     onPrimary: Colors.white,

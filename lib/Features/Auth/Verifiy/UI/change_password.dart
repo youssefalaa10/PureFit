@@ -40,9 +40,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               );
             }
             if (state is ChangePasswordSuccess) {
-              Future.delayed(const Duration(milliseconds: 500), () {
+              Navigator.pop(context);
+
                 Navigator.pushReplacementNamed(context, Routes.loginScreen);
-              });
             }
             if (state is ChangePasswordError) {
               CustomSnackbar.showSnackbar(context, state.error);
@@ -102,6 +102,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   _confirmPasswordController.text) {
                                 final cubit =
                                     context.read<ChangePasswordCubit>();
+                                print('ccccccccccccc${_newPasswordController}');
                                 cubit.changePassword(
                                   widget.email,
                                   _newPasswordController.text,

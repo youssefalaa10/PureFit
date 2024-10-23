@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../Core/Routing/routes.dart';
 import '../../../fitpro_app.dart';
 
 
@@ -134,6 +135,7 @@ class SettingScreenState extends State<SettingScreen> {
                   // label: AppString.termsAndConditions(context),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                   onTap: () {
+                    Navigator.pushNamed(context, Routes.termsOfServiceScreen);
                     // Handle Terms & Conditions tap
                    
                   },
