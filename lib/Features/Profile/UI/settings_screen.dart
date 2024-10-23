@@ -53,6 +53,7 @@ class SettingScreenState extends State<SettingScreen> {
       // backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Settings'),
+        backgroundColor: ColorManager.backGroundColor,
         // title: Text(AppString.setting(context), style: textTheme.bodyLarge),
         centerTitle: true,
       ),
