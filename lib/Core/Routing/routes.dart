@@ -34,4 +34,5 @@ class Routes {
   static const String fitnessGoalScreen = "/fitnessGoalScreen";
   static const String trainerChat = "/trainerChat";
   static const String userProfileScreen = "/userProfileScreen";
+  static const String settingScreen = "/settingScreen";
 }
