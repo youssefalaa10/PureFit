@@ -4,14 +4,14 @@ import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
 import 'package:fitpro/Features/Calories/component/calories_ruler.dart';
 import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; 
+import 'package:fitpro/Core/Components/media_query.dart';
 
 class CaloriesDetails extends StatelessWidget {
   const CaloriesDetails({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); 
+    final mq = CustomMQ(context);
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
@@ -23,36 +23,39 @@ class CaloriesDetails extends StatelessWidget {
               onPressed: () {},
             ),
             SizedBox(
-              height: mq.height(2), 
+              height: mq.height(2),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
               child: Text(
                 "Set New Target!",
                 style: TextStyle(
-                  fontSize: mq.width(5), 
+                  fontSize: mq.width(5),
                   fontWeight: FontWeight.w900,
                 ),
               ),
             ),
             SizedBox(
-              height: mq.height(2), 
+              height: mq.height(2),
             ),
-            const CaloriesPercentage(),
+            const CaloriesPercentage(
+              calories: 300,
+              consumedCalories: 50,
+            ),
             SizedBox(
-              height: mq.height(2), 
+              height: mq.height(2),
             ),
             const CaloriesRuler(),
             SizedBox(
-              height: mq.height(4), 
+              height: mq.height(4),
             ),
             Center(
               child: CustomButton(
                 label: "Save",
                 onPressed: () {},
                 padding: EdgeInsets.symmetric(
-                  horizontal: mq.width(35), 
-                  vertical: mq.height(2),   
+                  horizontal: mq.width(35),
+                  vertical: mq.height(2),
                 ),
               ),
             ),

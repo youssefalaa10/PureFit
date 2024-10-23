@@ -3,7 +3,6 @@ import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Components/custom_button.dart';
 import '../../../Core/Components/custom_sizedbox.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
@@ -34,15 +33,6 @@ class _DietScreenState extends State<DietScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: CustomButton(
-          label: "Add to Meat",
-          onPressed: () {},
-          padding: EdgeInsets.symmetric(
-            vertical: mq.height(1.5),
-            horizontal: mq.width(10),
-          ),
-        ),
         backgroundColor: ColorManager.backGroundColor,
         appBar: AppBar(
           surfaceTintColor: ColorManager.backGroundColor,

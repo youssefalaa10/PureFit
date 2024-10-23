@@ -25,14 +25,6 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
     super.initState();
     final user = context.read<ProfileCubit>().user;
     bmi = Calculator().getBmiActivity(user!.userWeight, user.userHeight);
-    print(bmi);
-
-    calories = Calculator().getBmrActivity(
-        activityLevel: user.activity!,
-        weight: user.userWeight,
-        height: user.userHeight,
-        age: user.age);
-    print(calories);
   }
 
   @override
@@ -56,69 +48,71 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
                 _buildFourGridsofStatics(context, mq),
                 bmiCalculator(mq),
                 SizedBox(height: mq.height(1)),
-                Text(
-                  "your bmi is : ${bmi.toStringAsFixed(1)} and its Overweight",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 Stack(
                   alignment: Alignment.center,
                   children: [
                     // Linear Percent Indicator
-                    LinearPercentIndicator(
-                      animation: true,
-                      animationDuration: 1000,
-                      percent: 40 / 40, // Use the provided progress value
-                      lineHeight: 15, // Height of the progress line
-                      linearGradient: const LinearGradient(
-                        colors: [
-                          Colors.yellow, // 0-25%
-                          Colors.yellow, // 0-25%
-                          Colors.yellow, // 0-25%
+                    Center(
+                      child: LinearPercentIndicator(
+                        barRadius: const Radius.circular(15),
+                        animation: true,
+                        animationDuration: 1000,
+                        percent: 40 / 40, // Use the provided progress value
+                        lineHeight: 40, // Height of the progress line
+                        linearGradient: LinearGradient(
+                          colors: [
+                            Colors.yellow.shade100, // 0-25%
+                            Colors.yellow.shade200, // 0-25%
+                            Colors.yellow.shade300, // 0-25%
 
-                          Colors.yellow, // 0-25%
-                          Colors.yellow, // 0-25%
-
-                          Colors.green, // 25-50%
-                          Colors.green, // 25-50%
-                          Colors.orange, // 50-75%
-                          Colors.orange, // 50-75%
-                          Colors.orange, // 50-75%
-                          Colors.red,
-                          Colors.red,
-                          Colors.red, // 75-100%
-                          Colors.red, // 75-100%
-                        ],
+                            Colors.yellow.shade400, // 0-25%
+                            Colors.yellow.shade500, // 0-25%
+                            Colors.yellow.shade500,
+                            Colors.yellow.shade500,
+                            Colors.yellow.shade500,
+                            Colors.green.shade500, // 25-50%
+                            Colors.green.shade900, // 25-50%
+                            Colors.orange.shade400, // 50-75%
+                            Colors.orange.shade700, // 50-75%
+                            Colors.orange.shade700, // 50-75%
+                            Colors.red.shade400,
+                            Colors.red.shade600,
+                            Colors.red.shade800, // 75-100%
+                            Colors.red.shade900, // 75-100%
+                          ],
+                        ),
+                        backgroundColor: Colors
+                            .grey[300], // Background color for the progress bar
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20), // Padding around the progress bar
                       ),
-                      backgroundColor: Colors
-                          .grey[300], // Background color for the progress bar
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20), // Padding around the progress bar
                     ),
                     // Pointer
                     Positioned(
-                      left: ((30 / 40) * (mq.width(96) - 40)) -
+                      left: ((bmi / 40) * (mq.width(96) - 40)) -
                           10, // Correctly position the pointer
                       child: const Column(
                         children: [
-                          Icon(Icons.arrow_drop_down,
-                              size: 40, color: Colors.black), // Pointer icon
+                          Icon(Icons.straight,
+                              size: 50, color: Colors.black), // Pointer icon
                         ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 50,
+                SizedBox(height: mq.height(1)),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: mq.width(3)),
+                    child: Text(
+                      "BMI (kg/m2) : ${bmi.toStringAsFixed(1)} it's Overweight",
+                      style: TextStyle(
+                          color: ColorManager.primaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
-                Text(
-                  "Your must get ${calories.toStringAsFixed(2)} in your day",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                )
               ],
             ),
           ),
@@ -143,20 +137,44 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
 
   Padding bmiCalculator(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.only(left: mq.width(5)),
-      child: Text(
-        AppString.bmiCalculator,
-        style: TextStyle(
-          fontSize: mq.width(5.5),
-          fontWeight: FontWeight.w800,
-        ),
+      padding: EdgeInsets.only(left: mq.width(3)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppString.bmiCalculator,
+            style: TextStyle(
+              fontSize: mq.width(5.5),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(height: mq.height(1)),
+          Text(
+            "Last Update:",
+            style: TextStyle(
+              color: ColorManager.lightGreyColor,
+              fontSize: mq.width(4),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Text(
+            " ${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year} at ${DateTime.now().hour}:${DateTime.now().minute}",
+            style: TextStyle(
+              color: ColorManager.primaryColor,
+              fontSize: mq.width(4),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: mq.height(1)),
+        ],
       ),
     );
   }
 
   Widget _buildRowOfDailyPlanStatics(CustomMQ mq) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+      padding: EdgeInsets.symmetric(horizontal: mq.width(3)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

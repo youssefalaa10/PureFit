@@ -1,3 +1,4 @@
+import 'package:fitpro/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -117,7 +118,11 @@ class AppRouter {
 
       // Calories Screen ==============================================
       case Routes.caloriesScreen:
-        return MaterialPageRoute(builder: (_) => const CaloriesScreen());
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => getIT<TodayfoodCubit>(),
+                  child: const CaloriesScreen(),
+                ));
 
       // Water Screen =================================================
       case Routes.waterScreen:
@@ -168,16 +173,16 @@ class AppRouter {
         );
 
       // Weekly Exercise Screen ===============================================
-    case Routes.weeklyExerciseScreen:
-  return MaterialPageRoute(
-    builder: (context) {
-      // final profileId = settings.arguments as String;
-      return BlocProvider(
-        create: (context) => getIT<WeeklyExerciseCubit>(),
-        child: const WeeklyExerciseScreen(), // Pass profileId
-      );
-    },
-  );
+      case Routes.weeklyExerciseScreen:
+        return MaterialPageRoute(
+          builder: (context) {
+            // final profileId = settings.arguments as String;
+            return BlocProvider(
+              create: (context) => getIT<WeeklyExerciseCubit>(),
+              child: const WeeklyExerciseScreen(), // Pass profileId
+            );
+          },
+        );
       // Token Check Screen ===================================================
       case Routes.checkToken:
         return MaterialPageRoute(

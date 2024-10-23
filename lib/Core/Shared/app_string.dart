@@ -30,7 +30,7 @@ class AppString {
   static String steps = "Steps";
   static String sleep = "Sleep";
   static String water = "Water";
-  static String bmiCalculator = "BMI Calculator";
+  static String bmiCalculator = "BMI";
 
   // TrackSteps Screen ---------------------------------
   static String myActivity = "My Activity";

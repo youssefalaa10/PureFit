@@ -16,6 +16,7 @@ Widget dietListView(List items, context) {
       return Column(
         children: [
           DietItem(
+            item: item,
             heroTag: 'food_item_${item.id}',
             itemImage: item.image,
             itemName: item.name,

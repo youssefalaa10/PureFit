@@ -1,6 +1,11 @@
+import 'package:fitpro/Core/Components/AnimatedDialog.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/local_db/EatToday/today_calories.dart';
+import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:fitpro/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 
 class DietItem extends StatefulWidget {
@@ -8,6 +13,7 @@ class DietItem extends StatefulWidget {
   final String itemName;
   final String quantity;
   final String calories;
+  final BaseDietModel item;
   final VoidCallback onTap;
   final String heroTag;
   const DietItem({
@@ -18,6 +24,7 @@ class DietItem extends StatefulWidget {
     required this.calories,
     required this.onTap,
     required this.heroTag,
+    required this.item,
   });
 
   @override
@@ -73,32 +80,48 @@ class _DietItemState extends State<DietItem> {
               const Spacer(),
 
               // Dropdown with customized background color
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: mq.width(2.0)),
-                decoration: BoxDecoration(
-                  color: ColorManager.softGreyColor,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: widget.quantity,
-                    items:
-                        <String>['100 g', '200 g', '300 g'].map((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(
-                            fontSize: mq.width(4.0),
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (_) {},
-                  ),
-                ),
-              ),
+              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.primaryColor),
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (_) {
+                          return ScaleTransitionDialog(
+                            itemName: widget.itemName,
+                            onPressed: (value) {
+                              String caloriesString =
+                                  widget.calories.split(' ')[
+                                      0]; // Get the first part before the space
+                              final int calories = int.parse(
+                                  caloriesString); // Convert the extracted part to integer
+                              final oneGramC =
+                                  calories / 100; // Divide the calories by 100
+                              final grams = oneGramC * int.parse(value);
+                              final oneGramP = widget.item.protein / 100;
+                              final gramsP = oneGramP * int.parse(value);
+                              final oneGramF = widget.item.fats / 100;
+                              final gramsF = oneGramF * int.parse(value);
+
+                              TodayfoodRepo(TodayCaloriesDB()).insertFoodToday(
+                                  TodayFoodModel(
+                                      id: widget.item.id,
+                                      name: widget.item.name,
+                                      calories: grams.toInt(),
+                                      fats: gramsF,
+                                      protein: gramsP,
+                                      image: widget.itemImage,
+                                      amount: value));
+                            },
+                          );
+                        });
+                  },
+                  child: Row(children: [
+                    Icon(
+                      Icons.add,
+                      color: ColorManager.backGroundColor,
+                    )
+                  ]))
             ],
           ),
         ),

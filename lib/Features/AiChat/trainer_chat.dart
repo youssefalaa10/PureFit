@@ -1,4 +1,5 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
@@ -17,7 +18,6 @@ class _TrainerChatState extends State<TrainerChat> {
 
   ChatUser currentUser =
       ChatUser(id: "0", firstName: "Mohamed", lastName: "Amin");
-
   ChatUser botUser = ChatUser(id: "1", firstName: "Coach");
 
   List<ChatMessage> messages = [];
@@ -28,7 +28,15 @@ class _TrainerChatState extends State<TrainerChat> {
       backgroundColor: ColorManager.backGroundColor,
       appBar: AppBar(
         surfaceTintColor: ColorManager.backGroundColor,
-        title: const Text("Ai Coach"),
+        title: Text.rich(TextSpan(children: [
+          TextSpan(
+              text: "Ai",
+              style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: ColorManager.primaryColor)),
+          const TextSpan(
+              text: " Coach", style: TextStyle(fontWeight: FontWeight.w400))
+        ])),
         backgroundColor: ColorManager.backGroundColor,
       ),
       body: BlocProvider(
@@ -51,14 +59,16 @@ class _TrainerChatState extends State<TrainerChat> {
             if (state is AichatLoaded) {
               // Add bot's response message
               Navigator.pop(context);
-              messages = [
-                ChatMessage(
-                  user: botUser,
-                  createdAt: DateTime.now(),
-                  text: state.message,
-                ),
-                ...messages,
-              ];
+              setState(() {
+                messages = [
+                  ChatMessage(
+                    user: botUser,
+                    createdAt: DateTime.now(),
+                    text: state.message,
+                  ),
+                  ...messages,
+                ];
+              });
             } else if (state is AichatError) {
               // Handle error, show a message or dialog
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -67,31 +77,48 @@ class _TrainerChatState extends State<TrainerChat> {
             }
           },
           builder: (context, state) {
-            return DashChat(
-              currentUser: currentUser,
-              onSend: (ChatMessage message) {
-                handleSendMessage(context, message);
-              },
-              messageOptions: MessageOptions(
-                  currentUserContainerColor: ColorManager.primaryColor),
-              messageListOptions:
-                  const MessageListOptions(showDateSeparator: true),
-              inputOptions: InputOptions(
-                inputTextStyle: TextStyle(color: ColorManager.primaryColor),
-                inputToolbarStyle: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
+            final mq = CustomMQ(context);
+            return Stack(
+              children: [
+                // Display background image if there are no messages
+                if (messages.isEmpty)
+                  Center(
+                    child: Image.asset(
+                      height: mq.height(100),
+                      width: mq.width(100),
+                      'assets/images/bot.png', // Replace with your image path
+                    ),
+                  ),
+                DashChat(
+                  currentUser: currentUser,
+                  onSend: (ChatMessage message) {
+                    handleSendMessage(context, message);
+                  },
+                  messageOptions: MessageOptions(
+                    currentUserContainerColor: ColorManager.primaryColor,
+                  ),
+                  messageListOptions:
+                      const MessageListOptions(showDateSeparator: true),
+                  inputOptions: InputOptions(
+                    inputTextStyle: TextStyle(color: ColorManager.primaryColor),
+                    inputToolbarStyle: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
                           blurStyle: BlurStyle.outer,
                           color: ColorManager.lightGreyColor,
                           blurRadius: 2.0,
-                          spreadRadius: 2.0)
-                    ]),
-                cursorStyle: CursorStyle(color: ColorManager.primaryColor),
-                sendOnEnter: true,
-                textController: _controller,
-              ),
-              messages: messages,
+                          spreadRadius: 2.0,
+                        )
+                      ],
+                    ),
+                    cursorStyle: CursorStyle(color: ColorManager.primaryColor),
+                    sendOnEnter: true,
+                    textController: _controller,
+                  ),
+                  messages: messages,
+                ),
+              ],
             );
           },
         ),
@@ -101,10 +128,12 @@ class _TrainerChatState extends State<TrainerChat> {
 
   // Handle sending the user's message and trigger the Cubit
   void handleSendMessage(BuildContext context, ChatMessage message) {
-    messages = [
-      message,
-      ...messages,
-    ];
+    setState(() {
+      messages = [
+        message,
+        ...messages,
+      ];
+    });
 
     // Call the Cubit to handle chatting
     context.read<AichatCubit>().doChatting(message.text);

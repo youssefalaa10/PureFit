@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:fitpro/Core/Networking/Dio/dio_aichat.dart';
+import 'package:fitpro/Core/local_db/EatToday/today_calories.dart';
+import 'package:fitpro/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:fitpro/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 import 'package:fitpro/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -59,6 +62,7 @@ Future<void> setUpGit() async {
   dio.interceptors.add(DioInterceptor());
 
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
+  getIT.registerLazySingleton<TodayCaloriesDB>(() => TodayCaloriesDB());
   getIT.registerLazySingleton<TrackStepsDB>(() => TrackStepsDB());
   getIT.registerLazySingleton<SleepDb>(() => SleepDb());
   getIT.registerLazySingleton<DietFavoriteDb>(() => DietFavoriteDb());
@@ -132,8 +136,8 @@ Future<void> setUpGit() async {
       () => DioWeeklyExerciseApi(dio: dio));
   getIT.registerLazySingleton<WeeklyExerciseRepo>(
       () => WeeklyExerciseRepo(dioWeeklyExerciseApi: getIT()));
-  getIT.registerFactory<WeeklyExerciseCubit>(
-      () => WeeklyExerciseCubit(getIT()));
+  getIT
+      .registerFactory<WeeklyExerciseCubit>(() => WeeklyExerciseCubit(getIT()));
 
   //Water intake
   getIT.registerLazySingleton<WaterRepo>(() => WaterRepo(watererDb: getIT()));
@@ -168,4 +172,8 @@ Future<void> setUpGit() async {
   getIT
       .registerLazySingleton<AiChatRepo>(() => AiChatRepo(dioChatApi: getIT()));
   getIT.registerFactory<AichatCubit>(() => AichatCubit(getIT()));
+
+//Calories
+  getIT.registerLazySingleton<TodayfoodRepo>(() => TodayfoodRepo(getIT()));
+  getIT.registerFactory<TodayfoodCubit>(() => TodayfoodCubit(getIT()));
 }

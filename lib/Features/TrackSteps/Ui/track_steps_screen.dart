@@ -354,7 +354,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         shrinkWrap: true,
         itemCount: historyTracking.length,
         itemBuilder: (context, index) {
-          final trackStepsModel = historyTracking[index];
+          final trackStepsModel = historyTracking.reversed.toList()[index];
           return ListTile(
             leading:
                 Icon(Icons.directions_walk, color: ColorManager.primaryColor),
