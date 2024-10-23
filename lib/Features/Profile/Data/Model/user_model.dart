@@ -92,6 +92,8 @@ class UserModel {
     int? userWeight,
     String? gender,
     String? image,
+    final String? activity,
+    final String? goal,
   }) {
     return UserModel(
       userId: userId ?? this.userId,
@@ -102,6 +104,8 @@ class UserModel {
       userWeight: userWeight ?? this.userWeight,
       gender: gender ?? this.gender,
       image: image ?? this.image,
+      activity: activity ?? this.activity,
+      goal: goal ?? this.goal,
     );
   }
 }
