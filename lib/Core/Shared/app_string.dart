@@ -1,3 +1,6 @@
+import 'package:fitpro/Core/Shared/localization/app_localizations.dart';
+import 'package:flutter/material.dart';
+
 class AppString {
   // images----------------------------------------------------------
   static String profile = "assets/images/profile.jpeg";
@@ -21,6 +24,10 @@ class AppString {
   static String tellUsYourWeight = 'Tell us your weight';
   static String tellUsYourHeight = 'Tell us your height';
 
+  static String welcomeBack(BuildContext context) => 'welcomeBack'.tr(context);
+  static String workouts(BuildContext context) => 'workouts'.tr(context);
+  static String recommendedWorkouts(BuildContext context) =>
+      'recommendedWorkouts'.tr(context);
   // MyPlan screen ------------------------------------------------
 
   static String myPlan = "My Plan";

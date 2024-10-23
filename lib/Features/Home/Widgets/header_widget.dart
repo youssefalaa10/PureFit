@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import '../../../Core/Shared/app_colors.dart';
@@ -24,7 +25,7 @@ class HeaderWidget extends StatelessWidget {
               ),
             ),
             Text(
-              'Welcome back',
+              AppString.welcomeBack(context),
               style: TextStyle(
                 fontSize: mq.width(6), // Use CustomMQ for font size
                 fontWeight: FontWeight.bold,

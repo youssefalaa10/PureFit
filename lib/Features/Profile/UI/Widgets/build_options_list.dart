@@ -14,72 +14,75 @@ Widget buildOptionsList(BuildContext context) {
       _buildOptionItem(context,
           icon: Icons.tune,
           title: 'General',
-          subtitle: 'Account and posting details',
-          onTap: () {}),
+          subtitle: 'Customize your settings',
+          onTap: () {
+            Navigator.pushNamed(context, Routes.settingScreen);
+          }),
       _buildOptionItem(context,
-          icon: Icons.shield,
-          title: 'Your safety',
-          subtitle: 'Manage your safety',
+          icon: Icons.notifications_none_outlined,
+          title: 'Notifications',
+          subtitle: 'Your history of notifications',
           onTap: () {}),
       _buildOptionItem(context,
           icon: Icons.person_outline,
-          title: 'Personal information',
-          subtitle: 'Your name, username, and bio',
-          onTap: () {
-            final state = context.read<ProfileCubit>().user;
-            Navigator.pushNamed(context, Routes.editProfileScreen,
-                      arguments: state);
-          }),
-      _buildOptionItem(context,
-          icon: Icons.logout,
-          title: 'Logout',
-          subtitle: 'Sign out from app',
-          onTap: () => showLogoutConfirmationDialog(context),
-          ),
+          title: 'Personal Information',
+          subtitle: 'Edit your profile', onTap: () {
+        final state = context.read<ProfileCubit>().user;
+        Navigator.pushNamed(context, Routes.editProfileScreen,
+            arguments: state);
+      }),
+      _buildOptionItem(
+        context,
+        icon: Icons.logout,
+        title: 'Logout',
+        subtitle: 'Sign out from app',
+        onTap: () => showLogoutConfirmationDialog(context),
+      ),
     ],
   );
-  
 }
- void showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Logout"),
-          content: const Text("Are you sure you want to log out?"),
-          actions: <Widget>[
-            TextButton(
-              child: const Text("Cancel"),
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-            ),
-            TextButton(
-              child: const Text(
-                "Logout",
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () async {
-                Navigator.of(context).pop(); // Close the dialog
-                // Clear saved token using Dio
-                SaveTokenDB.clearToken();
-                DietFavoriteDb()
-                    .deleteAllData(); // Show a snackbar message using CustomSnackbar
-                if (context.mounted) {
-                  CustomSnackbar.showSnackbar(context, "Success");
-                }
 
-                // Navigate to the login screen
-                if (context.mounted) {
-                  Navigator.pushReplacementNamed(context, Routes.loginScreen);
-                }
-              },
+void showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Logout"),
+        content: const Text("Are you sure you want to log out?"),
+        actions: <Widget>[
+          TextButton(
+            child: const Text("Cancel"),
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+          ),
+          TextButton(
+            child: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.red),
             ),
-          ],
-        );
-      },
-    );
-  }
+            onPressed: () async {
+              Navigator.of(context).pop(); // Close the dialog
+              // Clear saved token using Dio
+              SaveTokenDB.clearToken();
+              DietFavoriteDb()
+                  .deleteAllData(); // Show a snackbar message using CustomSnackbar
+              if (context.mounted) {
+                CustomSnackbar.showSnackbar(context, "Success");
+              }
+
+              // Navigate to the login screen
+              if (context.mounted) {
+                Navigator.pushReplacementNamed(context, Routes.loginScreen);
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
+
 Widget _buildOptionItem(
   BuildContext context, {
   required IconData icon,

@@ -7,6 +7,7 @@ import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:fitpro/fitpro_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,8 +16,15 @@ void main() async {
     onActionReceivedMethod: NotificationController.onActionReceivedMethod,
   );
   setUpGit();
+  // Load saved language preference
+  final prefs = await SharedPreferences.getInstance();
+  final savedLocaleCode = prefs.getString('locale') ?? 'en';
+  final isDarkMode = prefs.getBool('isDarkMode') ?? false;
   runApp(BlocProvider(
     create: (context) => getIT<ProfileCubit>(),
-    child: FitproApp(appRouter: AppRouter()),
+    child: FitproApp(appRouter: AppRouter(),
+     initialLocale: Locale(savedLocaleCode),
+     isDarkMode: isDarkMode,
+    ),
   ));
 }

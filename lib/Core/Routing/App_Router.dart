@@ -37,6 +37,7 @@ import '../../Features/Profile/Data/Model/user_model.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/edit_profile_screen.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
+import '../../Features/Profile/UI/settings_screen.dart';
 import '../../Features/Sleep/Logic/cubit/sleep_cubit.dart';
 import '../../Features/Sleep/set_alarm.dart';
 import '../../Features/Sleep/sleep_screan.dart';
@@ -107,6 +108,11 @@ class AppRouter {
             child: EditProfileScreen(userModel: user),
           ),
         );
+
+      // Settings Screen ===============================================
+      case Routes.settingScreen:
+        return MaterialPageRoute(builder: (_) => const SettingScreen());
+
 
       // Layout Screen ==================================================
       case Routes.layoutScreen:
