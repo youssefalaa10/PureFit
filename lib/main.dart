@@ -19,10 +19,12 @@ void main() async {
   // Load saved language preference
   final prefs = await SharedPreferences.getInstance();
   final savedLocaleCode = prefs.getString('locale') ?? 'en';
+  final isDarkMode = prefs.getBool('isDarkMode') ?? false;
   runApp(BlocProvider(
     create: (context) => getIT<ProfileCubit>(),
     child: FitproApp(appRouter: AppRouter(),
      initialLocale: Locale(savedLocaleCode),
+     isDarkMode: isDarkMode,
     ),
   ));
 }

@@ -1,7 +1,8 @@
 
-import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../fitpro_app.dart';
 
 
 class SettingScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class SettingScreenState extends State<SettingScreen> {
     });
 
     // Reload the app with the new locale
-    // MyApp.setLocale(context, Locale(languageCode));
+    FitproApp.setLocale(context, Locale(languageCode));
   }
 
   @override
@@ -49,11 +50,11 @@ class SettingScreenState extends State<SettingScreen> {
     // final textTheme = theme.textTheme;
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
-      // backgroundColor: theme.scaffoldBackgroundColor,
+      // backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         title: const Text('Settings'),
-        backgroundColor: ColorManager.backGroundColor,
+        // backgroundColor: ColorManager.backGroundColor,
         // title: Text(AppString.setting(context), style: textTheme.bodyLarge),
         centerTitle: true,
       ),
@@ -97,7 +98,7 @@ class SettingScreenState extends State<SettingScreen> {
                       setState(() {
                         _isDarkMode = value;
                       });
-                      // MyApp.toggleTheme(context, _isDarkMode);
+                      FitproApp.toggleTheme(context, _isDarkMode);
                     },
                   ),
                 ),
