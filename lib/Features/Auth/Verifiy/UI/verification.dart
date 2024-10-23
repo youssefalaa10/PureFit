@@ -43,15 +43,22 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     child: BlocListener<VerificationCubit, VerificationState>(
                       listener: (context, state) {
                         if (state is VerificationLoading) {
-                        showDialog(context: context, builder: 
-                        (context) => const Center(child: CircularProgressIndicator()),);
-                        }else if (state is VerificationSuccess) {
-                          CustomSnackbar.showSnackbar(context, 'success');
-                           Navigator.pushNamed(context, Routes.changePasswordScreen,
-                            arguments: widget.email);
-                        }else if (state is VerificationError){
+                          showDialog(
+                            context: context,
+                            builder: (context) => const Center(
+                                child: CircularProgressIndicator()),
+                          );
+                        }
+                        if (state is VerificationSuccess) {
                           Navigator.pop(context);
-                            CustomSnackbar.showSnackbar(context, state.error);
+                          CustomSnackbar.showSnackbar(context, 'success');
+                          Navigator.pushNamed(
+                              context, Routes.changePasswordScreen,
+                              arguments: widget.email);
+                        }
+                        if (state is VerificationError) {
+                          Navigator.pop(context);
+                          CustomSnackbar.showSnackbar(context, state.error);
                         }
                       },
                       child: Column(
@@ -81,7 +88,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             borderRadius: BorderRadius.circular(20),
                             cursorColor: ColorManager.primaryColor,
                             showFieldAsBox: true,
-                            onSubmit: (String verificationCode) {},
+                            externalController: _otpController, // Add this line
+                            onSubmit: (String verificationCode) {
+                              _verifyCode(verificationCode, widget.email);
+                            },
                           ),
                           SizedBox(height: mq.height(5)),
                           CustomButton(
@@ -91,7 +101,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                               vertical: mq.height(2),
                             ),
                             onPressed: () {
-                              _verifyCode(_otpController.text);
+                              if (_otpController.text.length == 4) {
+                                _verifyCode(_otpController.text, widget.email);
+                              } else {
+                                CustomSnackbar.showSnackbar(context,
+                                    'Please enter a valid 4-digit code');
+                              }
                             },
                           ),
                           SizedBox(height: mq.height(2)),
@@ -121,9 +136,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
     );
   }
 
-  void _verifyCode(String code) {
-    final verificationCubit = context.read<VerificationCubit>();
-    verificationCubit.verifyCode(widget.email, code, context);
-  
+  void _verifyCode(String code, String email) {
+    if (code.isNotEmpty && code.length == 4) {
+      final verificationCubit = context.read<VerificationCubit>();
+      verificationCubit.verifyCode(email, code, context);
+    } else {
+      CustomSnackbar.showSnackbar(context, 'Please enter a valid 4-digit code');
+    }
   }
 }

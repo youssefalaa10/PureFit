@@ -17,11 +17,11 @@ class VerificationCubit extends Cubit<VerificationState> {
 
       final verificationModel =
           VerificationModel(email: email, verificationCode: code);
-
       await _repo.verifyCode(
         verificationModel.email,
         verificationModel.verificationCode,
       );
+
       emit(VerificationSuccess());
     } catch (e) {
       emit(VerificationError(e.toString()));
