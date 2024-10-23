@@ -174,7 +174,7 @@ class AppRouter {
       // final profileId = settings.arguments as String;
       return BlocProvider(
         create: (context) => getIT<WeeklyExerciseCubit>(),
-        child: WeeklyExerciseScreen(), // Pass profileId
+        child: const WeeklyExerciseScreen(), // Pass profileId
       );
     },
   );

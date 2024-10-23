@@ -16,7 +16,6 @@ class RecommendedTasks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-    
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,7 +30,9 @@ class RecommendedTasks extends StatelessWidget {
             ),
             Text(
               'See all',
-              style: TextStyle(fontSize: mq.width(4), color: Colors.blue),
+              style: TextStyle(
+                  fontSize: mq.width(4),
+                  color: ColorManager.primaryColor.withOpacity(.5)),
             ),
           ],
         ),

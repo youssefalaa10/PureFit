@@ -1,23 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
+import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
 
-class PlanCard extends StatelessWidget {
+
+class PlanCard extends StatefulWidget {
   const PlanCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+  State<PlanCard> createState() => _PlanCardState();
+}
 
+class _PlanCardState extends State<PlanCard> {
+ @override
+  void initState() {
+    super.initState();
+    // final profileId = context.read<ProfileCubit>().user!.userId;
+    context.read<WeeklyExerciseCubit>().loadCalendar('66fab8339f1a05ead89c9065');
+  }
+ 
+  @override
+  Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+
+    return BlocBuilder<WeeklyExerciseCubit, WeeklyExerciseState>(
+      builder: (context, state) {
+        if (state is WeeklyExerciseLoaded) {
+          // Access the WeeklyExerciseModel from the loaded state
+          final calendar = state.calendar;
+
+          // Calculate total days and completed days
+          int totalDays = 0;
+          int completedDays = 0;
+
+          for (var week in calendar.weeks.values) {
+            totalDays += week.days.length;
+            completedDays += week.days.values.where((day) => day).length;
+          }
+
+          // Calculate progress percentage
+          double progressPercentage = completedDays / totalDays;
+          int displayedPercentage = (progressPercentage * 100).round();
+
+          return _buildCard(mq, completedDays, totalDays, progressPercentage, displayedPercentage);
+        } else {
+          // Handle loading or error states
+          return _buildCard(mq, 0, 0, 0.0, 0); // Display empty or default UI
+        }
+      },
+    );
+  }
+
+  Widget _buildCard(CustomMQ mq, int completedDays, int totalDays, double progressPercentage, int displayedPercentage) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            height: mq.height(10), // Adjusts based on the height of the screen
-            width: constraints.maxWidth, // Dynamically adjusts to screen width
-            padding: EdgeInsets.all(mq.width(4)), // Uses CustomMQ to maintain consistency
+            height: mq.height(10),
+            width: constraints.maxWidth,
+            padding: EdgeInsets.all(mq.width(4)),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
@@ -37,18 +82,18 @@ class PlanCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'My Plan For Today',
+                      'Monthly Challenge',
                       style: TextStyle(
-                        fontSize: mq.width(4), // Scales text size dynamically
+                        fontSize: mq.width(4),
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: mq.height(0.5)), // Responsive space between text
+                    SizedBox(height: mq.height(0.5)),
                     Text(
-                      '1/7 Complete',
+                      '$completedDays/$totalDays Complete',
                       style: TextStyle(
-                        fontSize: mq.width(3), // Scales text size dynamically
+                        fontSize: mq.width(3),
                         color: Colors.white70,
                       ),
                     ),
@@ -62,17 +107,17 @@ class PlanCard extends StatelessWidget {
                       CircularPercentIndicator(
                         circularStrokeCap: CircularStrokeCap.round,
                         animationDuration: 1000,
-                        lineWidth: mq.width(1.25), // Scales line width dynamically
+                        lineWidth: mq.width(1.25),
                         animation: true,
-                        percent: 0.25, // Progress percentage
-                        radius: mq.width(6.25), // Scales radius dynamically
+                        percent: progressPercentage,
+                        radius: mq.width(6.25),
                         backgroundColor: Colors.white30,
                         progressColor: Colors.white,
                       ),
                       Text(
-                        '25%',
+                        '$displayedPercentage%',
                         style: TextStyle(
-                          fontSize: mq.width(3.75), // Scales text size dynamically
+                          fontSize: mq.width(3.75),
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),

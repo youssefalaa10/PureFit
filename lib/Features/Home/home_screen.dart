@@ -1,3 +1,4 @@
+import 'package:fitpro/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
 import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
 import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
@@ -8,8 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
+import '../../Core/Routing/routes.dart';
 import '../Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     context.read<ProfileCubit>().getProfile();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
@@ -42,7 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 const HeaderWidget(),
                 SizedBox(height: mq.height(2)),
-                const PlanCard(),
+                BlocProvider(
+                  create: (context) => WeeklyExerciseCubit(getIT()),
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, Routes.weeklyExerciseScreen);
+                      },
+                      child: const PlanCard()),
+                ),
                 SizedBox(height: mq.height(2)),
                 BlocProvider.value(
                   value: workoutProgramsCubit,

@@ -9,7 +9,7 @@ class DioWeeklyExerciseApi {
     try {
       print('Fetching calendar for profileId:$profileId');
       final response = await _dio
-          .get('https://fit-pro-app.glitch.me/api/calendar/$profileId');
+          .get('https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065');
       print('Response data: ${response.data}');
       return response.data;
     } catch (e) {
@@ -22,7 +22,7 @@ class DioWeeklyExerciseApi {
       String profileId, int weekNumber, Map<String, bool> dayUpdates) async {
     try {
       final response = await _dio.post(
-        'https://fit-pro-app.glitch.me/api/calendar/$profileId',
+        'https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065',
         data: {
           "weekNumber": weekNumber,
           "dayUpdates": dayUpdates,
@@ -39,7 +39,7 @@ class DioWeeklyExerciseApi {
   Future<bool> resetCalendar(String profileId) async {
     try {
      await _dio
-          .put('https://fit-pro-app.glitch.me/api/calendar/$profileId');
+          .put('https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065');
 
       return true;
     } catch (e) {

@@ -29,7 +29,8 @@ class NewGoalWidget extends StatelessWidget {
             ),
             Text(
               'See all',
-              style: TextStyle(fontSize: mq.width(4), color: Colors.blue),
+              style: TextStyle(
+                  fontSize: mq.width(4), color: ColorManager.primaryColor.withOpacity(.5)),
             ),
           ],
         ),
@@ -95,11 +96,10 @@ class NewGoalWidget extends StatelessWidget {
                   height: mq.height(14),
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                       _buildShimmerBox(
-                        double.infinity,
-                        mq.height(8),
-                       ),
+                  placeholder: (context, url) => _buildShimmerBox(
+                    double.infinity,
+                    mq.height(8),
+                  ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
@@ -157,11 +157,12 @@ class NewGoalWidget extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildShimmerBox(double width, double height) {
-  return Container(
-    width: width,
-    height: height,
-    color: Colors.grey[300],
-  );
-}
+    return Container(
+      width: width,
+      height: height,
+      color: Colors.grey[300],
+    );
+  }
 }
