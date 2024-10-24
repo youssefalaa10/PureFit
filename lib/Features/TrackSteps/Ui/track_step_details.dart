@@ -178,7 +178,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                           fontSize: mq.width(7), fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      AppString.steps,
+                      AppString.steps(context),
                       style: TextStyle(
                         fontSize: mq.width(3.75),
                         color: ColorManager.lightGreyColor,

@@ -54,7 +54,7 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(2)),
               Text(
-                AppString.tellUsYourWeight,
+                AppString.tellUsYourWeight(context),
                 style: TextStyle(
                   fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(1)),
               Text(
-                AppString.helpUsCreateYourPersonalizedPlan,
+                AppString.helpUsCreateYourPersonalizedPlan(context),
                 style: TextStyle(
                   fontSize: mq.width(4),
                   color: ColorManager.greyColor,
@@ -76,7 +76,7 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(4)),
               Text(
-                AppString.tellUsYourHeight,
+                AppString.tellUsYourHeight(context),
                 style: TextStyle(
                   fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,

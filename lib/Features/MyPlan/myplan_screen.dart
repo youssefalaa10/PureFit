@@ -44,7 +44,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           centerTitle: true,
           title: Text(
             textAlign: TextAlign.center,
-            AppString.myactivites,
+            AppString.myActivities(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(5.5),
@@ -83,7 +83,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppString.bmiCalculator,
+            AppString.bmiCalculator(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(5.5),
@@ -92,7 +92,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           ),
           SizedBox(height: mq.height(1)),
           Text(
-            AppString.lastupdate,
+            AppString.lastUpdate(context),
             style: TextStyle(
               fontFamily: AppString.font,
               color: ColorManager.lightGreyColor,
@@ -122,7 +122,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppString.dailyactivity,
+            AppString.dailyActivity(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(5),
@@ -132,7 +132,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           TextButton(
             onPressed: () {},
             child: Text(
-              AppString.statics,
+              AppString.statics(context),
               style: TextStyle(
                 fontFamily: AppString.font,
                 fontSize: mq.width(4.25),
@@ -178,13 +178,13 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           },
           child: StaticCard(
             color: ColorManager.orangeColor,
-            headline: AppString.calories,
+            headline: AppString.calories(context),
             icon: Icon(
               Icons.local_fire_department_outlined,
               color: theme.scaffoldBackgroundColor,
             ),
             static: calories.toStringAsFixed(0),
-            endline: AppString.kcal,
+            endline: AppString.kcal(context),
           ),
         );
       case 1:
@@ -201,13 +201,13 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           },
           child: StaticCard(
             color: ColorManager.darkredColor,
-            headline: AppString.steps,
+            headline: AppString.steps(context),
             icon: Icon(
               Icons.directions_walk,
               color: theme.scaffoldBackgroundColor,
             ),
             static: stepsValue ?? "2150", // Display the updated value
-            endline: AppString.steps,
+            endline: AppString.steps(context),
           ),
         );
       case 2:
@@ -223,13 +223,13 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           },
           child: StaticCard(
             color: ColorManager.lightGreenColor,
-            headline: AppString.sleep,
+            headline: AppString.sleep(context),
             icon: Icon(
               Icons.bed_outlined,
               color: theme.scaffoldBackgroundColor,
             ),
             static: sleepValue ?? "9 hr", // Display the updated value
-            endline: AppString.hours,
+            endline: AppString.hours(context),
           ),
         );
       case 3:
@@ -245,13 +245,13 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           },
           child: StaticCard(
             color: ColorManager.blueColor,
-            headline: AppString.water,
+            headline: AppString.water(context),
             icon: Icon(
               Icons.water_drop_outlined,
               color: theme.scaffoldBackgroundColor,
             ),
             static: waterValue ?? "4 lits", // Display the updated value
-            endline: AppString.liters,
+            endline: AppString.liters(context),
           ),
         );
       default:

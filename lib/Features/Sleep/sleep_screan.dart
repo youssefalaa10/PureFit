@@ -58,7 +58,7 @@ class _SleepScreenState extends State<SleepScreen> {
         title: Text(
           style:
               TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
-          AppString.stepsdetails,
+          AppString.stepsDetails(context),
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -66,7 +66,7 @@ class _SleepScreenState extends State<SleepScreen> {
         child: Column(
           children: [
             const CustomSizedbox(height: 30),
-            _buildWelcomeMessage(mq),
+            _buildWelcomeMessage(mq,context),
             const CustomSizedbox(height: 20),
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
@@ -78,12 +78,12 @@ class _SleepScreenState extends State<SleepScreen> {
                   CustomButton(
                       textColor: theme.scaffoldBackgroundColor,
                       backgroundColor: theme.primaryColor,
-                      label: AppString.startsleep,
+                      label: AppString.startSleep(context),
                       onPressed: _startSleepSession),
                   CustomButton(
                       textColor: theme.scaffoldBackgroundColor,
                       backgroundColor: theme.primaryColor,
-                      label: AppString.imWakedUp,
+                      label: AppString.imWakedUp(context),
                       onPressed: () {
                         // Call this when the user wakes up and dismisses the notification
                         NotificationService().cancel(); // Use the correct ID
@@ -92,7 +92,7 @@ class _SleepScreenState extends State<SleepScreen> {
               ),
             ), // Start Sleep button
             const CustomSizedbox(height: 20),
-            _buildRowOfMyActivityAndSteps(mq),
+            _buildRowOfMyActivityAndSteps(mq,context),
             const CustomSizedbox(height: 5),
             _buildTrackSleep(
               mq,
@@ -205,11 +205,11 @@ class _SleepScreenState extends State<SleepScreen> {
   }
 }
 
-Widget _buildWelcomeMessage(CustomMQ mq) {
+Widget _buildWelcomeMessage(CustomMQ mq,context) {
   return Column(
     children: [
       Text(
-        AppString.greatWork,
+        AppString.greatWork(context),
         style: TextStyle(
           fontFamily: AppString.font,
           fontSize: mq.width(3.75),
@@ -218,7 +218,7 @@ Widget _buildWelcomeMessage(CustomMQ mq) {
         ),
       ),
       Text(
-        AppString.yourDailytasksAlmostDone,
+        AppString.yourDailyTasksAlmostDone(context),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontFamily: AppString.font,
@@ -242,14 +242,14 @@ Widget _buildTrackSleep(CustomMQ mq) {
   return _buildMyActivity(mq);
 }
 
-Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
+Widget _buildRowOfMyActivityAndSteps(CustomMQ mq,context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: mq.width(3.75)),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          AppString.myActivity,
+          AppString.myActivity(context),
           style: TextStyle(
             fontSize: mq.width(5),
             fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
         TextButton(
           onPressed: () {},
           child: Text(
-            AppString.today,
+            AppString.today(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(3.75),

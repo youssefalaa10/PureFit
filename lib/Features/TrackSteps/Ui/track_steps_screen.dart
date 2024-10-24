@@ -184,7 +184,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         title: Text(
           style:
               TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
-          AppString.steps,
+          AppString.steps(context),
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -224,7 +224,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          AppString.stepsdetails,
+          AppString.stepsDetails(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.width(4.5),
@@ -250,7 +250,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     return Column(
       children: [
         Text(
-          AppString.greatWork,
+          AppString.greatWork(context),
           style: TextStyle(
             fontSize: mq.width(3.75),
             fontWeight: FontWeight.bold,
@@ -258,7 +258,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
           ),
         ),
         Text(
-          AppString.yourDailytasksAlmostDone,
+          AppString.yourDailyTasksAlmostDone(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.width(7),
@@ -311,7 +311,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                       ),
                     ),
                     Text(
-                      AppString.steps,
+                      AppString.steps(context),
                       style: TextStyle(
                         fontSize: mq.width(3.75),
                         color: ColorManager.lightGreyColor,
@@ -360,7 +360,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppString.myActivity,
+            AppString.myActivity(context),
             style: TextStyle(
               fontSize: mq.width(5),
               fontWeight: FontWeight.bold,
@@ -369,7 +369,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
           TextButton(
             onPressed: () {},
             child: Text(
-              AppString.steps,
+              AppString.steps(context),
               style: TextStyle(
                 fontSize: mq.width(3.75),
                 fontWeight: FontWeight.bold,

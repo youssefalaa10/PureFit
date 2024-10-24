@@ -93,7 +93,7 @@ class _WaterScreenState extends State<WaterScreen> {
         title: Text(
           style:
               TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
-          AppString.waterIntakeDetails,
+          AppString.waterIntakeDetails(context),
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -157,7 +157,7 @@ class _WaterScreenState extends State<WaterScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          AppString.waterIntakeDetails,
+          AppString.waterIntakeDetails(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.width(4.5),
@@ -172,7 +172,7 @@ class _WaterScreenState extends State<WaterScreen> {
     return Column(
       children: [
         Text(
-          AppString.greatWork,
+          AppString.greatWork(context),
           style: TextStyle(
             fontFamily: AppString.font,
             fontSize: mq.width(3.75),
@@ -182,7 +182,7 @@ class _WaterScreenState extends State<WaterScreen> {
         ),
         const CustomSizedbox(height: 5),
         Text(
-          AppString.yourDailytasksAlmostDone,
+          AppString.yourDailyTasksAlmostDone(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: AppString.font,

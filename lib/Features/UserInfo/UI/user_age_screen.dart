@@ -64,7 +64,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // "How Old Are You?" title
               Text(
-                AppString.howOldAreYou,
+                AppString.howOldAreYou(context),
                 style: TextStyle(
                   fontSize: screenHeight * 0.035, // Responsive font size
                   fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // Subtext
               Text(
-                AppString.helpUsCreateYourPersonalizedPlan,
+                AppString.helpUsCreateYourPersonalizedPlan(context),
                 style: TextStyle(
                   fontSize: screenHeight * 0.02,
                   color: ColorManager.greyColor,

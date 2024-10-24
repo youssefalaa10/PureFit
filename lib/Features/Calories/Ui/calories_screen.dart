@@ -65,7 +65,7 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
         title: Text(
             style: TextStyle(
                 fontFamily: AppString.font, color: theme.primaryColor),
-            AppString.caloriesdetails),
+            AppString.caloriesDetails(context)),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
@@ -99,7 +99,7 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
                           padding: EdgeInsets.only(
                               left: mq.width(5), bottom: mq.height(0.5)),
                           child: Text(
-                            AppString.todaymeals,
+                            AppString.todayMeals(context),
                             style: TextStyle(
                                 fontFamily: AppString.font,
                                 fontSize: mq.width(4),
@@ -129,14 +129,14 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
     return Center(
       child: Column(
         children: [
-          Text(AppString.keepGoing,
+          Text(AppString.keepGoing(context),
               style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.width(4),
                   fontWeight: FontWeight.bold,
                   color: ColorManager.lightGreyColor)),
           Text(
-            AppString.youHavetoEatMoreCalories,
+            AppString.youHaveToEatMoreCalories(context),
             style:
                 TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
           ),
@@ -223,7 +223,7 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
                     fontWeight: FontWeight.w900),
               ),
               trailing: Text(
-                " ${food.calories} ${AppString.calories} 🔥",
+                " ${food.calories} ${AppString.calories(context)} 🔥",
                 style: TextStyle(
                     fontFamily: AppString.font,
                     fontSize: mq.width(3),

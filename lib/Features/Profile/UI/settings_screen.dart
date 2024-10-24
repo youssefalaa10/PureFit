@@ -1,4 +1,5 @@
 
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +64,7 @@ class SettingScreenState extends State<SettingScreen> {
         child: Column(
           children: [
             CustomSettingsSection(
-              title: 'General',
+              title: AppString.general(context),
               // title: AppString.general(context),
               options: [
                 CustomSettingsOption(
@@ -74,7 +75,7 @@ class SettingScreenState extends State<SettingScreen> {
                 ),
                 CustomSettingsOption(
                   icon: Icons.notifications,
-                  label: 'Notifications',
+                  label: AppString.notifications(context),
                   // label: AppString.notification(context),
                   trailing: Switch(
                     inactiveTrackColor: Colors.transparent,

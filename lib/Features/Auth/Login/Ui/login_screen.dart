@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Login/Ui/login_block_listener.dart';
 import 'package:flutter/material.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
@@ -114,13 +115,13 @@ class LoginScreenState extends State<LoginScreen> {
                         CustomTextField(
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Please enter a password!';
+                                return AppString.enterPassword(context);
                               }
                             },
                             controller: passwordController,
                             textInput: TextInputType.visiblePassword,
                             isPassword: isObscure,
-                            hintText: "Enter your password",
+                            hintText: AppString.enterPassword(context),
                             suffixIcon: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -165,7 +166,7 @@ class LoginScreenState extends State<LoginScreen> {
                                       context, Routes.forgotPasswordScreen);
                                 },
                                 child: Text(
-                                  'Forgot password?',
+                                  AppString.forgotPassword(context),
                                   style:
                                       TextStyle(color: ColorManager.greyColor),
                                 ),

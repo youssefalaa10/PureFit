@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:PureFit/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
 
@@ -94,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Please enter a user name!';
+                            return AppString.pleaseEnterYourName(context);
                           }
                         },
                         controller: userController,
@@ -152,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Please enter a password!';
+                              return AppString.enterPassword(context);
                             } else if (passwordController
                                     .text.characters.length <
                                 8) {
@@ -162,7 +163,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: passwordController,
                           textInput: TextInputType.number,
                           isPassword: isObscure,
-                          hintText: "Enter your password",
+                          hintText: AppString.enterPassword(context),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -179,7 +180,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomSizedbox(height: mq.height(2)),
                       // Confirm Password Field
                       Text(
-                        "Confirm Password:",
+                        AppString.confirmPassword(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -190,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Please confirm a passowrd!';
+                              return AppString.confirmPassword(context);
                             } else if (value != passwordController.text) {
                               return 'Password does not match';
                             }
@@ -198,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: confirmpassowrdController,
                           textInput: TextInputType.number,
                           isPassword: isObscure,
-                          hintText: "Enter confirm password",
+                          hintText: AppString.confirmPassword(context),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -240,10 +241,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
+                         Text(
                             "Already have account",
                             textAlign: TextAlign.right,
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey,fontFamily: AppString.font),
                           ),
                           TextButton(
                             onPressed: () {
@@ -259,6 +260,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               style: TextStyle(
                                 color: ColorManager.primaryColor,
                                 fontSize: mq.height(2.0),
+                                fontFamily: AppString.font
                               ),
                             ),
                           ),

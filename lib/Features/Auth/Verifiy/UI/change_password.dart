@@ -71,6 +71,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               fontSize: mq.width(8),
                               color: ColorManager.primaryColor,
                               fontWeight: FontWeight.bold,
+                              fontFamily: AppString.font
                             ),
                           ),
                           SizedBox(height: mq.height(2)),

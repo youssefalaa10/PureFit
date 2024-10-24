@@ -127,20 +127,22 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Weekly Exercise\n',
+                      text: '${AppString.weeklyExercise(context)}\n',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontFamily: AppString.font,
                         fontSize: mq.width(6.5),
                         height: 1.5,
                       ),
                     ),
                     TextSpan(
-                      text: 'CHALLENGE',
+                      text: AppString.challenge(context),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: mq.width(6.5),
+                        fontFamily: AppString.font,
                         height: 1.2,
                       ),
                     ),
@@ -151,9 +153,11 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$daysLeft Days left',
-                    style:
-                        TextStyle(color: Colors.white, fontSize: mq.width(4)),
+                    '$daysLeft ${AppString.daysLeft(context)}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: mq.width(4),
+                        fontFamily: AppString.font),
                   ),
                   Text(
                     '$displayedPercentage%',
@@ -201,7 +205,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
               ),
             ),
             title: Text(
-              'Every day leads to growth! Believe in your power!',
+              AppString.growthMessage(context),
               style: TextStyle(fontSize: mq.width(4), color: Colors.black),
             ),
           ),
@@ -221,8 +225,8 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             Padding(
               padding: EdgeInsets.only(bottom: mq.height(2)),
               child: _buildWeekSection(
-                'Week $i',
-                calendar.weeks['week$i']!.days,
+                '${AppString.week(context)} $i',
+                calendar.weeks['${AppString.week(context)}$i']!.days,
                 active: i == 1, // Highlight the current week
                 mq: mq,
               ),
@@ -357,7 +361,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
 
   Widget _buildGoButton(BuildContext context, CustomMQ mq) {
     return CustomButton(
-      label: 'GO',
+      label: 'Reset',
       onPressed: () {
         // Implement navigation or action on button press
       },

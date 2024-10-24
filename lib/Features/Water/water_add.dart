@@ -68,7 +68,7 @@ class WaterAddState extends State<WaterAdd> {
 
   Widget _buildTitle(CustomMQ mq) {
     return Text(
-      AppString.addwater,
+      AppString.addWater(context),
       style: TextStyle(
         fontFamily: AppString.font,
         fontSize: mq.height(3), // Adjust font size based on height

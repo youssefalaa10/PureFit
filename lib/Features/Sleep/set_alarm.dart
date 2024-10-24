@@ -4,6 +4,7 @@ import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Sleep/Components/alarm_item.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
 
 class SetAlarm extends StatelessWidget {
   const SetAlarm({super.key});
@@ -26,7 +27,7 @@ class SetAlarm extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
                 child: Text(
-                  AppString.setnewAlarm,
+                  AppString.setNewAlarm(context),
                   style: TextStyle(
                       color: theme.primaryColor,
                       fontFamily: AppString.font,
@@ -61,19 +62,19 @@ class SetAlarm extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(mq, theme),
+          _buildHeaderTitle(mq, theme,context),
           CustomIconButton(icon: Icons.close, onPressed: () {}),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle(CustomMQ mq, ThemeData theme) {
+  Widget _buildHeaderTitle(CustomMQ mq, ThemeData theme,context) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          AppString.sleep,
+          AppString.sleep(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             color: theme.primaryColor,

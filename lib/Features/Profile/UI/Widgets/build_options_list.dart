@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,20 +14,20 @@ Widget buildOptionsList(BuildContext context) {
     children: [
       _buildOptionItem(context,
           icon: Icons.tune,
-          title: 'General',
-          subtitle: 'Customize your settings',
+          title: AppString.general(context),
+          subtitle: AppString.customizeSettings(context),
           onTap: () {
             Navigator.pushNamed(context, Routes.settingScreen);
           }),
       _buildOptionItem(context,
           icon: Icons.notifications_none_outlined,
-          title: 'Notifications',
-          subtitle: 'Your history of notifications',
+          title: AppString.notifications(context),
+          subtitle: AppString.yourHistoryOfNotifications(context),
           onTap: () {}),
       _buildOptionItem(context,
           icon: Icons.person_outline,
-          title: 'Personal Information',
-          subtitle: 'Edit your profile', onTap: () {
+          title: AppString.personalInformation(context),
+          subtitle: AppString.editProfile(context), onTap: () {
         final state = context.read<ProfileCubit>().user;
         Navigator.pushNamed(context, Routes.editProfileScreen,
             arguments: state);
@@ -34,8 +35,8 @@ Widget buildOptionsList(BuildContext context) {
       _buildOptionItem(
         context,
         icon: Icons.logout,
-        title: 'Logout',
-        subtitle: 'Sign out from app',
+        title: AppString.logout(context),
+        subtitle: AppString.signOut(context),
         onTap: () => showLogoutConfirmationDialog(context),
       ),
     ],
@@ -47,7 +48,7 @@ void showLogoutConfirmationDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text("Logout"),
+        title:  Text(AppString.logout(context)),
         content: const Text("Are you sure you want to log out?"),
         actions: <Widget>[
           TextButton(
@@ -57,8 +58,8 @@ void showLogoutConfirmationDialog(BuildContext context) {
             },
           ),
           TextButton(
-            child: const Text(
-              "Logout",
+            child:  Text(
+              AppString.logout(context),
               style: TextStyle(color: Colors.red),
             ),
             onPressed: () async {

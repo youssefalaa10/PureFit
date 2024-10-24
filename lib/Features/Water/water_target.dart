@@ -55,7 +55,7 @@ class WaterDetailsState extends State<WaterDetails> {
             Padding(
               padding: EdgeInsets.only(left: mq.width(5)),
               child: Text(
-                AppString.setnewtarget,
+                AppString.setNewTarget(context),
                 style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.width(7.5),
@@ -114,7 +114,7 @@ class WaterDetailsState extends State<WaterDetails> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          AppString.waterIntakeTarget,
+          AppString.waterIntakeTarget(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: AppString.font,

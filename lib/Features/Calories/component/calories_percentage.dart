@@ -51,7 +51,7 @@ class CaloriesPercentage extends StatelessWidget {
                     Text(calories.toStringAsFixed(0),
                         style: const TextStyle(
                             fontSize: 28, fontWeight: FontWeight.bold)),
-                    Text(AppString.calories,
+                    Text(AppString.calories(context),
                         style: TextStyle(
                             fontSize: 15,
                             color: ColorManager.lightGreyColor,

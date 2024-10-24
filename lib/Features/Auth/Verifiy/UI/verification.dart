@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/custom_button.dart';
@@ -96,7 +97,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                           SizedBox(height: mq.height(5)),
                           CustomButton(
-                            label: "Continue",
+                            label: AppString.continuex(context),
                             padding: EdgeInsets.symmetric(
                               horizontal: mq.width(20),
                               vertical: mq.height(2),
@@ -111,19 +112,19 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             },
                           ),
                           SizedBox(height: mq.height(2)),
-                          Align(
-                            alignment: Alignment.center,
-                            child: TextButton(
-                              child: Text(
-                                "Resend Code",
-                                style: TextStyle(
-                                  fontSize: mq.width(4.5),
-                                  color: Colors.black45,
-                                ),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ),
+                          // Align(
+                          //   alignment: Alignment.center,
+                          //   child: TextButton(
+                          //     child: Text(
+                          //       "Resend Code",
+                          //       style: TextStyle(
+                          //         fontSize: mq.width(4.5),
+                          //         color: Colors.black45,
+                          //       ),
+                          //     ),
+                          //     onPressed: () {},
+                          //   ),
+                          // ),
                         ],
                       ),
                     ),

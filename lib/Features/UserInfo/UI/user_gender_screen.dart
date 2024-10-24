@@ -13,7 +13,7 @@ class UserGenderScreen extends StatefulWidget {
 }
 
 class UserGenderScreenState extends State<UserGenderScreen> {
-  String selectedGender = AppString.male; // Default selection
+  String selectedGender = 'male'; // Default selection
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +87,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     return Column(
       children: [
         Text(
-          AppString.tellUsAboutYourself,
+          AppString.tellUsAboutYourself(context),
           style: TextStyle(
             fontSize: screenHeight * 0.035,
             fontWeight: FontWeight.bold,
@@ -96,7 +96,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
         ),
         SizedBox(height: screenHeight * 0.01),
         Text(
-          AppString.tellYourGender,
+          AppString.tellYourGender(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: screenHeight * 0.02,
@@ -116,7 +116,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.male;
+                selectedGender = AppString.male(context);
                 context.read<RegisterCubit>().gender = selectedGender;
               });
             },
@@ -144,7 +144,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.female;
+                selectedGender = AppString.female(context);
               });
               context.read<RegisterCubit>().gender = selectedGender;
             },

@@ -3,6 +3,7 @@ import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
+
 class HeaderCalories extends StatelessWidget {
   final void Function() onPressed;
   const HeaderCalories({super.key, required this.onPressed});
@@ -15,20 +16,20 @@ class HeaderCalories extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(),
+          _buildHeaderTitle(context),
           _buildEditButton(),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle() {
+  Widget _buildHeaderTitle(context) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Text(
           textAlign: TextAlign.center,
-          AppString.caloriesdetails,
+          AppString.caloriesDetails(context),
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),

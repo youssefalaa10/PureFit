@@ -6,6 +6,7 @@ import '../../../../Core/Components/custom_button.dart';
 import '../../../../Core/Components/custom_snackbar.dart';
 import '../../../../Core/Components/custom_text_field.dart';
 import '../../../../Core/Shared/app_colors.dart';
+import '../../../../Core/Shared/app_string.dart';
 import '../Logic/forgot_pass_cubit/forgot_password_cubit.dart';
 import '../Logic/forgot_pass_cubit/forgot_password_state.dart';
 
@@ -61,11 +62,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Forgot Password!",
+                    AppString.forgotPassword(context),
                     style: TextStyle(
                       fontSize: mq.width(10),
                       color: ColorManager.primaryColor,
                       fontWeight: FontWeight.bold,
+                      fontFamily: AppString.font,
                     ),
                   ),
                 ),
@@ -96,7 +98,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: mq.width(4)),
                 CustomButton(
-                  label: "Continue",
+                  label: AppString.continuex(context),
                   padding: EdgeInsets.symmetric(
                     horizontal: mq.width(20),
                     vertical: mq.height(2),
