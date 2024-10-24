@@ -2,7 +2,7 @@ import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:lottie/lottie.dart';
-import '../../../Core/Shared/app_colors.dart';
+// import '../../../Core/Shared/app_colors.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({super.key});
@@ -30,29 +30,29 @@ class HeaderWidget extends StatelessWidget {
             ),
           ],
         ),
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: ColorManager.lightGreyColor),
-            boxShadow: [
-              BoxShadow(
-                color: ColorManager.softGreyColor,
-                spreadRadius: .3,
-                blurRadius: 1,
-              ),
-            ],
-            color: theme.scaffoldBackgroundColor,
-            borderRadius: BorderRadius.circular(25),
-          ),
-          child: Stack(children: [
-            IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications_outlined,
-                color: theme.primaryColor,
-              ),
-            ),
-          ]),
-        ),
+        // Container(
+        //   decoration: BoxDecoration(
+        //     border: Border.all(color: ColorManager.lightGreyColor),
+        //     boxShadow: [
+        //       BoxShadow(
+        //         color: ColorManager.softGreyColor,
+        //         spreadRadius: .3,
+        //         blurRadius: 1,
+        //       ),
+        //     ],
+        //     color: theme.scaffoldBackgroundColor,
+        //     borderRadius: BorderRadius.circular(25),
+        //   ),
+        //   child: Stack(children: [
+        //     IconButton(
+        //       onPressed: () {},
+        //       icon: Icon(
+        //         Icons.notifications_outlined,
+        //         color: theme.primaryColor,
+        //       ),
+        //     ),
+        //   ]),
+        // ),
       ],
     );
   }
