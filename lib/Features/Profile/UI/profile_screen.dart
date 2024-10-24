@@ -21,6 +21,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     context.read<ProfileCubit>().getProfile();
+    final userId = context.read<ProfileCubit>().user!.userId;
+    print('hhhhhhhhh${userId}');
   }
 
   @override

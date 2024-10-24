@@ -96,7 +96,7 @@ class LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
                           textInput: TextInputType.emailAddress,
                           isPassword: false,
-                          hintText: AppString.pleaseEnterEmail(context),
+                          hintText: AppString.enterEmail(context),
                           suffixIcon: Icon(Icons.email,
                               color: ColorManager.primaryColor),
                         ),

@@ -107,7 +107,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     );
   }
 
-  // Section 3: Gender Selection (Male/AppString.female) buttons
+  // Section 3: Gender Selection (Male/'female') buttons
   Widget _buildGenderSelectionSection(double screenHeight, double screenWidth) {
     return Center(
       child: Column(
@@ -116,7 +116,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.male(context);
+                selectedGender = 'male';
                 context.read<RegisterCubit>().gender = selectedGender;
               });
             },
@@ -125,14 +125,14 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               width: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selectedGender == AppString.male
+                color: selectedGender == 'male'
                     ? ColorManager.primaryColor
                     : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.male,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.male
+                color: selectedGender == 'male'
                     ? Colors.white
                     : Colors.black,
               ),
@@ -140,11 +140,11 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           ),
           SizedBox(height: screenHeight * 0.03),
 
-          // AppString.female button
+          // 'female' button
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.female(context);
+                selectedGender = 'female';
               });
               context.read<RegisterCubit>().gender = selectedGender;
             },
@@ -153,14 +153,14 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               width: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selectedGender == AppString.female
+                color: selectedGender == 'female'
                     ? ColorManager.primaryColor
                     : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.female,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.female
+                color: selectedGender == 'female'
                     ? Colors.white
                     : Colors.black,
               ),
