@@ -19,11 +19,11 @@ Widget buildOptionsList(BuildContext context) {
           onTap: () {
             Navigator.pushNamed(context, Routes.settingScreen);
           }),
-      _buildOptionItem(context,
-          icon: Icons.notifications_none_outlined,
-          title: AppString.notifications(context),
-          subtitle: AppString.yourHistoryOfNotifications(context),
-          onTap: () {}),
+      // _buildOptionItem(context,
+      //     icon: Icons.notifications_none_outlined,
+      //     title: AppString.notifications(context),
+      //     subtitle: AppString.yourHistoryOfNotifications(context),
+      //     onTap: () {}),
       _buildOptionItem(context,
           icon: Icons.person_outline,
           title: AppString.personalInformation(context),

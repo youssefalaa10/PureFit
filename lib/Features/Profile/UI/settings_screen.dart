@@ -15,7 +15,7 @@ class SettingScreen extends StatefulWidget {
 }
 
 class SettingScreenState extends State<SettingScreen> {
-  final bool _isNotificationEnabled = false;
+  // final bool _isNotificationEnabled = false;
   bool _isDarkMode = false;
   String _selectedLanguage = 'en';
 
@@ -73,21 +73,21 @@ class SettingScreenState extends State<SettingScreen> {
                   // label: AppString.language(context),
                   trailing: _buildLanguageDropdown(theme),
                 ),
-                CustomSettingsOption(
-                  icon: Icons.notifications,
-                  label: AppString.notifications(context),
-                  // label: AppString.notification(context),
-                  trailing: Switch(
-                    inactiveTrackColor: Colors.transparent,
-                    activeColor: theme.colorScheme.primary,
-                    value: _isNotificationEnabled,
-                    onChanged: (bool value) {
-                      setState(() {
-                        // _isNotificationEnabled = value;
-                      });
-                    },
-                  ),
-                ),
+                // CustomSettingsOption(
+                //   icon: Icons.notifications,
+                //   label: AppString.notifications(context),
+                //   // label: AppString.notification(context),
+                //   trailing: Switch(
+                //     inactiveTrackColor: Colors.transparent,
+                //     activeColor: theme.colorScheme.primary,
+                //     value: _isNotificationEnabled,
+                //     onChanged: (bool value) {
+                //       setState(() {
+                //         // _isNotificationEnabled = value;
+                //       });
+                //     },
+                //   ),
+                // ),
                 CustomSettingsOption(
                   icon: Icons.dark_mode,
                   label: 'Dark Mode',
@@ -110,26 +110,26 @@ class SettingScreenState extends State<SettingScreen> {
               title: 'About',
               // title: AppString.aboutApp(context),
               options: [
-                CustomSettingsOption(
-                  icon: Icons.info,
-                  label: 'About App',
-                  // label: AppString.aboutApp(context),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-                  onTap: () {
-                    // Handle About App tap
+                // CustomSettingsOption(
+                //   icon: Icons.info,
+                //   label: 'About App',
+                //   // label: AppString.aboutApp(context),
+                //   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                //   onTap: () {
+                //     // Handle About App tap
                   
-                  },
-                ),
-                CustomSettingsOption(
-                  icon: Icons.support_agent,
-                  label: 'Help & Support',
-                  // label: AppString.helpAndSupport(context),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-                  onTap: () {
-                    // Handle help & support option tap
+                //   },
+                // ),
+                // CustomSettingsOption(
+                //   icon: Icons.support_agent,
+                //   label: 'Help & Support',
+                //   // label: AppString.helpAndSupport(context),
+                //   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
+                //   onTap: () {
+                //     // Handle help & support option tap
                     
-                  },
-                ),
+                //   },
+                // ),
                 CustomSettingsOption(
                   icon: Icons.description,
                   label: 'Terms & Conditions',
