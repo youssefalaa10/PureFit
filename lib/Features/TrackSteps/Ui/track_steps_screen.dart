@@ -177,7 +177,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         ],
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, _fullStepsOfToday);
             },
             icon: const Icon(Icons.arrow_back)),
         centerTitle: true,
