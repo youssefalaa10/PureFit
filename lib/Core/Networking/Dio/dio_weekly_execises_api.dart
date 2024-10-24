@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../../Shared/api_constants.dart';
+
 class DioWeeklyExerciseApi {
   final Dio _dio;
 
@@ -7,14 +9,14 @@ class DioWeeklyExerciseApi {
 
   Future<Map<String, dynamic>?> getCalendar(String profileId) async {
     try {
-      print('Fetching calendar for profileId:$profileId');
+
       final response = await _dio
-          .get('https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065');
-      print('Response data: ${response.data}');
+          .get("${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}");
+
       return response.data;
     } catch (e) {
-      print('Error getting calendar: $e');
-      return null;
+      throw 'Error getting calendar';
+
     }
   }
 
@@ -22,7 +24,7 @@ class DioWeeklyExerciseApi {
       String profileId, int weekNumber, Map<String, bool> dayUpdates) async {
     try {
       final response = await _dio.post(
-        'https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065',
+        "${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}",
         data: {
           "weekNumber": weekNumber,
           "dayUpdates": dayUpdates,
@@ -31,15 +33,15 @@ class DioWeeklyExerciseApi {
       print('Response data Update: ${response.data}');
       return true;
     } catch (e) {
-      print('Error updating calendar: $e');
-      return false;
+      throw  'updating calendar: $e';
+
     }
   }
 
   Future<bool> resetCalendar(String profileId) async {
     try {
      await _dio
-          .put('https://fit-pro-app.glitch.me/api/calendar/66fab8339f1a05ead89c9065');
+          .put("${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}");
 
       return true;
     } catch (e) {

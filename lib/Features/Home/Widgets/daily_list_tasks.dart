@@ -4,31 +4,31 @@ import 'package:fitpro/Core/Components/media_query.dart';
 
 import '../../../Core/Routing/Routes.dart';
 
-
 class DailyListTasks extends StatelessWidget {
   const DailyListTasks({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); 
-
+    final mq = CustomMQ(context);
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 6,
       shrinkWrap: true,
       itemBuilder: (context, index) {
-        return _buildTaskItem('Exercise 1', 5, 120, mq,context);
+        return _buildTaskItem(AppString.exercise(context), 5, 120, mq, context);
       },
     );
   }
 
-  Widget _buildTaskItem(String title, int minutes, int calories, CustomMQ mq,context) {
+  Widget _buildTaskItem(
+      String title, int minutes, int calories, CustomMQ mq, context) {
+    final theme = Theme.of(context);
     return ListTile(
       onTap: () {
-      Navigator.of(context).pushNamed(
-  Routes.exerciseScreen,
-  arguments: 'back',
-);
+        Navigator.of(context).pushNamed(
+          Routes.exerciseScreen,
+          arguments: 'back',
+        );
       },
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(mq.width(3)),
@@ -40,7 +40,10 @@ class DailyListTasks extends StatelessWidget {
       ),
       title: Text(
         title,
-        style: TextStyle(fontSize: mq.width(4)),
+        style: TextStyle(
+            fontSize: mq.width(4),
+            color: theme.primaryColor,
+            fontFamily: AppString.font),
       ),
       subtitle: Row(
         children: [
@@ -48,14 +51,21 @@ class DailyListTasks extends StatelessWidget {
           SizedBox(width: mq.width(1.25)),
           Text(
             '$minutes min',
-            style: TextStyle(fontSize: mq.width(3.5)),
+            style: TextStyle(
+                fontSize: mq.width(3.5),
+                fontFamily: AppString.font,
+                color: theme.primaryColor),
           ),
           SizedBox(width: mq.width(2.5)),
-          Icon(Icons.local_fire_department, color: Colors.orange, size: mq.width(4)),
+          Icon(Icons.local_fire_department,
+              color: Colors.orange, size: mq.width(4)),
           SizedBox(width: mq.width(1.25)),
           Text(
             '$calories cal',
-            style: TextStyle(fontSize: mq.width(3.5)),
+            style: TextStyle(
+                fontSize: mq.width(3.5),
+                fontFamily: AppString.font,
+                color: theme.primaryColor),
           ),
         ],
       ),

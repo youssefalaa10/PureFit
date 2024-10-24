@@ -11,6 +11,9 @@ class AppString {
   static String bottlewater = "assets/lottie/bottle.json";
   static String cupwater = "assets/lottie/cupWater.json";
 
+  // font -------------------------------------------------------------
+  static String font = 'Lato';
+
   // UserAgeScreen ---------------------------------------------------
   static String howOldAreYou = "How old Are You?";
   static String helpUsCreateYourPersonalizedPlan =
@@ -20,16 +23,25 @@ class AppString {
   static String tellUsAboutYourself = "Tell us about yourself!";
   static String tellYourGender =
       "To give you a better experience we need to know your gender";
-  static String male = "Male";
+  static const String male = "Male";
   static String female = "Female";
   // BodyMetrics screen---------------------------------------------------
   static String tellUsYourWeight = 'Tell us your weight';
   static String tellUsYourHeight = 'Tell us your height';
-
+// Home --------------------------------------------------------------------
   static String welcomeBack(BuildContext context) => 'welcomeBack'.tr(context);
   static String workouts(BuildContext context) => 'workouts'.tr(context);
   static String recommendedWorkouts(BuildContext context) =>
       'recommendedWorkouts'.tr(context);
+  static String monthlyChallenge(BuildContext context) =>
+      'monthlyChallenge'.tr(context);
+  static String dailyTask(BuildContext context) => 'dailyTask'.tr(context);
+  static String exercise(BuildContext context) => 'exercise'.tr(context);
+  static String min(BuildContext context) => 'min'.tr(context);
+  static String cal(BuildContext context) => 'cal'.tr(context);
+  static String seeAll(BuildContext context) => 'seeAll'.tr(context);
+  static String complete(BuildContext context) => 'complete'.tr(context);
+  static String start(BuildContext context) => 'start'.tr(context);
   // MyPlan screen ------------------------------------------------
 
   static String myPlan = "My Plan";

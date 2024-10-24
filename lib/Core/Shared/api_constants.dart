@@ -24,4 +24,9 @@ class ApiConstants {
   static String apiFavorite(String dietItemId) {
     return "/api/favorites/$dietItemId";
   }
+
+  // calender 
+  static String apiCalender(String profileId) {
+    return "/api/calendar/$profileId";
+  }
 }

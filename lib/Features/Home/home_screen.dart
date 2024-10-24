@@ -11,6 +11,7 @@ import '../../Core/Components/media_query.dart';
 import '../../Core/DI/dependency.dart';
 import '../../Core/Routing/routes.dart';
 import '../Exercises/Logic/workout_cubit/workout_programs_cubit.dart';
+import 'Widgets/shimmerloadingexercises.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,10 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final mq = CustomMQ(context);
     final workoutProgramsCubit = getIT<WorkoutProgramsCubit>();
     workoutProgramsCubit.fetchWorkoutPrograms();
-
+    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: theme.scaffoldBackgroundColor,
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
           child: SingleChildScrollView(
@@ -45,12 +46,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: mq.height(2)),
                 BlocProvider(
                   create: (context) => WeeklyExerciseCubit(getIT()),
-                  child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                            context, Routes.weeklyExerciseScreen);
-                      },
-                      child: const PlanCard()),
+                  child: GestureDetector(onTap: () {
+                    Navigator.pushNamed(context, Routes.weeklyExerciseScreen);
+                  }, child: BlocBuilder<ProfileCubit, ProfileState>(
+                    builder: (context, state) {
+                      if (state is ProfileSuccess) {
+                        return PlanCard(userId: state.user.userId);
+                      } else {
+                        return Center(child: buildPlanCardShimmer(mq));
+                      }
+                    },
+                  )),
                 ),
                 SizedBox(height: mq.height(2)),
                 BlocProvider.value(

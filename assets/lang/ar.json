@@ -1,6 +1,15 @@
 {
     "welcomeBack": "مرحبًا بعودتك",
     "workouts":"التمارين",
-    "recommendedWorkouts":"التمارين الموصى بها"
+    "recommendedWorkouts":"التمارين الموصى بها",
+    "monthlyChallenge":"التحدي الشهري",
+    "dailyTask":"مهمة يومية",
+    "exercise":"تمرين 1",
+    "min":"دقيقة",
+    "cal":"كالوري",
+    "seeAll":"المزيد",
+    "complete":"مكتمل"
+
+
 
 }

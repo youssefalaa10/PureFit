@@ -29,12 +29,12 @@ class RecommendedTasks extends StatelessWidget {
               style:
                   TextStyle(fontSize: mq.width(5), fontWeight: FontWeight.bold),
             ),
-            Text(
-              'See all',
-              style: TextStyle(
-                  fontSize: mq.width(4),
-                  color: ColorManager.primaryColor.withOpacity(.5)),
-            ),
+            // Text(
+            //   AppString.seeAll(context),
+            //   style: TextStyle(
+            //       fontSize: mq.width(4),
+            //       color: ColorManager.primaryColor.withOpacity(.5)),
+            // ),
           ],
         ),
         SizedBox(height: mq.height(1)),
@@ -63,7 +63,7 @@ class RecommendedTasks extends StatelessWidget {
                       },
                       child: Padding(
                         padding: EdgeInsets.only(right: mq.width(4)),
-                        child: _buildGoalCard(workoutCategory, mq),
+                        child: _buildGoalCard(workoutCategory, mq, context),
                       ),
                     );
                   },
@@ -144,7 +144,9 @@ class RecommendedTasks extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(WorkoutCategoriesModel workoutCategories, CustomMQ mq) {
+  Widget _buildGoalCard(
+      WorkoutCategoriesModel workoutCategories, CustomMQ mq, context) {
+    bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Container(
       width: mq.width(55),
       padding: EdgeInsets.all(mq.width(4)),
@@ -164,7 +166,7 @@ class RecommendedTasks extends StatelessWidget {
                   width: double.infinity,
                   fit: BoxFit.cover,
                   placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
+                      Center(child: Shimmerloadingexercises(mq: mq)),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
@@ -172,11 +174,16 @@ class RecommendedTasks extends StatelessWidget {
               Text(
                 workoutCategories.programName,
                 style: TextStyle(
-                    fontSize: mq.width(4), fontWeight: FontWeight.bold),
+                    fontSize: mq.width(4),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: AppString.font),
               ),
               Text(
                 workoutCategories.workoutName,
-                style: TextStyle(fontSize: mq.width(3.2), color: Colors.grey),
+                style: TextStyle(
+                    fontSize: mq.width(3.2),
+                    color: Colors.grey,
+                    fontFamily: AppString.font),
               ),
               SizedBox(height: mq.height(1)),
               Row(
@@ -184,20 +191,23 @@ class RecommendedTasks extends StatelessWidget {
                   Icon(Icons.timer, color: Colors.green, size: mq.width(4.5)),
                   SizedBox(width: mq.width(1.25)),
                   Text(workoutCategories.timeOfFullProgram,
-                      style: TextStyle(fontSize: mq.width(3.5))),
+                      style: TextStyle(
+                          fontSize: mq.width(3.5), fontFamily: AppString.font)),
                   const Spacer(),
                   Icon(Icons.local_fire_department,
                       color: Colors.orange, size: mq.width(4.5)),
                   SizedBox(width: mq.width(1.25)),
                   Text('${workoutCategories.burnedCalories.toString()} cal',
-                      style: TextStyle(fontSize: mq.width(3.5))),
+                      style: TextStyle(
+                          fontSize: mq.width(3.5), fontFamily: AppString.font)),
                 ],
               ),
             ],
           ),
           Positioned(
             top: mq.height(12.5),
-            right: mq.width(2.5),
+            left: isRtl ? mq.width(2.5) : null,
+            right: isRtl ? null : mq.width(2.5),
             child: Container(
               padding: EdgeInsets.all(mq.width(2)),
               decoration: BoxDecoration(
