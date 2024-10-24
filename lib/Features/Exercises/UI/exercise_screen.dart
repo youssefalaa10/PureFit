@@ -1,19 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_icon_button.dart';
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-
 import 'package:shimmer/shimmer.dart';
 
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.dart';
 
 import '../../../Core/Routing/Routes.dart';
+import '../../../Core/Shared/app_string.dart';
 import '../Data/Model/exercise_model.dart';
-import '../Logic/cubit/exercise_cubit.dart';
+import '../Logic/exercise_cubit/exercise_cubit.dart';
 
 class ExerciseScreen extends StatefulWidget {
   final WorkoutCategoriesModel workoutCategory;
@@ -34,8 +34,10 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: BlocBuilder<ExerciseCubit, ExerciseState>(
         builder: (context, state) {
           if (state is ExerciseLoading) {
@@ -54,7 +56,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
                           ],
                         ),
                         _buildContentSection(
-                            mq, state.exercises, widget.workoutCategory),
+                            mq, state.exercises, widget.workoutCategory, theme),
                       ],
                     ),
                   ),
@@ -68,26 +70,27 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
           }
         },
       ),
-      bottomNavigationBar: _buildStartNowButton(context, mq),
+      bottomNavigationBar: _buildStartNowButton(context, mq, theme),
     );
   }
 
-  Widget _buildStartNowButton(BuildContext context, CustomMQ mq) {
+  Widget _buildStartNowButton(
+      BuildContext context, CustomMQ mq, ThemeData theme) {
     return CustomButton(
-      label: "Start Now",
+      label: AppString.startNow(context),
       onPressed: () {
         final state = context.read<ExerciseCubit>().passExercises;
 
-        Navigator.pushNamed(context, Routes.getReadyScreen, arguments: state);
+        Navigator.pushNamed(context, Routes.trainingScreen, arguments: state);
       },
-      backgroundColor: ColorManager.primaryColor,
+      backgroundColor: theme.primaryColor,
       padding: EdgeInsets.symmetric(
         horizontal: mq.width(4),
         vertical: mq.height(1),
       ),
       borderRadius: mq.width(2.5),
       fontSize: mq.width(4),
-      textColor: Colors.white,
+      textColor: theme.scaffoldBackgroundColor,
     );
   }
 }
@@ -129,11 +132,11 @@ Widget _buildHeaderOverlay(CustomMQ mq) {
 }
 
 Widget _buildContentSection(CustomMQ mq, List<ExerciseModel> exercises,
-    WorkoutCategoriesModel workoutCategory) {
+    WorkoutCategoriesModel workoutCategory, ThemeData theme) {
   return Container(
     transform: Matrix4.translationValues(0, -mq.height(2.5), 0),
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: theme.scaffoldBackgroundColor,
       borderRadius: BorderRadius.vertical(top: Radius.circular(mq.width(5))),
     ),
     padding: EdgeInsets.all(mq.width(4)),

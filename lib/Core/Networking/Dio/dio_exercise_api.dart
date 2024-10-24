@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/Shared/api_constans.dart';
+import 'package:PureFit/Core/Shared/api_constants.dart';
 import 'package:flutter/foundation.dart';
 
 class DioExerciseApi {
@@ -10,7 +10,7 @@ class DioExerciseApi {
   Future<List<Map<String, dynamic>>?> getExercises(String categoryId) async {
     try {
       final response = await _dio.get(
-        "${ApiConstans.baseUrl}${ApiConstans.apiExercise}$categoryId",
+        "${ApiConstants.baseUrl}${ApiConstants.apiExercise}$categoryId",
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,9 @@ class DioExerciseApi {
         ),
       );
 
-      if (response.statusCode != null && response.statusCode! >= 200 && response.statusCode! < 300) {
+      if (response.statusCode != null &&
+          response.statusCode! >= 200 &&
+          response.statusCode! < 300) {
         List data = response.data;
         return data.map((e) => e as Map<String, dynamic>).toList();
       } else {

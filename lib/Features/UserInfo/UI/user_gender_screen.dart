@@ -1,9 +1,8 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class UserGenderScreen extends StatefulWidget {
@@ -14,7 +13,7 @@ class UserGenderScreen extends StatefulWidget {
 }
 
 class UserGenderScreenState extends State<UserGenderScreen> {
-  String selectedGender = AppString.male; // Default selection
+  String selectedGender = 'male'; // Default selection
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +21,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -55,14 +55,12 @@ class UserGenderScreenState extends State<UserGenderScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Back button
-          const CustomBackButton(),
           // Progress indicator
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: LinearProgressIndicator(
-                value: 0.25,
+                value: 0.20,
                 backgroundColor:
                     ColorManager.greyColor.withOpacity(0.5).withOpacity(.5),
                 valueColor:
@@ -72,7 +70,13 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             ),
           ),
           // Step indicator
-          const Text('1/3'),
+          Text(
+            '1/5',
+            style: TextStyle(
+                fontSize: screenHeight * 0.02,
+                fontFamily: AppString.font,
+                fontWeight: FontWeight.w800),
+          ),
         ],
       ),
     );
@@ -83,7 +87,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     return Column(
       children: [
         Text(
-          AppString.tellUsAboutYourself,
+          AppString.tellUsAboutYourself(context),
           style: TextStyle(
             fontSize: screenHeight * 0.035,
             fontWeight: FontWeight.bold,
@@ -92,7 +96,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
         ),
         SizedBox(height: screenHeight * 0.01),
         Text(
-          AppString.tellYourGender,
+          AppString.tellYourGender(context),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: screenHeight * 0.02,
@@ -103,7 +107,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
     );
   }
 
-  // Section 3: Gender Selection (Male/AppString.female) buttons
+  // Section 3: Gender Selection (Male/'female') buttons
   Widget _buildGenderSelectionSection(double screenHeight, double screenWidth) {
     return Center(
       child: Column(
@@ -112,8 +116,8 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.male;
-                context.read<RegisterCubit>().updateGender(selectedGender);
+                selectedGender = 'male';
+                context.read<RegisterCubit>().gender = selectedGender;
               });
             },
             child: Container(
@@ -121,14 +125,14 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               width: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selectedGender == AppString.male
+                color: selectedGender == 'male'
                     ? ColorManager.primaryColor
                     : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.male,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.male
+                color: selectedGender == 'male'
                     ? Colors.white
                     : Colors.black,
               ),
@@ -136,27 +140,27 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           ),
           SizedBox(height: screenHeight * 0.03),
 
-          // AppString.female button
+          // 'female' button
           GestureDetector(
             onTap: () {
               setState(() {
-                selectedGender = AppString.female;
+                selectedGender = 'female';
               });
-              context.read<RegisterCubit>().updateGender(selectedGender);
+              context.read<RegisterCubit>().gender = selectedGender;
             },
             child: Container(
               height: screenHeight * 0.15,
               width: screenHeight * 0.15,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: selectedGender == AppString.female
+                color: selectedGender == 'female'
                     ? ColorManager.primaryColor
                     : ColorManager.greyColor.withOpacity(0.5),
               ),
               child: Icon(
                 Icons.female,
                 size: screenHeight * 0.06,
-                color: selectedGender == AppString.female
+                color: selectedGender == 'female'
                     ? Colors.white
                     : Colors.black,
               ),

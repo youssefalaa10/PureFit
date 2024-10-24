@@ -1,14 +1,18 @@
-import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Features/Diet/UI/food_diet.dart';
-import 'package:fitpro/Features/Exercises/UI/weekly_exercise_screen.dart';
-import 'package:fitpro/Features/Home/home_screen.dart';
-import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
-import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Features/AiChat/trainer_chat.dart';
+import 'package:PureFit/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/food_cubit/foods_cubit.dart';
+import 'package:PureFit/Features/Home/home_screen.dart';
+import 'package:PureFit/Features/MyPlan/myplan_screen.dart';
+import 'package:PureFit/Features/Profile/UI/profile_screen.dart';
+
+import '../Diet/UI/diet_screen.dart';
 
 class LayoutScreen extends StatefulWidget {
   const LayoutScreen({super.key});
@@ -24,12 +28,35 @@ class LayoutScreenState extends State<LayoutScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const MyPlanScreen(),
-    const WeeklyExerciseScreen(),
-    const FoodDietScreen(),
-    BlocProvider(
-      create: (context) => getIT<ProfileCubit>(),
-      child: const ProfileScreen(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            // Get the instance of WorkoutProgramsCubit and call fetchWorkoutPrograms after creation
+            final cubit = getIT<FoodsCubit>();
+            cubit.fetchFoods(); // Fetch the workout programs
+            return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            final cubit = getIT<DrinksCubit>();
+            cubit.fetchDrinks();
+            return cubit;
+          },
+        ),
+        BlocProvider(
+          create: (context) {
+            final cubit = getIT<FavoriteCubit>();
+            cubit.loadFavorites();
+            return cubit;
+          },
+        ),
+      ],
+      child: const DietScreen(),
     ),
+    const TrainerChat(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -60,24 +87,34 @@ class LayoutScreenState extends State<LayoutScreen> {
   }
 
   List<BottomNavigationBarItem> _navBarItems() {
-    return const [
-      BottomNavigationBarItem(
+    return [
+      const BottomNavigationBarItem(
         icon: Icon(Icons.home, size: 28),
         label: 'Home',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(Icons.analytics, size: 28),
         label: 'My Plan',
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.restaurant_menu, size: 28),
-        label: 'Food',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.fitness_center, size: 28),
+      const BottomNavigationBarItem(
+          icon: Icon(
+            Icons.restaurant,
+            size: 28,
+          ),
+          label: 'Diet'),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.support_agent, size: 28),
         label: 'Exercises',
       ),
-      BottomNavigationBarItem(
+      // BottomNavigationBarItem(
+      //   icon: AppIcons.themedIcon(
+      //     context,
+      //     AppIcons.healthyFood,
+      //     size: 28,
+      //   ),
+      //   label: 'Food',
+      // ),
+      const BottomNavigationBarItem(
         icon: Icon(Icons.person, size: 28),
         label: 'Profile',
       ),
@@ -86,6 +123,7 @@ class LayoutScreenState extends State<LayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -99,11 +137,12 @@ class LayoutScreenState extends State<LayoutScreen> {
           children: _screens,
         ),
         bottomNavigationBar: SnakeNavigationBar.color(
+          backgroundColor: theme.scaffoldBackgroundColor,
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor: Colors.blue,
-          selectedItemColor: Colors.blue,
-          unselectedItemColor: Colors.grey,
+          snakeViewColor: theme.primaryColor,
+          selectedItemColor: theme.primaryColor,
+          unselectedItemColor: theme.colorScheme.secondaryContainer,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: _navBarItems(),

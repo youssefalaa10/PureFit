@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:fitpro/Core/Components/custom_snackbar.dart';
-import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,6 +35,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+
     _nameController = TextEditingController(text: widget.userModel.userName);
     _ageController =
         TextEditingController(text: widget.userModel.age.toString());
@@ -60,8 +61,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
@@ -145,7 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primaryColor,
+                        backgroundColor: theme.primaryColor,
                         padding: EdgeInsets.symmetric(
                             horizontal: mq.width(12.5), vertical: mq.height(1)),
                         shape: RoundedRectangleBorder(
@@ -172,7 +174,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Text(
                         'Save Changes',
                         style: TextStyle(
-                            fontSize: mq.width(4), color: Colors.white),
+                            fontSize: mq.width(4),
+                            color: theme.scaffoldBackgroundColor),
                       ),
                     ),
                   ),
@@ -213,35 +216,37 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
   }
 
   @override
-Widget build(BuildContext context) {
-  final mq = CustomMQ(context);
+  Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
 
-  return Center(
-    child: Stack(
-      children: [
-        CircleAvatar(
-          radius: mq.width(12.5),
-          backgroundImage: _imageFile != null
-              ? FileImage(File(_imageFile!.path))
-              : AssetImage(AppString.profile), // Use the asset image if no file is present
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          child: CircleAvatar(
-            radius: mq.width(3.75),
-            backgroundColor: Colors.orange,
-            child: IconButton(
-              icon: Icon(Icons.camera_alt, size: mq.width(3.75), color: Colors.white), // Changed to camera icon
-              onPressed: _pickImage,
+    return Center(
+      child: Stack(
+        children: [
+          CircleAvatar(
+            radius: mq.width(12.5),
+            backgroundImage: _imageFile != null
+                ? FileImage(File(_imageFile!.path))
+                : AssetImage(AppString
+                    .profile), // Use the asset image if no file is present
+          ),
+          Positioned(
+            bottom: 0,
+            right: 0,
+            child: CircleAvatar(
+              radius: mq.width(3.75),
+              backgroundColor: ColorManager.backGroundColor,
+              child: IconButton(
+                icon: Icon(Icons.camera_alt,
+                    size: mq.width(3.75),
+                ), // Changed to camera icon
+                onPressed: _pickImage,
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
+        ],
+      ),
+    );
+  }
 }
 
 class EditableField extends StatelessWidget {
@@ -299,10 +304,10 @@ class WeightSlider extends StatefulWidget {
       {super.key, required this.weighslider, required this.onValueChanged});
 
   @override
-  _WeightSliderState createState() => _WeightSliderState();
+  WeightSliderState createState() => WeightSliderState();
 }
 
-class _WeightSliderState extends State<WeightSlider> {
+class WeightSliderState extends State<WeightSlider> {
   double _currentWeight = 40;
 
   @override
@@ -314,6 +319,7 @@ class _WeightSliderState extends State<WeightSlider> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -327,7 +333,7 @@ class _WeightSliderState extends State<WeightSlider> {
             Text('40', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
-                activeColor: ColorManager.primaryColor,
+                activeColor: theme.primaryColor,
                 inactiveColor: Colors.grey,
                 value: _currentWeight,
                 min: 40,

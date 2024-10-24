@@ -1,55 +1,123 @@
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Shared/calculator.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 
-import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
-import 'package:fitpro/Features/Calories/component/header_calories.dart';
-import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
+import 'package:PureFit/Features/Calories/component/calories_percentage.dart';
+import 'package:PureFit/Features/Calories/component/statics_of_cfp.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
-import '../../../Core/Routing/routes.dart'; 
-class CaloriesScreen extends StatelessWidget {
+class CaloriesScreen extends StatefulWidget {
   const CaloriesScreen({super.key});
 
   @override
+  State<CaloriesScreen> createState() => _CaloriesScreenState();
+}
+
+class _CaloriesScreenState extends State<CaloriesScreen> {
+  late double calories;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch the user profile data and calculate the calories
+    final user = context.read<ProfileCubit>().user;
+    calories = Calculator().getBmrActivity(
+      activityLevel: user!.activity!,
+      weight: user.userWeight,
+      height: user.userHeight,
+      age: user.age,
+    );
+
+    // Initialize data by getting today's food
+    context.read<TodayfoodCubit>().getFoodToday();
+
+    context.read<TodayfoodCubit>().resetDB();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final mq =
-        CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+    final mq = CustomMQ(context); // Responsive size calculations
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      appBar: AppBar(
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
+        //       },
+        //       icon: const Icon(Icons.edit))
+        // ],
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: Text(
+            style: TextStyle(
+                fontFamily: AppString.font, color: theme.primaryColor),
+            AppString.caloriesDetails(context)),
+      ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HeaderCalories(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
-                },
-              ),
               CustomSizedbox(height: mq.height(3)),
               _buildWelcomeMessage(mq),
               CustomSizedbox(height: mq.height(2)),
-              const CaloriesPercentage(),
-              CustomSizedbox(height: mq.height(2)),
-              _buildRowOfMyActivityAndSteps(mq),
-              CustomSizedbox(height: mq.height(1)),
-              _buildColumnOfStaticsCFP(mq),
-              CustomSizedbox(height: mq.height(1)),
-              Padding(
-                padding:
-                    EdgeInsets.only(left: mq.width(5), bottom: mq.height(0.5)),
-                child: Text(
-                  "Break Fast",
-                  style: TextStyle(
-                      fontSize: mq.width(4),
-                      fontWeight: FontWeight.bold,
-                      color: ColorManager.greyColor),
-                ),
+
+              // BlocBuilder for managing state
+              BlocBuilder<TodayfoodCubit, TodayfoodState>(
+                builder: (context, state) {
+                  if (state is TodayfoodLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is TodayfoodLoaded) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CaloriesPercentage(
+                          consumedCalories: state.totalCalories,
+                          calories: calories,
+                        ),
+                        CustomSizedbox(height: mq.height(2)),
+                        CustomSizedbox(height: mq.height(1)),
+                        _buildColumnOfStaticsCFP(
+                            mq, state.totalFats, state.totalProtein),
+                        CustomSizedbox(height: mq.height(1)),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: mq.width(5), bottom: mq.height(0.5)),
+                          child: Text(
+                            AppString.todayMeals(context),
+                            style: TextStyle(
+                                fontFamily: AppString.font,
+                                fontSize: mq.width(4),
+                                fontWeight: FontWeight.bold,
+                                color: ColorManager.greyColor),
+                          ),
+                        ),
+                        CustomSizedbox(height: mq.height(1)),
+                        _buildMyActivity(mq, state.todayFoods, theme),
+                      ],
+                    );
+                  } else if (state is TodayfoodError) {
+                    return Center(child: Text(state.message));
+                  }
+
+                  return Container(); // Default case when in TodayfoodInitial state
+                },
               ),
-              _buildCaloriesStepsBloc(mq),
             ],
           ),
         ),
@@ -61,13 +129,14 @@ class CaloriesScreen extends StatelessWidget {
     return Center(
       child: Column(
         children: [
-          Text(AppString.keepGoing,
+          Text(AppString.keepGoing(context),
               style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(4),
                   fontWeight: FontWeight.bold,
                   color: ColorManager.lightGreyColor)),
           Text(
-            AppString.youHavetoEatMoreCalories,
+            AppString.youHaveToEatMoreCalories(context),
             style:
                 TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
           ),
@@ -76,31 +145,7 @@ class CaloriesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCaloriesStepsBloc(CustomMQ mq) {
-    return _buildMyActivity(
-        AppString.profile, "Apple", "2 apple in a day", 40, mq);
-  }
-
-  Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(AppString.myActivity,
-              style: TextStyle(
-                  fontSize: mq.width(5), fontWeight: FontWeight.bold)),
-          TextButton(
-              onPressed: () {},
-              child: Text("Today",
-                  style: TextStyle(
-                      fontSize: mq.width(4), fontWeight: FontWeight.bold))),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildColumnOfStaticsCFP(CustomMQ mq) {
+  Widget _buildColumnOfStaticsCFP(CustomMQ mq, double fats, double protein) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -109,27 +154,33 @@ class CaloriesScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Carbs",
+              Text(AppString.carbs(context),
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
-              Text("Fat",
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
+              Text(AppString.fat(context),
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
-              Text("Protein",
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
+              Text(AppString.protein(context),
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
             ],
           ),
         ),
         CustomSizedbox(height: mq.height(1.2)),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: mq.width(3)),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              LinerChartCFT(),
-              LinerChartCFT(),
-              LinerChartCFT(),
+              LinerChartCFT(amount: fats),
+              LinerChartCFT(amount: fats),
+              LinerChartCFT(amount: protein),
             ],
           ),
         ),
@@ -138,38 +189,62 @@ class CaloriesScreen extends StatelessWidget {
   }
 
   Widget _buildMyActivity(
-      String image, String title, String amount, int calories, CustomMQ mq) {
+      CustomMQ mq, List<TodayFoodModel> foods, ThemeData theme) {
     return Padding(
       padding: EdgeInsets.only(
           left: mq.width(2), right: mq.width(2), bottom: mq.height(0.3)),
       child: ListView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 30,
+        itemCount: foods.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-              title,
-              style:
-                  TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w900),
+          final food = foods[index];
+          return Slidable(
+            endActionPane: ActionPane(
+              motion: const StretchMotion(),
+              children: [
+                SlidableAction(
+                  onPressed: (context) {
+                    context.read<TodayfoodCubit>().removeFoodToday(food.id);
+                  },
+                  icon: Icons.delete,
+                  backgroundColor: Colors.red,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ],
             ),
-            trailing: Text(
-              "🔥 $calories Calories in",
-              style: TextStyle(
-                  fontSize: mq.width(3), color: ColorManager.orangeColor),
-            ),
-            subtitle: Text(
-              amount,
-              style: TextStyle(
-                  fontSize: mq.width(3), color: ColorManager.lightGreyColor),
-            ),
-            leading: ClipRRect(
-              borderRadius: BorderRadius.circular(mq.width(3)),
-              child: Image.asset(
-                image,
+            child: ListTile(
+              title: Text(
+                food.name,
+                style: TextStyle(
+                    fontFamily: AppString.font,
+                    color: theme.primaryColor,
+                    fontSize: mq.width(4),
+                    fontWeight: FontWeight.w900),
+              ),
+              trailing: Text(
+                " ${food.calories} ${AppString.calories(context)} 🔥",
+                style: TextStyle(
+                    fontFamily: AppString.font,
+                    fontSize: mq.width(3),
+                    color: ColorManager.orangeColor),
+              ),
+              subtitle: Text(
+                food.amount,
+                style: TextStyle(
+                    fontFamily: AppString.font,
+                    fontSize: mq.width(3),
+                    color: ColorManager.lightGreyColor),
+              ),
+              leading: ClipRRect(
+                borderRadius: BorderRadius.circular(mq.width(3)),
+                child: Image.network(
+                  scale: 20,
+                  fit: BoxFit.cover,
+                  food.image,
+                ),
               ),
             ),
-            onTap: () {},
           );
         },
       ),

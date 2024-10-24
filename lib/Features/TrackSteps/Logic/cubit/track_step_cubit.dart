@@ -1,13 +1,12 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
-import 'package:fitpro/Features/TrackSteps/Data/Repository/track_steps_repo.dart';
+import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
+import 'package:PureFit/Features/TrackSteps/Data/Repository/track_steps_repo.dart';
 
 part 'track_step_state.dart';
 
 class TrackStepCubit extends Cubit<TrackStepState> {
   Trackstepsrepo trackstepsrepo;
-  TrackStepCubit(this.trackstepsrepo)
-      : super(TrackStepInitial());
+  TrackStepCubit(this.trackstepsrepo) : super(TrackStepInitial());
 
   void initDb() {
     trackstepsrepo.setinitDb();
@@ -68,6 +67,4 @@ class TrackStepCubit extends Cubit<TrackStepState> {
       emit(InsertTrackStepError(message: e.toString()));
     }
   }
-
-  
 }

@@ -10,10 +10,14 @@ class RegisterModel {
   final String gender;
   final int? goalSteps;
   final String? image;
+  final String? activity;
+  final String? goal;
 
   // Constructor with required parameters
   RegisterModel({
     // required this.userId,
+    this.activity,
+    this.goal,
     required this.password,
     required this.userName,
     required this.userEmail,
@@ -38,6 +42,8 @@ class RegisterModel {
       'gender': gender,
       'goalSteps': goalSteps,
       'image': image,
+      'activity': activity,
+      'goal': goal,
     };
   }
 

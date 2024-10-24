@@ -1,14 +1,31 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/weekly_execises_model.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/custom_icon_button.dart';
+import '../../Profile/Logic/cubit/profile_cubit.dart';
+import '../Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
+import '../Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
 
-class WeeklyExerciseScreen extends StatelessWidget {
+class WeeklyExerciseScreen extends StatefulWidget {
   const WeeklyExerciseScreen({super.key});
+
+  @override
+  WeeklyExerciseScreenState createState() => WeeklyExerciseScreenState();
+}
+
+class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final profileId = context.read<ProfileCubit>().user!.userId;
+    context.read<WeeklyExerciseCubit>().loadCalendar(profileId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,44 +33,72 @@ class WeeklyExerciseScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            padding: EdgeInsets.only(bottom: mq.height(10)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeaderSection(context, mq),
-                _buildMotivationalMessage(mq),
-                SizedBox(height: mq.height(2)),
-                _buildWeekProgress(context, mq),
-                SizedBox(height: mq.height(2)),
-              ],
-            ),
-          ),
-          Positioned(
-            bottom: mq.height(0.2),
-            left: mq.width(4),
-            right: mq.width(4),
-            child: _buildGoButton(context, mq),
-          ),
-        ],
+      body: SafeArea(
+        child: BlocBuilder<WeeklyExerciseCubit, WeeklyExerciseState>(
+          builder: (context, state) {
+            if (state is WeeklyExerciseLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is WeeklyExerciseLoaded) {
+              return _buildScreenContent(context, mq, state.calendar);
+            } else if (state is WeeklyExerciseError) {
+              return Center(child: Text(state.message));
+            }
+            return const Center(child: Text('Unknown State'));
+          },
+        ),
       ),
     );
   }
 
-  Widget _buildHeaderSection(BuildContext context, CustomMQ mq) {
+  Widget _buildScreenContent(
+      BuildContext context, CustomMQ mq, WeeklyExerciseModel calendar) {
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: mq.height(10)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildHeaderSection(context, mq, calendar),
+              _buildMotivationalMessage(mq),
+              SizedBox(height: mq.height(2)),
+              _buildWeekProgress(context, mq, calendar),
+              SizedBox(height: mq.height(2)),
+            ],
+          ),
+        ),
+        Positioned(
+          bottom: mq.height(0.2),
+          left: mq.width(4),
+          right: mq.width(4),
+          child: _buildGoButton(context, mq),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildHeaderSection(
+      BuildContext context, CustomMQ mq, WeeklyExerciseModel calendar) {
+    // Calculate total days and completed days
+    int totalDays = 0;
+    int completedDays = 0;
+
+    for (var week in calendar.weeks.values) {
+      totalDays += week.days.length;
+      completedDays += week.days.values.where((day) => day).length;
+    }
+
+    // Calculate progress percentage
+    double progressPercentage = completedDays / totalDays;
+    int displayedPercentage = (progressPercentage * 100).round();
+    int daysLeft = totalDays - completedDays;
+
     return Stack(
       children: [
         Container(
+          color: ColorManager.primaryColor,
           height: mq.height(25),
           width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage(AppString.profile),
-              fit: BoxFit.cover,
-            ),
-          ),
         ),
         Container(
           height: mq.height(25),
@@ -62,20 +107,18 @@ class WeeklyExerciseScreen extends StatelessWidget {
         ),
         Container(
           height: mq.height(25),
-          padding: EdgeInsets.symmetric(
-              horizontal: mq.width(4), vertical: mq.height(2)),
+          padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CustomBackButton(),
+                  CustomBackButton(iconColor: ColorManager.backGroundColor),
                   CustomIconButton(
                     icon: Icons.more_vert,
-                    onPressed: () {
-                      // Handle more actions
-                    },
+                    iconColor: ColorManager.backGroundColor,
+                    onPressed: () {},
                   ),
                 ],
               ),
@@ -84,20 +127,22 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'FULL BODY\n',
+                      text: '${AppString.weeklyExercise(context)}\n',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
+                        fontFamily: AppString.font,
                         fontSize: mq.width(6.5),
                         height: 1.5,
                       ),
                     ),
                     TextSpan(
-                      text: 'CHALLENGE',
+                      text: AppString.challenge(context),
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontSize: mq.width(6.5),
+                        fontFamily: AppString.font,
                         height: 1.2,
                       ),
                     ),
@@ -108,12 +153,14 @@ class WeeklyExerciseScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '23 Days left',
-                    style:
-                        TextStyle(color: Colors.white, fontSize: mq.width(4)),
+                    '$daysLeft ${AppString.daysLeft(context)}',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: mq.width(4),
+                        fontFamily: AppString.font),
                   ),
                   Text(
-                    '18%',
+                    '$displayedPercentage%',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: mq.width(4),
@@ -123,10 +170,10 @@ class WeeklyExerciseScreen extends StatelessWidget {
               ),
               const Spacer(),
               LinearProgressIndicator(
-                value: 0.18,
+                value: progressPercentage,
                 backgroundColor: Colors.grey.withOpacity(0.5),
                 valueColor:
-                    AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
+                    AlwaysStoppedAnimation<Color>(ColorManager.backGroundColor),
                 minHeight: mq.height(0.8),
               ),
             ],
@@ -158,7 +205,7 @@ class WeeklyExerciseScreen extends StatelessWidget {
               ),
             ),
             title: Text(
-              'Every day leads to growth! Believe in your power!',
+              AppString.growthMessage(context),
               style: TextStyle(fontSize: mq.width(4), color: Colors.black),
             ),
           ),
@@ -167,26 +214,33 @@ class WeeklyExerciseScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWeekProgress(BuildContext context, CustomMQ mq) {
+  Widget _buildWeekProgress(
+      BuildContext context, CustomMQ mq, WeeklyExerciseModel calendar) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildWeekSection('Week 1', 6, 7, active: true, mq: mq),
-          SizedBox(height: mq.height(2)),
-          _buildWeekSection('Week 2', 0, 7, mq: mq),
-          SizedBox(height: mq.height(2)),
-          _buildWeekSection('Week 3', 0, 7, mq: mq),
-          SizedBox(height: mq.height(2)),
-          _buildWeekSection('Week 4', 0, 7, mq: mq),
+          for (int i = 1; i <= 4; i++)
+            Padding(
+              padding: EdgeInsets.only(bottom: mq.height(2)),
+              child: _buildWeekSection(
+                '${AppString.week(context)} $i',
+                calendar.weeks['${AppString.week(context)}$i']!.days,
+                active: i == 1, // Highlight the current week
+                mq: mq,
+              ),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildWeekSection(String weekTitle, int completedDays, int totalDays,
+  Widget _buildWeekSection(String weekTitle, Map<String, bool> weekData,
       {bool active = false, required CustomMQ mq}) {
+    final completedDays = weekData.values.where((day) => day).length;
+    final totalDays = weekData.length;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -307,9 +361,9 @@ class WeeklyExerciseScreen extends StatelessWidget {
 
   Widget _buildGoButton(BuildContext context, CustomMQ mq) {
     return CustomButton(
-      label: 'GO',
+      label: 'Reset',
       onPressed: () {
-        // Implement navigation or action on button press.
+        // Implement navigation or action on button press
       },
       backgroundColor: ColorManager.primaryColor,
       padding: EdgeInsets.symmetric(vertical: mq.height(0.8)),

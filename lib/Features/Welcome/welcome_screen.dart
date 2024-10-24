@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -11,12 +11,12 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: <Widget>[
-
           // Background image
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/images/welcomeScreen02.jpg'), // Add your image path
+                image: AssetImage(
+                    'assets/images/welcomeScreen02.jpg'), // Add your image path
                 fit: BoxFit.cover,
               ),
             ),
@@ -25,11 +25,11 @@ class WelcomeScreen extends StatelessWidget {
           // Circles
           Center(
             child: SizedBox(
-                      width: mq.width(40.0),
-                      height: mq.height(40.0),
-                      child: Image.asset('assets/images/AppLogo_white.png'), // Add your logo path
-                    ),
-
+              width: mq.width(40.0),
+              height: mq.height(40.0),
+              child: Image.asset(
+                  'assets/images/AppLogo_white.png'), // Add your logo path
+            ),
           ),
         ],
       ),

@@ -1,4 +1,4 @@
-package com.example.fitpro
+package com.example.PureFit
 
 import io.flutter.embedding.android.FlutterActivity
 

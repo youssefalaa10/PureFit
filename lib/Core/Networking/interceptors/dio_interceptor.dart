@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
+import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 
 class DioInterceptor extends Interceptor {
   @override

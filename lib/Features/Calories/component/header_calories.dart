@@ -1,6 +1,8 @@
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
+
 
 class HeaderCalories extends StatelessWidget {
   final void Function() onPressed;
@@ -9,26 +11,26 @@ class HeaderCalories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(),
+          _buildHeaderTitle(context),
           _buildEditButton(),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle() {
-    return const Expanded(
+  Widget _buildHeaderTitle(context) {
+    return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Text(
           textAlign: TextAlign.center,
-          "Calories Details",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          AppString.caloriesDetails(context),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );

@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
@@ -74,7 +74,7 @@ class HeightPickerState extends State<WaterRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: Colors.blue,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

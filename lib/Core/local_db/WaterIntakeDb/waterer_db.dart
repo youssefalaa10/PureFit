@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:fitpro/Features/Water/Data/Model/water_model.dart';
+import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

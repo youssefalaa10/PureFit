@@ -1,9 +1,8 @@
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
-import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Shared/app_string.dart';
@@ -16,9 +15,10 @@ class BodyMetricsScreen extends StatelessWidget {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: mq.height(1)),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -27,13 +27,12 @@ class BodyMetricsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CustomBackButton(),
                     SizedBox(width: mq.width(5)),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(right: mq.width(5)),
                         child: LinearProgressIndicator(
-                          value: .75,
+                          value: 0.60,
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(0.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -43,18 +42,19 @@ class BodyMetricsScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: mq.width(5)),
-                    const Text(
-                      '3/4',
+                    Text(
+                      '3/5',
                       style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    )
+                          fontSize: mq.height(2),
+                          fontFamily: AppString.font,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: mq.height(2)),
               Text(
-                AppString.tellUsYourWeight,
+                AppString.tellUsYourWeight(context),
                 style: TextStyle(
                   fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(1)),
               Text(
-                AppString.helpUsCreateYourPersonalizedPlan,
+                AppString.helpUsCreateYourPersonalizedPlan(context),
                 style: TextStyle(
                   fontSize: mq.width(4),
                   color: ColorManager.greyColor,
@@ -76,7 +76,7 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(4)),
               Text(
-                AppString.tellUsYourHeight,
+                AppString.tellUsYourHeight(context),
                 style: TextStyle(
                   fontSize: mq.width(6),
                   fontWeight: FontWeight.bold,
@@ -163,7 +163,7 @@ class WeightPickerState extends State<WeightPicker> {
                 currentValue = value;
               });
 
-              context.read<RegisterCubit>().updateWeight(currentValue.toInt());
+              context.read<RegisterCubit>().userWeight = currentValue.toInt();
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),
@@ -249,8 +249,7 @@ class HeightPickerState extends State<HeightPicker> {
               setState(() {
                 currentValue = value;
               });
-              context.read<RegisterCubit>().updateHeight(currentValue.toInt());
-              print(currentValue.toInt());
+              context.read<RegisterCubit>().userHeight = currentValue.toInt();
             },
             width: MediaQuery.of(context).size.width,
             height: mq.height(8),

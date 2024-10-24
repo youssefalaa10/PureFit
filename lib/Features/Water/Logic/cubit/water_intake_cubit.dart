@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Water/Data/Model/water_model.dart';
-import 'package:fitpro/Features/Water/Data/Repo/water_repo.dart';
+import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
+import 'package:PureFit/Features/Water/Data/Repo/water_repo.dart';
 
 part 'water_intake_state.dart';
 
@@ -17,6 +17,7 @@ class WaterIntakeCubit extends Cubit<WaterIntakeState> {
       List<WaterIntake> allIntakes = await waterRepo.getHistoryIntakes();
       emit(WaterIntakeSuccess(allIntakes, todayIntake));
     } catch (e) {
+      print("error");
       emit(WaterIntakeFailure("Failed to load water intake data"));
     }
   }

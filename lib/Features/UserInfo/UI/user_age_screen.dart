@@ -1,9 +1,8 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class UserAgeScreen extends StatefulWidget {
@@ -23,6 +22,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -35,13 +35,12 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CustomBackButton(),
                     SizedBox(width: screenWidth * 0.05),
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(right: screenWidth * 0.05),
                         child: LinearProgressIndicator(
-                          value: 0.5, // 2/3 progress as per your image
+                          value: 0.40, // 2/3 progress as per your image
                           backgroundColor:
                               ColorManager.greyColor.withOpacity(.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
@@ -51,12 +50,13 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                       ),
                     ),
                     SizedBox(width: screenWidth * 0.05),
-                    const Text(
-                      '2/4',
+                    Text(
+                      '2/5',
                       style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    )
+                          fontSize: screenHeight * 0.02,
+                          fontFamily: AppString.font,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ],
                 ),
               ),
@@ -64,7 +64,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // "How Old Are You?" title
               Text(
-                AppString.howOldAreYou,
+                AppString.howOldAreYou(context),
                 style: TextStyle(
                   fontSize: screenHeight * 0.035, // Responsive font size
                   fontWeight: FontWeight.bold,
@@ -75,7 +75,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
               // Subtext
               Text(
-                AppString.helpUsCreateYourPersonalizedPlan,
+                AppString.helpUsCreateYourPersonalizedPlan(context),
                 style: TextStyle(
                   fontSize: screenHeight * 0.02,
                   color: ColorManager.greyColor,
@@ -95,8 +95,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         setState(() {
                           selectedAge = index + minAge;
                         });
-                        context.read<RegisterCubit>().updateAge(selectedAge);
-                        print(selectedAge);
+                        context.read<RegisterCubit>().age = selectedAge;
                       },
                       perspective: 0.003,
                       diameterRatio: 2.0,

@@ -1,7 +1,9 @@
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
-import '../../../Core/Components/back_button.dart'; 
 
 class FitnessGoalScreen extends StatefulWidget {
   const FitnessGoalScreen({super.key});
@@ -18,29 +20,34 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
-        child: SingleChildScrollView( 
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildHeaderSection(mq),
-              SizedBox(height: mq.height(5)),
-              _buildTitleSection(mq),
-              SizedBox(height: mq.height(2)),
-              
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-                child: buildGoalOptions(mq), // Updated method to build options with space
-              ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildHeaderSection(mq),
+                SizedBox(height: mq.height(5)),
+                _buildTitleSection(mq),
+                SizedBox(height: mq.height(2)),
 
-              const SizedBox(height: 20), // Add a spacer to prevent overflow
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+                  child: buildGoalOptions(
+                      mq), // Updated method to build options with space
+                ),
 
-              // // Next Button
-              // Padding(
-              //   padding: EdgeInsets.all(mq.width(4)),
-              //   child: _buildNextButton(mq),
-              // ),
-            ],
+                const SizedBox(height: 20), // Add a spacer to prevent overflow
+
+                // // Next Button
+                // Padding(
+                //   padding: EdgeInsets.all(mq.width(4)),
+                //   child: _buildNextButton(mq),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
@@ -54,7 +61,6 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CustomBackButton(),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
@@ -67,7 +73,13 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
               ),
             ),
           ),
-          Text('4/4', style: TextStyle(fontSize: mq.height(2))),
+          Text(
+            '5/5',
+            style: TextStyle(
+                fontSize: mq.height(2.0),
+                fontFamily: AppString.font,
+                fontWeight: FontWeight.w800),
+          ),
         ],
       ),
     );
@@ -79,7 +91,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
         Text(
           "What's Your Goal?",
           style: TextStyle(
-            fontSize: mq.height(3.7),
+            fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,
             color: Colors.black,
           ),
@@ -103,6 +115,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
         setState(() {
           _selectedGoal = title;
         });
+        context.read<RegisterCubit>().goal = _selectedGoal;
       },
       child: Container(
         padding: EdgeInsets.all(mq.height(.8)),
@@ -110,11 +123,11 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
           border: Border.all(
             color: _selectedGoal == title
                 ? ColorManager.primaryColor
-                : ColorManager.lightGreyColor, 
+                : ColorManager.lightGreyColor,
             width: 2,
           ),
-          borderRadius: BorderRadius.circular(15.0), // Adjusted the border radius
-
+          borderRadius:
+              BorderRadius.circular(15.0), // Adjusted the border radius
         ),
         child: Row(
           children: [
@@ -150,17 +163,11 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
   Widget buildGoalOptions(CustomMQ mq) {
     return Column(
       children: [
-        _buildGoalOption('Get Fitter', mq),
-        SizedBox(height: mq.height(1)), 
-        _buildGoalOption('Gain Weight', mq),
+        _buildGoalOption('gain weight', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Lose Weight', mq),
+        _buildGoalOption('fat lose', mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Building Muscles', mq),
-        SizedBox(height: mq.height(1)),
-        _buildGoalOption('Improving Endurance', mq),
-        SizedBox(height: mq.height(1)),
-        _buildGoalOption('Learn the Basics', mq),
+        _buildGoalOption('build muscles', mq),
       ],
     );
   }

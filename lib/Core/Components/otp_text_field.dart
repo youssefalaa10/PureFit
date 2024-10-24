@@ -9,9 +9,10 @@ class OtpTextField extends StatefulWidget {
   final bool showFieldAsBox;
   final ValueChanged<String>? onCodeChanged;
   final ValueChanged<String>? onSubmit;
+  final TextEditingController? externalController;
 
   const OtpTextField({
-    Key? key,
+    super.key,
     required this.numberOfFields,
     required this.fieldWidth,
     required this.borderColor,
@@ -20,13 +21,14 @@ class OtpTextField extends StatefulWidget {
     this.showFieldAsBox = false,
     this.onCodeChanged,
     this.onSubmit,
-  }) : super(key: key);
+    this.externalController, // Add this line
+  });
 
   @override
-  _OtpTextFieldState createState() => _OtpTextFieldState();
+  OtpTextFieldState createState() => OtpTextFieldState();
 }
 
-class _OtpTextFieldState extends State<OtpTextField> {
+class OtpTextFieldState extends State<OtpTextField> {
   List<TextEditingController> controllers = [];
   List<FocusNode> focusNodes = [];
   String currentCode = '';
@@ -51,6 +53,12 @@ class _OtpTextFieldState extends State<OtpTextField> {
 
   void handleTextChanged(String value, int index) {
     currentCode = controllers.map((controller) => controller.text).join();
+
+    // Update the external controller, if provided
+    if (widget.externalController != null) {
+      widget.externalController!.text = currentCode;
+    }
+
     if (widget.onCodeChanged != null) {
       widget.onCodeChanged!(currentCode);
     }

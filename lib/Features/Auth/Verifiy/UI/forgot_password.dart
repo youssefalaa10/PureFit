@@ -1,9 +1,14 @@
-import 'package:fitpro/Features/Auth/Verifiy/UI/verification.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/custom_button.dart';
+import '../../../../Core/Components/custom_snackbar.dart';
 import '../../../../Core/Components/custom_text_field.dart';
 import '../../../../Core/Shared/app_colors.dart';
+import '../../../../Core/Shared/app_string.dart';
+import '../Logic/forgot_pass_cubit/forgot_password_cubit.dart';
+import '../Logic/forgot_pass_cubit/forgot_password_state.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -14,67 +19,108 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
+    final mq = CustomMQ(context);
+    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Forgot Password"),
-        elevation: 0,
-      ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(
+            vertical: mq.height(10), horizontal: mq.width(5)),
         width: double.infinity,
         height: double.infinity,
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/images/logo.png",
-              height: 100,
-            ),
-            const SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "Forgot Password!",
-                style: TextStyle(
-                  fontSize: 35,
-                  color: ColorManager.primaryColor,
-                  fontWeight: FontWeight.bold,
+        child: BlocListener<ForgotPasswordCubit, ForgotPasswordState>(
+          listener: (context, state) {
+            if (state is ForgotPasswordLoading) {
+              showDialog(
+                context: context,
+                builder: (context) => const Center(
+                  child: CircularProgressIndicator(),
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Text(
-              "Enter your email, we will send you code on your email",
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 20,
-                color: ColorManager.lightGreyColor,
-              ),
-            ),
-            const SizedBox(height: 20),
-            CustomTextField(
-                controller: _emailController,
-                textInput: TextInputType.text,
-                isPassword: false,
-                hintText: "Enter your email"),
-            const SizedBox(height: 20),
-            CustomButton(
-              label: "Continue",
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        const VerificationScreen(), // Navigate to VerificationScreen
+              );
+            }
+            if (state is ForgotPasswordSuccess) {
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                Routes.verificationScreen,
+                arguments: _emailController.text,
+              );
+            }
+            if (state is ForgotPasswordError) {
+              Navigator.pop(context);
+              CustomSnackbar.showSnackbar(context, state.error);
+            }
+          },
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    AppString.forgotPassword(context),
+                    style: TextStyle(
+                      fontSize: mq.width(10),
+                      color: ColorManager.primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: AppString.font,
+                    ),
                   ),
-                );
-              },
+                ),
+                SizedBox(height: mq.width(4)),
+                Text(
+                  AppString.enterYourEmail(context),
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: mq.width(4),
+                    color: ColorManager.lightGreyColor,
+                  ),
+                ),
+                SizedBox(height: mq.width(4)),
+                CustomTextField(
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return AppString.enterYourEmail(context);
+                    } else if (!value.contains("@")) {
+                      return AppString.pleaseEnterAValidEmail(context);
+                    }
+                  },
+                  controller: _emailController,
+                  textInput: TextInputType.text,
+                  isPassword: false,
+                  hintText: "Enter your email",
+                  suffixIcon:
+                      Icon(Icons.email, color: ColorManager.primaryColor),
+                ),
+                SizedBox(height: mq.width(4)),
+                CustomButton(
+                  label: AppString.continuex(context),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: mq.width(20),
+                    vertical: mq.height(2),
+                  ),
+                  onPressed: () {
+                    validateThenDoForgotPassword(
+                      context,
+                      _emailController.text,
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  void validateThenDoForgotPassword(BuildContext context, String email) {
+    if (formKey.currentState!.validate()) {
+      context.read<ForgotPasswordCubit>().sendCode(email);
+    }
   }
 }

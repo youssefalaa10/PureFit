@@ -68,6 +68,38 @@ class NotificationService {
     }
   }
 
+  Future<void> scheduleNotification({
+    required String title,
+    required String body,
+    required DateTime
+        scheduledTime, // Time when the notification should be triggered
+    String? routeName,
+  }) async {
+    try {
+      // Generate a unique notification ID
+      int notificationId =
+          DateTime.now().millisecondsSinceEpoch.remainder(100000);
+
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: notificationId,
+          channelKey: 'basic_channel',
+          title: title,
+          body: body,
+          notificationLayout: NotificationLayout.Default,
+          customSound: 'resource://raw/fire',
+          payload: routeName != null ? {'screen': routeName} : null,
+        ),
+        schedule: NotificationCalendar.fromDate(
+            date: scheduledTime), // Schedule the notification
+      );
+
+      print('Scheduled notification: $title - $body at $scheduledTime');
+    } catch (e) {
+      print('Error scheduling notification: $e');
+    }
+  }
+
   // Method to create or update a repeating notification
   Future<void> repeatAlarm(String title, String body) async {
     currentNotificationId =

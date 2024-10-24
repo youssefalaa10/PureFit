@@ -1,4 +1,4 @@
-import 'package:fitpro/Features/AuthHelper/cubit/tokencheck_cubit.dart';
+import 'package:PureFit/Features/AuthHelper/cubit/tokencheck_cubit.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

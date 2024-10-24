@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Auth/Login/Logic/cubit/login_cubit.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Routing/Routes.dart';
-
 
 class LoginBlockListener extends StatelessWidget {
   const LoginBlockListener({super.key});
@@ -16,15 +16,19 @@ class LoginBlockListener extends StatelessWidget {
           if (state is LoginLoading || state is LoginInitial) {
             showDialog(
               context: context,
-              builder: (context) =>  Center(
+              builder: (context) => Center(
                 child: CircularProgressIndicator(
                   color: ColorManager.primaryColor,
                 ),
               ),
             );
           } else if (state is LoginSuccess) {
-            Navigator.pop(context);
-            Navigator.pushNamed(context, Routes.layoutScreen);
+            CustomSnackbar.showSnackbar(context, 'Login Success');
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Routes.layoutScreen,
+              (route) => false,
+            );
           } else if (state is LoginFaliuer) {
             setupErrorState(context, state.message);
           }

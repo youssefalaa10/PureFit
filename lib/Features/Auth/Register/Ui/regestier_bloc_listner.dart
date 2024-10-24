@@ -1,7 +1,7 @@
-import 'package:fitpro/Core/Components/custom_snackbar.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_state.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -24,7 +24,11 @@ class RegisterBlocListener extends StatelessWidget {
             ),
           );
         } else if (state is RegisterSuccess) {
-          Navigator.pushNamed(context, Routes.layoutScreen);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            Routes.layoutScreen,
+            (route) => false,
+          );
           showSuccessDialog(context);
         } else if (state is RegisterFailure) {
           setupErrorState(context, state.message);
@@ -52,7 +56,7 @@ void showSuccessDialog(BuildContext context) {
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
-              backgroundColor: Colors.blue,
+              backgroundColor: ColorManager.primaryColor,
               disabledForegroundColor: Colors.grey.withOpacity(0.38),
             ),
             onPressed: () {

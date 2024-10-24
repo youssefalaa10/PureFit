@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({super.key, this.iconColor});
-    final Color? iconColor;
+  final Color? iconColor;
   @override
   Widget build(BuildContext context) {
-
-
     return SizedBox(
       // with background------------------
       // decoration: BoxDecoration(
@@ -23,9 +21,8 @@ class CustomBackButton extends StatelessWidget {
       //   ],
       // ),
       child: IconButton(
-        icon:  Icon(
+        icon: const Icon(
           Icons.arrow_back,
-          color: iconColor??Colors.black,
         ),
         onPressed: () {
           Navigator.pop(context);

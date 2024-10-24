@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'media_query.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextInputType textInput;
+  final TextInputType? textInput;
   final bool isPassword;
   final String hintText;
   final Icon? prefixIcon;
-  final Icon? suffixIcon;
+  final Widget? suffixIcon;
   final Function(String)? validator;
   final TextEditingController? controller;
   const CustomTextField(
       {super.key,
-      required this.textInput,
+      this.textInput,
       required this.isPassword,
       required this.hintText,
       this.prefixIcon,

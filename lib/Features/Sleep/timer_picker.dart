@@ -1,5 +1,5 @@
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -23,10 +23,12 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Container(
-          color: ColorManager.backGroundColor,
+          color: theme.scaffoldBackgroundColor,
           child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: mq.width(5), vertical: mq.height(10)),
@@ -72,13 +74,10 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                               children: [
                                 Text(
                                   "Today - Sun, Oct 6",
-                                  style: TextStyle(
-                                      color: ColorManager.blackColor,
-                                      fontSize: mq.height(2)),
+                                  style: TextStyle(fontSize: mq.height(2)),
                                 ),
                                 Icon(
                                   Icons.calendar_today,
-                                  color: ColorManager.blackColor,
                                   size: mq.height(2.5),
                                 )
                               ],
@@ -173,7 +172,6 @@ class TimerPickerSection extends StatelessWidget {
                     child: Text(
                       '${index + 1}',
                       style: TextStyle(
-                        color: ColorManager.blackColor,
                         fontSize: mq.height(4),
                       ),
                     ),
@@ -184,8 +182,7 @@ class TimerPickerSection extends StatelessWidget {
           ),
           Text(
             ':',
-            style: TextStyle(
-                color: ColorManager.blackColor, fontSize: mq.height(4)),
+            style: TextStyle(fontSize: mq.height(4)),
           ),
           Expanded(
             child: CupertinoPicker(
@@ -202,9 +199,7 @@ class TimerPickerSection extends StatelessWidget {
                   return Center(
                     child: Text(
                       index.toString().padLeft(2, '0'),
-                      style: TextStyle(
-                          color: ColorManager.blackColor,
-                          fontSize: mq.height(4)),
+                      style: TextStyle(fontSize: mq.height(4)),
                     ),
                   );
                 },
@@ -225,7 +220,6 @@ class TimerPickerSection extends StatelessWidget {
                   child: Text(
                     'AM',
                     style: TextStyle(
-                      color: ColorManager.blackColor,
                       fontSize: mq.height(3.5),
                     ),
                   ),
@@ -234,7 +228,6 @@ class TimerPickerSection extends StatelessWidget {
                   child: Text(
                     'PM',
                     style: TextStyle(
-                      color: ColorManager.blackColor,
                       fontSize: mq.height(3.5),
                     ),
                   ),
@@ -265,6 +258,7 @@ class DaySelectorSection extends StatefulWidget {
 class _DaySelectorSectionState extends State<DaySelectorSection> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: widget.mq.height(1)),
       child: Row(
@@ -289,16 +283,18 @@ class _DaySelectorSectionState extends State<DaySelectorSection> {
                     color: Colors.grey,
                     width: 1,
                   ),
-                  color: Colors.transparent,
+                  color: isSelected
+                      ? theme.primaryColor // Change text color when selected
+                      : theme.scaffoldBackgroundColor,
                 ),
                 alignment: Alignment.center,
                 child: Text(
                   day,
                   style: TextStyle(
                     color: isSelected
-                        ? ColorManager
-                            .primaryColor // Change text color when selected
-                        : Colors.black54,
+                        ? theme
+                            .scaffoldBackgroundColor // Change text color when selected
+                        : theme.primaryColor,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
                     fontSize: widget.mq.height(2), // Font size adjustment
@@ -336,39 +332,36 @@ class AlarmDetailsSection extends StatelessWidget {
         ListTile(
           leading: Text(
             "Alarm Sound",
-            style: TextStyle(
-                color: ColorManager.blackColor, fontSize: mq.height(2)),
+            style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: alarmSound,
             onChanged: (_) => onToggle("alarmSound"),
-            activeColor: ColorManager.primaryColor,
+            activeColor: ColorManager.greyColor,
           ),
         ),
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
             "Vibration",
-            style: TextStyle(
-                color: ColorManager.blackColor, fontSize: mq.height(2)),
+            style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: vibrate,
             onChanged: (_) => onToggle("vibrate"),
-            activeColor: ColorManager.primaryColor,
+            activeColor: ColorManager.greyColor,
           ),
         ),
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
             "Snooze",
-            style: TextStyle(
-                color: ColorManager.blackColor, fontSize: mq.height(2)),
+            style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: snooze,
             onChanged: (_) => onToggle("snooze"),
-            activeColor: ColorManager.primaryColor,
+            activeColor: ColorManager.greyColor,
           ),
         ),
       ],
@@ -395,6 +388,8 @@ class BottomButtonsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -413,7 +408,7 @@ class BottomButtonsSection extends StatelessWidget {
             'Cancel',
             style: TextStyle(
               fontSize: mq.height(2.5),
-              color: Colors.redAccent,
+              color: ColorManager.darkredColor,
             ),
           ),
         ),
@@ -426,7 +421,7 @@ class BottomButtonsSection extends StatelessWidget {
             });
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: ColorManager.primaryColor,
+            backgroundColor: theme.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -434,8 +429,8 @@ class BottomButtonsSection extends StatelessWidget {
           child: Text(
             'Save',
             style: TextStyle(
+              color: theme.scaffoldBackgroundColor,
               fontSize: mq.height(2.5),
-              color: ColorManager.backGroundColor,
             ),
           ),
         ),

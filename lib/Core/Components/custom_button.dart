@@ -1,4 +1,5 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -39,6 +40,8 @@ class CustomButton extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontFamily: AppString.font,
             fontSize: fontSize,
             color: textColor,
           ),

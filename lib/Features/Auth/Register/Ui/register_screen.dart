@@ -1,15 +1,16 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
-import 'package:fitpro/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
 
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/custom_sizedbox.dart';
 import '../../../../Core/Components/custom_text_field.dart';
 import '../../../../Core/Components/media_query.dart';
-import '../../Login/Ui/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -25,13 +26,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
 
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmpassowrdController =
+      TextEditingController();
+  bool isObscure = true;
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.primaryColor,
+      backgroundColor: theme.primaryColor,
       body: Form(
         key: formKey,
         child: Column(
@@ -66,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: ColorManager.backGroundColor,
+                  color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(mq.width(15.0)),
                     topRight: Radius.circular(mq.width(15.0)),
@@ -78,15 +82,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomSizedbox(
-                        height: mq.height(
-                          3,
-                        ),
-                      ), // Assuming CustomSizedbox is a spacing widget
-
                       // Full Name Field
                       Text(
-                        "Full Name:",
+                        AppString.fullName(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -97,13 +95,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Please enter a user name!';
+                            return AppString.pleaseEnterYourName(context);
                           }
                         },
                         controller: userController,
                         textInput: TextInputType.emailAddress,
                         isPassword: false,
-                        hintText: "Enter user name!",
+                        hintText: AppString.enterUserName(context),
                         suffixIcon: Icon(Icons.person,
                             color: ColorManager.primaryColor),
                       ),
@@ -114,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Email Field
                       Text(
-                        "Email:",
+                        AppString.email(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -125,13 +123,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Please enter an email addres!";
+                            return AppString.pleaseEnterEmail(context);
+                          } else if (!value.contains("@")) {
+                            return AppString.pleaseEnterValidEmail(context);
                           }
                         },
                         controller: emailController,
                         textInput: TextInputType.emailAddress,
                         isPassword: false,
-                        hintText: "Enter email",
+                        hintText: AppString.enterEmail(context),
                         suffixIcon:
                             Icon(Icons.email, color: ColorManager.primaryColor),
                       ),
@@ -142,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Password Field
                       Text(
-                        "Password:",
+                        AppString.password(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -151,26 +151,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       CustomTextField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter a password!';
-                          } else if (passwordController.text.characters.length <
-                              8) {
-                            return 'Must contains at least 8 char';
-                          }
-                        },
-                        controller: passwordController,
-                        textInput: TextInputType.number,
-                        isPassword: true,
-                        hintText: "*********",
-                        suffixIcon:
-                            Icon(Icons.lock, color: ColorManager.primaryColor),
-                      ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppString.enterPassword(context);
+                            } else if (passwordController
+                                    .text.characters.length <
+                                8) {
+                              return 'Must contains at least 8 char';
+                            }
+                          },
+                          controller: passwordController,
+                          textInput: TextInputType.number,
+                          isPassword: isObscure,
+                          hintText: AppString.enterPassword(context),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                            child: Icon(
+                              !isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          )),
 
                       CustomSizedbox(height: mq.height(2)),
                       // Confirm Password Field
                       Text(
-                        "Confirm Password:",
+                        AppString.confirmPassword(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -179,18 +189,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       CustomTextField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please confirm a passowrd!';
-                          }
-                        },
-                        controller: passwordController,
-                        textInput: TextInputType.number,
-                        isPassword: true,
-                        hintText: "*********",
-                        suffixIcon:
-                            Icon(Icons.lock, color: ColorManager.primaryColor),
-                      ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return AppString.confirmPassword(context);
+                            } else if (value != passwordController.text) {
+                              return 'Password does not match';
+                            }
+                          },
+                          controller: confirmpassowrdController,
+                          textInput: TextInputType.number,
+                          isPassword: isObscure,
+                          hintText: AppString.confirmPassword(context),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                            child: Icon(
+                              !isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          )),
 
                       CustomSizedbox(height: mq.height(4)),
 
@@ -200,15 +221,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomButton(
                         label: "Sign Up",
                         onPressed: () {
-                          context
-                              .read<RegisterCubit>()
-                              .updatePassword(passwordController.text);
-                          context
-                              .read<RegisterCubit>()
-                              .updateUserEmail(emailController.text);
-                          context
-                              .read<RegisterCubit>()
-                              .updateUserName(userController.text);
+                          context.read<RegisterCubit>().password =
+                              (passwordController.text);
+
+                          context.read<RegisterCubit>().userEmail =
+                              (emailController.text);
+                          context.read<RegisterCubit>().userName =
+                              (userController.text);
                           validateThenDoSignup(context);
                         },
                         fontSize: mq.width(5.0),
@@ -222,26 +241,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          const Text(
-                            "Already have account",
+                         Text(
+                            AppString.alreadyHaveAccount(context),
                             textAlign: TextAlign.right,
-                            style: TextStyle(color: Colors.grey),
+                            style: TextStyle(color: Colors.grey,fontFamily: AppString.font),
                           ),
                           TextButton(
                             onPressed: () {
-                              Navigator.push(
+                              Navigator.pushNamedAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
+                                Routes.loginScreen,
+                                (route) => false,
                               );
                             },
                             child: Text(
-                              'Login',
+                              AppString.login(context),
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 color: ColorManager.primaryColor,
                                 fontSize: mq.height(2.0),
+                                fontFamily: AppString.font
                               ),
                             ),
                           ),

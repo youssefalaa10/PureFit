@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
+import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 
 import '../../Data/Model/login_model.dart';
 import '../../Data/Repo/login_repo.dart';
@@ -13,10 +13,9 @@ class LoginCubit extends Cubit<LoginState> {
   doLogin(LoginModel userlogin) async {
     emit(LoginLoading());
     try {
-      SaveTokenDB.clearToken();
       await loginRepo.doLogin(userlogin);
       String? token = await SaveTokenDB.getToken();
-      if (token != null || token!.isNotEmpty) {
+      if (token != null) {
         emit(LoginSuccess());
       }
     } catch (e) {
