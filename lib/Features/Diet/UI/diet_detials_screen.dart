@@ -1,7 +1,11 @@
+import 'package:PureFit/Core/Components/AnimatedDialog.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
 import 'package:PureFit/Features/Diet/Data/Model/favorites_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,10 +78,6 @@ class _DetailScreenState extends State<DetailScreen> {
               },
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.more_vert, color: theme.primaryColor),
-            onPressed: () {},
-          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -121,13 +121,45 @@ class _DetailScreenState extends State<DetailScreen> {
                 _buildNutritionData('Protein', '${dietItem.protein}', mq),
               ],
             ),
-            CustomSizedbox(height: mq.height(3.0)),
+            CustomSizedbox(height: mq.height(5.0)),
             Center(
               child: CustomButton(
+                backgroundColor: theme.primaryColor,
+                textColor: theme.scaffoldBackgroundColor,
                 label: "Add meal",
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (_) {
+                        return ScaleTransitionDialog(
+                          itemName: widget.dietItem.name,
+                          onPressed: (value) {
+                            int calories = widget.dietItem
+                                .calories; // Get the first part before the space
+                            // Convert the extracted part to integer
+                            final oneGramC =
+                                calories / 100; // Divide the calories by 100
+                            final grams = oneGramC * int.parse(value);
+                            final oneGramP = widget.dietItem.protein / 100;
+                            final gramsP = oneGramP * int.parse(value);
+                            final oneGramF = widget.dietItem.fats / 100;
+                            final gramsF = oneGramF * int.parse(value);
+
+                            TodayfoodRepo(TodayCaloriesDB()).insertFoodToday(
+                                TodayFoodModel(
+                                    id: widget.dietItem.id,
+                                    name: widget.dietItem.name,
+                                    calories: grams.toInt(),
+                                    fats: gramsF,
+                                    protein: gramsP,
+                                    image: widget.dietItem.image,
+                                    amount: value));
+                          },
+                        );
+                      });
+                },
                 padding: EdgeInsets.symmetric(
-                    vertical: mq.height(2), horizontal: mq.width(30)),
+                    vertical: mq.height(2), horizontal: mq.width(20)),
               ),
             ),
           ],
@@ -141,7 +173,8 @@ class _DetailScreenState extends State<DetailScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        padding: EdgeInsets.symmetric(
+            vertical: mq.height(1.5), horizontal: mq.width(5)),
         decoration: BoxDecoration(
           color: isPressed ? ColorManager.softGreyColor : Colors.transparent,
           borderRadius: BorderRadius.circular(mq.height(3.0)),
