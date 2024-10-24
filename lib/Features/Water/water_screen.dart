@@ -300,7 +300,6 @@ Widget _buildMyActivity(CustomMQ mq) {
                     Text(
                       "${session.date} ",
                       style: TextStyle(
-                        color: ColorManager.primaryColor,
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.w800,
                       ),

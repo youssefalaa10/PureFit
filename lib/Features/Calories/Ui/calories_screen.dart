@@ -1,5 +1,4 @@
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
-import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:PureFit/Core/Shared/calculator.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
@@ -50,13 +49,13 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
-              },
-              icon: const Icon(Icons.edit))
-        ],
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
+        //       },
+        //       icon: const Icon(Icons.edit))
+        // ],
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

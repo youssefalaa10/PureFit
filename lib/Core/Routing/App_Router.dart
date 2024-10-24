@@ -207,7 +207,10 @@ class AppRouter {
 
       // Track Steps Details Screen ============================================
       case Routes.trackStepsDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const TrackStepDetails());
+        final fullsteps = settings.arguments as int;
+
+        return MaterialPageRoute(
+            builder: (_) => TrackStepDetails(fullstepsOftoday: fullsteps));
 
       // Get Ready Screen ======================================================
       case Routes.trainingScreen:

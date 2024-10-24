@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:PureFit/Core/Components/media_query.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
 import 'package:PureFit/Features/Exercises/Logic/training_cubit/training_cubit.dart';
@@ -133,7 +132,7 @@ class RestTimerSection extends StatelessWidget {
             fontSize: mq.height(8),
             fontFamily: AppString.font,
             fontWeight: FontWeight.bold,
-            color: ColorManager.darkredColor,
+            color: theme.primaryColor.withOpacity(0.6),
           ),
         ),
         SizedBox(height: mq.height(3)),

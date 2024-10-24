@@ -40,7 +40,7 @@ class HeaderWidget extends StatelessWidget {
                 blurRadius: 1,
               ),
             ],
-            color: ColorManager.backGroundColor,
+            color: theme.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Stack(children: [

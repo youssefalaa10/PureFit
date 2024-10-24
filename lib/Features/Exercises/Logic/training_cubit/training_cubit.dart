@@ -8,9 +8,9 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
-  final int getReadyDuration = 3;
-  final int exerciseDuration = 1;
-  int restDuration = 100; // Can be modified dynamically
+  final int getReadyDuration = 5;
+  final int exerciseDuration = 30;
+  int restDuration = 20; // Can be modified dynamically
   bool isPaused = false; // Pause flag
   int? remainingTime; // Remaining time to continue from when paused
   EnumTrainingStage? currentStage; // Store the current stage

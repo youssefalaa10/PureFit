@@ -173,6 +173,8 @@ class CircularCounter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return SizedBox(
       width: mq.width(50),
       height: mq.width(50),
@@ -187,7 +189,7 @@ class CircularCounter extends StatelessWidget {
               value: countdownValue /
                   context.read<TrainingCubit>().getReadyDuration,
               strokeWidth: mq.width(2),
-              color: ColorManager.darkredColor,
+              color: theme.scaffoldBackgroundColor.withOpacity(0.6),
               backgroundColor: Colors.grey.shade300,
             ),
           ),

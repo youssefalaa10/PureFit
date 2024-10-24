@@ -12,7 +12,7 @@ class StepRuler extends StatefulWidget {
 
 class HeightPickerState extends State<StepRuler> {
   RulerPickerController? _rulerPickerController;
-  num currentValue = 5000;
+  num currentValue = 2000;
 
   @override
   void initState() {

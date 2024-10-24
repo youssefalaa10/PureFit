@@ -76,9 +76,13 @@ class _SleepScreenState extends State<SleepScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomButton(
+                      textColor: theme.scaffoldBackgroundColor,
+                      backgroundColor: theme.primaryColor,
                       label: AppString.startsleep,
                       onPressed: _startSleepSession),
                   CustomButton(
+                      textColor: theme.scaffoldBackgroundColor,
+                      backgroundColor: theme.primaryColor,
                       label: AppString.imWakedUp,
                       onPressed: () {
                         // Call this when the user wakes up and dismisses the notification
@@ -282,7 +286,6 @@ Widget _buildMyActivity(CustomMQ mq) {
               return ListTile(
                 leading: Icon(
                   Icons.bedtime,
-                  color: ColorManager.primaryColor,
                   size: mq.width(5), // Set a responsive size for the icon
                 ),
                 title: Text(
@@ -301,7 +304,6 @@ Widget _buildMyActivity(CustomMQ mq) {
                     Text(
                       "${session.duration} Minuts",
                       style: TextStyle(
-                        color: ColorManager.primaryColor,
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.w800,
                       ),

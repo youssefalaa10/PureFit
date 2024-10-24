@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:PureFit/Core/Components/back_button.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -244,11 +243,12 @@ class PausePlayButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return IconButton(
       iconSize: mq.height(6),
       icon: Icon(
         isPaused ? Icons.play_arrow : Icons.pause,
-        color: ColorManager.darkredColor,
+        color: theme.primaryColor,
       ),
       onPressed: onPressed,
     );

@@ -56,7 +56,7 @@ void showSuccessDialog(BuildContext context) {
           TextButton(
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
-              backgroundColor: Colors.blue,
+              backgroundColor: ColorManager.primaryColor,
               disabledForegroundColor: Colors.grey.withOpacity(0.38),
             ),
             onPressed: () {

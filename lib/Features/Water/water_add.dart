@@ -54,14 +54,14 @@ class WaterAddState extends State<WaterAdd> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Initialize your custom media query
-
+    final theme = Theme.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         _buildTitle(mq),
         _buildPageView(mq),
         _buildDots(mq),
-        _buildAddDrinkButton(mq),
+        _buildAddDrinkButton(mq, theme),
       ],
     );
   }
@@ -70,9 +70,10 @@ class WaterAddState extends State<WaterAdd> {
     return Text(
       AppString.addwater,
       style: TextStyle(
-          fontFamily: AppString.font,
-          fontSize: mq.height(3),
-          fontWeight: FontWeight.w600), // Adjust font size based on height
+        fontFamily: AppString.font,
+        fontSize: mq.height(3), // Adjust font size based on height
+        fontWeight: FontWeight.w600,
+      ),
     );
   }
 
@@ -110,8 +111,7 @@ class WaterAddState extends State<WaterAdd> {
             child: Transform.scale(
               scale: scale,
               child: Padding(
-                padding: EdgeInsets.all(
-                    mq.height(2)), // Adjust padding based on custom media query
+                padding: EdgeInsets.all(mq.height(2)), // Adjust padding
                 child:
                     _buildImageContainer(item.image, item.title, item.subtitle),
               ),
@@ -143,9 +143,10 @@ class WaterAddState extends State<WaterAdd> {
           Text(
             title,
             style: TextStyle(
-                fontFamily: AppString.font,
-                fontSize: 15,
-                fontWeight: FontWeight.w600),
+              fontFamily: AppString.font,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
           ),
           Text(
             subtitle,
@@ -175,11 +176,8 @@ class WaterAddState extends State<WaterAdd> {
   Container _buildDot(int index, CustomMQ mq) {
     return Container(
       height: mq.width(2.5), // Use custom media query for height
-      width: currentIndex == index
-          ? mq.width(6)
-          : mq.width(2.5), // Use custom media query for width
-      margin: EdgeInsets.only(
-          right: mq.width(1.2)), // Use custom media query for margin
+      width: currentIndex == index ? mq.width(6) : mq.width(2.5),
+      margin: EdgeInsets.only(right: mq.width(1.2)), // Adjust margin
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: currentIndex == index ? Colors.blue : Colors.grey,
@@ -187,8 +185,10 @@ class WaterAddState extends State<WaterAdd> {
     );
   }
 
-  CustomButton _buildAddDrinkButton(CustomMQ mq) {
+  CustomButton _buildAddDrinkButton(CustomMQ mq, ThemeData theme) {
     return CustomButton(
+      backgroundColor: theme.primaryColor,
+      textColor: theme.scaffoldBackgroundColor,
       label: "Add Drink  +",
       onPressed: () {
         if (currentIndex == 0) {
@@ -203,8 +203,9 @@ class WaterAddState extends State<WaterAdd> {
         Navigator.pop(context, true);
       },
       padding: EdgeInsets.symmetric(
-          horizontal: mq.width(25),
-          vertical: mq.height(2)), // Adjust button padding
+        horizontal: mq.width(25),
+        vertical: mq.height(2),
+      ),
     );
   }
 }

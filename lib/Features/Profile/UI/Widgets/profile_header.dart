@@ -38,7 +38,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                 ),
                 child: imageFile.existsSync()
                     ? Image.file(imageFile, fit: BoxFit.cover)
-                    : user.gender == "male "
+                    : user.gender == "male"
                         ? SvgPicture.asset(
                             "assets/images/man.svg",
                             fit: BoxFit.cover,

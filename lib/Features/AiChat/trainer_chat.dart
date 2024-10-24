@@ -82,6 +82,7 @@ class _TrainerChatState extends State<TrainerChat> {
           },
           builder: (context, state) {
             final mq = CustomMQ(context);
+            final theme = Theme.of(context);
             return Stack(
               children: [
                 // Display background image if there are no messages
@@ -98,13 +99,11 @@ class _TrainerChatState extends State<TrainerChat> {
                   onSend: (ChatMessage message) {
                     handleSendMessage(context, message);
                   },
-                  messageOptions: MessageOptions(
-                    currentUserContainerColor: ColorManager.primaryColor,
-                  ),
                   messageListOptions:
                       const MessageListOptions(showDateSeparator: true),
                   inputOptions: InputOptions(
-                    inputTextStyle: TextStyle(color: ColorManager.primaryColor),
+                    inputTextStyle:
+                        TextStyle(color: theme.scaffoldBackgroundColor),
                     inputToolbarStyle: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
