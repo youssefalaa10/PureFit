@@ -30,7 +30,7 @@ class Shimmerloadingexercises extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: mq.height(12),
+                      height: mq.height(7),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(mq.width(3)),

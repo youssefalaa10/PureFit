@@ -25,9 +25,10 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.primaryColor,
+      backgroundColor: theme.primaryColor,
       body: SafeArea(
         child: Form(
           key: formKey,
@@ -63,8 +64,7 @@ class LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    color: ColorManager
-                        .backGroundColor, // White background for the form
+                    color: theme.scaffoldBackgroundColor,
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(mq.width(15.0)),
                       topRight: Radius.circular(mq.width(15.0)),
@@ -181,8 +181,8 @@ class LoginScreenState extends State<LoginScreen> {
                                 EdgeInsets.symmetric(vertical: mq.height(1)),
                             borderRadius: mq.width(2.5),
                             fontSize: mq.width(5),
-                            backgroundColor: ColorManager.primaryColor,
-                            textColor: Colors.white,
+                            backgroundColor: theme.primaryColor,
+
                           ),
                         ),
                         SizedBox(height: mq.height(3)),

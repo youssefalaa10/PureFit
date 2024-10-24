@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Logic/cubit/profile_cubit.dart';
@@ -26,8 +26,9 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.primaryColor,
+      backgroundColor: theme.primaryColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -41,7 +42,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: ColorManager.backGroundColor,
+                  color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(mq.width(10.0)),
                     topRight: Radius.circular(mq.width(10.0)),

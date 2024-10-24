@@ -40,21 +40,64 @@ class AppString {
   static String seeAll(BuildContext context) => 'seeAll'.tr(context);
   static String complete(BuildContext context) => 'complete'.tr(context);
   static String start(BuildContext context) => 'start'.tr(context);
-  // MyPlan screen ------------------------------------------------
 
-  static String myPlan = "My Plan";
-  static String dailyPlan = "Daily Plan";
-  static String statics = "Statics";
-  static String calories = "Calories";
-  static String steps = "Steps";
-  static String sleep = "Sleep";
-  static String water = "Water";
-  static String bmiCalculator = "BMI";
-  static String lastupdate = "Last Update:";
-  static String kcal = "Kcal";
-  static String hours = "Hours";
-  static String liters = "Liters";
+  // Auth ---------------------------------------------------------------
+  static String changePassword(BuildContext context) =>
+      'changePassword'.tr(context);
+  static String enterPassword(BuildContext context) => 'enterPassword'.tr(context);
+  static String enterNewPassword(BuildContext context) => 'enterNewPassword'.tr(context);
+  static String confirmNewPassword(BuildContext context) => 'confirmNewPassword'.tr(context);
+  static String confirmPassword(BuildContext context) => 'confirmPassword'.tr(context);
+  static String continuex(BuildContext context) => 'continue'.tr(context);
+  static String passwordsDoNotMatch(BuildContext context) => 'passwordsDoNotMatch'.tr(context);
 
+  // Settings
+  static String general(BuildContext context) => 'general'.tr(context);
+  static String customizeSettings(BuildContext context) => 'customizeSettings'.tr(context);
+  static String notifications(BuildContext context) => 'notifications'.tr(context);
+  static String yourHistoryOfNotifications(BuildContext context) => 'yourHistoryOfNotifications'.tr(context);
+  static String personalInformation(BuildContext context) => 'personalInformation'.tr(context);
+  static String editProfile(BuildContext context) => 'editProfile'.tr(context);
+  static String logout(BuildContext context) => 'logout'.tr(context);
+  static String signOut(BuildContext context) => 'signOut'.tr(context);
+  static String yourName(BuildContext context) => 'yourName'.tr(context);
+  static String pleaseEnterYourName(BuildContext context) => 'pleaseEnterYourName'.tr(context);
+  static String age(BuildContext context) => 'age'.tr(context);
+  static String pleaseEnterYourAge(BuildContext context) => 'pleaseEnterYourAge'.tr(context);
+  static String pleaseEnterValidAge(BuildContext context) => 'pleaseEnterValidAge'.tr(context);
+  static String saveChanges(BuildContext context) => 'saveChanges'.tr(context);
+  static String weight(BuildContext context) => 'weight'.tr(context);
+  static String height(BuildContext context) => 'height'.tr(context);
+  // exercise screen
+  static String startNow(BuildContext context) => 'startNow'.tr(context);
+  static String level(BuildContext context) => 'level'.tr(context);
+  static String time(BuildContext context) => 'time'.tr(context);
+  static String focusArea(BuildContext context) => 'focusArea'.tr(context);
+  // exercise page view
+  static String trainingCompleted(BuildContext context) => 'trainingCompleted'.tr(context);
+  static String done(BuildContext context) => 'done'.tr(context);
+  // Weekly Exercise
+  static String weeklyExercise(BuildContext context) => 'weeklyExercise'.tr(context);
+  static String challenge(BuildContext context) => 'challenge'.tr(context);
+  static String daysLeft(BuildContext context) => 'daysLeft'.tr(context);
+  static String growthMessage(BuildContext context) => 'growthMessage'.tr(context);
+  static String week(BuildContext context) => 'week'.tr(context);
+
+
+    // MyPlan screen ------------------------------------------------
+
+    static String myPlan = "My Plan";
+    static String dailyPlan = "Daily Plan";
+    static String statics = "Statics";
+    static String calories = "Calories";
+    static String steps = "Steps";
+    static String sleep = "Sleep";
+    static String water = "Water";
+    static String bmiCalculator = "BMI";
+    static String lastupdate = "Last Update:";
+    static String kcal = "Kcal";
+    static String hours = "Hours";
+    static String liters = "Liters";
 
   // TrackSteps Screen ---------------------------------
   static String myActivity = "My Activity";

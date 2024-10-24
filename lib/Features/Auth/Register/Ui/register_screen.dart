@@ -13,7 +13,7 @@ import '../../../../Core/Components/media_query.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-
+  
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -31,9 +31,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.primaryColor,
+     backgroundColor: theme.primaryColor,
       body: Form(
         key: formKey,
         child: Column(
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: ColorManager.backGroundColor,
+                  color: theme.scaffoldBackgroundColor,
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(mq.width(15.0)),
                     topRight: Radius.circular(mq.width(15.0)),
@@ -160,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: passwordController,
                         textInput: TextInputType.number,
                         isPassword: true,
-                        hintText: "*********",
+                        hintText: "Enter your password",
                         suffixIcon:
                             Icon(Icons.lock, color: ColorManager.primaryColor),
                       ),
@@ -187,7 +187,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: confirmpassowrdController,
                         textInput: TextInputType.number,
                         isPassword: true,
-                        hintText: "*********",
+                        hintText: "confirm password",
                         suffixIcon:
                             Icon(Icons.lock, color: ColorManager.primaryColor),
                       ),

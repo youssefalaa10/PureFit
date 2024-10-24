@@ -19,10 +19,13 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+  final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
         padding: EdgeInsets.symmetric(
             vertical: mq.height(10), horizontal: mq.width(5)),

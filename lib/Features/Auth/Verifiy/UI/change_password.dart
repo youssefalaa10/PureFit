@@ -6,6 +6,7 @@ import '../../../../Core/Components/custom_snackbar.dart';
 import '../../../../Core/Components/custom_text_field.dart';
 import '../../../../Core/Routing/routes.dart';
 import '../../../../Core/Shared/app_colors.dart';
+import '../../../../Core/Shared/app_string.dart';
 import '../Logic/change_password_cubit/change_password_cubit.dart';
 import '../Logic/change_password_cubit/change_password_state.dart';
 
@@ -26,8 +27,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: BlocListener<ChangePasswordCubit, ChangePasswordState>(
           listener: (context, state) {
@@ -41,8 +43,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             }
             if (state is ChangePasswordSuccess) {
               Navigator.pop(context);
-
-                Navigator.pushReplacementNamed(context, Routes.loginScreen);
+              Navigator.pushReplacementNamed(context, Routes.loginScreen);
             }
             if (state is ChangePasswordError) {
               CustomSnackbar.showSnackbar(context, state.error);
@@ -65,7 +66,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Change Password!",
+                            AppString.changePassword(context),
                             style: TextStyle(
                               fontSize: mq.width(8),
                               color: ColorManager.primaryColor,
@@ -74,7 +75,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ),
                           SizedBox(height: mq.height(2)),
                           Text(
-                            "Enter your new password",
+                            AppString.enterNewPassword(context),
                             style: TextStyle(
                               fontSize: mq.width(4.5),
                               color: ColorManager.lightGreyColor,
@@ -84,25 +85,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           CustomTextField(
                             controller: _newPasswordController,
                             isPassword: true,
-                            hintText: "Enter your new password",
+                            hintText: AppString.enterNewPassword(context),
                             textInput: TextInputType.visiblePassword,
                           ),
                           SizedBox(height: mq.height(3)),
                           CustomTextField(
                             controller: _confirmPasswordController,
                             isPassword: true,
-                            hintText: "Confirm your new password",
+                            hintText: AppString.confirmNewPassword(context),
                             textInput: TextInputType.visiblePassword,
                           ),
                           SizedBox(height: mq.height(3)),
                           CustomButton(
-                            label: "Continue",
+                            label: AppString.continuex(context),
                             onPressed: () {
                               if (_newPasswordController.text ==
                                   _confirmPasswordController.text) {
                                 final cubit =
                                     context.read<ChangePasswordCubit>();
-                                print('ccccccccccccc${_newPasswordController}');
                                 cubit.changePassword(
                                   widget.email,
                                   _newPasswordController.text,
@@ -111,7 +111,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               } else {
                                 CustomSnackbar.showSnackbar(
                                   context,
-                                  "Passwords do not match!",
+                                  AppString.passwordsDoNotMatch(context),
                                 );
                               }
                             },

@@ -61,11 +61,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorManager.backGroundColor,
+
         elevation: 0,
         leading: const CustomBackButton(),
         title: Text(
