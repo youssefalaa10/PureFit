@@ -1,4 +1,3 @@
-import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
@@ -84,9 +83,21 @@ class _WaterScreenState extends State<WaterScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          CustomIconButton(
+            icon: Icons.edit,
+            onPressed: () async {
+              final result =
+                  await Navigator.pushNamed(context, Routes.waterDetails);
+              if (result == true) {
+                _fetchGoalValue();
+              }
+            },
+          ),
+        ],
         leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, goalValue);
             },
             icon: const Icon(Icons.arrow_back)),
         centerTitle: true,
@@ -124,45 +135,6 @@ class _WaterScreenState extends State<WaterScreen> {
                 }),
             _buildMyActivity(mq),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeaderSection(BuildContext context, CustomMQ mq) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const CustomBackButton(),
-          _buildHeaderTitle(mq),
-          CustomIconButton(
-            icon: Icons.edit,
-            onPressed: () async {
-              final result =
-                  await Navigator.pushNamed(context, Routes.waterDetails);
-              if (result == true) {
-                _fetchGoalValue();
-              }
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildHeaderTitle(CustomMQ mq) {
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
-        child: Text(
-          AppString.waterIntakeDetails(context),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: mq.width(4.5),
-            fontWeight: FontWeight.bold,
-          ),
         ),
       ),
     );

@@ -19,6 +19,10 @@ class MyPlanScreen extends StatefulWidget {
 class _MyPlanScreenState extends State<MyPlanScreen> {
   double bmi = 0.0;
   double calories = 0.0;
+  String stepsValue = "0"; // Initial default value for steps
+  String sleepValue = "8 hr"; // Initial default value for sleep
+  String waterValue = "2 lits"; // Initial default value for water
+
   @override
   void initState() {
     super.initState();
@@ -75,46 +79,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
     );
   }
 
-  Padding bmiCalculator(CustomMQ mq) {
-    return Padding(
-      padding: EdgeInsets.only(left: mq.width(3)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppString.bmiCalculator(context),
-            style: TextStyle(
-              fontFamily: AppString.font,
-              fontSize: mq.width(5.5),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-          SizedBox(height: mq.height(1)),
-          Text(
-            AppString.lastUpdate(context),
-            style: TextStyle(
-              fontFamily: AppString.font,
-              color: ColorManager.lightGreyColor,
-              fontSize: mq.width(4),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Text(
-            " ${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year} at ${DateTime.now().hour}:${DateTime.now().minute}",
-            style: TextStyle(
-              fontFamily: AppString.font,
-              color: ColorManager.primaryColor,
-              fontSize: mq.width(4),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: mq.height(1)),
-        ],
-      ),
-    );
-  }
-
+  // Method for building the row of daily plan statics
   Widget _buildRowOfDailyPlanStatics(CustomMQ mq) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(3)),
@@ -166,10 +131,8 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
   }
 
   Widget _buildStaticCard(BuildContext context, int index) {
-    String? stepsValue;
-    String? sleepValue;
-    String? waterValue;
     final theme = Theme.of(context);
+
     switch (index) {
       case 0:
         return GestureDetector(
@@ -189,15 +152,15 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         );
       case 1:
         return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, Routes.trackStepsScreen)
-                .then((result) {
-              if (result != null) {
-                setState(() {
-                  stepsValue = result.toString();
-                });
-              }
-            });
+          onTap: () async {
+            // Navigate to track steps screen and wait for result
+            final result =
+                await Navigator.pushNamed(context, Routes.trackStepsScreen);
+            if (result != null) {
+              setState(() {
+                stepsValue = result.toString(); // Set the steps value here
+              });
+            }
           },
           child: StaticCard(
             color: ColorManager.darkredColor,
@@ -206,20 +169,21 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
               Icons.directions_walk,
               color: theme.scaffoldBackgroundColor,
             ),
-            static: stepsValue ?? "2150", // Display the updated value
+            static: stepsValue, // Display the updated value or a default
             endline: AppString.steps(context),
           ),
         );
       case 2:
         return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, Routes.sleepScreen).then((result) {
-              if (result != null) {
-                setState(() {
-                  sleepValue = result.toString();
-                });
-              }
-            });
+          onTap: () async {
+            // Navigate to sleep screen and wait for result
+            final result =
+                await Navigator.pushNamed(context, Routes.sleepScreen);
+            if (result != null) {
+              setState(() {
+                sleepValue = result.toString(); // Set the sleep value here
+              });
+            }
           },
           child: StaticCard(
             color: ColorManager.lightGreenColor,
@@ -228,20 +192,22 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
               Icons.bed_outlined,
               color: theme.scaffoldBackgroundColor,
             ),
-            static: sleepValue ?? "9 hr", // Display the updated value
+            static: sleepValue, // Display the updated value
             endline: AppString.hours(context),
           ),
         );
       case 3:
         return GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, Routes.waterScreen).then((result) {
-              if (result != null) {
-                setState(() {
-                  waterValue = result.toString();
-                });
-              }
-            });
+          onTap: () async {
+            // Navigate to water screen and wait for result
+            final result =
+                await Navigator.pushNamed(context, Routes.waterScreen);
+            if (result != null) {
+              setState(() {
+                waterValue = result.toString();
+                // Set the water value here
+              });
+            }
           },
           child: StaticCard(
             color: ColorManager.blueColor,
@@ -250,7 +216,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
               Icons.water_drop_outlined,
               color: theme.scaffoldBackgroundColor,
             ),
-            static: waterValue ?? "4 lits", // Display the updated value
+            static: waterValue, // Display the updated value
             endline: AppString.liters(context),
           ),
         );
