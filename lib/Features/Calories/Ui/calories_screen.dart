@@ -49,10 +49,16 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading:
-            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
         centerTitle: true,
-        title: const Text("My Plan"),
+        title: Text(
+            style: TextStyle(
+                fontFamily: AppString.font, color: theme.primaryColor),
+            AppString.caloriesdetails),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
@@ -86,15 +92,16 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
                           padding: EdgeInsets.only(
                               left: mq.width(5), bottom: mq.height(0.5)),
                           child: Text(
-                            "Today meals",
+                            AppString.todaymeals,
                             style: TextStyle(
+                                fontFamily: AppString.font,
                                 fontSize: mq.width(4),
                                 fontWeight: FontWeight.bold,
                                 color: ColorManager.greyColor),
                           ),
                         ),
                         CustomSizedbox(height: mq.height(1)),
-                        _buildMyActivity(mq, state.todayFoods),
+                        _buildMyActivity(mq, state.todayFoods, theme),
                       ],
                     );
                   } else if (state is TodayfoodError) {
@@ -117,6 +124,7 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
         children: [
           Text(AppString.keepGoing,
               style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(4),
                   fontWeight: FontWeight.bold,
                   color: ColorManager.lightGreyColor)),
@@ -125,27 +133,6 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
             style:
                 TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(AppString.myActivity,
-              style: TextStyle(
-                  fontSize: mq.width(5), fontWeight: FontWeight.bold)),
-          TextButton(
-              onPressed: () {},
-              child: Text("Today",
-                  style: TextStyle(
-                      color: ColorManager.primaryColor,
-                      fontSize: mq.width(4),
-                      fontWeight: FontWeight.bold))),
         ],
       ),
     );
@@ -162,13 +149,19 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
             children: [
               Text("Carbs",
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
               Text("Fat",
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
               Text("Protein",
                   style: TextStyle(
-                      fontSize: mq.width(5), fontWeight: FontWeight.w600)),
+                      fontFamily: AppString.font,
+                      fontSize: mq.width(5),
+                      fontWeight: FontWeight.w600)),
             ],
           ),
         ),
@@ -188,7 +181,8 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
     );
   }
 
-  Widget _buildMyActivity(CustomMQ mq, List<TodayFoodModel> foods) {
+  Widget _buildMyActivity(
+      CustomMQ mq, List<TodayFoodModel> foods, ThemeData theme) {
     return Padding(
       padding: EdgeInsets.only(
           left: mq.width(2), right: mq.width(2), bottom: mq.height(0.3)),
@@ -216,17 +210,24 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
               title: Text(
                 food.name,
                 style: TextStyle(
-                    fontSize: mq.width(4), fontWeight: FontWeight.w900),
+                    fontFamily: AppString.font,
+                    color: theme.primaryColor,
+                    fontSize: mq.width(4),
+                    fontWeight: FontWeight.w900),
               ),
               trailing: Text(
-                " ${food.calories} Calories 🔥",
+                " ${food.calories} ${AppString.calories} 🔥",
                 style: TextStyle(
-                    fontSize: mq.width(3), color: ColorManager.orangeColor),
+                    fontFamily: AppString.font,
+                    fontSize: mq.width(3),
+                    color: ColorManager.orangeColor),
               ),
               subtitle: Text(
                 food.amount,
                 style: TextStyle(
-                    fontSize: mq.width(3), color: ColorManager.lightGreyColor),
+                    fontFamily: AppString.font,
+                    fontSize: mq.width(3),
+                    color: ColorManager.lightGreyColor),
               ),
               leading: ClipRRect(
                 borderRadius: BorderRadius.circular(mq.width(3)),

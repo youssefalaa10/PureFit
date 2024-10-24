@@ -81,6 +81,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           Text(
             AppString.bmiCalculator,
             style: TextStyle(
+              fontFamily: AppString.font,
               fontSize: mq.width(5.5),
               fontWeight: FontWeight.w700,
             ),
@@ -89,6 +90,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           Text(
             AppString.lastupdate,
             style: TextStyle(
+              fontFamily: AppString.font,
               color: ColorManager.lightGreyColor,
               fontSize: mq.width(4),
               fontWeight: FontWeight.w500,
@@ -97,6 +99,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           Text(
             " ${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year} at ${DateTime.now().hour}:${DateTime.now().minute}",
             style: TextStyle(
+              fontFamily: AppString.font,
               color: ColorManager.primaryColor,
               fontSize: mq.width(4),
               fontWeight: FontWeight.w500,
@@ -117,6 +120,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           Text(
             AppString.dailyPlan,
             style: TextStyle(
+              fontFamily: AppString.font,
               fontSize: mq.width(5),
               fontWeight: FontWeight.bold,
             ),
@@ -126,6 +130,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             child: Text(
               AppString.statics,
               style: TextStyle(
+                fontFamily: AppString.font,
                 fontSize: mq.width(4.25),
                 fontWeight: FontWeight.bold,
               ),
@@ -142,6 +147,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         textAlign: TextAlign.center,
         AppString.myPlan,
         style: TextStyle(
+          fontFamily: AppString.font,
           fontSize: mq.width(4.5),
           fontWeight: FontWeight.bold,
         ),

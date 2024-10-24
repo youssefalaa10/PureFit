@@ -2,6 +2,7 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:fitpro/Core/DI/dependency.dart';
 import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,17 +28,20 @@ class _TrainerChatState extends State<TrainerChat> {
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        surfaceTintColor: ColorManager.backGroundColor,
-        title: Text.rich(TextSpan(children: [
+        surfaceTintColor: theme.scaffoldBackgroundColor,
+        title: const Text.rich(TextSpan(children: [
           TextSpan(
               text: "Ai",
               style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: ColorManager.primaryColor)),
-          const TextSpan(
-              text: " Coach", style: TextStyle(fontWeight: FontWeight.w400))
+                fontFamily: AppString.font,
+                fontWeight: FontWeight.w700,
+              )),
+          TextSpan(
+              text: " Coach",
+              style: TextStyle(
+                  fontFamily: AppString.font, fontWeight: FontWeight.w400))
         ])),
-        backgroundColor: ColorManager.backGroundColor,
+        backgroundColor: theme.scaffoldBackgroundColor,
       ),
       body: BlocProvider(
         create: (context) => getIT<AichatCubit>(),

@@ -68,8 +68,9 @@ class WaterAddState extends State<WaterAdd> {
 
   Widget _buildTitle(CustomMQ mq) {
     return Text(
-      "Today, I would like to drink",
+      AppString.addwater,
       style: TextStyle(
+          fontFamily: AppString.font,
           fontSize: mq.height(3),
           fontWeight: FontWeight.w600), // Adjust font size based on height
     );
@@ -141,12 +142,16 @@ class WaterAddState extends State<WaterAdd> {
           LottieBuilder.asset(image),
           Text(
             title,
-            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            style: const TextStyle(
+                fontFamily: AppString.font,
+                fontSize: 15,
+                fontWeight: FontWeight.w600),
           ),
           Text(
             subtitle,
             textAlign: TextAlign.center,
             style: TextStyle(
+              fontFamily: AppString.font,
               color: ColorManager.lightGreyColor,
               fontSize: 12,
               fontWeight: FontWeight.w600,

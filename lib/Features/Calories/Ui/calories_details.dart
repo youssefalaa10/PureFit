@@ -30,6 +30,7 @@ class CaloriesDetails extends StatelessWidget {
               child: Text(
                 "Set New Target!",
                 style: TextStyle(
+                  
                   fontSize: mq.width(5),
                   fontWeight: FontWeight.w900,
                 ),

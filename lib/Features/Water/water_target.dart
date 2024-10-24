@@ -43,9 +43,9 @@ class WaterDetailsState extends State<WaterDetails> {
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,8 +55,9 @@ class WaterDetailsState extends State<WaterDetails> {
             Padding(
               padding: EdgeInsets.only(left: mq.width(5)),
               child: Text(
-                "Set New Target",
+                AppString.setnewtarget,
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(7.5),
                   fontWeight: FontWeight.w900,
                 ),
@@ -113,9 +114,10 @@ class WaterDetailsState extends State<WaterDetails> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Water Intake Details",
+          AppString.waterIntakeTarget,
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: AppString.font,
             fontSize: mq.width(4.5),
             fontWeight: FontWeight.bold,
           ),
@@ -143,6 +145,7 @@ class WaterDetailsState extends State<WaterDetails> {
                   TextSpan(
                     text: "$goalValue", // Display the current goal value
                     style: TextStyle(
+                      fontFamily: AppString.font,
                       fontSize: mq.width(11.25),
                       fontWeight: FontWeight.w500,
                     ),
@@ -150,6 +153,7 @@ class WaterDetailsState extends State<WaterDetails> {
                   TextSpan(
                     text: " lits",
                     style: TextStyle(
+                      fontFamily: AppString.font,
                       fontSize: mq.width(5),
                       color: ColorManager.backGroundColor,
                     ),

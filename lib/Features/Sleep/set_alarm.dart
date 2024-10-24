@@ -1,6 +1,7 @@
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_icon_button.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Sleep/Components/alarm_item.dart';
 import 'package:flutter/material.dart';
 
@@ -10,22 +11,27 @@ class SetAlarm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CustomMQ mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SingleChildScrollView(
         child: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeaderSection(mq),
+              _buildHeaderSection(mq, theme),
               SizedBox(
                 height: mq.height(2),
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-                child: const Text(
-                  "Set New Alarm!",
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                child: Text(
+                  AppString.setnewAlarm,
+                  style: TextStyle(
+                      color: theme.primaryColor,
+                      fontFamily: AppString.font,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
@@ -48,28 +54,30 @@ class SetAlarm extends StatelessWidget {
     );
   }
 
-  Widget _buildHeaderSection(CustomMQ mq) {
+  Widget _buildHeaderSection(CustomMQ mq, ThemeData theme) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(mq),
+          _buildHeaderTitle(mq, theme),
           CustomIconButton(icon: Icons.close, onPressed: () {}),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle(CustomMQ mq) {
+  Widget _buildHeaderTitle(CustomMQ mq, ThemeData theme) {
     return Expanded(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Sleep",
+          AppString.sleep,
           textAlign: TextAlign.center,
           style: TextStyle(
+            color: theme.primaryColor,
+            fontFamily: AppString.font,
             fontSize: mq.width(4.5),
             fontWeight: FontWeight.bold,
           ),

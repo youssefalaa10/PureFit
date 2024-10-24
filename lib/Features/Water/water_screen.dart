@@ -8,7 +8,7 @@ import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:fitpro/Features/Water/water_add.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; 
+import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -44,11 +44,11 @@ class _WaterScreenState extends State<WaterScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Instantiate CustomMQ
-
+    final theme = Theme.of(context);
     WaterIntakeCubit waterIntakeCubit = context.read<WaterIntakeCubit>();
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -64,7 +64,7 @@ class _WaterScreenState extends State<WaterScreen> {
                 label: "Add Water Intake +",
                 onPressed: () {
                   showModalBottomSheet(
-                      backgroundColor: ColorManager.backGroundColor,
+                      backgroundColor: theme.scaffoldBackgroundColor,
                       shape: const RoundedRectangleBorder(
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(30))),
@@ -109,7 +109,7 @@ class _WaterScreenState extends State<WaterScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Water Intake Details",
+          AppString.waterIntakeDetails,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.width(4.5),
@@ -126,6 +126,7 @@ class _WaterScreenState extends State<WaterScreen> {
         Text(
           AppString.greatWork,
           style: TextStyle(
+            fontFamily: AppString.font,
             fontSize: mq.width(3.75),
             fontWeight: FontWeight.bold,
             color: ColorManager.lightGreyColor,
@@ -136,6 +137,8 @@ class _WaterScreenState extends State<WaterScreen> {
           AppString.yourDailytasksAlmostDone,
           textAlign: TextAlign.center,
           style: TextStyle(
+            
+            fontFamily: AppString.font,
             fontSize: mq.width(7),
             fontWeight: FontWeight.bold,
           ),
@@ -197,6 +200,7 @@ Widget _buildStackedLottieImage(CustomMQ mq, String value) {
               TextSpan(
                 text: value,
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(11.25),
                   fontWeight: FontWeight.w500,
                 ),
@@ -204,6 +208,7 @@ Widget _buildStackedLottieImage(CustomMQ mq, String value) {
               TextSpan(
                 text: "lits",
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(5),
                   color: ColorManager.backGroundColor,
                 ),

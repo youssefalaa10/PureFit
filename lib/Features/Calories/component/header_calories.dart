@@ -1,5 +1,6 @@
 import 'package:fitpro/Core/Components/back_button.dart';
 import 'package:fitpro/Core/Components/custom_icon_button.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class HeaderCalories extends StatelessWidget {
@@ -22,13 +23,13 @@ class HeaderCalories extends StatelessWidget {
   }
 
   Widget _buildHeaderTitle() {
-    return const Expanded(
+    return Expanded(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 30),
+        padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Text(
           textAlign: TextAlign.center,
-          "Calories Details",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          AppString.caloriesdetails,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
       ),
     );
