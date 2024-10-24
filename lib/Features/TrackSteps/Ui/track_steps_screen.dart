@@ -31,12 +31,22 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   String? _lastRecordedDate;
   int? _savedSteps = 0;
   int _initialSteps = 0;
+  int goalValue = 2000;
 
   @override
   void initState() {
     super.initState();
     _loadData().then((_) {
       _initializePedometer();
+    });
+    _fetchGoalValue();
+  }
+
+  void _fetchGoalValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      goalValue =
+          prefs.getInt("stepGoal") ?? 2; // Update the class-level goalValue
     });
   }
 
@@ -155,8 +165,13 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       appBar: AppBar(
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.trackStepsDetailsScreen);
+              onPressed: () async {
+                final result = await Navigator.pushNamed(
+                    context, Routes.trackStepsDetailsScreen,
+                    arguments: _fullStepsOfToday);
+                if (result == true) {
+                  _fetchGoalValue();
+                }
               },
               icon: const Icon(Icons.edit))
         ],
@@ -269,7 +284,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
               backgroundColor: const Color.fromARGB(255, 228, 225, 225),
               progressColor: ColorManager.primaryColor,
               radius: mq.width(22.5),
-              percent: min(_fullStepsOfToday / 1000, 1.0),
+              percent: min(_fullStepsOfToday / goalValue, 1.0),
             ),
             DottedBorder(
               color: ColorManager.primaryColor,
