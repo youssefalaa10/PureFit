@@ -37,6 +37,7 @@ import '../../Features/Profile/Data/Model/user_model.dart';
 import '../../Features/Profile/Logic/cubit/profile_cubit.dart';
 import '../../Features/Profile/UI/edit_profile_screen.dart';
 import '../../Features/Profile/UI/profile_screen.dart';
+import '../../Features/Profile/UI/settings/terms_conditions.dart';
 import '../../Features/Profile/UI/settings_screen.dart';
 import '../../Features/Sleep/Logic/cubit/sleep_cubit.dart';
 import '../../Features/Sleep/set_alarm.dart';
@@ -299,6 +300,10 @@ class AppRouter {
       // Trainer  Screen ===================================================
       case Routes.trainerChat:
         return MaterialPageRoute(builder: (_) => const TrainerChat());
+
+      case Routes.termsOfServiceScreen:
+        return MaterialPageRoute(builder: (_) => const TermsOfServiceScreen());
+
 
       default:
         return null;

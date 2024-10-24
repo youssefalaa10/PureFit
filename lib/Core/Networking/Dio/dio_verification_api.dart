@@ -15,7 +15,7 @@ class DioVerificationApi {
      
     } catch (e) {
       // return "Error: $e";
-      throw "Verification Failed ";
+      throw "Verification Failedddd ";
     }
   }
 }

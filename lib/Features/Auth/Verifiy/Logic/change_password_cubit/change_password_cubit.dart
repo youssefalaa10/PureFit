@@ -12,6 +12,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       emit(ChangePasswordLoading());
 
       await _repo.changePassword(email, newPassword);
+      emit(ChangePasswordSuccess());
     } catch (e) {
       emit(ChangePasswordError("An error occurred: $e"));
     }

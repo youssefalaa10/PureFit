@@ -8,6 +8,7 @@ class HeaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final mq =
         CustomMQ(context); // Instantiate CustomMQ for responsive calculations
 
@@ -19,16 +20,18 @@ class HeaderWidget extends StatelessWidget {
           children: [
             Text(
               'Good Morning! 👋',
-              style: TextStyle(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: mq.width(4.5), // Use CustomMQ for font size
                 fontWeight: FontWeight.w500,
+                fontFamily: 'Lato'
               ),
             ),
             Text(
               AppString.welcomeBack(context),
-              style: TextStyle(
+              style: theme.textTheme.bodyMedium?.copyWith(
                 fontSize: mq.width(6), // Use CustomMQ for font size
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Lato'
               ),
             ),
           ],
