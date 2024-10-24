@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Networking/Dio/dio_aichat.dart';
+import 'package:PureFit/Core/Networking/Dio/dio_aichat.dart';
 
 class AiChatRepo {
   final DioChatApi dioChatApi;

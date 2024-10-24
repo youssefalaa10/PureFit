@@ -1,6 +1,7 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:lottie/lottie.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -18,14 +19,7 @@ class HeaderWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Good Morning! 👋',
-              style: theme.textTheme.bodyMedium?.copyWith(
-                fontSize: mq.width(4.5), // Use CustomMQ for font size
-                fontWeight: FontWeight.w500,
-                fontFamily: AppString.font,
-              ),
-            ),
+            datetime(),
             Text(
               AppString.welcomeBack(context),
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -54,10 +48,67 @@ class HeaderWidget extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.notifications_outlined,
-                color: theme.scaffoldBackgroundColor,
+                color: theme.primaryColor,
               ),
             ),
           ]),
+        ),
+      ],
+    );
+  }
+}
+
+Widget datetime() {
+  DateTime now = DateTime.now();
+  int hour = now.hour;
+
+  if (hour >= 6 && hour < 12) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Good Morning",
+            style: TextStyle(
+              fontFamily: AppString.font,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+            )),
+        const SizedBox(
+          width: 5,
+        ),
+        Lottie.asset('assets/lottie/Morning.json', height: 40, width: 40),
+      ],
+    );
+  } else if (hour >= 12 && hour < 17) {
+    return Row(
+      children: [
+        Text("Good Afternoon",
+            style: TextStyle(
+              fontFamily: AppString.font,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+            )),
+        const SizedBox(
+          width: 5,
+        ),
+        Lottie.asset('assets/lottie/Afternon.json', height: 40, width: 40),
+      ],
+    );
+  } else {
+    return Row(
+      children: [
+        Text("Good Evening",
+            style: TextStyle(
+              fontFamily: AppString.font,
+              fontSize: 22,
+              fontWeight: FontWeight.w700,
+            )),
+        const SizedBox(
+          width: 5,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 2.0),
+          child:
+              Lottie.asset('assets/lottie/NewMoon.json', height: 40, width: 40),
         ),
       ],
     );

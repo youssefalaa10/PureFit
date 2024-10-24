@@ -1,5 +1,5 @@
-import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
-import 'package:fitpro/Features/Diet/UI/diet_item.dart';
+import 'package:PureFit/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
+import 'package:PureFit/Features/Diet/UI/diet_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

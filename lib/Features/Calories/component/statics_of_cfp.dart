@@ -1,8 +1,8 @@
 import 'dart:math';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
+import 'package:PureFit/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LinerChartCFT extends StatelessWidget {

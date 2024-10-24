@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
-import 'package:fitpro/Features/Calories/component/calories_ruler.dart';
-import 'package:fitpro/Features/Calories/component/header_calories.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Calories/component/calories_percentage.dart';
+import 'package:PureFit/Features/Calories/component/calories_ruler.dart';
+import 'package:PureFit/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 
 class CaloriesDetails extends StatelessWidget {
   const CaloriesDetails({super.key});
@@ -30,7 +30,6 @@ class CaloriesDetails extends StatelessWidget {
               child: Text(
                 "Set New Target!",
                 style: TextStyle(
-                  
                   fontSize: mq.width(5),
                   fontWeight: FontWeight.w900,
                 ),

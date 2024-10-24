@@ -1,9 +1,9 @@
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
-import '../../../Core/Components/back_button.dart';
 
 class FitnessGoalScreen extends StatefulWidget {
   const FitnessGoalScreen({super.key});
@@ -22,29 +22,32 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              _buildHeaderSection(mq),
-              SizedBox(height: mq.height(5)),
-              _buildTitleSection(mq),
-              SizedBox(height: mq.height(2)),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildHeaderSection(mq),
+                SizedBox(height: mq.height(5)),
+                _buildTitleSection(mq),
+                SizedBox(height: mq.height(2)),
 
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-                child: buildGoalOptions(
-                    mq), // Updated method to build options with space
-              ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+                  child: buildGoalOptions(
+                      mq), // Updated method to build options with space
+                ),
 
-              const SizedBox(height: 20), // Add a spacer to prevent overflow
+                const SizedBox(height: 20), // Add a spacer to prevent overflow
 
-              // // Next Button
-              // Padding(
-              //   padding: EdgeInsets.all(mq.width(4)),
-              //   child: _buildNextButton(mq),
-              // ),
-            ],
+                // // Next Button
+                // Padding(
+                //   padding: EdgeInsets.all(mq.width(4)),
+                //   child: _buildNextButton(mq),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
@@ -58,7 +61,6 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const CustomBackButton(),
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
@@ -71,7 +73,13 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
               ),
             ),
           ),
-          const Text('5/5'),
+          Text(
+            '5/5',
+            style: TextStyle(
+                fontSize: mq.height(2.0),
+                fontFamily: AppString.font,
+                fontWeight: FontWeight.w800),
+          ),
         ],
       ),
     );

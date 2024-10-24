@@ -1,4 +1,4 @@
-import 'package:fitpro/Features/Sleep/Data/Model/sleepmodel.dart';
+import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -27,7 +27,7 @@ class SleepDb {
 
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE sleep_sessions (
+      CREATE TABLE sleep_sessions(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         bedtime TEXT NOT NULL,
         wake_time TEXT NOT NULL,
@@ -45,9 +45,7 @@ class SleepDb {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query('sleep_sessions');
 
-    return List.generate(maps.length, (i) {
-      return SleepSession.fromMap(maps[i]);
-    });
+    return maps.map((json) => SleepSession.fromMap(json)).toList();
   }
 
   Future<int> updateSleepSession(SleepSession session) async {

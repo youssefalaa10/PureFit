@@ -1,4 +1,4 @@
-import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

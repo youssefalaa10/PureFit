@@ -1,6 +1,6 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
-import 'package:fitpro/Features/Exercises/UI/components/get_ready_screen.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:PureFit/Features/Exercises/UI/components/get_ready_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

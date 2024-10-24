@@ -1,12 +1,12 @@
 import 'dart:math';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/custom_snackbar.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
-import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
+import 'package:PureFit/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -151,11 +151,23 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: Text(
+          style:
+              TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
+          AppString.stepsdetails,
+        ),
+      ),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(mq),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 20),

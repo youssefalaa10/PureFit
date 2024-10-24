@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
-import 'package:fitpro/Features/Profile/Data/Repo/profile_repo.dart';
+import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
+import 'package:PureFit/Features/Profile/Data/Repo/profile_repo.dart';
 
 part 'profile_state.dart';
 

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:fitpro/Core/Shared/api_constants.dart';
+import 'package:PureFit/Core/Shared/api_constants.dart';
 import 'package:flutter/foundation.dart';
 
 class DioExerciseApi {

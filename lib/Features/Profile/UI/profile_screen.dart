@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +26,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-     final theme = Theme.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.primaryColor,
       body: SafeArea(

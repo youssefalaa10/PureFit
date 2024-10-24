@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
-import 'package:fitpro/Features/Home/Widgets/shimmerloadingexercises.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.dart';
+import 'package:PureFit/Features/Home/Widgets/shimmerloadingexercises.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Routing/Routes.dart';

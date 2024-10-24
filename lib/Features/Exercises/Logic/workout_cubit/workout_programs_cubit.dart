@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/workout_categories_model.dart';
-import 'package:fitpro/Features/Exercises/Data/Repo/workout_categories_repo.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.dart';
+import 'package:PureFit/Features/Exercises/Data/Repo/workout_categories_repo.dart';
 
 part 'workout_programs_state.dart';
 

@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
 part 'training_state.dart';
 
 class TrainingCubit extends Cubit<TrainingCubitState> {
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
-  final int getReadyDuration = 1;
+  final int getReadyDuration = 3;
   final int exerciseDuration = 1;
-  int restDuration = 1; // Can be modified dynamically
+  int restDuration = 100; // Can be modified dynamically
   bool isPaused = false; // Pause flag
   int? remainingTime; // Remaining time to continue from when paused
   EnumTrainingStage? currentStage; // Store the current stage
@@ -30,7 +30,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
   // Start Get Ready Stage and First Stage
   void _startGetReadyStage() {
-      if (currentExercise >= (passExercises?.length ?? 0)) {
+    if (currentExercise >= (passExercises?.length ?? 0)) {
       emit(TrainingCompleted());
     }
     currentStage = EnumTrainingStage.getReady;
@@ -41,7 +41,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   void _startExerciseStage() {
     currentStage = EnumTrainingStage.start;
     // _startTimer(exerciseDuration, _startRestStage);
-      _startTimer(exerciseDuration, () {
+    _startTimer(exerciseDuration, () {
       if (currentExercise == (passExercises?.length ?? 0) - 1) {
         // If this is the last exercise, mark training as completed
         emit(TrainingCompleted());
@@ -50,7 +50,6 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
         _startRestStage();
       }
     });
-
   }
 
   // Start Rest Stage (skipped for the last exercise)

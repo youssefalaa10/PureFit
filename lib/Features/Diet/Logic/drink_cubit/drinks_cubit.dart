@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Diet/Data/Model/diet_model.dart';
+import 'package:PureFit/Features/Diet/Data/Model/diet_model.dart';
 
 import '../../Data/Repo/drinks_repo.dart'; // Import the DrinksRepo
 import 'drinks_state.dart'; // Import the state classes for drinks

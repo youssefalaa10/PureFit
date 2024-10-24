@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,20 +23,20 @@ class TrainingScreenState extends State<TrainingScreen> {
   late CustomMQ mq;
   Timer? countdownTimer;
   int countdownValue = 0;
-  bool Paused = false;
+  bool paused = false;
 
   @override
   void initState() {
     super.initState();
     countdownValue = context.read<TrainingCubit>().exerciseDuration;
-    Paused = context.read<TrainingCubit>().isPaused;
+    paused = context.read<TrainingCubit>().isPaused;
 
     startCountdown();
   }
 
   void startCountdown() {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (countdownValue > 0 && !Paused) {
+      if (countdownValue > 0 && !paused) {
         if (mounted) {
           // Check if the widget is still mounted
           setState(() {
@@ -57,12 +58,13 @@ class TrainingScreenState extends State<TrainingScreen> {
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
-            style: const TextStyle(color: Colors.black)),
+            style: TextStyle(fontFamily: AppString.font)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const CustomBackButton(),
@@ -97,7 +99,7 @@ class TrainingScreenState extends State<TrainingScreen> {
                   cubit.pauseRoutine(); // Pause the timer
                 }
                 setState(() {
-                  Paused = cubit.isPaused;
+                  paused = cubit.isPaused;
                   startCountdown();
                 });
                 // Trigger a rebuild to update the button
@@ -122,13 +124,23 @@ class TrainingScreenState extends State<TrainingScreen> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
+                                backgroundColor: theme.primaryColor,
                                 content: Text(
                                   "Instraction ",
-                                  style: TextStyle(fontSize: mq.height(2)),
+                                  style: TextStyle(
+                                      fontSize: mq.height(2),
+                                      fontFamily: AppString.font,
+                                      color: theme.scaffoldBackgroundColor),
                                 ),
                                 actions: [
-                                  Text(widget
-                                      .exercises[widget.index].instructions[0])
+                                  Text(
+                                    widget.exercises[widget.index]
+                                        .instructions[0],
+                                    style: TextStyle(
+                                        fontSize: mq.height(2),
+                                        fontFamily: AppString.font,
+                                        color: theme.scaffoldBackgroundColor),
+                                  )
                                 ],
                               );
                             });
@@ -181,12 +193,18 @@ class TitleSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      exercises[index].name,
-      style: TextStyle(
-        fontSize: mq.height(3),
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Center(
+        child: Text(
+          textAlign: TextAlign.center,
+          exercises[index].name,
+          style: TextStyle(
+            fontFamily: AppString.font,
+            fontSize: mq.height(3),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
@@ -195,18 +213,18 @@ class TitleSection extends StatelessWidget {
 class TimerSection extends StatelessWidget {
   final CustomMQ mq;
   final int countdownValue;
-
   const TimerSection(
       {super.key, required this.mq, required this.countdownValue});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Text(
       '${(countdownValue ~/ 60).toString().padLeft(2, '0')} : ${(countdownValue % 60).toString().padLeft(2, '0')}',
       style: TextStyle(
         fontSize: mq.height(6),
         fontWeight: FontWeight.bold,
-        color: Colors.teal,
+        color: theme.primaryColor,
       ),
     );
   }
@@ -230,7 +248,7 @@ class PausePlayButtonSection extends StatelessWidget {
       iconSize: mq.height(6),
       icon: Icon(
         isPaused ? Icons.play_arrow : Icons.pause,
-        color: Colors.teal,
+        color: ColorManager.darkredColor,
       ),
       onPressed: onPressed,
     );

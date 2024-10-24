@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Routing/routes.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
-import 'package:fitpro/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
 
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/custom_sizedbox.dart';
@@ -13,7 +13,7 @@ import '../../../../Core/Components/media_query.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
-  
+
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -27,13 +27,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmpassowrdController =
       TextEditingController();
+  bool isObscure = true;
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
     final theme = Theme.of(context);
     return Scaffold(
-     backgroundColor: theme.primaryColor,
+      backgroundColor: theme.primaryColor,
       body: Form(
         key: formKey,
         child: Column(
@@ -149,21 +150,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       CustomTextField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please enter a password!';
-                          } else if (passwordController.text.characters.length <
-                              8) {
-                            return 'Must contains at least 8 char';
-                          }
-                        },
-                        controller: passwordController,
-                        textInput: TextInputType.number,
-                        isPassword: true,
-                        hintText: "Enter your password",
-                        suffixIcon:
-                            Icon(Icons.lock, color: ColorManager.primaryColor),
-                      ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter a password!';
+                            } else if (passwordController
+                                    .text.characters.length <
+                                8) {
+                              return 'Must contains at least 8 char';
+                            }
+                          },
+                          controller: passwordController,
+                          textInput: TextInputType.number,
+                          isPassword: isObscure,
+                          hintText: "Enter your password",
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                            child: Icon(
+                              !isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          )),
 
                       CustomSizedbox(height: mq.height(2)),
                       // Confirm Password Field
@@ -177,20 +188,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       CustomTextField(
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return 'Please confirm a passowrd!';
-                          } else if (value != passwordController.text) {
-                            return 'Password does not match';
-                          }
-                        },
-                        controller: confirmpassowrdController,
-                        textInput: TextInputType.number,
-                        isPassword: true,
-                        hintText: "confirm password",
-                        suffixIcon:
-                            Icon(Icons.lock, color: ColorManager.primaryColor),
-                      ),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please confirm a passowrd!';
+                            } else if (value != passwordController.text) {
+                              return 'Password does not match';
+                            }
+                          },
+                          controller: confirmpassowrdController,
+                          textInput: TextInputType.number,
+                          isPassword: isObscure,
+                          hintText: "Enter confirm password",
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                isObscure = !isObscure;
+                              });
+                            },
+                            child: Icon(
+                              !isObscure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                          )),
 
                       CustomSizedbox(height: mq.height(4)),
 

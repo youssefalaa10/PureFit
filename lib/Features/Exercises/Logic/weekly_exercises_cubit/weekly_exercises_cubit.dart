@@ -4,7 +4,6 @@ import '../../Data/Model/weekly_execises_model.dart';
 import '../../Data/Repo/weekly_execises_repo.dart';
 import 'weekly_exercises_state.dart';
 
-
 class WeeklyExerciseCubit extends Cubit<WeeklyExerciseState> {
   final WeeklyExerciseRepo _repo;
   WeeklyExerciseModel? calendar;
@@ -13,30 +12,32 @@ class WeeklyExerciseCubit extends Cubit<WeeklyExerciseState> {
 
   Future<void> loadCalendar(String profileId) async {
     try {
-  emit(WeeklyExerciseLoading());
-  final result = await _repo.fetchCalendar(profileId);
-  
-    calendar = WeeklyExerciseModel.fromJson(result!);
-    emit(WeeklyExerciseLoaded(calendar!));
-} catch (e) {
+      if (!isClosed) {
+        emit(WeeklyExerciseLoading());
+      }
+      final result = await _repo.fetchCalendar(profileId);
 
-      emit(WeeklyExerciseError("Failed to load calendar"));
-}
-    
-    
+      calendar = WeeklyExerciseModel.fromJson(result!);
+      if (!isClosed) {
+        emit(WeeklyExerciseLoaded(calendar!));
+      }
+    } catch (e) {
+      if (!isClosed) {
+        emit(WeeklyExerciseError("Failed to load calendar"));
+      }
+    }
   }
 
-  Future<void> updateCalendar(String profileId, int weekNumber, Map<String, bool> dayUpdates) async {
-   try{ emit(WeeklyExerciseUpdating());
-     await _repo.updateWeeklyCalendar(profileId, weekNumber, dayUpdates);
+  Future<void> updateCalendar(
+      String profileId, int weekNumber, Map<String, bool> dayUpdates) async {
+    try {
+      emit(WeeklyExerciseUpdating());
+      await _repo.updateWeeklyCalendar(profileId, weekNumber, dayUpdates);
 
       emit(WeeklyExerciseUpdated());
       await loadCalendar(profileId);
-      }catch (e){
-
+    } catch (e) {
       emit(WeeklyExerciseError("Failed to update calendar"));
-      }
-   
-    
+    }
   }
 }

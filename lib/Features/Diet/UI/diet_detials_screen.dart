@@ -1,8 +1,8 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Diet/Data/Model/favorites_model.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Diet/Data/Model/favorites_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Data/Model/base_diet_model.dart';

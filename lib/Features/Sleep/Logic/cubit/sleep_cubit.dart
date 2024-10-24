@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Sleep/Data/Model/sleepmodel.dart';
-import 'package:fitpro/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
+import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
+import 'package:PureFit/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
 
 part 'sleep_state.dart';
 
@@ -11,8 +11,8 @@ class SleepCubit extends Cubit<SleepState> {
   getallsessions() async {
     try {
       emit(SleepLoading());
-      await sleepRepo.getallsessions();
-      emit(SleepSuccess());
+      final response = await sleepRepo.getallsessions();
+      emit(SleepSuccess(list: response));
     } on Exception catch (e) {
       print(e);
       emit(SleepFailuer());

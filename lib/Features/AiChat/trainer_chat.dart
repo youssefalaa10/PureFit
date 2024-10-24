@@ -1,9 +1,9 @@
 import 'package:dash_chat_2/dash_chat_2.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -29,7 +29,7 @@ class _TrainerChatState extends State<TrainerChat> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         surfaceTintColor: theme.scaffoldBackgroundColor,
-        title:  Text.rich(TextSpan(children: [
+        title: Text.rich(TextSpan(children: [
           TextSpan(
               text: "Ai",
               style: TextStyle(

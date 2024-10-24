@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -65,21 +65,21 @@ class Shimmerloadingexercises extends StatelessWidget {
 }
 
 Widget buildPlanCardShimmer(CustomMQ mq) {
-
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[100]!,
-        child: Container(
-          height: mq.height(10),
-          width: double.infinity,
-          padding: EdgeInsets.all(mq.width(4)),
-          decoration: BoxDecoration(
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(mq.width(4)),
-          ),
+  return Padding(
+    padding:
+        EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        height: mq.height(10),
+        width: double.infinity,
+        padding: EdgeInsets.all(mq.width(4)),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(mq.width(4)),
         ),
       ),
-    );
-  }
+    ),
+  );
+}

@@ -1,7 +1,7 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
-import 'package:fitpro/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
 
 part 'todayfood_state.dart';
 

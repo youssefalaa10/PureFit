@@ -1,9 +1,8 @@
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
-import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
 import '../../../Core/Shared/app_string.dart';
@@ -19,7 +18,7 @@ class BodyMetricsScreen extends StatelessWidget {
       backgroundColor: ColorManager.backGroundColor,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: mq.height(1)),
+          padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -28,7 +27,6 @@ class BodyMetricsScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const CustomBackButton(),
                     SizedBox(width: mq.width(5)),
                     Expanded(
                       child: Padding(
@@ -44,12 +42,13 @@ class BodyMetricsScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: mq.width(5)),
-                    const Text(
+                    Text(
                       '3/5',
                       style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    )
+                          fontSize: mq.height(2),
+                          fontFamily: AppString.font,
+                          fontWeight: FontWeight.w800),
+                    ),
                   ],
                 ),
               ),

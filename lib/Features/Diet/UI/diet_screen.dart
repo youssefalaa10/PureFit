@@ -1,5 +1,5 @@
-import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
-import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

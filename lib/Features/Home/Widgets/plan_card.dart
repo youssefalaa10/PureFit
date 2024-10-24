@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; 
+import 'package:PureFit/Core/Components/media_query.dart';
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-
+import 'package:PureFit/Core/Shared/app_string.dart';
 
 class PlanCard extends StatefulWidget {
   const PlanCard({super.key, required this.userId});
@@ -16,13 +15,13 @@ class PlanCard extends StatefulWidget {
 }
 
 class _PlanCardState extends State<PlanCard> {
- @override
+  @override
   void initState() {
     super.initState();
 
     context.read<WeeklyExerciseCubit>().loadCalendar(widget.userId);
   }
- 
+
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
@@ -46,7 +45,8 @@ class _PlanCardState extends State<PlanCard> {
           double progressPercentage = completedDays / totalDays;
           int displayedPercentage = (progressPercentage * 100).round();
 
-          return _buildCard(mq, completedDays, totalDays, progressPercentage, displayedPercentage);
+          return _buildCard(mq, completedDays, totalDays, progressPercentage,
+              displayedPercentage);
         } else {
           // Handle loading or error states
           return _buildCard(mq, 0, 0, 0.0, 0); // Display empty or default UI
@@ -55,10 +55,12 @@ class _PlanCardState extends State<PlanCard> {
     );
   }
 
-  Widget _buildCard(CustomMQ mq, int completedDays, int totalDays, double progressPercentage, int displayedPercentage) {
+  Widget _buildCard(CustomMQ mq, int completedDays, int totalDays,
+      double progressPercentage, int displayedPercentage) {
     final theme = Theme.of(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
+      padding:
+          EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
@@ -88,7 +90,7 @@ class _PlanCardState extends State<PlanCard> {
                       style: TextStyle(
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.bold,
-                        color:  theme.scaffoldBackgroundColor,
+                        color: theme.scaffoldBackgroundColor,
                         fontFamily: AppString.font,
                       ),
                     ),
@@ -98,7 +100,7 @@ class _PlanCardState extends State<PlanCard> {
                       style: TextStyle(
                         fontSize: mq.width(3),
                         color: theme.scaffoldBackgroundColor.withOpacity(.7),
-                         fontFamily: AppString.font,
+                        fontFamily: AppString.font,
                       ),
                     ),
                   ],
@@ -115,8 +117,9 @@ class _PlanCardState extends State<PlanCard> {
                         animation: true,
                         percent: progressPercentage,
                         radius: mq.width(6.25),
-                        backgroundColor: theme.scaffoldBackgroundColor.withOpacity(.5),
-                        progressColor:  theme.scaffoldBackgroundColor,
+                        backgroundColor:
+                            theme.scaffoldBackgroundColor.withOpacity(.5),
+                        progressColor: theme.scaffoldBackgroundColor,
                       ),
                       Text(
                         '$displayedPercentage%',

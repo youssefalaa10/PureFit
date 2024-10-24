@@ -1,9 +1,8 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_cubit.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Components/back_button.dart';
 import '../../../Core/Shared/app_colors.dart';
 
 class UserGenderScreen extends StatefulWidget {
@@ -56,8 +55,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // Back button
-          const CustomBackButton(),
           // Progress indicator
           Expanded(
             child: Padding(
@@ -73,7 +70,13 @@ class UserGenderScreenState extends State<UserGenderScreen> {
             ),
           ),
           // Step indicator
-          const Text('1/5'),
+          Text(
+            '1/5',
+            style: TextStyle(
+                fontSize: screenHeight * 0.02,
+                fontFamily: AppString.font,
+                fontWeight: FontWeight.w800),
+          ),
         ],
       ),
     );

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.fitpro"
+    namespace = "com.example.PureFit"
     // Set your compile SDK version to a specific value (e.g., 33)
     compileSdkVersion 34
     
@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         // Use your application ID
-        applicationId "com.example.fitpro"
+        applicationId "com.example.PureFit"
         // Set a specific minimum SDK version (e.g., 21 for wider compatibility)
         minSdkVersion 21
         // Set the target SDK version to match the latest version you're targeting (e.g., 33)

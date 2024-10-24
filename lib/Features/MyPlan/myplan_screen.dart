@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Core/Shared/calculator.dart';
-import 'package:fitpro/Features/MyPlan/component/bmrcal.dart';
-import 'package:fitpro/Features/MyPlan/component/static_card.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/calculator.dart';
+import 'package:PureFit/Features/MyPlan/component/bmrcal.dart';
+import 'package:PureFit/Features/MyPlan/component/static_card.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Core/Components/media_query.dart';
@@ -25,6 +25,12 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
     super.initState();
     final user = context.read<ProfileCubit>().user;
     bmi = Calculator().getBmiActivity(user!.userWeight, user.userHeight);
+    calories = Calculator().getBmrActivity(
+      activityLevel: user.activity!,
+      weight: user.userWeight,
+      height: user.userHeight,
+      age: user.age,
+    );
   }
 
   @override
@@ -34,6 +40,19 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
 
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text(
+            textAlign: TextAlign.center,
+            AppString.myPlan,
+            style: TextStyle(
+              fontFamily: AppString.font,
+              fontSize: mq.width(5.5),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
         backgroundColor: theme.scaffoldBackgroundColor,
         body: SingleChildScrollView(
           child: Padding(
@@ -44,7 +63,6 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildHeader(mq),
                 _buildRowOfDailyPlanStatics(mq),
                 _buildFourGridsofStatics(context, mq),
                 SizedBox(height: mq.height(1)),
@@ -187,10 +205,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             Navigator.pushNamed(context, Routes.caloriesScreen);
           },
           child: StaticCard(
-            color: ColorManager.lightOrangeColor,
+            color: ColorManager.orangeColor,
             headline: AppString.calories,
             icon: const Icon(Icons.local_fire_department_outlined),
-            static: "720",
+            static: calories.toStringAsFixed(0),
             endline: AppString.kcal,
           ),
         );
@@ -207,10 +225,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             });
           },
           child: StaticCard(
-            color: ColorManager.lightBlueColor,
+            color: ColorManager.darkredColor,
             headline: AppString.steps,
             icon: const Icon(Icons.directions_walk),
-            static: stepsValue ?? "1000", // Display the updated value
+            static: stepsValue ?? "400", // Display the updated value
             endline: AppString.steps,
           ),
         );
@@ -245,10 +263,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             });
           },
           child: StaticCard(
-            color: ColorManager.babyBlueColor,
+            color: ColorManager.blueColor,
             headline: AppString.water,
             icon: const Icon(Icons.water_drop_outlined),
-            static: waterValue ?? "2 lits", // Display the updated value
+            static: waterValue ?? "4 lits", // Display the updated value
             endline: AppString.liters,
           ),
         );

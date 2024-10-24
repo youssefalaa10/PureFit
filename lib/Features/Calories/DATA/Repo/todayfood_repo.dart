@@ -1,5 +1,5 @@
-import 'package:fitpro/Core/local_db/EatToday/today_calories.dart';
-import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
 
 class TodayfoodRepo {
   final TodayCaloriesDB todayCaloriesDB;

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Auth/Register/Logic/cubit/register_state.dart';
+import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_state.dart';
 import '../../Data/Model/register_model.dart';
 import '../../Data/Repo/register_repo.dart';
 

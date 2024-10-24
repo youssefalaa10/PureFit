@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
-import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Features/AiChat/trainer_chat.dart';
-import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
-import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
-import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
-import 'package:fitpro/Features/Home/home_screen.dart';
-import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
-import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Features/AiChat/trainer_chat.dart';
+import 'package:PureFit/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
+import 'package:PureFit/Features/Diet/Logic/food_cubit/foods_cubit.dart';
+import 'package:PureFit/Features/Home/home_screen.dart';
+import 'package:PureFit/Features/MyPlan/myplan_screen.dart';
+import 'package:PureFit/Features/Profile/UI/profile_screen.dart';
 
 import '../Diet/UI/diet_screen.dart';
 

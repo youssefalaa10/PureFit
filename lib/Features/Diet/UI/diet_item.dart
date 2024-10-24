@@ -1,10 +1,10 @@
-import 'package:fitpro/Core/Components/AnimatedDialog.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/local_db/EatToday/today_calories.dart';
-import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
-import 'package:fitpro/Features/Calories/DATA/Repo/todayfood_repo.dart';
-import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
+import 'package:PureFit/Core/Components/AnimatedDialog.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:PureFit/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 
 class DietItem extends StatefulWidget {

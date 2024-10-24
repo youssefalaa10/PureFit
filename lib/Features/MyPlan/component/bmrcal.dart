@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class BMICard extends StatelessWidget {
@@ -15,7 +15,7 @@ class BMICard extends StatelessWidget {
       children: [
         Row(
           children: [
-             Text(
+            Text(
               "BMI (kg/m²): ",
               style: TextStyle(
                 fontSize: 20,
@@ -25,7 +25,7 @@ class BMICard extends StatelessWidget {
             ),
             Text(
               bmi.toStringAsFixed(2),
-              style:  TextStyle(
+              style: TextStyle(
                   fontSize: 20,
                   fontFamily: AppString.font,
                   fontWeight: FontWeight.bold),

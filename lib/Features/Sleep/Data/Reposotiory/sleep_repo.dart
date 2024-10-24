@@ -1,5 +1,5 @@
-import 'package:fitpro/Core/local_db/SleepDb/sleepdb.dart';
-import 'package:fitpro/Features/Sleep/Data/Model/sleepmodel.dart';
+import 'package:PureFit/Core/local_db/SleepDb/sleepdb.dart';
+import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
 
 class SleepRepo {
   final SleepDb db;
@@ -11,6 +11,6 @@ class SleepRepo {
   }
 
   getallsessions() async {
-    return await getallsessions();
+    return await db.getSleepSessions();
   }
 }

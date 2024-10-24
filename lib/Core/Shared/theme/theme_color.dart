@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/services.dart';
 
 ThemeData lightTheme = ThemeData(
@@ -53,6 +53,12 @@ ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
   ),
   appBarTheme: AppBarTheme(
+    systemOverlayStyle: SystemUiOverlayStyle(
+      statusBarColor: ColorManager.primaryColor, // Change status bar color,
+      statusBarBrightness: Brightness.dark, // Change status bar brightness
+      statusBarIconBrightness:
+          Brightness.dark, // Change status bar icon brightness
+    ),
     backgroundColor: ColorManager.primaryColor,
     iconTheme: const IconThemeData(color: Colors.white),
   ),

@@ -1,6 +1,6 @@
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_icon_button.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class HeaderCalories extends StatelessWidget {

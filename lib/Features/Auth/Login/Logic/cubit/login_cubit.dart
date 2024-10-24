@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
+import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 
 import '../../Data/Model/login_model.dart';
 import '../../Data/Repo/login_repo.dart';

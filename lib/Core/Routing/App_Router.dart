@@ -1,11 +1,11 @@
-import 'package:fitpro/Features/Calories/Logic/cubit/todayfood_cubit.dart';
+import 'package:PureFit/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:fitpro/Features/Auth/Verifiy/Logic/forgot_pass_cubit/forgot_password_cubit.dart';
-import 'package:fitpro/Features/Diet/Data/Model/base_diet_model.dart';
-import 'package:fitpro/Features/Exercises/UI/exercise_screen.dart';
-import 'package:fitpro/Features/Exercises/UI/exercisepageveiw_.dart';
+import 'package:PureFit/Features/Auth/Verifiy/Logic/forgot_pass_cubit/forgot_password_cubit.dart';
+import 'package:PureFit/Features/Diet/Data/Model/base_diet_model.dart';
+import 'package:PureFit/Features/Exercises/UI/exercise_screen.dart';
+import 'package:PureFit/Features/Exercises/UI/exercisepageveiw_.dart';
 
 import '../../Features/AiChat/trainer_chat.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
@@ -113,7 +113,6 @@ class AppRouter {
       // Settings Screen ===============================================
       case Routes.settingScreen:
         return MaterialPageRoute(builder: (_) => const SettingScreen());
-
 
       // Layout Screen ==================================================
       case Routes.layoutScreen:
@@ -303,7 +302,6 @@ class AppRouter {
 
       case Routes.termsOfServiceScreen:
         return MaterialPageRoute(builder: (_) => const TermsOfServiceScreen());
-
 
       default:
         return null;

@@ -1,9 +1,10 @@
 import 'dart:async';
 
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Exercises/Data/Model/exercise_model.dart';
-import 'package:fitpro/Features/Exercises/Logic/training_cubit/training_cubit.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:PureFit/Features/Exercises/Logic/training_cubit/training_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,12 +50,18 @@ class _RestScreenState extends State<RestScreen> {
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Rest Screen', style: TextStyle(color: Colors.black)),
-        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Rest Screen',
+          style: TextStyle(
+            fontFamily: AppString.font,
+          ),
+        ),
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         centerTitle: true,
       ),
@@ -108,6 +115,7 @@ class RestTimerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Column(
       children: [
         Text(
@@ -115,7 +123,7 @@ class RestTimerSection extends StatelessWidget {
           style: TextStyle(
             fontSize: mq.height(3),
             fontWeight: FontWeight.bold,
-            color: Colors.black,
+            fontFamily: AppString.font,
           ),
         ),
         SizedBox(height: mq.height(2)),
@@ -123,8 +131,9 @@ class RestTimerSection extends StatelessWidget {
           '${(countdownValue ~/ 60).toString().padLeft(2, '0')} : ${(countdownValue % 60).toString().padLeft(2, '0')}',
           style: TextStyle(
             fontSize: mq.height(8),
+            fontFamily: AppString.font,
             fontWeight: FontWeight.bold,
-            color: Colors.teal,
+            color: ColorManager.darkredColor,
           ),
         ),
         SizedBox(height: mq.height(3)),
@@ -134,7 +143,7 @@ class RestTimerSection extends StatelessWidget {
             ElevatedButton(
               onPressed: onAddTime,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey.shade300,
+                backgroundColor: theme.primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -143,7 +152,8 @@ class RestTimerSection extends StatelessWidget {
                 '+20s',
                 style: TextStyle(
                   fontSize: mq.height(2.5),
-                  color: Colors.black,
+                  fontFamily: AppString.font,
+                  color: theme.scaffoldBackgroundColor,
                 ),
               ),
             ),
@@ -151,7 +161,7 @@ class RestTimerSection extends StatelessWidget {
             ElevatedButton(
               onPressed: onSkip,
               style: ElevatedButton.styleFrom(
-                backgroundColor: ColorManager.primaryColor,
+                backgroundColor: theme.primaryColor,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -159,8 +169,9 @@ class RestTimerSection extends StatelessWidget {
               child: Text(
                 'Skip',
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.height(2.5),
-                  color: Colors.white,
+                  color: theme.scaffoldBackgroundColor,
                 ),
               ),
             ),
@@ -194,6 +205,7 @@ class NextExerciseSection extends StatelessWidget {
               Text(
                 'Next',
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.height(2),
                   fontWeight: FontWeight.w400,
                   color: Colors.grey,
@@ -201,14 +213,19 @@ class NextExerciseSection extends StatelessWidget {
               ),
               SizedBox(
                 width: mq.width(90), // Limit width for proper overflow handling
-                child: Text(
-                  exercises[index].name,
-                  style: TextStyle(
-                    fontSize: mq.height(3),
-                    fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Center(
+                    child: Text(
+                      exercises[index].name,
+                      style: TextStyle(
+                        fontSize: mq.height(3),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
               )
             ],

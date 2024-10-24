@@ -1,13 +1,13 @@
-import 'package:fitpro/Core/Routing/routes.dart';
-import 'package:fitpro/Features/Auth/Login/Ui/login_block_listener.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Features/Auth/Login/Ui/login_block_listener.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import '../Data/Model/login_model.dart';
 import '../Logic/cubit/login_cubit.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_text_field.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,6 +21,7 @@ class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,7 @@ class LoginScreenState extends State<LoginScreen> {
                           controller: emailController,
                           textInput: TextInputType.emailAddress,
                           isPassword: false,
-                          hintText: "Enter your email.",
+                          hintText: "Enter your email",
                           suffixIcon: Icon(Icons.email,
                               color: ColorManager.primaryColor),
                         ),
@@ -111,18 +112,27 @@ class LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         CustomTextField(
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Please enter a password!';
-                            }
-                          },
-                          controller: passwordController,
-                          textInput: TextInputType.visiblePassword,
-                          isPassword: true,
-                          hintText: "Enter your password.",
-                          suffixIcon: Icon(Icons.lock,
-                              color: ColorManager.primaryColor),
-                        ),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter a password!';
+                              }
+                            },
+                            controller: passwordController,
+                            textInput: TextInputType.visiblePassword,
+                            isPassword: isObscure,
+                            hintText: "Enter your password",
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isObscure = !isObscure;
+                                });
+                              },
+                              child: Icon(
+                                !isObscure
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
+                            )),
                         SizedBox(height: mq.height(2)),
 
                         // Remember me Checkbox
@@ -148,8 +158,7 @@ class LoginScreenState extends State<LoginScreen> {
                             ),
                             // Forgot Password Button
                             Align(
-                              alignment: Alignment
-                                  .centerRight, 
+                              alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {
                                   Navigator.pushNamed(
@@ -182,7 +191,6 @@ class LoginScreenState extends State<LoginScreen> {
                             borderRadius: mq.width(2.5),
                             fontSize: mq.width(5),
                             backgroundColor: theme.primaryColor,
-
                           ),
                         ),
                         SizedBox(height: mq.height(3)),

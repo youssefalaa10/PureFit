@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 
-import 'package:fitpro/Features/AiChat/Data/Repository/ai_chat_repo.dart';
+import 'package:PureFit/Features/AiChat/Data/Repository/ai_chat_repo.dart';
 
 part 'aichat_state.dart';
 

@@ -1,6 +1,6 @@
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 
 import '../../../Core/Routing/Routes.dart';
 

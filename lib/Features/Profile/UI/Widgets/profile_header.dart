@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../../Core/Components/custom_snackbar.dart';
 import '../../../../Core/Components/media_query.dart';
-import '../../../../Core/Shared/app_string.dart';
 import '../../Logic/cubit/profile_cubit.dart';
 
 class CustomProfileHeader extends StatefulWidget {
@@ -34,14 +34,19 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                 width: mq.width(15),
                 height: mq.width(15),
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: imageFile.existsSync()
-                        ? FileImage(imageFile)
-                        : AssetImage(AppString.profile) as ImageProvider,
-                    fit: BoxFit.cover,
-                  ),
                   borderRadius: BorderRadius.circular(mq.width(2.5)),
                 ),
+                child: imageFile.existsSync()
+                    ? Image.file(imageFile, fit: BoxFit.cover)
+                    : user.gender == "male "
+                        ? SvgPicture.asset(
+                            "assets/images/man.svg",
+                            fit: BoxFit.cover,
+                          )
+                        : SvgPicture.asset(
+                            "assets/images/women.svg",
+                            fit: BoxFit.cover,
+                          ),
               ),
               SizedBox(width: mq.width(4)),
               Expanded(

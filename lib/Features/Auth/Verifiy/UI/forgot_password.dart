@@ -1,5 +1,5 @@
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/custom_button.dart';
@@ -23,7 +23,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-  final theme = Theme.of(context);
+    final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -42,14 +42,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               );
             }
             if (state is ForgotPasswordSuccess) {
-                 Navigator.pop(context);
-                  Navigator.pushNamed(
-                      context,
-                      Routes.verificationScreen,
-                      arguments: _emailController.text,
-                    );
+              Navigator.pop(context);
+              Navigator.pushNamed(
+                context,
+                Routes.verificationScreen,
+                arguments: _emailController.text,
+              );
             }
-            if (state is ForgotPasswordError){
+            if (state is ForgotPasswordError) {
               Navigator.pop(context);
               CustomSnackbar.showSnackbar(context, state.error);
             }
@@ -106,7 +106,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                       context,
                       _emailController.text,
                     );
-                
                   },
                 ),
               ],

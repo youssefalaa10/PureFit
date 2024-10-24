@@ -1,9 +1,9 @@
-import 'package:fitpro/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
-import 'package:fitpro/Features/Home/Widgets/header_widget.dart';
-import 'package:fitpro/Features/Home/Widgets/new_goal.dart';
-import 'package:fitpro/Features/Home/Widgets/plan_card.dart';
-import 'package:fitpro/Features/Home/Widgets/recommended_tasks.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
+import 'package:PureFit/Features/Home/Widgets/header_widget.dart';
+import 'package:PureFit/Features/Home/Widgets/new_goal.dart';
+import 'package:PureFit/Features/Home/Widgets/plan_card.dart';
+import 'package:PureFit/Features/Home/Widgets/recommended_tasks.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

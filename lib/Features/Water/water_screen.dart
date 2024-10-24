@@ -1,14 +1,15 @@
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_icon_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Services/notification_sleep_service.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 
-import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
-import 'package:fitpro/Features/Water/water_add.dart';
+import 'package:PureFit/Features/Water/Logic/cubit/water_intake_cubit.dart';
+import 'package:PureFit/Features/Water/water_add.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -31,6 +32,11 @@ class _WaterScreenState extends State<WaterScreen> {
     super.initState();
     _fetchGoalValue();
     BlocProvider.of<WaterIntakeCubit>(context).fetchTodayIntake();
+    scheduleDailyNotifications([
+      const TimeOfDay(hour: 8, minute: 0),
+      const TimeOfDay(hour: 12, minute: 0),
+      const TimeOfDay(hour: 18, minute: 0),
+    ]);
   }
 
   void _fetchGoalValue() async {
@@ -41,6 +47,35 @@ class _WaterScreenState extends State<WaterScreen> {
     });
   }
 
+  void scheduleDailyNotifications(List<TimeOfDay> times) {
+    // Get the current date
+    DateTime now = DateTime.now();
+
+    for (TimeOfDay time in times) {
+      // Calculate the scheduled time for each TimeOfDay
+      DateTime scheduledTime = DateTime(
+        now.year,
+        now.month,
+        now.day,
+        time.hour,
+        time.minute,
+        0, // Seconds set to 0
+      );
+
+      // If the current time is past the scheduled time, set it for the next day
+      if (now.isAfter(scheduledTime)) {
+        scheduledTime = scheduledTime.add(const Duration(days: 1));
+      }
+
+      // Schedule the notification
+      NotificationService().scheduleNotification(
+        title: "PureFit",
+        body: "Stay Hydrated!",
+        scheduledTime: scheduledTime,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Instantiate CustomMQ
@@ -48,11 +83,23 @@ class _WaterScreenState extends State<WaterScreen> {
     WaterIntakeCubit waterIntakeCubit = context.read<WaterIntakeCubit>();
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: Text(
+          style:
+              TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
+          AppString.waterIntakeDetails,
+        ),
+      ),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(context, mq),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 30),
@@ -74,7 +121,8 @@ class _WaterScreenState extends State<WaterScreen> {
                           waterIntakeCubit: waterIntakeCubit,
                         );
                       });
-                })
+                }),
+            _buildMyActivity(mq),
           ],
         ),
       ),
@@ -137,7 +185,6 @@ class _WaterScreenState extends State<WaterScreen> {
           AppString.yourDailytasksAlmostDone,
           textAlign: TextAlign.center,
           style: TextStyle(
-            
             fontFamily: AppString.font,
             fontSize: mq.width(7),
             fontWeight: FontWeight.bold,
@@ -219,4 +266,54 @@ Widget _buildStackedLottieImage(CustomMQ mq, String value) {
       ],
     ),
   ));
+}
+
+Widget _buildMyActivity(CustomMQ mq) {
+  return BlocBuilder<WaterIntakeCubit, WaterIntakeState>(
+    builder: (context, state) {
+      if (state is WaterIntakeSuccess) {
+        final list = state.intakes;
+        return Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              final session = list[index];
+              return ListTile(
+                leading: Icon(
+                  Icons.local_drink,
+                  color: ColorManager.primaryColor,
+                  size: mq.width(5), // Set a responsive size for the icon
+                ),
+                title: Text("${session.intake}"),
+                subtitle: const Text("Intake"),
+                titleAlignment: ListTileTitleAlignment.threeLine,
+                trailing: Column(
+                  children: [
+                    Text(
+                      "Date",
+                      style: TextStyle(
+                        color: ColorManager.lightGreyColor,
+                        fontSize: mq.width(3),
+                      ),
+                    ),
+                    Text(
+                      "${session.date} ",
+                      style: TextStyle(
+                        color: ColorManager.primaryColor,
+                        fontSize: mq.width(4),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        );
+      } else {
+        return const Center(child: CircularProgressIndicator());
+      }
+    },
+  );
 }

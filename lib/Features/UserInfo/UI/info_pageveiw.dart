@@ -1,11 +1,11 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Auth/Register/Ui/register_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/activity_level_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/body_metrics.dart';
-import 'package:fitpro/Features/UserInfo/UI/fitness_goal_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/user_age_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/user_gender_screen.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Auth/Register/Ui/register_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/activity_level_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/body_metrics.dart';
+import 'package:PureFit/Features/UserInfo/UI/fitness_goal_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/user_age_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/user_gender_screen.dart';
 import 'package:flutter/material.dart';
 
 class InfoPageView extends StatefulWidget {
@@ -53,6 +53,7 @@ class InfoPageViewState extends State<InfoPageView> {
         children: [
           Expanded(
             child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               onPageChanged: (int page) {
                 setState(() {

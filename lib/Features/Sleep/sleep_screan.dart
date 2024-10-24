@@ -1,14 +1,13 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/custom_snackbar.dart';
-import 'package:fitpro/Core/Services/notification_sleep_service.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Services/notification_sleep_service.dart';
 
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Sleep/Data/Model/sleepmodel.dart';
-import 'package:fitpro/Features/Sleep/Logic/cubit/sleep_cubit.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
+import 'package:PureFit/Features/Sleep/Logic/cubit/sleep_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,9 +29,15 @@ class _SleepScreenState extends State<SleepScreen> {
   DateTime? wakeUpTime; // To store the actual DateTime for calculation
   DateTime? bedTime;
   int notifi = 101; // To store the bedtime (current time)
+
   @override
   void initState() {
+    loadData();
     super.initState();
+  }
+
+  loadData() async {
+    await context.read<SleepCubit>().getallsessions();
   }
 
   @override
@@ -42,32 +47,52 @@ class _SleepScreenState extends State<SleepScreen> {
     final mq = CustomMQ(context);
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [buildEditButton(context, theme)],
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: Text(
+          style:
+              TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
+          AppString.stepsdetails,
+        ),
+      ),
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(mq, context, theme),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 20),
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
-            Row(
-              children: [
-                CustomButton(
-                    label: AppString.startsleep, onPressed: _startSleepSession),
-                CustomButton(
-                    label: AppString.imWakedUp,
-                    onPressed: () {
-                      // Call this when the user wakes up and dismisses the notification
-                      NotificationService().cancel(); // Use the correct ID
-                    }),
-              ],
+            Center(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomButton(
+                      label: AppString.startsleep,
+                      onPressed: _startSleepSession),
+                  CustomButton(
+                      label: AppString.imWakedUp,
+                      onPressed: () {
+                        // Call this when the user wakes up and dismisses the notification
+                        NotificationService().cancel(); // Use the correct ID
+                      }),
+                ],
+              ),
             ), // Start Sleep button
             const CustomSizedbox(height: 20),
             _buildRowOfMyActivityAndSteps(mq),
             const CustomSizedbox(height: 5),
-            _buildTrackSleep(mq),
+            _buildTrackSleep(
+              mq,
+            ),
           ],
         ),
       ),
@@ -123,23 +148,9 @@ class _SleepScreenState extends State<SleepScreen> {
         "Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ");
   }
 
-  Widget _buildHeaderSection(
-      CustomMQ mq, BuildContext context, ThemeData theme) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const CustomBackButton(),
-          _buildHeaderTitle(mq, theme),
-          buildEditButton(context),
-        ],
-      ),
-    );
-  }
-
-  Widget buildEditButton(BuildContext context) {
+  Widget buildEditButton(BuildContext context, ThemeData theme) {
     return CustomIconButton(
+      iconColor: theme.primaryColor,
       icon: Icons.edit,
       onPressed: () async {
         final result = await Navigator.pushNamed(context, Routes.timerPicker);
@@ -188,27 +199,6 @@ class _SleepScreenState extends State<SleepScreen> {
       },
     );
   }
-}
-
-Widget _buildHeaderTitle(
-  CustomMQ mq,
-  ThemeData theme,
-) {
-  return Expanded(
-    child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
-      child: Text(
-        AppString.sleepdetails,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: theme.primaryColor,
-          fontFamily: AppString.font,
-          fontSize: mq.width(4.5),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
 }
 
 Widget _buildWelcomeMessage(CustomMQ mq) {
@@ -279,41 +269,52 @@ Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
 }
 
 Widget _buildMyActivity(CustomMQ mq) {
-  return Expanded(
-    child: ListView.builder(
-      shrinkWrap: true,
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return ListTile(
-          leading: Icon(
-            Icons.bedtime,
-            color: ColorManager.primaryColor,
-            size: mq.width(5), // Set a responsive size for the icon
-          ),
-          title: const Text("6 am - 7 am"),
-          subtitle: const Text("time"),
-          titleAlignment: ListTileTitleAlignment.threeLine,
-          trailing: Column(
-            children: [
-              Text(
-                "Freshness",
-                style: TextStyle(
-                  color: ColorManager.lightGreyColor,
-                  fontSize: mq.width(3),
-                ),
-              ),
-              Text(
-                "+36",
-                style: TextStyle(
+  return BlocBuilder<SleepCubit, SleepState>(
+    builder: (context, state) {
+      if (state is SleepSuccess) {
+        final List = state.list;
+        return Expanded(
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: List.length,
+            itemBuilder: (context, index) {
+              final session = List[index];
+              return ListTile(
+                leading: Icon(
+                  Icons.bedtime,
                   color: ColorManager.primaryColor,
-                  fontSize: mq.width(4),
-                  fontWeight: FontWeight.w800,
+                  size: mq.width(5), // Set a responsive size for the icon
                 ),
-              ),
-            ],
+                title: Text(
+                    "${session.bedtime.hour}:${session.bedtime.minute} - ${session.wakeTime.hour}:${session.wakeTime.minute}"),
+                subtitle: const Text("time"),
+                titleAlignment: ListTileTitleAlignment.threeLine,
+                trailing: Column(
+                  children: [
+                    Text(
+                      "Duration",
+                      style: TextStyle(
+                        color: ColorManager.lightGreyColor,
+                        fontSize: mq.width(3),
+                      ),
+                    ),
+                    Text(
+                      "${session.duration} Minuts",
+                      style: TextStyle(
+                        color: ColorManager.primaryColor,
+                        fontSize: mq.width(4),
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
         );
-      },
-    ),
+      } else {
+        return const Center(child: CircularProgressIndicator());
+      }
+    },
   );
 }

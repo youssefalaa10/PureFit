@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/media_query.dart';
@@ -50,14 +50,13 @@ class GetReadyScreenState extends State<GetReadyScreen> {
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        leading: const CustomBackButton(),
+        automaticallyImplyLeading: false,
         title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
-            style: const TextStyle(color: Colors.black)),
-        backgroundColor: Colors.transparent,
+            style: TextStyle(fontFamily: AppString.font)),
         elevation: 0,
         centerTitle: true,
       ),
@@ -130,6 +129,8 @@ class ReadyMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         Text(
@@ -137,15 +138,22 @@ class ReadyMessage extends StatelessWidget {
           style: TextStyle(
             fontSize: mq.height(3.5),
             fontWeight: FontWeight.bold,
-            color: Colors.teal,
+            color: theme.primaryColor,
           ),
         ),
         SizedBox(height: mq.height(1)),
-        Text(
-          exercises[index].name,
-          style: TextStyle(
-            fontSize: mq.height(2.5),
-            fontWeight: FontWeight.w500,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              exercises[index].name,
+              style: TextStyle(
+                color: ColorManager.greyColor,
+                fontSize: mq.height(2.5),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
         ),
       ],
@@ -179,7 +187,7 @@ class CircularCounter extends StatelessWidget {
               value: countdownValue /
                   context.read<TrainingCubit>().getReadyDuration,
               strokeWidth: mq.width(2),
-              color: Colors.teal,
+              color: ColorManager.darkredColor,
               backgroundColor: Colors.grey.shade300,
             ),
           ),
@@ -219,6 +227,7 @@ class NextExerciseInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Next',
@@ -229,11 +238,17 @@ class NextExerciseInfo extends StatelessWidget {
           ),
         ),
         SizedBox(height: mq.height(1)),
-        Text(
-          exercises[index].name, // need it ne
-          style: TextStyle(
-            fontSize: mq.height(2.5),
-            fontWeight: FontWeight.bold,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Center(
+            child: Text(
+              textAlign: TextAlign.center,
+              exercises[index].name, // need it ne
+              style: TextStyle(
+                fontSize: mq.height(2.5),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ],

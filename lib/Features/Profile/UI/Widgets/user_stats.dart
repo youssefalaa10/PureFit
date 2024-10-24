@@ -1,4 +1,4 @@
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,21 +21,27 @@ class _UserStatsState extends State<UserStats> {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoading) {
-             return _shimmerStats(widget.mq);
+          return _shimmerStats(widget.mq);
         } else if (state is ProfileSuccess) {
           final user = state.user;
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              StatCard(label: 'WEIGHT', value: '${user.userWeight} kg', mq: widget.mq),
+              StatCard(
+                  label: 'WEIGHT',
+                  value: '${user.userWeight} kg',
+                  mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
               StatCard(label: 'AGE', value: '${user.age} yo', mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
-              StatCard(label: 'Height', value: '${user.userHeight} cm', mq: widget.mq),
+              StatCard(
+                  label: 'Height',
+                  value: '${user.userHeight} cm',
+                  mq: widget.mq),
             ],
           );
         } else if (state is ProfileError) {
-             WidgetsBinding.instance.addPostFrameCallback((_) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
               CustomSnackbar.showSnackbar(context, "Error");
             }
@@ -44,9 +50,9 @@ class _UserStatsState extends State<UserStats> {
         return const SizedBox.shrink();
       },
     );
-    
   }
-    Widget _shimmerStats(CustomMQ mq) {
+
+  Widget _shimmerStats(CustomMQ mq) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -58,7 +64,8 @@ class _UserStatsState extends State<UserStats> {
       ],
     );
   }
-       // Shimmer stat card widget
+
+  // Shimmer stat card widget
   Widget _shimmerStatCard(CustomMQ mq) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,

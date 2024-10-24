@@ -1,15 +1,15 @@
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/calculator.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
-import 'package:fitpro/Features/Calories/Logic/cubit/todayfood_cubit.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Shared/calculator.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
+import 'package:PureFit/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 
-import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
-import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/Features/Calories/component/calories_percentage.dart';
+import 'package:PureFit/Features/Calories/component/statics_of_cfp.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 

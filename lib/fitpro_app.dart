@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fitpro/Core/Routing/app_router.dart';
-import 'package:fitpro/Core/Services/notificationcontroler.dart';
+import 'package:PureFit/Core/Routing/app_router.dart';
+import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fitpro/Core/Shared/theme/theme_color.dart';
+import 'package:PureFit/Core/Shared/theme/theme_color.dart';
 import 'Core/Routing/routes.dart';
 import 'Core/Shared/localization/app_localizations.dart';
-
 
 class FitproApp extends StatefulWidget {
   final AppRouter appRouter;
@@ -22,13 +21,15 @@ class FitproApp extends StatefulWidget {
 
   // Method to toggle the theme externally
   static void toggleTheme(BuildContext context, bool isDarkMode) {
-    final _FitproAppState? state = context.findAncestorStateOfType<_FitproAppState>();
+    final _FitproAppState? state =
+        context.findAncestorStateOfType<_FitproAppState>();
     state?.toggleTheme(isDarkMode);
   }
 
   // Method to set the locale externally
   static void setLocale(BuildContext context, Locale newLocale) {
-    final _FitproAppState? state = context.findAncestorStateOfType<_FitproAppState>();
+    final _FitproAppState? state =
+        context.findAncestorStateOfType<_FitproAppState>();
     state?.setLocale(newLocale);
   }
 

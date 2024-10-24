@@ -1,8 +1,8 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Water/Logic/cubit/water_intake_cubit.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -142,7 +142,7 @@ class WaterAddState extends State<WaterAdd> {
           LottieBuilder.asset(image),
           Text(
             title,
-            style:  TextStyle(
+            style: TextStyle(
                 fontFamily: AppString.font,
                 fontSize: 15,
                 fontWeight: FontWeight.w600),
