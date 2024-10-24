@@ -6,15 +6,12 @@ import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
 import 'package:fitpro/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 
 import 'package:fitpro/Features/Calories/component/calories_percentage.dart';
-import 'package:fitpro/Features/Calories/component/header_calories.dart';
 import 'package:fitpro/Features/Calories/component/statics_of_cfp.dart';
 import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import '../../../Core/Routing/routes.dart';
 
 class CaloriesScreen extends StatefulWidget {
   const CaloriesScreen({super.key});
@@ -48,19 +45,21 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Responsive size calculations
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      appBar: AppBar(
+        leading:
+            IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: const Text("My Plan"),
+      ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              HeaderCalories(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
-                },
-              ),
               CustomSizedbox(height: mq.height(3)),
               _buildWelcomeMessage(mq),
               CustomSizedbox(height: mq.height(2)),
