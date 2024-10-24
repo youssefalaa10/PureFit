@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:fitpro/Core/Components/media_query.dart'; 
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
+import 'package:fitpro/Core/Shared/app_string.dart';
 
 
 class PlanCard extends StatefulWidget {
-  const PlanCard({super.key});
+  const PlanCard({super.key, required this.userId});
+  final String userId;
 
   @override
   State<PlanCard> createState() => _PlanCardState();
@@ -18,8 +19,8 @@ class _PlanCardState extends State<PlanCard> {
  @override
   void initState() {
     super.initState();
-    // final profileId = context.read<ProfileCubit>().user!.userId;
-    context.read<WeeklyExerciseCubit>().loadCalendar('66fab8339f1a05ead89c9065');
+
+    context.read<WeeklyExerciseCubit>().loadCalendar(widget.userId);
   }
  
   @override
@@ -55,6 +56,7 @@ class _PlanCardState extends State<PlanCard> {
   }
 
   Widget _buildCard(CustomMQ mq, int completedDays, int totalDays, double progressPercentage, int displayedPercentage) {
+    final theme = Theme.of(context);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
       child: LayoutBuilder(
@@ -66,8 +68,8 @@ class _PlanCardState extends State<PlanCard> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ColorManager.primaryColor,
-                  ColorManager.primaryColor.withOpacity(0.5),
+                  theme.primaryColor,
+                  theme.primaryColor.withOpacity(0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -82,19 +84,21 @@ class _PlanCardState extends State<PlanCard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Monthly Challenge',
+                      AppString.monthlyChallenge(context),
                       style: TextStyle(
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color:  theme.scaffoldBackgroundColor,
+                        fontFamily: AppString.font,
                       ),
                     ),
                     SizedBox(height: mq.height(0.5)),
                     Text(
-                      '$completedDays/$totalDays Complete',
+                      '$completedDays/$totalDays ${AppString.complete(context)}',
                       style: TextStyle(
                         fontSize: mq.width(3),
-                        color: Colors.white70,
+                        color: theme.scaffoldBackgroundColor.withOpacity(.7),
+                         fontFamily: AppString.font,
                       ),
                     ),
                   ],
@@ -111,15 +115,16 @@ class _PlanCardState extends State<PlanCard> {
                         animation: true,
                         percent: progressPercentage,
                         radius: mq.width(6.25),
-                        backgroundColor: Colors.white30,
-                        progressColor: Colors.white,
+                        backgroundColor: theme.scaffoldBackgroundColor.withOpacity(.5),
+                        progressColor:  theme.scaffoldBackgroundColor,
                       ),
                       Text(
                         '$displayedPercentage%',
                         style: TextStyle(
                           fontSize: mq.width(3.75),
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: theme.scaffoldBackgroundColor,
+                          fontFamily: AppString.font,
                         ),
                       ),
                     ],

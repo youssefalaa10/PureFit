@@ -1,5 +1,9 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
+
 import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Features/AiChat/trainer_chat.dart';
 import 'package:fitpro/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import 'package:fitpro/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
@@ -7,10 +11,6 @@ import 'package:fitpro/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:fitpro/Features/Home/home_screen.dart';
 import 'package:fitpro/Features/MyPlan/myplan_screen.dart';
 import 'package:fitpro/Features/Profile/UI/profile_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
 import '../Diet/UI/diet_screen.dart';
 
@@ -87,24 +87,34 @@ class LayoutScreenState extends State<LayoutScreen> {
   }
 
   List<BottomNavigationBarItem> _navBarItems() {
-    return const [
-      BottomNavigationBarItem(
+    return [
+      const BottomNavigationBarItem(
         icon: Icon(Icons.home, size: 28),
         label: 'Home',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(Icons.analytics, size: 28),
         label: 'My Plan',
       ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.restaurant_menu, size: 28),
-        label: 'Food',
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.fitness_center, size: 28),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.support_agent, size: 28),
         label: 'Exercises',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
+          icon: Icon(
+            Icons.restaurant,
+            size: 28,
+          ),
+          label: 'Diet'),
+      // BottomNavigationBarItem(
+      //   icon: AppIcons.themedIcon(
+      //     context,
+      //     AppIcons.healthyFood,
+      //     size: 28,
+      //   ),
+      //   label: 'Food',
+      // ),
+      const BottomNavigationBarItem(
         icon: Icon(Icons.person, size: 28),
         label: 'Profile',
       ),
@@ -113,6 +123,7 @@ class LayoutScreenState extends State<LayoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -126,12 +137,12 @@ class LayoutScreenState extends State<LayoutScreen> {
           children: _screens,
         ),
         bottomNavigationBar: SnakeNavigationBar.color(
-          backgroundColor: ColorManager.backGroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
           behaviour: SnakeBarBehaviour.floating,
           snakeShape: SnakeShape.indicator,
-          snakeViewColor: ColorManager.primaryColor,
-          selectedItemColor: ColorManager.primaryColor,
-          unselectedItemColor: Colors.grey,
+          snakeViewColor: theme.primaryColor,
+          selectedItemColor: theme.primaryColor,
+          unselectedItemColor: theme.colorScheme.secondaryContainer,
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,
           items: _navBarItems(),

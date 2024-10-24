@@ -32,6 +32,8 @@ class AppIcons {
   static const String foamRoller = 'assets/icons/028-foam roller.svg';
   static const String rings = 'assets/icons/029-rings.svg';
   static const String plyoBox = 'assets/icons/030-plyo box.svg';
+  static const String healthyFood = 'assets/icons/038-healthy food.svg';
+
 
   // Method to return a themed icon using SvgIcon
   static Widget themedIcon(BuildContext context, String iconPath, {double size = 24.0}) {

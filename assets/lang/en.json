@@ -1,6 +1,14 @@
 {
     "welcomeBack": "Welcome back",
     "workouts": "Workouts",
-    "recommendedWorkouts": "Recommended Workouts"
-    
+    "recommendedWorkouts": "Recommended Workouts",
+    "monthlyChallenge":"Monthly Challenge",
+    "dailyTask":"Daily Task",
+    "exercise":"Exercise 1",
+    "min":"min",
+    "cal":"cal",
+    "seeAll":"See All",
+    "complete":"Complete"
+
+
 }
