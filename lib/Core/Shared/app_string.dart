@@ -50,6 +50,11 @@ class AppString {
   static String sleep = "Sleep";
   static String water = "Water";
   static String bmiCalculator = "BMI";
+  static String lastupdate = "Last Update:";
+  static String kcal = "Kcal";
+  static String hours = "Hours";
+  static String liters = "Liters";
+
 
   // TrackSteps Screen ---------------------------------
   static String myActivity = "My Activity";

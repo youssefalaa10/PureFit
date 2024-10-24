@@ -30,10 +30,12 @@ class _DietScreenState extends State<DietScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: ColorManager.backGroundColor,
+        backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
           surfaceTintColor: ColorManager.backGroundColor,
           toolbarHeight: mq.height(5),

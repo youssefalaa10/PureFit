@@ -21,11 +21,11 @@ class _TrainerChatState extends State<TrainerChat> {
   ChatUser botUser = ChatUser(id: "1", firstName: "Coach");
 
   List<ChatMessage> messages = [];
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         surfaceTintColor: ColorManager.backGroundColor,
         title: Text.rich(TextSpan(children: [
