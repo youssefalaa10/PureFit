@@ -29,11 +29,13 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
+
     final dietItem = widget.dietItem;
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: ColorManager.backGroundColor,
+        backgroundColor: theme.scaffoldBackgroundColor,
         elevation: 0,
         leading: IconButton(
             onPressed: () {
@@ -52,7 +54,7 @@ class _DetailScreenState extends State<DetailScreen> {
             child: IconButton(
               icon: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_outline,
-                color: Colors.black,
+                color: theme.primaryColor,
               ),
               onPressed: () {
                 // Toggle favorite status when pressed
@@ -73,7 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.more_vert, color: Colors.black),
+            icon: Icon(Icons.more_vert, color: theme.primaryColor),
             onPressed: () {},
           ),
         ],
@@ -90,7 +92,6 @@ class _DetailScreenState extends State<DetailScreen> {
                 style: TextStyle(
                   fontSize: mq.width(7.0),
                   fontWeight: FontWeight.bold,
-                  color: ColorManager.primaryColor,
                 ),
               ),
             ),
@@ -150,7 +151,6 @@ class _DetailScreenState extends State<DetailScreen> {
           style: TextStyle(
             fontSize: mq.width(3.8),
             fontWeight: FontWeight.bold,
-            color: Colors.black,
           ),
         ),
       ),
@@ -173,7 +173,6 @@ class _DetailScreenState extends State<DetailScreen> {
           style: TextStyle(
             fontSize: mq.width(5.0),
             fontWeight: FontWeight.bold,
-            color: Colors.black,
           ),
         ),
       ],

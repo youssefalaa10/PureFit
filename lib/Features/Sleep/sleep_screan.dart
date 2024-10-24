@@ -37,14 +37,16 @@ class _SleepScreenState extends State<SleepScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     final mq = CustomMQ(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(mq, context),
+            _buildHeaderSection(mq, context, theme),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 20),
@@ -53,9 +55,9 @@ class _SleepScreenState extends State<SleepScreen> {
             Row(
               children: [
                 CustomButton(
-                    label: "Start Sleep", onPressed: _startSleepSession),
+                    label: AppString.startsleep, onPressed: _startSleepSession),
                 CustomButton(
-                    label: "I'm waked Up",
+                    label: AppString.imWakedUp,
                     onPressed: () {
                       // Call this when the user wakes up and dismisses the notification
                       NotificationService().cancel(); // Use the correct ID
@@ -121,14 +123,15 @@ class _SleepScreenState extends State<SleepScreen> {
         "Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ");
   }
 
-  Widget _buildHeaderSection(CustomMQ mq, BuildContext context) {
+  Widget _buildHeaderSection(
+      CustomMQ mq, BuildContext context, ThemeData theme) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(mq),
+          _buildHeaderTitle(mq, theme),
           buildEditButton(context),
         ],
       ),
@@ -187,14 +190,19 @@ class _SleepScreenState extends State<SleepScreen> {
   }
 }
 
-Widget _buildHeaderTitle(CustomMQ mq) {
+Widget _buildHeaderTitle(
+  CustomMQ mq,
+  ThemeData theme,
+) {
   return Expanded(
     child: Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
       child: Text(
-        "Sleep Details",
+        AppString.sleepdetails,
         textAlign: TextAlign.center,
         style: TextStyle(
+          color: theme.primaryColor,
+          fontFamily: AppString.font,
           fontSize: mq.width(4.5),
           fontWeight: FontWeight.bold,
         ),
@@ -209,6 +217,7 @@ Widget _buildWelcomeMessage(CustomMQ mq) {
       Text(
         AppString.greatWork,
         style: TextStyle(
+          fontFamily: AppString.font,
           fontSize: mq.width(3.75),
           fontWeight: FontWeight.bold,
           color: ColorManager.lightGreyColor,
@@ -218,6 +227,7 @@ Widget _buildWelcomeMessage(CustomMQ mq) {
         AppString.yourDailytasksAlmostDone,
         textAlign: TextAlign.center,
         style: TextStyle(
+          fontFamily: AppString.font,
           fontSize: mq.width(7),
           fontWeight: FontWeight.bold,
         ),
@@ -254,8 +264,9 @@ Widget _buildRowOfMyActivityAndSteps(CustomMQ mq) {
         TextButton(
           onPressed: () {},
           child: Text(
-            "Today",
+            AppString.today,
             style: TextStyle(
+              fontFamily: AppString.font,
               fontSize: mq.width(3.75),
               fontWeight: FontWeight.bold,
               color: ColorManager.primaryColor,

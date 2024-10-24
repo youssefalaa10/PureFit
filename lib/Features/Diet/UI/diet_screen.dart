@@ -37,9 +37,9 @@ class _DietScreenState extends State<DietScreen> {
       child: Scaffold(
         backgroundColor: theme.scaffoldBackgroundColor,
         appBar: AppBar(
-          surfaceTintColor: ColorManager.backGroundColor,
+          surfaceTintColor: theme.scaffoldBackgroundColor,
           toolbarHeight: mq.height(5),
-          backgroundColor: ColorManager.backGroundColor,
+          backgroundColor: theme.scaffoldBackgroundColor,
           title: Text(
             'Diet Plan',
             style: TextStyle(
@@ -57,7 +57,7 @@ class _DietScreenState extends State<DietScreen> {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: TabBar(
-                  dividerColor: ColorManager.backGroundColor,
+                  dividerColor: theme.scaffoldBackgroundColor,
                   onTap: (index) {
                     setState(() {
                       selectedTabIndex = index;
@@ -69,16 +69,15 @@ class _DietScreenState extends State<DietScreen> {
                     Tab(text: 'Favorites'),
                   ],
                   labelStyle: TextStyle(
-                    fontSize: mq.width(4.5),
-                    fontWeight: FontWeight.bold,
-                    color: ColorManager.backGroundColor,
-                  ),
+                      fontSize: mq.width(4.5),
+                      fontWeight: FontWeight.bold,
+                      color: theme.scaffoldBackgroundColor),
                   unselectedLabelStyle: TextStyle(
                     fontSize: mq.width(4.0),
                   ),
                   indicator: BoxDecoration(
                     borderRadius: BorderRadius.circular(50),
-                    color: ColorManager.primaryColor,
+                    color: theme.primaryColor,
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                 ),

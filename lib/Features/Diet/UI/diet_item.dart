@@ -1,7 +1,6 @@
 import 'package:fitpro/Core/Components/AnimatedDialog.dart';
 import 'package:fitpro/Core/Components/custom_sizedbox.dart';
 import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
 import 'package:fitpro/Core/local_db/EatToday/today_calories.dart';
 import 'package:fitpro/Features/Calories/DATA/Model/todayfood_model.dart';
 import 'package:fitpro/Features/Calories/DATA/Repo/todayfood_repo.dart';
@@ -36,11 +35,13 @@ class _DietItemState extends State<DietItem> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return GestureDetector(
       onTap: widget.onTap,
       child: Card(
-        color: ColorManager.backGroundColor,
+        surfaceTintColor: theme.primaryColor,
+        color: theme.scaffoldBackgroundColor,
         elevation: 2.0,
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -82,7 +83,7 @@ class _DietItemState extends State<DietItem> {
               // Dropdown with customized background color
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorManager.primaryColor),
+                      backgroundColor: theme.primaryColor),
                   onPressed: () {
                     showDialog(
                         context: context,
@@ -119,7 +120,7 @@ class _DietItemState extends State<DietItem> {
                   child: Row(children: [
                     Icon(
                       Icons.add,
-                      color: ColorManager.backGroundColor,
+                      color: theme.scaffoldBackgroundColor,
                     )
                   ]))
             ],

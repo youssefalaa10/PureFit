@@ -2,6 +2,8 @@ import 'package:fitpro/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class AppString {
+  //font
+  static const String font = 'Lato';
   // images----------------------------------------------------------
   static String profile = "assets/images/profile.jpeg";
   static String waterLottie = "assets/lottie/water_lottie.json";
@@ -43,13 +45,28 @@ class AppString {
   static String hours = "Hours";
   static String liters = "Liters";
 
-
   // TrackSteps Screen ---------------------------------
   static String myActivity = "My Activity";
   static String greatWork = "Great Work!";
+  static String stepsdetails = "Steps Details";
   static String yourDailytasksAlmostDone = "Your Daily Tasks \n Almost Done!";
 
   // Calories Screen ____________________
   static String youHavetoEatMoreCalories = "You Have to Eat \n More Calories!";
   static String keepGoing = "Keep Going!";
+
+  // Sleep Screen
+  static String startsleep = "Start Sleep";
+  static String imWakedUp = "I'm Waked Up";
+  static String sleepdetails = "Sleep Details";
+  static String today = "Today";
+  static String setnewAlarm = "Set New Alarm";
+  static String todaymeals = "Today meals";
+  static String caloriesdetails = "Calories Details";
+
+//Water screen
+  static String addwater = "Today, I would like to drink";
+  static String waterIntakeDetails = "Water Intake Details";
+  static String setnewtarget = "Set New Target";
+  static String waterIntakeTarget = "Water Intake Target";
 }

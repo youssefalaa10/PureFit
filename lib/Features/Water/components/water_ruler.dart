@@ -74,7 +74,7 @@ class HeightPickerState extends State<WaterRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: Colors.blue,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

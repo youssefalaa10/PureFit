@@ -1,3 +1,4 @@
+import 'package:fitpro/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class BMICard extends StatelessWidget {
@@ -16,11 +17,18 @@ class BMICard extends StatelessWidget {
           children: [
             const Text(
               "BMI (kg/m²): ",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                fontFamily: AppString.font,
+              ),
             ),
             Text(
               bmi.toStringAsFixed(2),
-              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 20,
+                  fontFamily: AppString.font,
+                  fontWeight: FontWeight.bold),
             ),
             const Spacer(),
           ],

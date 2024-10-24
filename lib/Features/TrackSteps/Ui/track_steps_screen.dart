@@ -148,9 +148,10 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -188,7 +189,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Steps Details",
+          AppString.stepsdetails,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.width(4.5),
@@ -203,7 +204,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
-        backgroundColor: ColorManager.backGroundColor,
         padding: EdgeInsets.all(mq.width(2.5)),
       ),
       onPressed: () {},
@@ -265,7 +265,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                   children: [
                     Icon(
                       Icons.directions_walk,
-                      color: ColorManager.primaryColor,
                       size: mq.width(8.75),
                     ),
                     const CustomSizedbox(height: 10),
