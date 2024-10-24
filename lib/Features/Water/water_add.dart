@@ -142,7 +142,7 @@ class WaterAddState extends State<WaterAdd> {
           LottieBuilder.asset(image),
           Text(
             title,
-            style: const TextStyle(
+            style:  TextStyle(
                 fontFamily: AppString.font,
                 fontSize: 15,
                 fontWeight: FontWeight.w600),

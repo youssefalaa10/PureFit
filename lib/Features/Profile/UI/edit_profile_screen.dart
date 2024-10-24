@@ -304,10 +304,10 @@ class WeightSlider extends StatefulWidget {
       {super.key, required this.weighslider, required this.onValueChanged});
 
   @override
-  _WeightSliderState createState() => _WeightSliderState();
+  WeightSliderState createState() => WeightSliderState();
 }
 
-class _WeightSliderState extends State<WeightSlider> {
+class WeightSliderState extends State<WeightSlider> {
   double _currentWeight = 40;
 
   @override

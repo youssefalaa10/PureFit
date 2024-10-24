@@ -16,10 +16,10 @@ class WeeklyExerciseScreen extends StatefulWidget {
   const WeeklyExerciseScreen({super.key});
   
   @override
-  _WeeklyExerciseScreenState createState() => _WeeklyExerciseScreenState();
+  WeeklyExerciseScreenState createState() => WeeklyExerciseScreenState();
 }
 
-class _WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
+class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
   @override
   void initState() {
     super.initState();

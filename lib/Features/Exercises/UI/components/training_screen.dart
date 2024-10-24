@@ -15,10 +15,10 @@ class TrainingScreen extends StatefulWidget {
   const TrainingScreen(
       {super.key, required this.exercises, required this.index});
   @override
-  _TrainingScreenState createState() => _TrainingScreenState();
+  TrainingScreenState createState() => TrainingScreenState();
 }
 
-class _TrainingScreenState extends State<TrainingScreen> {
+class TrainingScreenState extends State<TrainingScreen> {
   late CustomMQ mq;
   Timer? countdownTimer;
   int countdownValue = 0;

@@ -12,7 +12,7 @@ class OtpTextField extends StatefulWidget {
   final TextEditingController? externalController;
 
   const OtpTextField({
-    Key? key,
+    super.key,
     required this.numberOfFields,
     required this.fieldWidth,
     required this.borderColor,
@@ -22,13 +22,13 @@ class OtpTextField extends StatefulWidget {
     this.onCodeChanged,
     this.onSubmit,
     this.externalController, // Add this line
-  }) : super(key: key);
+  });
 
   @override
-  _OtpTextFieldState createState() => _OtpTextFieldState();
+  OtpTextFieldState createState() => OtpTextFieldState();
 }
 
-class _OtpTextFieldState extends State<OtpTextField> {
+class OtpTextFieldState extends State<OtpTextField> {
   List<TextEditingController> controllers = [];
   List<FocusNode> focusNodes = [];
   String currentCode = '';

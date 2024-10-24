@@ -29,7 +29,7 @@ class _TrainerChatState extends State<TrainerChat> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         surfaceTintColor: theme.scaffoldBackgroundColor,
-        title: const Text.rich(TextSpan(children: [
+        title:  Text.rich(TextSpan(children: [
           TextSpan(
               text: "Ai",
               style: TextStyle(

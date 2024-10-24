@@ -15,7 +15,7 @@ class BMICard extends StatelessWidget {
       children: [
         Row(
           children: [
-            const Text(
+             Text(
               "BMI (kg/m²): ",
               style: TextStyle(
                 fontSize: 20,
@@ -25,7 +25,7 @@ class BMICard extends StatelessWidget {
             ),
             Text(
               bmi.toStringAsFixed(2),
-              style: const TextStyle(
+              style:  TextStyle(
                   fontSize: 20,
                   fontFamily: AppString.font,
                   fontWeight: FontWeight.bold),
