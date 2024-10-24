@@ -1,4 +1,3 @@
-import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/calculator.dart';
@@ -45,7 +44,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           centerTitle: true,
           title: Text(
             textAlign: TextAlign.center,
-            AppString.myPlan,
+            AppString.myactivites,
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(5.5),
@@ -58,33 +57,20 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: mq.width(3),
-              vertical: mq.height(1),
+              vertical: mq.height(2),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildRowOfDailyPlanStatics(mq),
-                _buildFourGridsofStatics(context, mq),
                 SizedBox(height: mq.height(1)),
+                _buildFourGridsofStatics(context, mq),
+                SizedBox(height: mq.height(4)),
                 BMICard(bmi: bmi),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildHeader(CustomMQ mq) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: mq.height(1)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const CustomBackButton(),
-          _buildHeaderTitle(mq),
-          SizedBox(width: mq.width(12)),
-        ],
       ),
     );
   }
@@ -136,7 +122,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            AppString.dailyPlan,
+            AppString.dailyactivity,
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(5),
@@ -159,20 +145,6 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
     );
   }
 
-  Widget _buildHeaderTitle(CustomMQ mq) {
-    return Expanded(
-      child: Text(
-        textAlign: TextAlign.center,
-        AppString.myPlan,
-        style: TextStyle(
-          fontFamily: AppString.font,
-          fontSize: mq.width(4.5),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-
   Widget _buildFourGridsofStatics(BuildContext context, CustomMQ mq) {
     return SizedBox(
       height: mq.height(35), // Setting the height of the GridView
@@ -182,7 +154,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
         itemCount: 4,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisSpacing: mq.width(3.75),
-          mainAxisSpacing: mq.height(1),
+          mainAxisSpacing: mq.height(2),
           crossAxisCount: 2, // Number of columns in the grid
           mainAxisExtent: mq.height(16), // Height of each item in the grid
         ),

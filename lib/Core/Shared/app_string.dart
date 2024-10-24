@@ -100,8 +100,8 @@ class AppString {
 
   // MyPlan screen ------------------------------------------------
 
-  static String myPlan = "My Plan";
-  static String dailyPlan = "Daily Plan";
+  static String myactivites = "My Activities";
+  static String dailyactivity = "Daily Activity";
   static String statics = "Statics";
   static String calories = "Calories";
   static String steps = "Steps";
