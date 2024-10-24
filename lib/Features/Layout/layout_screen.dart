@@ -28,7 +28,6 @@ class LayoutScreenState extends State<LayoutScreen> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const MyPlanScreen(),
-    const TrainerChat(),
     MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -56,6 +55,7 @@ class LayoutScreenState extends State<LayoutScreen> {
       ],
       child: const DietScreen(),
     ),
+    const TrainerChat(),
     const ProfileScreen(),
   ];
 
@@ -97,15 +97,15 @@ class LayoutScreenState extends State<LayoutScreen> {
         label: 'My Plan',
       ),
       const BottomNavigationBarItem(
-        icon: Icon(Icons.support_agent, size: 28),
-        label: 'Exercises',
-      ),
-      const BottomNavigationBarItem(
           icon: Icon(
             Icons.restaurant,
             size: 28,
           ),
           label: 'Diet'),
+      const BottomNavigationBarItem(
+        icon: Icon(Icons.support_agent, size: 28),
+        label: 'Exercises',
+      ),
       // BottomNavigationBarItem(
       //   icon: AppIcons.themedIcon(
       //     context,

@@ -1,5 +1,4 @@
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
@@ -24,6 +23,7 @@ class StaticCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(mq.width(4)),
       height: mq.height(10),
@@ -71,7 +71,7 @@ class StaticCard extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.width(3.75),
-                  color: ColorManager.greyColor,
+                  color: theme.scaffoldBackgroundColor,
                 ),
               ),
             ],

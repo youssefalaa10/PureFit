@@ -197,7 +197,7 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
     String? stepsValue;
     String? sleepValue;
     String? waterValue;
-
+    final theme = Theme.of(context);
     switch (index) {
       case 0:
         return GestureDetector(
@@ -207,7 +207,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           child: StaticCard(
             color: ColorManager.orangeColor,
             headline: AppString.calories,
-            icon: const Icon(Icons.local_fire_department_outlined),
+            icon: Icon(
+              Icons.local_fire_department_outlined,
+              color: theme.scaffoldBackgroundColor,
+            ),
             static: calories.toStringAsFixed(0),
             endline: AppString.kcal,
           ),
@@ -227,8 +230,11 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           child: StaticCard(
             color: ColorManager.darkredColor,
             headline: AppString.steps,
-            icon: const Icon(Icons.directions_walk),
-            static: stepsValue ?? "400", // Display the updated value
+            icon: Icon(
+              Icons.directions_walk,
+              color: theme.scaffoldBackgroundColor,
+            ),
+            static: stepsValue ?? "2150", // Display the updated value
             endline: AppString.steps,
           ),
         );
@@ -246,7 +252,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           child: StaticCard(
             color: ColorManager.lightGreenColor,
             headline: AppString.sleep,
-            icon: const Icon(Icons.bed_outlined),
+            icon: Icon(
+              Icons.bed_outlined,
+              color: theme.scaffoldBackgroundColor,
+            ),
             static: sleepValue ?? "9 hr", // Display the updated value
             endline: AppString.hours,
           ),
@@ -265,7 +274,10 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
           child: StaticCard(
             color: ColorManager.blueColor,
             headline: AppString.water,
-            icon: const Icon(Icons.water_drop_outlined),
+            icon: Icon(
+              Icons.water_drop_outlined,
+              color: theme.scaffoldBackgroundColor,
+            ),
             static: waterValue ?? "4 lits", // Display the updated value
             endline: AppString.liters,
           ),
