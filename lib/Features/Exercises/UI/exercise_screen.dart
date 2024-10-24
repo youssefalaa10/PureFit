@@ -11,6 +11,7 @@ import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.dart';
 
 import '../../../Core/Routing/Routes.dart';
+import '../../../Core/Shared/app_string.dart';
 import '../Data/Model/exercise_model.dart';
 import '../Logic/exercise_cubit/exercise_cubit.dart';
 
@@ -76,7 +77,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
   Widget _buildStartNowButton(
       BuildContext context, CustomMQ mq, ThemeData theme) {
     return CustomButton(
-      label: "Start Now",
+      label: AppString.startNow(context),
       onPressed: () {
         final state = context.read<ExerciseCubit>().passExercises;
 

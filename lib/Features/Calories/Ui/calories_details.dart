@@ -5,6 +5,8 @@ import 'package:PureFit/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 
+import '../../../Core/Shared/app_string.dart';
+
 class CaloriesDetails extends StatelessWidget {
   const CaloriesDetails({super.key});
 
@@ -28,7 +30,7 @@ class CaloriesDetails extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
               child: Text(
-                "Set New Target!",
+                AppString.setNewTarget(context),
                 style: TextStyle(
                   fontSize: mq.width(5),
                   fontWeight: FontWeight.w900,
@@ -51,7 +53,7 @@ class CaloriesDetails extends StatelessWidget {
             ),
             Center(
               child: CustomButton(
-                label: "Save",
+                label: AppString.save(context),
                 textColor: theme.scaffoldBackgroundColor,
                 backgroundColor: theme.primaryColor,
                 onPressed: () {},

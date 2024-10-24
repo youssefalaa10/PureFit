@@ -62,7 +62,7 @@ class TrainingScreenState extends State<TrainingScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
+        title: Text('${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
             style: TextStyle(fontFamily: AppString.font)),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -110,7 +110,7 @@ class TrainingScreenState extends State<TrainingScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Instractions",
+                    AppString.instructions(context),
                     style: TextStyle(
                         fontWeight: FontWeight.bold, fontSize: mq.height(2.2)),
                   ),
@@ -125,7 +125,7 @@ class TrainingScreenState extends State<TrainingScreen> {
                               return AlertDialog(
                                 backgroundColor: theme.primaryColor,
                                 content: Text(
-                                  "Instraction ",
+                                 AppString.instructions(context),
                                   style: TextStyle(
                                       fontSize: mq.height(2),
                                       fontFamily: AppString.font,

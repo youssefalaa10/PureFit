@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       // Full Name Field
                       Text(
-                        "Full Name:",
+                        AppString.fullName(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: userController,
                         textInput: TextInputType.emailAddress,
                         isPassword: false,
-                        hintText: "Enter user name!",
+                        hintText: AppString.enterUserName(context),
                         suffixIcon: Icon(Icons.person,
                             color: ColorManager.primaryColor),
                       ),
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Email Field
                       Text(
-                        "Email:",
+                        AppString.email(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -123,15 +123,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       CustomTextField(
                         validator: (value) {
                           if (value.isEmpty) {
-                            return "Please enter an email addres!";
+                            return AppString.pleaseEnterEmail(context);
                           } else if (!value.contains("@")) {
-                            return "Please enter a valid email addres!";
+                            return AppString.pleaseEnterValidEmail(context);
                           }
                         },
                         controller: emailController,
                         textInput: TextInputType.emailAddress,
                         isPassword: false,
-                        hintText: "Enter email",
+                        hintText: AppString.enterEmail(context),
                         suffixIcon:
                             Icon(Icons.email, color: ColorManager.primaryColor),
                       ),
@@ -142,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Password Field
                       Text(
-                        "Password:",
+                        AppString.password(context),
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
@@ -242,7 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                          Text(
-                            "Already have account",
+                            AppString.alreadyHaveAccount(context),
                             textAlign: TextAlign.right,
                             style: TextStyle(color: Colors.grey,fontFamily: AppString.font),
                           ),
@@ -255,7 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                             },
                             child: Text(
-                              'Login',
+                              AppString.login(context),
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 color: ColorManager.primaryColor,

@@ -55,7 +55,7 @@ class SettingScreenState extends State<SettingScreen> {
       // backgroundColor: ColorManager.backGroundColor,
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Settings'),
+        title:  Text(AppString.settings(context)),
         // backgroundColor: ColorManager.backGroundColor,
         // title: Text(AppString.setting(context), style: textTheme.bodyLarge),
         centerTitle: true,
@@ -69,7 +69,7 @@ class SettingScreenState extends State<SettingScreen> {
               options: [
                 CustomSettingsOption(
                   icon: Icons.language,
-                  label: 'Language',
+                  label: AppString.language(context),
                   // label: AppString.language(context),
                   trailing: _buildLanguageDropdown(theme),
                 ),
@@ -90,7 +90,7 @@ class SettingScreenState extends State<SettingScreen> {
                 // ),
                 CustomSettingsOption(
                   icon: Icons.dark_mode,
-                  label: 'Dark Mode',
+                  label: AppString.darkMode(context),
                   // label: AppString.darkMode(context),
                   trailing: Switch(
                     inactiveTrackColor: Colors.transparent,
@@ -107,7 +107,7 @@ class SettingScreenState extends State<SettingScreen> {
               ],
             ),
             CustomSettingsSection(
-              title: 'About',
+              title: AppString.about(context),
               // title: AppString.aboutApp(context),
               options: [
                 // CustomSettingsOption(
@@ -168,7 +168,7 @@ class SettingScreenState extends State<SettingScreen> {
         DropdownMenuItem(
           value: 'ar',
           child: Text(
-            'Arabic',
+            AppString.arabic(context),
             style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
         ),

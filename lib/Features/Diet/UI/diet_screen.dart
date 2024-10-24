@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../Core/Components/custom_sizedbox.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_colors.dart';
+import '../../../Core/Shared/app_string.dart';
 import 'widgets/drinks_view.dart';
 import 'widgets/favorite_view.dart';
 import 'widgets/foods_view.dart';
@@ -41,7 +42,7 @@ class _DietScreenState extends State<DietScreen> {
           toolbarHeight: mq.height(5),
           backgroundColor: theme.scaffoldBackgroundColor,
           title: Text(
-            'Diet Plan',
+            AppString.dietPlan(context),
             style: TextStyle(
               fontSize: mq.width(7.0),
               fontWeight: FontWeight.bold,
@@ -64,9 +65,9 @@ class _DietScreenState extends State<DietScreen> {
                     });
                   },
                   tabs: const [
-                    Tab(text: 'Foods'),
-                    Tab(text: 'Drinks'),
-                    Tab(text: 'Favorites'),
+                    Tab(text: 'foods'),
+                    Tab(text: 'drinks'),
+                    Tab(text: 'favorites'),
                   ],
                   labelStyle: TextStyle(
                       fontSize: mq.width(4.5),
@@ -100,7 +101,7 @@ class _DietScreenState extends State<DietScreen> {
                   }
                 },
                 decoration: InputDecoration(
-                  hintText: 'Search ...',
+                  hintText: AppString.search(context),
                   prefixIcon: const Icon(Icons.search),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: ColorManager.lightGreyColor),

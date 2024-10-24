@@ -5,6 +5,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../../Core/Components/custom_snackbar.dart';
 import '../../../../Core/Components/media_query.dart';
+import '../../../../Core/Shared/app_string.dart';
 
 class UserStats extends StatefulWidget {
   final CustomMQ mq;
@@ -28,14 +29,14 @@ class _UserStatsState extends State<UserStats> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               StatCard(
-                  label: 'WEIGHT',
+                  label: AppString.weight(context),
                   value: '${user.userWeight} kg',
                   mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
-              StatCard(label: 'AGE', value: '${user.age} yo', mq: widget.mq),
+              StatCard(label: AppString.age(context), value: '${user.age} yo', mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
               StatCard(
-                  label: 'Height',
+                  label: AppString.height(context),
                   value: '${user.userHeight} cm',
                   mq: widget.mq),
             ],

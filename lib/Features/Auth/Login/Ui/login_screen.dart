@@ -79,7 +79,7 @@ class LoginScreenState extends State<LoginScreen> {
                       children: [
                         // Email Field
                         Text(
-                          "Email:",
+                          AppString.email(context),
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: mq.width(5.0),
@@ -90,13 +90,13 @@ class LoginScreenState extends State<LoginScreen> {
                         CustomTextField(
                           validator: (value) {
                             if (value.isEmpty) {
-                              return 'Please enter a Email!';
+                              return AppString.pleaseEnterEmail(context);
                             }
                           },
                           controller: emailController,
                           textInput: TextInputType.emailAddress,
                           isPassword: false,
-                          hintText: "Enter your email",
+                          hintText: AppString.pleaseEnterEmail(context),
                           suffixIcon: Icon(Icons.email,
                               color: ColorManager.primaryColor),
                         ),
@@ -104,7 +104,7 @@ class LoginScreenState extends State<LoginScreen> {
 
                         // Password Field
                         Text(
-                          "Password:",
+                          AppString.password(context),
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: mq.width(5.0),
@@ -152,7 +152,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                                 Text(
-                                  'Remember me',
+                                  AppString.rememberMe(context),
                                   style: TextStyle(fontSize: mq.width(4)),
                                 ),
                               ],
@@ -179,7 +179,7 @@ class LoginScreenState extends State<LoginScreen> {
                         SizedBox(
                           width: double.infinity,
                           child: CustomButton(
-                            label: "Sign In",
+                            label: AppString.signIn(context),
                             onPressed: () {
                               validateThenDoSignup(
                                   context,
@@ -200,8 +200,8 @@ class LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text(
-                              "Don't have an account?",
+                             Text(
+                              AppString.dontHaveAccount(context),
                               textAlign: TextAlign.right,
                               style: TextStyle(color: Colors.grey),
                             ),

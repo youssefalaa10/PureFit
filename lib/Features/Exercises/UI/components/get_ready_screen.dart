@@ -55,7 +55,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Exercises ${widget.index + 1}/${widget.exercises.length}',
+        title: Text('${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
             style: TextStyle(fontFamily: AppString.font)),
         elevation: 0,
         centerTitle: true,
@@ -134,7 +134,7 @@ class ReadyMessage extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Ready To Go!',
+          AppString.readyToGo(context),
           style: TextStyle(
             fontSize: mq.height(3.5),
             fontWeight: FontWeight.bold,

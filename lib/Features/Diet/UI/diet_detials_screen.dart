@@ -9,6 +9,7 @@ import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
 import 'package:PureFit/Features/Diet/Data/Model/favorites_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../Core/Shared/app_string.dart';
 import '../Data/Model/base_diet_model.dart';
 import '../Logic/favorite_cubit/favorite_cubit.dart';
 
@@ -107,18 +108,18 @@ class _DetailScreenState extends State<DetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildCustomButton('Per 100 g', false, () {}),
-                _buildCustomButton('Per Portion', true, () {}),
-                _buildCustomButton('Per Grams', false, () {}),
+                _buildCustomButton(AppString.per100g(context), false, () {}),
+                _buildCustomButton(AppString.perPortion(context), true, () {}),
+                _buildCustomButton(AppString.perGrams(context), false, () {}),
               ],
             ),
             CustomSizedbox(height: mq.height(5.0)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNutritionData('kcal', '${dietItem.calories}', mq),
-                _buildNutritionData('Fat', '${dietItem.fats}', mq),
-                _buildNutritionData('Protein', '${dietItem.protein}', mq),
+                _buildNutritionData(AppString.kcal(context), '${dietItem.calories}', mq),
+                _buildNutritionData(AppString.fat(context), '${dietItem.fats}', mq),
+                _buildNutritionData(AppString.protein(context), '${dietItem.protein}', mq),
               ],
             ),
             CustomSizedbox(height: mq.height(5.0)),
@@ -126,7 +127,7 @@ class _DetailScreenState extends State<DetailScreen> {
               child: CustomButton(
                 backgroundColor: theme.primaryColor,
                 textColor: theme.scaffoldBackgroundColor,
-                label: "Add meal",
+                label: AppString.addMeal(context),
                 onPressed: () {
                   showDialog(
                       context: context,

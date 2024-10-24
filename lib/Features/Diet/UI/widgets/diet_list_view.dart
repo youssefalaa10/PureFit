@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:PureFit/Features/Diet/UI/diet_item.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ Widget dietListView(List items, context) {
             itemImage: item.image,
             itemName: item.name,
             quantity: '100 g',
-            calories: '${item.calories} kcal',
+            calories: '${item.calories} ${AppString.kcal(context)}',
             onTap: () {
               Navigator.pushNamed(
                 context,

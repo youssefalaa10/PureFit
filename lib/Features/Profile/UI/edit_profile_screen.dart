@@ -238,7 +238,7 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
               child: IconButton(
                 icon: Icon(Icons.camera_alt,
                     size: mq.width(3.75),
-                    color: Colors.white), // Changed to camera icon
+                ), // Changed to camera icon
                 onPressed: _pickImage,
               ),
             ),

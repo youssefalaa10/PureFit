@@ -67,7 +67,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            "Verification",
+                            AppString.verification(context),
                             style: TextStyle(
                               fontSize: mq.width(8),
                               color: ColorManager.primaryColor,
@@ -76,7 +76,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ),
                           SizedBox(height: mq.height(2)),
                           Text(
-                            "We sent a code to your email, check it.",
+                            AppString.weSentCode(context),
                             style: TextStyle(
                               fontSize: mq.width(4.5),
                               color: ColorManager.lightGreyColor,
@@ -107,7 +107,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                                 _verifyCode(_otpController.text, widget.email);
                               } else {
                                 CustomSnackbar.showSnackbar(context,
-                                    'Please enter a valid 4-digit code');
+                                    AppString.pleaseEnterValidCode(context),);
                               }
                             },
                           ),
@@ -143,7 +143,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final verificationCubit = context.read<VerificationCubit>();
       verificationCubit.verifyCode(email, code, context);
     } else {
-      CustomSnackbar.showSnackbar(context, 'Please enter a valid 4-digit code');
+      CustomSnackbar.showSnackbar(context, AppString.pleaseEnterValidCode(context));
     }
   }
 }

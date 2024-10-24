@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Routing/Routes.dart';
+import '../../../Core/Shared/app_string.dart';
 import '../Logic/training_cubit/training_cubit.dart';
 import 'components/rest_screen.dart';
 import 'components/training_screen.dart';
@@ -64,10 +65,10 @@ class _ExerciseStagesState extends State<ExerciseStages> {
             );
           } else if (state is TrainingCompleted) {
             return AlertDialog(
-              content: const Text("Training completed!"),
+              content:  Text(AppString.trainingCompleted(context)),
               actions: [
                 CustomButton(
-                  label: "Done",
+                  label: AppString.done(context),
                   onPressed: () {
                     Navigator.pushReplacementNamed(
                         context, Routes.weeklyExerciseScreen);

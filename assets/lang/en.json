@@ -27,7 +27,7 @@
     "signOut": "Sign out from app",
     "yourName": "Your Name",
     "pleaseEnterYourName": "Please enter your name",
-    "age": "Age",
+    "age": "AGE",
     "pleaseEnterYourAge": "Please enter your age",
     "pleaseEnterValidAge": "Please enter a valid age",
     "saveChanges": "Save Changes",
@@ -119,10 +119,6 @@
     "addMeal": "Add meal",
     "anErrorOccurred": "An error occurred",
     "noFavoritesFound": "No favorites found.",
-   
-  
-   
-   
     "exercises": "Exercises",
    
     "reset": "Reset",

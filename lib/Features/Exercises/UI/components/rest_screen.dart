@@ -55,7 +55,7 @@ class _RestScreenState extends State<RestScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-          'Rest Screen',
+          AppString.restScreen(context),
           style: TextStyle(
             fontFamily: AppString.font,
           ),
@@ -118,7 +118,7 @@ class RestTimerSection extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Rest',
+          AppString.rest(context),
           style: TextStyle(
             fontSize: mq.height(3),
             fontWeight: FontWeight.bold,
@@ -166,7 +166,7 @@ class RestTimerSection extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Skip',
+                AppString.skip(context),
                 style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.height(2.5),
@@ -202,7 +202,7 @@ class NextExerciseSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Next',
+                AppString.next(context),
                 style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.height(2),

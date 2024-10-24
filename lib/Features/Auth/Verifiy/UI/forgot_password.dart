@@ -73,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: mq.width(4)),
                 Text(
-                  "Enter your email, we will send you a code on your email",
+                  AppString.enterYourEmail(context),
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: mq.width(4),
@@ -84,9 +84,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 CustomTextField(
                   validator: (value) {
                     if (value.isEmpty) {
-                      return "Please enter an email addres!";
+                      return AppString.enterYourEmail(context);
                     } else if (!value.contains("@")) {
-                      return "Please enter a valid email addres!";
+                      return AppString.pleaseEnterAValidEmail(context);
                     }
                   },
                   controller: _emailController,
