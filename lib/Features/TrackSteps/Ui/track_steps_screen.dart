@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
@@ -152,6 +153,13 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.trackStepsDetailsScreen);
+              },
+              icon: const Icon(Icons.edit))
+        ],
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -161,7 +169,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         title: Text(
           style:
               TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
-          AppString.stepsdetails,
+          AppString.steps,
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -367,8 +375,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         itemBuilder: (context, index) {
           final trackStepsModel = historyTracking.reversed.toList()[index];
           return ListTile(
-            leading:
-                Icon(Icons.directions_walk, color: ColorManager.primaryColor),
+            leading: const Icon(Icons.directions_walk),
             title: Text(trackStepsModel.date),
             trailing: Text(
               trackStepsModel.steps.toString(),

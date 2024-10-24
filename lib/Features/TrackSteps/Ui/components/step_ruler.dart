@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
 class StepRuler extends StatefulWidget {
-  const StepRuler({super.key});
+  final Function(num) onValueChanged;
+  const StepRuler({super.key, required this.onValueChanged});
 
   @override
   HeightPickerState createState() => HeightPickerState();
@@ -69,6 +70,7 @@ class HeightPickerState extends State<StepRuler> {
               setState(() {
                 currentValue = value;
               });
+              widget.onValueChanged(value); // Invoke the callback
             },
             width: MediaQuery.of(context).size.width,
             height: 80,
@@ -77,7 +79,7 @@ class HeightPickerState extends State<StepRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: ColorManager.darkredColor,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

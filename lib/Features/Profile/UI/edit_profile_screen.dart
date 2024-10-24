@@ -147,7 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   child: Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primaryColor,
+                        backgroundColor: theme.primaryColor,
                         padding: EdgeInsets.symmetric(
                             horizontal: mq.width(12.5), vertical: mq.height(1)),
                         shape: RoundedRectangleBorder(
@@ -174,7 +174,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       child: Text(
                         'Save Changes',
                         style: TextStyle(
-                            fontSize: mq.width(4), color: Colors.white),
+                            fontSize: mq.width(4),
+                            color: theme.scaffoldBackgroundColor),
                       ),
                     ),
                   ),
@@ -318,6 +319,7 @@ class WeightSliderState extends State<WeightSlider> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -331,7 +333,7 @@ class WeightSliderState extends State<WeightSlider> {
             Text('40', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
-                activeColor: ColorManager.primaryColor,
+                activeColor: theme.primaryColor,
                 inactiveColor: Colors.grey,
                 value: _currentWeight,
                 min: 40,

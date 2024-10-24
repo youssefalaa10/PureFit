@@ -77,7 +77,7 @@ class HeightPickerState extends State<CaloriesRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: ColorManager.darkredColor,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

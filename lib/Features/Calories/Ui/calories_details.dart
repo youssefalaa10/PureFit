@@ -1,5 +1,4 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Features/Calories/component/calories_percentage.dart';
 import 'package:PureFit/Features/Calories/component/calories_ruler.dart';
 import 'package:PureFit/Features/Calories/component/header_calories.dart';
@@ -12,9 +11,10 @@ class CaloriesDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,6 +52,8 @@ class CaloriesDetails extends StatelessWidget {
             Center(
               child: CustomButton(
                 label: "Save",
+                textColor: theme.scaffoldBackgroundColor,
+                backgroundColor: theme.primaryColor,
                 onPressed: () {},
                 padding: EdgeInsets.symmetric(
                   horizontal: mq.width(35),
