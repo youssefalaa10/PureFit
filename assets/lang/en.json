@@ -14,7 +14,7 @@
     "enterNewPassword": "Enter your new password",
     "confirmNewPassword": "Confirm your new password",
     "confirmPassword": "Confirm Password!",
-    "continuex": "Continue",
+    "continue": "Continue",
     "forgotPassword": "Forgot Password?",
     "passwordsDoNotMatch": "Passwords do not match!",
     "general": "General",

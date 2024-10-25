@@ -48,12 +48,13 @@ class LoginScreenState extends State<LoginScreen> {
                     Text(
                       'Hello\nSign In',
                       style: TextStyle(
+                        color: theme.scaffoldBackgroundColor,
                         fontSize: mq.width(7.0),
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
                       ),
                     ),
                     Image.asset(
+                      color: theme.scaffoldBackgroundColor,
                       "assets/images/AppLogo_white.png",
                       height: mq.height(10.0),
                     ),
@@ -83,7 +84,7 @@ class LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: mq.width(5.0),
-                            color: ColorManager.primaryColor,
+                            color: theme.primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -97,10 +98,12 @@ class LoginScreenState extends State<LoginScreen> {
                           textInput: TextInputType.emailAddress,
                           isPassword: false,
                           hintText: AppString.enterEmail(context),
-                          suffixIcon: Icon(Icons.email,
-                              color: ColorManager.primaryColor),
+                          suffixIcon: Icon(
+                            Icons.email,
+                            color: theme.primaryColor,
+                          ),
                         ),
-                        SizedBox(height: mq.height(6.0)),
+                        SizedBox(height: mq.height(5.0)),
 
                         // Password Field
                         Text(
@@ -108,7 +111,7 @@ class LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontSize: mq.width(5.0),
-                            color: ColorManager.primaryColor,
+                            color: theme.primaryColor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -192,6 +195,7 @@ class LoginScreenState extends State<LoginScreen> {
                             borderRadius: mq.width(2.5),
                             fontSize: mq.width(5),
                             backgroundColor: theme.primaryColor,
+                            textColor: theme.scaffoldBackgroundColor,
                           ),
                         ),
                         SizedBox(height: mq.height(3)),
@@ -200,10 +204,10 @@ class LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                             Text(
+                            Text(
                               AppString.dontHaveAccount(context),
                               textAlign: TextAlign.right,
-                              style: TextStyle(color: Colors.grey),
+                              style: const TextStyle(color: Colors.grey),
                             ),
                             TextButton(
                               onPressed: () {
@@ -215,7 +219,6 @@ class LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 'Sign Up',
                                 style: TextStyle(
-                                  color: ColorManager.primaryColor,
                                   fontSize: mq.height(2.0),
                                 ),
                               ),

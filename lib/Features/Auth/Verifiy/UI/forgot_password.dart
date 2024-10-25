@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../Core/Components/custom_button.dart';
@@ -98,7 +99,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: mq.width(4)),
                 CustomButton(
-                  label: AppString.continuex(context),
+                  textColor: theme.primaryColor,
+                  backgroundColor: theme.scaffoldBackgroundColor,
+                  label: "continue".tr(context),
                   padding: EdgeInsets.symmetric(
                     horizontal: mq.width(20),
                     vertical: mq.height(2),
