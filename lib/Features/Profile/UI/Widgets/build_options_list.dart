@@ -15,10 +15,9 @@ Widget buildOptionsList(BuildContext context) {
       _buildOptionItem(context,
           icon: Icons.tune,
           title: AppString.general(context),
-          subtitle: AppString.customizeSettings(context),
-          onTap: () {
-            Navigator.pushNamed(context, Routes.settingScreen);
-          }),
+          subtitle: AppString.customizeSettings(context), onTap: () {
+        Navigator.pushNamed(context, Routes.settingScreen);
+      }),
       // _buildOptionItem(context,
       //     icon: Icons.notifications_none_outlined,
       //     title: AppString.notifications(context),
@@ -48,19 +47,19 @@ void showLogoutConfirmationDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title:  Text(AppString.logout(context)),
-        content: const Text("Are you sure you want to log out?"),
+        title: Text(AppString.logout(context)),
+        content: Text(AppString.areYouSure(context)),
         actions: <Widget>[
           TextButton(
-            child: const Text("Cancel"),
+            child: Text(AppString.cancel(context)),
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },
           ),
           TextButton(
-            child:  Text(
+            child: Text(
               AppString.logout(context),
-              style: TextStyle(color: Colors.red),
+              style: const TextStyle(color: Colors.red),
             ),
             onPressed: () async {
               Navigator.of(context).pop(); // Close the dialog

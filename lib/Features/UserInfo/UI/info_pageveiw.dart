@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Register/Ui/register_screen.dart';
 import 'package:PureFit/Features/UserInfo/UI/activity_level_screen.dart';
 import 'package:PureFit/Features/UserInfo/UI/body_metrics.dart';
@@ -78,13 +79,13 @@ class InfoPageViewState extends State<InfoPageView> {
                 _currentPage > 0
                     ? CustomButton(
                         onPressed: _previousPage,
-                        label: "Back",
+                        label: AppString.back(context),
                       )
                     : const SizedBox.shrink(),
                 _currentPage < 5
                     ? CustomButton(
                         onPressed: _nextPage,
-                        label: 'Next',
+                        label: AppString.next(context),
                       )
                     : const SizedBox.shrink()
               ],

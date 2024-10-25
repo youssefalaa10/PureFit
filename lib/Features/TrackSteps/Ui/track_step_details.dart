@@ -69,7 +69,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
               child: Text(
-                "Set New Target!",
+                AppString.setNewTarget(context),
                 style: TextStyle(
                     fontSize: mq.width(6), fontWeight: FontWeight.w900),
               ),
@@ -93,7 +93,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
             ),
             Center(
               child: CustomButton(
-                label: "Save",
+                label: AppString.save(context),
                 onPressed: () async {
                   await _saveGoalValue();
                   if (mounted) {
@@ -120,7 +120,9 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
           textAlign: TextAlign.center,
           "Track Steps Details",
           style:
-              TextStyle(fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+              TextStyle(
+                 fontFamily: AppString.font,
+                fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
         ),
       ),
     );

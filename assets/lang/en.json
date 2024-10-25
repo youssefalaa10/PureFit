@@ -140,5 +140,27 @@
     "arabic": "Arabic",
     "areYouSureToLogOut": "Are you sure you want to log out?",
     "cancel": "Cancel",
-    "duration": "Duration"
+    "duration": "Duration",
+
+    "Good Morning": "Good Morning",
+    "Good Afternoon": "Good Afternoon",
+    "Good Evening": "Good Evening",
+    "Good Night": "Good Night",
+    "Hello":"Hello",
+    "Everyday":"Everyday",
+    "alarmSound":"Alarm Sound",
+    "Vibration":"Vibration",
+    "Snooze":"Snooze",
+    "littleNoExercise":"Little/no exercise",
+    "lightExercise":"Light exercise",
+    "moderateExercise":"Moderate exercise (3-5 days/wk)",
+    "veryActive":"Very active (6-7 days/wk)",
+    "ExtraActive":"Extra active (very active & physical job",
+    "yourActivityLevel":"What's Your Activity Level?",
+    "trackStepsDetails":"Track Steps Details",
+    "yourGoal": "What's Your Goal?",
+    "helpsUs":"This helps us create your personalized plan",
+    "areYouSure":"Are you sure you want to log out?",
+    "back":"Back",
+    "liter":"Liter"
 }

@@ -298,7 +298,7 @@ Widget _buildMyActivity(CustomMQ mq) {
                 trailing: Column(
                   children: [
                     Text(
-                      "Duration",
+                      AppString.duration(context),
                       style: TextStyle(
                         color: ColorManager.lightGreyColor,
                         fontSize: mq.width(3),

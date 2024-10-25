@@ -45,6 +45,8 @@ class AppString {
       'forgotPassword'.tr(context);
   static String resetPassword(BuildContext context) =>
       'resetPassword'.tr(context);
+   static String back(BuildContext context) => 'back'.tr(context);
+
 
 
   // Settings
@@ -71,6 +73,8 @@ class AppString {
   static String saveChanges(BuildContext context) => 'saveChanges'.tr(context);
   static String weight(BuildContext context) => 'weight'.tr(context);
   static String height(BuildContext context) => 'height'.tr(context);
+  static String areYouSure(BuildContext context) => 'areYouSure'.tr(context);
+
   // exercise screen
   static String startNow(BuildContext context) => 'startNow'.tr(context);
   static String level(BuildContext context) => 'level'.tr(context);
@@ -88,6 +92,7 @@ class AppString {
   static String growthMessage(BuildContext context) =>
       'growthMessage'.tr(context);
   static String week(BuildContext context) => 'week'.tr(context);
+
 
 // UserAgeScreen ---------------------------------------------------
 static String howOldAreYou(BuildContext context) => 'howOldAreYou'.tr(context);
@@ -142,6 +147,7 @@ static String addWater(BuildContext context) => 'addWater'.tr(context);
 static String waterIntakeDetails(BuildContext context) => 'waterIntakeDetails'.tr(context);
 static String setNewTarget(BuildContext context) => 'setNewTarget'.tr(context);
 static String waterIntakeTarget(BuildContext context) => 'waterIntakeTarget'.tr(context);
+static String liter(BuildContext context) => 'liter'.tr(context);
 
 // Calories Screen
 

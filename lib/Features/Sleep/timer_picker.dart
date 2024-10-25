@@ -1,5 +1,7 @@
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -331,7 +333,7 @@ class AlarmDetailsSection extends StatelessWidget {
       children: [
         ListTile(
           leading: Text(
-            "Alarm Sound",
+            "alarmSound".tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
@@ -343,7 +345,7 @@ class AlarmDetailsSection extends StatelessWidget {
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
-            "Vibration",
+            "Vibration".tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
@@ -355,7 +357,7 @@ class AlarmDetailsSection extends StatelessWidget {
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
-            "Snooze",
+            "Snooze".tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
@@ -405,7 +407,7 @@ class BottomButtonsSection extends StatelessWidget {
             Navigator.pop(context);
           },
           child: Text(
-            'Cancel',
+            AppString.cancel(context),
             style: TextStyle(
               fontSize: mq.height(2.5),
               color: ColorManager.darkredColor,
@@ -427,7 +429,7 @@ class BottomButtonsSection extends StatelessWidget {
             ),
           ),
           child: Text(
-            'Save',
+            AppString.save(context),
             style: TextStyle(
               color: theme.scaffoldBackgroundColor,
               fontSize: mq.height(2.5),

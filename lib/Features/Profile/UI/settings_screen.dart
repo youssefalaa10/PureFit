@@ -132,7 +132,7 @@ class SettingScreenState extends State<SettingScreen> {
                 // ),
                 CustomSettingsOption(
                   icon: Icons.description,
-                  label: 'Terms & Conditions',
+                  label: AppString.termsConditions(context),
                   // label: AppString.termsAndConditions(context),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                   onTap: () {
