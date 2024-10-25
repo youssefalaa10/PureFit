@@ -102,8 +102,7 @@ class _TrainerChatState extends State<TrainerChat> {
                   messageListOptions:
                       const MessageListOptions(showDateSeparator: true),
                   inputOptions: InputOptions(
-                    inputTextStyle:
-                        TextStyle(color: theme.scaffoldBackgroundColor),
+                    inputTextStyle: TextStyle(color: theme.primaryColor),
                     inputToolbarStyle: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [

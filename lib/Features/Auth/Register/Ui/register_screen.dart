@@ -29,6 +29,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController confirmpassowrdController =
       TextEditingController();
   bool isObscure = true;
+  bool isObscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           },
                           controller: passwordController,
-                          textInput: TextInputType.number,
+                          textInput: TextInputType.text,
                           isPassword: isObscure,
                           hintText: AppString.enterPassword(context),
                           suffixIcon: GestureDetector(
@@ -197,17 +198,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           },
                           controller: confirmpassowrdController,
-                          textInput: TextInputType.number,
-                          isPassword: isObscure,
+                          textInput: TextInputType.text,
+                          isPassword: isObscurePassword,
                           hintText: AppString.confirmPassword(context),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
-                                isObscure = !isObscure;
+                                isObscurePassword = !isObscurePassword;
                               });
                             },
                             child: Icon(
-                              !isObscure
+                              !isObscurePassword
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                             ),
@@ -241,10 +242,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                         Text(
+                          Text(
                             AppString.alreadyHaveAccount(context),
                             textAlign: TextAlign.right,
-                            style: TextStyle(color: Colors.grey,fontFamily: AppString.font),
+                            style: TextStyle(
+                                color: Colors.grey, fontFamily: AppString.font),
                           ),
                           TextButton(
                             onPressed: () {
@@ -258,10 +260,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               AppString.login(context),
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                color: ColorManager.primaryColor,
-                                fontSize: mq.height(2.0),
-                                fontFamily: AppString.font
-                              ),
+                                  color: ColorManager.primaryColor,
+                                  fontSize: mq.height(2.0),
+                                  fontFamily: AppString.font),
                             ),
                           ),
                         ],

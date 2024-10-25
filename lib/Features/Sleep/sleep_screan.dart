@@ -66,7 +66,7 @@ class _SleepScreenState extends State<SleepScreen> {
         child: Column(
           children: [
             const CustomSizedbox(height: 30),
-            _buildWelcomeMessage(mq,context),
+            _buildWelcomeMessage(mq, context),
             const CustomSizedbox(height: 20),
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
@@ -92,7 +92,7 @@ class _SleepScreenState extends State<SleepScreen> {
               ),
             ), // Start Sleep button
             const CustomSizedbox(height: 20),
-            _buildRowOfMyActivityAndSteps(mq,context),
+            _buildRowOfMyActivityAndSteps(mq, context),
             const CustomSizedbox(height: 5),
             _buildTrackSleep(
               mq,
@@ -117,36 +117,39 @@ class _SleepScreenState extends State<SleepScreen> {
       return;
     }
 
-    // Get the current time as bedtime
     bedTime = DateTime.now();
-
-    // Calculate the sleep duration in minutes
     final duration = wakeUpTime!.difference(bedTime!).inMinutes;
 
-    // Create a SleepSession object
+    if (duration < 0) {
+      CustomSnackbar.showSnackbar(
+          context, "Wake-up time must be in the future.");
+      return;
+    }
+
     final sleepSession = SleepSession(
       bedtime: bedTime!,
       wakeTime: wakeUpTime!,
       duration: duration,
     );
+
     context.read<SleepCubit>().insertSession(sleepSession);
 
-    // Schedule the notification using AlarmManager
-    int alarmId = 10; // You can choose any unique ID for the alarm
-    await AndroidAlarmManager.oneShotAt(
-      sleepSession.wakeTime, // The DateTime to trigger the alarm
-      alarmId, // ID of the alarm
-      _triggerAlarm, // Function to execute when the alarm triggers
-      wakeup: true, // Wake up the device if necessary
-    );
+    int alarmId = 10; // Unique ID for the alarm
+    try {
+      await AndroidAlarmManager.oneShotAt(
+        sleepSession.wakeTime,
+        alarmId,
+        _triggerAlarm,
+        wakeup: true,
+      );
 
-    // Log the scheduled alarm
-    print("Alarm scheduled with ID: $alarmId at: ${sleepSession.wakeTime}");
-
-    CustomSnackbar.showSnackbar(
-      context,
-      "Sleep started! Duration: $duration minutes",
-    );
+      CustomSnackbar.showSnackbar(
+        context,
+        "Alarm set for ${sleepSession.wakeTime} with a duration of $duration minutes.",
+      );
+    } catch (e) {
+      CustomSnackbar.showSnackbar(context, "Failed to set alarm: $e");
+    }
 
     print(
         "Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ");
@@ -205,7 +208,7 @@ class _SleepScreenState extends State<SleepScreen> {
   }
 }
 
-Widget _buildWelcomeMessage(CustomMQ mq,context) {
+Widget _buildWelcomeMessage(CustomMQ mq, context) {
   return Column(
     children: [
       Text(
@@ -242,7 +245,7 @@ Widget _buildTrackSleep(CustomMQ mq) {
   return _buildMyActivity(mq);
 }
 
-Widget _buildRowOfMyActivityAndSteps(CustomMQ mq,context) {
+Widget _buildRowOfMyActivityAndSteps(CustomMQ mq, context) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: mq.width(3.75)),
     child: Row(

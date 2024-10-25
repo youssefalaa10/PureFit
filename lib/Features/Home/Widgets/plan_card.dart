@@ -18,7 +18,6 @@ class _PlanCardState extends State<PlanCard> {
   @override
   void initState() {
     super.initState();
-
     context.read<WeeklyExerciseCubit>().loadCalendar(widget.userId);
   }
 
@@ -29,10 +28,8 @@ class _PlanCardState extends State<PlanCard> {
     return BlocBuilder<WeeklyExerciseCubit, WeeklyExerciseState>(
       builder: (context, state) {
         if (state is WeeklyExerciseLoaded) {
-          // Access the WeeklyExerciseModel from the loaded state
           final calendar = state.calendar;
 
-          // Calculate total days and completed days
           int totalDays = 0;
           int completedDays = 0;
 
@@ -41,14 +38,12 @@ class _PlanCardState extends State<PlanCard> {
             completedDays += week.days.values.where((day) => day).length;
           }
 
-          // Calculate progress percentage
           double progressPercentage = completedDays / totalDays;
           int displayedPercentage = (progressPercentage * 100).round();
 
           return _buildCard(mq, completedDays, totalDays, progressPercentage,
               displayedPercentage);
         } else {
-          // Handle loading or error states
           return _buildCard(mq, 0, 0, 0.0, 0); // Display empty or default UI
         }
       },
@@ -60,12 +55,10 @@ class _PlanCardState extends State<PlanCard> {
     final theme = Theme.of(context);
     return Padding(
       padding:
-          EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
+          EdgeInsets.symmetric(horizontal: mq.width(2), vertical: mq.height(2)),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            height: mq.height(10),
-            width: constraints.maxWidth,
             padding: EdgeInsets.all(mq.width(4)),
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -81,56 +74,62 @@ class _PlanCardState extends State<PlanCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppString.monthlyChallenge(context),
-                      style: TextStyle(
-                        fontSize: mq.width(4),
-                        fontWeight: FontWeight.bold,
-                        color: theme.scaffoldBackgroundColor,
-                        fontFamily: AppString.font,
-                      ),
-                    ),
-                    SizedBox(height: mq.height(0.5)),
-                    Text(
-                      '$completedDays/$totalDays ${AppString.complete(context)}',
-                      style: TextStyle(
-                        fontSize: mq.width(3),
-                        color: theme.scaffoldBackgroundColor.withOpacity(.7),
-                        fontFamily: AppString.font,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: mq.width(2)),
-                  child: Stack(
-                    alignment: Alignment.center,
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularPercentIndicator(
-                        circularStrokeCap: CircularStrokeCap.round,
-                        animationDuration: 1000,
-                        lineWidth: mq.width(1.25),
-                        animation: true,
-                        percent: progressPercentage,
-                        radius: mq.width(6.25),
-                        backgroundColor:
-                            theme.scaffoldBackgroundColor.withOpacity(.5),
-                        progressColor: theme.scaffoldBackgroundColor,
-                      ),
                       Text(
-                        '$displayedPercentage%',
+                        AppString.monthlyChallenge(context),
                         style: TextStyle(
-                          fontSize: mq.width(3.75),
+                          fontSize: mq.width(4),
                           fontWeight: FontWeight.bold,
                           color: theme.scaffoldBackgroundColor,
                           fontFamily: AppString.font,
                         ),
                       ),
+                      SizedBox(height: mq.height(1)),
+                      Text(
+                        '$completedDays/$totalDays ${AppString.complete(context)}',
+                        style: TextStyle(
+                          fontSize: mq.width(3),
+                          color: theme.scaffoldBackgroundColor.withOpacity(0.7),
+                          fontFamily: AppString.font,
+                        ),
+                      ),
                     ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: mq.width(2)),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularPercentIndicator(
+                          circularStrokeCap: CircularStrokeCap.round,
+                          animationDuration: 1000,
+                          lineWidth: mq.width(1.25),
+                          animation: true,
+                          percent: progressPercentage,
+                          radius: mq.width(6.25),
+                          backgroundColor:
+                              theme.scaffoldBackgroundColor.withOpacity(0.5),
+                          progressColor: theme.scaffoldBackgroundColor,
+                        ),
+                        Text(
+                          '$displayedPercentage%',
+                          style: TextStyle(
+                            fontSize: mq.width(3.75),
+                            fontWeight: FontWeight.bold,
+                            color: theme.scaffoldBackgroundColor,
+                            fontFamily: AppString.font,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
