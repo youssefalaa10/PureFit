@@ -5,7 +5,7 @@ import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
-import 'package:PureFit/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
+import 'package:PureFit/Core/Components/media_query.dart'; 
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/TrackSteps/Ui/components/step_ruler.dart';
@@ -84,7 +84,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
             StepRuler(
               onValueChanged: (value) {
                 setState(() {
-                  goalValue = value.toInt(); // Update goal value from the ruler
+                  goalValue = value.toInt(); 
                 });
               },
             ),

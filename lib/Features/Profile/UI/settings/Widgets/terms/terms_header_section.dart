@@ -1,3 +1,5 @@
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../Core/Components/media_query.dart';
@@ -18,7 +20,7 @@ class HeaderSection extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          'Terms of Service',
+          'termsoFService'.tr(context),
           style: TextStyle(
             fontSize: mq.width(6),
             fontWeight: FontWeight.bold,
@@ -27,7 +29,7 @@ class HeaderSection extends StatelessWidget {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          'Update 23/10/2024',
+          '${AppString.update(context)} 23/10/2024',
           style: TextStyle(
             fontSize: mq.width(4),
             color: Colors.grey,

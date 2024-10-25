@@ -75,7 +75,7 @@ class WaterDetailsState extends State<WaterDetails> {
             SizedBox(height: mq.height(2)),
             Center(
               child: CustomButton(
-                label: "Save",
+                label: AppString.save(context),
                 onPressed: () async {
                   await _saveGoalValue();
                   if (mounted) {

@@ -162,5 +162,17 @@
     "helpsUs":"This helps us create your personalized plan",
     "areYouSure":"Are you sure you want to log out?",
     "back":"Back",
-    "liter":"Liter"
+    "liter":"Liter",
+    "accept": "Accept",
+    "agreeTerms": "I agree with the Terms and Conditions",
+    "agreePrivacy": "I agree with the Privacy Policy",
+    "termsConditionsTitle": "1 - Terms and Conditions",
+    "termsConditionsContent": "Don't misuse our Services. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies or if we are investigating suspected misconduct.",
+    "privacyPolicyTitle": "2- Privacy Policy",
+    "privacyPolicy": "3- Privacy Policy",
+
+    "privacyPolicyContent": "Don't misuse our Services. You may use our Services only as permitted by law, including applicable export and re-export control laws and regulations. We may suspend or stop providing our Services to you if you do not comply with our terms or policies or if we are investigating suspected misconduct.",
+    "addWaterIntake": "Add Water Intake +",
+    "termsoFService":"Terms of Service",
+    "update":"Update"
 }

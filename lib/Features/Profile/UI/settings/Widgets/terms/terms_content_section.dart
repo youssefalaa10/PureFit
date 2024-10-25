@@ -1,4 +1,5 @@
 // Terms Content Section
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../Core/Components/media_query.dart';
@@ -17,7 +18,7 @@ class TermsContentSection extends StatelessWidget {
         children: [
           TermsItem(
             mq: mq,
-            title: '1 - Terms and Conditions',
+            title: 'termsConditionsTitle'.tr(context),
             content: 'Don\'t misuse our Services. You may use our Services '
                 'only as permitted by law, including applicable export and '
                 're-export control laws and regulations. We may suspend or stop '
@@ -26,7 +27,7 @@ class TermsContentSection extends StatelessWidget {
           ),
           TermsItem(
             mq: mq,
-            title: '2 - Privacy Policy',
+            title: 'privacyPolicyTitle'.tr(context),
             content: 'Don\'t misuse our Services. You may use our Services '
                 'only as permitted by law, including applicable export and '
                 're-export control laws and regulations. We may suspend or stop '
@@ -35,7 +36,7 @@ class TermsContentSection extends StatelessWidget {
           ),
           TermsItem(
             mq: mq,
-            title: '3 - Privacy Policy',
+            title: 'privacyPolicy'.tr(context),
             content: 'Don\'t misuse our Services. You may use our Services '
                 'only as permitted by law, including applicable export and '
                 're-export control laws and regulations. We may suspend or stop '

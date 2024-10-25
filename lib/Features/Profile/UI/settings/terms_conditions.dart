@@ -1,4 +1,6 @@
 
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../Core/Components/media_query.dart';
@@ -44,8 +46,8 @@ class AgreementSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        AgreementCheckbox(mq: mq, label: 'I agree with the Terms and Conditions'),
-        AgreementCheckbox(mq: mq, label: 'I agree with the Privacy Policy'),
+        AgreementCheckbox(mq: mq, label: 'agreeTerms'.tr(context)),
+        AgreementCheckbox(mq: mq, label: 'agreePrivacy'.tr(context)),
       ],
     );
   }
@@ -75,7 +77,7 @@ class ActionButtonsSection extends StatelessWidget {
           ),
           onPressed: () {},
           child: Text(
-            'Accept',
+            AppString.accept(context),
             style: TextStyle(fontSize: mq.width(3.5), color: Theme.of(context).scaffoldBackgroundColor),
           ),
         ),

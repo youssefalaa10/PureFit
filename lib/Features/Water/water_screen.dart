@@ -119,7 +119,7 @@ class _WaterScreenState extends State<WaterScreen> {
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
             CustomButton(
-                label: "Add Water Intake +",
+                label: AppString.addWater(context),
                 onPressed: () {
                   showModalBottomSheet(
                       backgroundColor: theme.scaffoldBackgroundColor,
