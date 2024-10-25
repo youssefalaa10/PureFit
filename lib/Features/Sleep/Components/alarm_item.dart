@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -32,7 +33,7 @@ class _AlarmitemState extends State<Alarmitem> {
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Everyday",
+                  "Everyday".tr(context),
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

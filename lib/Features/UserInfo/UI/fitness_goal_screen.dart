@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,7 +90,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
     return Column(
       children: [
         Text(
-          "What's Your Goal?",
+          "yourGoal".tr(context),
           style: TextStyle(
             fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,

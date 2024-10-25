@@ -361,7 +361,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
 
   Widget _buildGoButton(BuildContext context, CustomMQ mq) {
     return CustomButton(
-      label: 'Reset',
+      label: AppString.reset(context),
       onPressed: () {
         // Implement navigation or action on button press
       },

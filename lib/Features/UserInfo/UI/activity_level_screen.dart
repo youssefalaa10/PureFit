@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,8 +90,9 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
     return Column(
       children: [
         Text(
-          "What's Your Activity Level?",
+          "yourActivityLevel".tr(context),
           style: TextStyle(
+             fontFamily: AppString.font,
             fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -98,9 +100,10 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
         ),
         SizedBox(height: mq.height(1)),
         Text(
-          'This helps us create your personalized plan',
+          AppString.helpUsCreateYourPersonalizedPlan(context),
           textAlign: TextAlign.center,
           style: TextStyle(
+             fontFamily: AppString.font,
             fontSize: mq.height(2),
             color: ColorManager.greyColor.withOpacity(0.5),
           ),
@@ -146,6 +149,7 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
               child: Text(
                 title,
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.height(2.3),
                   color: _selectedGoal == title
                       ? ColorManager.primaryColor
@@ -163,15 +167,15 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
   Widget buildGoalOptions(CustomMQ mq) {
     return Column(
       children: [
-        _buildGoalOption('Little/no exercise', mq),
+        _buildGoalOption('littleNoExercise'.tr(context), mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Light exercise', mq),
+        _buildGoalOption('lightExercise'.tr(context), mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Moderate exercise (3-5 days/wk)', mq),
+        _buildGoalOption('moderateExercise'.tr(context), mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Very active (6-7 days/wk)', mq),
+        _buildGoalOption('veryActive'.tr(context), mq),
         SizedBox(height: mq.height(1)),
-        _buildGoalOption('Extra active (very active & physical job)', mq),
+        _buildGoalOption('ExtraActive'.tr(context), mq),
       ],
     );
   }

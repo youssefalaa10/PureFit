@@ -82,7 +82,7 @@ class RecommendedTasks extends StatelessWidget {
   }
 
   // Shimmer effect while loading
-  Widget _buildShimmerLoading(CustomMQ mq) {
+  Widget buildShimmerLoading(CustomMQ mq) {
     return SizedBox(
       height: mq.height(15), // Set the height for the shimmer effect
       child: ListView.builder(

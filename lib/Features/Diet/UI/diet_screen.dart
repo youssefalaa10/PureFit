@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:PureFit/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import 'package:PureFit/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:flutter/material.dart';
@@ -64,10 +65,10 @@ class _DietScreenState extends State<DietScreen> {
                       selectedTabIndex = index;
                     });
                   },
-                  tabs: const [
-                    Tab(text: 'foods'),
-                    Tab(text: 'drinks'),
-                    Tab(text: 'favorites'),
+                  tabs:  [
+                    Tab(text: 'foods'.tr(context)),
+                    Tab(text: 'drinks'.tr(context)),
+                    Tab(text: 'favorites'.tr(context)),
                   ],
                   labelStyle: TextStyle(
                       fontSize: mq.width(4.5),

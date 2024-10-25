@@ -22,7 +22,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     context.read<ProfileCubit>().getProfile();
     final userId = context.read<ProfileCubit>().user!.userId;
-    print('hhhhhhhhh${userId}');
+    print('userId: ${userId}');
   }
 
   @override
