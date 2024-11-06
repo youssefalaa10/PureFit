@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Networking/ErrorHandler/api_error_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 
@@ -40,8 +41,9 @@ class DioAuthApi {
         return true;
       }
       return false;
-    } on DioException catch (dioError) {
-      throw dioError.response?.data;
+    } catch (error) {
+      final api = ApiErrorHandler.handle(error);
+      throw "${api.message}";
     }
   }
 
@@ -63,8 +65,9 @@ class DioAuthApi {
         return true;
       }
       return false;
-    } on DioException catch (dioError) {
-      throw dioError.response?.data["message"];
+    } catch (error) {
+      final api = ApiErrorHandler.handle(error);
+      throw "${api.message}";
     }
   }
 }

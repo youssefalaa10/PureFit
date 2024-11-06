@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Networking/ErrorHandler/api_error_handler.dart';
 import 'package:dio/dio.dart';
 
 import '../../../Features/Auth/Verifiy/Data/Model/change_password_model.dart';
@@ -14,8 +15,9 @@ class DioChangePasswordApi {
         data: model.toJson(),
       );
 
-    } catch (e) {
-      throw "Error: $e";
+    } catch (error) {
+      final api = ApiErrorHandler.handle(error);
+      throw "${api.message}";
     }
   }
 }
