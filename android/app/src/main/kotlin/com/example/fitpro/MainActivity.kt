@@ -1,4 +1,4 @@
-package com.example.PureFit
+package com.annotex.PureFit
 
 import io.flutter.embedding.android.FlutterActivity
 

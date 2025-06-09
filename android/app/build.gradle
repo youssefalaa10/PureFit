@@ -1,60 +1,71 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    // Apply the Flutter Gradle Plugin after the Android and Kotlin Gradle plugins.
-    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'dev.flutter.flutter-gradle-plugin'
+}
+
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
 android {
-    namespace = "com.example.PureFit"
-    // Set your compile SDK version to a specific value (e.g., 33)
     compileSdkVersion 34
-    
-
-    compileOptions {
-    sourceCompatibility JavaVersion.VERSION_17
-    targetCompatibility JavaVersion.VERSION_17
-    }
 
     defaultConfig {
-        // Use your application ID
-        applicationId "com.example.PureFit"
-        // Set a specific minimum SDK version (e.g., 21 for wider compatibility)
-        minSdkVersion 21
-        // Set the target SDK version to match the latest version you're targeting (e.g., 33)
+        applicationId "com.annotex.PureFit"
+        minSdkVersion 23
         targetSdkVersion 34
-        // Set versionCode and versionName manually
-        versionCode 1 // Increment this with each release
+        versionCode 1
         versionName "1.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+         // Enable core library desugaring
+        coreLibraryDesugaringEnabled true
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    signingConfigs {
+        release {
+            def storeFilePath = keystoreProperties["storeFile"]
+            if (storeFilePath != null) {
+                storeFile file(storeFilePath)
+            }
+            storePassword keystoreProperties["storePassword"]
+            keyAlias keystoreProperties["keyAlias"]
+            keyPassword keystoreProperties["keyPassword"]
+        }
     }
 
     buildTypes {
         release {
-            // Use signingConfig as required for release builds (update for production releases)
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled false
             shrinkResources false
-            // Add Proguard rules if needed for release builds
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    // If you need namespace in Groovy (since AGP 8.0+ requires it)
+    namespace 'com.annotex.PureFit'
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.appcompat:appcompat-resources:1.6.1'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.0'
-
-    // If you're using Jetifier and AndroidX
     implementation 'androidx.core:core-ktx:1.10.1'
-
-    // Multidex if needed
     implementation 'androidx.multidex:multidex:2.0.1'
-
-    // Other dependencies
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
 }
 
 flutter {
-    // Keep the path to your Flutter project as needed
-    source = "../.."
+    source '../..'
 }

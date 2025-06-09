@@ -1,6 +1,7 @@
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,10 @@ void main() async {
     onActionReceivedMethod: NotificationController.onActionReceivedMethod,
   );
   setUpGit();
+  // Lock the app to portrait mode
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
   // Load saved language preference
   final prefs = await SharedPreferences.getInstance();
   final savedLocaleCode = prefs.getString('locale') ?? 'en';
