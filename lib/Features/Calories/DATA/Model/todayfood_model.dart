@@ -1,12 +1,4 @@
 class TodayFoodModel {
-  final String id;
-  final String name;
-  final int calories;
-  final double fats;
-  final double protein;
-  final String image;
-  final String amount;
-
   TodayFoodModel(
       {required this.amount,
       required this.id,
@@ -15,6 +7,25 @@ class TodayFoodModel {
       required this.fats,
       required this.protein,
       required this.image});
+
+  factory TodayFoodModel.fromMap(Map<String, dynamic> map) {
+    return TodayFoodModel(
+      amount: map['amount']?.toString() ?? '',
+      id: map['id']?.toString() ?? '',
+      name: map['name']?.toString() ?? '',
+      calories: _parseInt(map['calories']),
+      fats: _parseDouble(map['fats']),
+      protein: _parseDouble(map['protein']),
+      image: map['image']?.toString() ?? '',
+    );
+  }
+  final String id;
+  final String name;
+  final int calories;
+  final double fats;
+  final double protein;
+  final String image;
+  final String amount;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -28,15 +39,25 @@ class TodayFoodModel {
     };
   }
 
-  factory TodayFoodModel.fromMap(Map<String, dynamic> map) {
-    return TodayFoodModel(
-      amount: map['amount'] as String,
-      id: map['id'] as String,
-      name: map['name'] as String,
-      calories: map['calories'] as int,
-      fats: map['fats'] as double,
-      protein: map['protein'] as double,
-      image: map['image'] as String,
-    );
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    if (value is double) {
+      return value.toInt();
+    }
+    return 0;
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0.0;
+    if (value is double) return value;
+    if (value is int) return value.toDouble();
+    if (value is String) {
+      return double.tryParse(value) ?? 0.0;
+    }
+    return 0.0;
   }
 }

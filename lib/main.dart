@@ -1,15 +1,12 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Core/Routing/app_router.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'package:PureFit/fitpro_app.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
-
-import 'package:PureFit/Core/DI/dependency.dart';
-import 'package:PureFit/Core/Routing/app_router.dart';
-import 'package:PureFit/Core/Services/notificationcontroler.dart';
-import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
-import 'package:PureFit/fitpro_app.dart';
 
 // Conditional import for Android-specific packages
 import 'android_services.dart' if (dart.library.html) 'web_services.dart';

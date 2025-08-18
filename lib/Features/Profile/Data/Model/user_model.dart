@@ -3,6 +3,33 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserModel {
+  UserModel({
+    required this.userId,
+    required this.userName,
+    required this.userEmail,
+    required this.age,
+    required this.userHeight,
+    required this.userWeight,
+    required this.gender,
+    this.activity,
+    this.goal,
+    this.image,
+  });
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      userId: map['id']?.toString() ?? '',
+      userEmail: map['userEmail']?.toString() ?? '',
+      userName: map['userName']?.toString() ?? '',
+      age: _parseInt(map['age']),
+      userHeight: _parseInt(map['userHeight']),
+      userWeight: _parseInt(map['userWeight']),
+      gender: map['gender']?.toString() ?? '',
+      image: map['image']?.toString(),
+      activity: map['activity']?.toString(),
+      goal: map['goal']?.toString(),
+    );
+  }
   final String userId;
   final String userEmail;
   final String userName;
@@ -13,19 +40,6 @@ class UserModel {
   final String? image;
   final String? activity;
   final String? goal;
-
-  UserModel({
-    this.activity,
-    this.goal,
-    required this.userId,
-    required this.userName,
-    required this.userEmail,
-    required this.age,
-    required this.userHeight,
-    required this.userWeight,
-    required this.gender,
-    this.image,
-  });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -43,20 +57,18 @@ class UserModel {
     };
   }
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
-      userId: map['id'],
-      userEmail: map['userEmail'] as String,
-      userName: map['userName'] as String,
-      age: map['age'] as int,
-      userHeight: map['userHeight'] as int,
-      userWeight: map['userWeight'] as int,
-      gender: map['gender'] as String,
-      image: map['image'] as String?,
-      activity: map['activity'] as String?,
-      goal: map['goal'] as String?,
-    );
+  static int _parseInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) {
+      return int.tryParse(value) ?? 0;
+    }
+    if (value is double) {
+      return value.toInt();
+    }
+    return 0;
   }
+
   // Save the UserModel to SharedPreferences as a JSON string
   Future<void> saveToPreferences() async {
     final prefs = await SharedPreferences.getInstance();

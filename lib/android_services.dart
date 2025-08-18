@@ -1,6 +1,6 @@
+import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:PureFit/Core/Services/notificationcontroler.dart';
 
 Future<void> initializeAndroidServices() async {
   // Initialize Android Alarm Manager

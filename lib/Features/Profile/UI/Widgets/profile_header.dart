@@ -26,9 +26,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
           return _shimmerHeader(mq);
         } else if (state is ProfileSuccess) {
           final user = state.user;
-          final imageFile = File(user.image!);
           return Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 width: mq.width(15),
@@ -36,15 +34,28 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(mq.width(2.5)),
                 ),
-                child: imageFile.existsSync()
-                    ? Image.file(imageFile, fit: BoxFit.cover)
-                    : user.gender == "male"
+                child: user.image != null && user.image!.isNotEmpty
+                    ? (() {
+                        final imageFile = File(user.image!);
+                        return imageFile.existsSync()
+                            ? Image.file(imageFile, fit: BoxFit.cover)
+                            : user.gender == 'male'
+                                ? SvgPicture.asset(
+                                    'assets/images/man.svg',
+                                    fit: BoxFit.cover,
+                                  )
+                                : SvgPicture.asset(
+                                    'assets/images/women.svg',
+                                    fit: BoxFit.cover,
+                                  );
+                      })()
+                    : user.gender == 'male'
                         ? SvgPicture.asset(
-                            "assets/images/man.svg",
+                            'assets/images/man.svg',
                             fit: BoxFit.cover,
                           )
                         : SvgPicture.asset(
-                            "assets/images/women.svg",
+                            'assets/images/women.svg',
                             fit: BoxFit.cover,
                           ),
               ),
@@ -76,7 +87,7 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
         } else if (state is ProfileError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              CustomSnackbar.showSnackbar(context, "Error");
+              CustomSnackbar.showSnackbar(context, 'Error');
             }
           });
         }
@@ -87,7 +98,6 @@ class _CustomProfileHeaderState extends State<CustomProfileHeader> {
 
   Widget _shimmerHeader(CustomMQ mq) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Shimmer.fromColors(
           baseColor: Colors.grey[300]!,

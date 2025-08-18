@@ -1,16 +1,14 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Services/notification_sleep_service.dart';
-
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
 import 'package:PureFit/Features/Sleep/Logic/cubit/sleep_cubit.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:lottie/lottie.dart';
 
 import '../../Core/Components/custom_icon_button.dart';
@@ -25,7 +23,7 @@ class SleepScreen extends StatefulWidget {
 }
 
 class _SleepScreenState extends State<SleepScreen> {
-  String selectedWakeTime = ""; // For display
+  String selectedWakeTime = ''; // For display
   DateTime? wakeUpTime; // To store the actual DateTime for calculation
   DateTime? bedTime;
   int notifi = 101; // To store the bedtime (current time)
@@ -72,7 +70,6 @@ class _SleepScreenState extends State<SleepScreen> {
             const CustomSizedbox(height: 20),
             Center(
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CustomButton(
@@ -105,15 +102,15 @@ class _SleepScreenState extends State<SleepScreen> {
 
   static void _triggerAlarm() {
     // Assuming you have a way to show the snackbar from here
-    print("Alarm triggered!");
+    print('Alarm triggered!');
 
     // You may not have access to context here, use a method to show notifications
-    NotificationService().repeatAlarm("Wake Up!", "It's time to wake up.");
+    NotificationService().repeatAlarm('Wake Up!', "It's time to wake up.");
   }
 
   void _startSleepSession() async {
     if (wakeUpTime == null) {
-      CustomSnackbar.showSnackbar(context, "Please select a wake-up time.");
+      CustomSnackbar.showSnackbar(context, 'Please select a wake-up time.');
       return;
     }
 
@@ -122,7 +119,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
     if (duration < 0) {
       CustomSnackbar.showSnackbar(
-          context, "Wake-up time must be in the future.");
+          context, 'Wake-up time must be in the future.');
       return;
     }
 
@@ -134,7 +131,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
     context.read<SleepCubit>().insertSession(sleepSession);
 
-    int alarmId = 10; // Unique ID for the alarm
+    const int alarmId = 10; // Unique ID for the alarm
     try {
       await AndroidAlarmManager.oneShotAt(
         sleepSession.wakeTime,
@@ -145,14 +142,14 @@ class _SleepScreenState extends State<SleepScreen> {
 
       CustomSnackbar.showSnackbar(
         context,
-        "Alarm set for ${sleepSession.wakeTime} with a duration of $duration minutes.",
+        'Alarm set for ${sleepSession.wakeTime} with a duration of $duration minutes.',
       );
     } catch (e) {
-      CustomSnackbar.showSnackbar(context, "Failed to set alarm: $e");
+      CustomSnackbar.showSnackbar(context, 'Failed to set alarm: $e');
     }
 
     print(
-        "Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ");
+        'Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ');
   }
 
   Widget buildEditButton(BuildContext context, ThemeData theme) {
@@ -201,7 +198,7 @@ class _SleepScreenState extends State<SleepScreen> {
           });
 
           CustomSnackbar.showSnackbar(
-              context, "Wake-up time set to: $selectedWakeTime");
+              context, 'Wake-up time set to: $selectedWakeTime');
         }
       },
     );
@@ -279,21 +276,21 @@ Widget _buildMyActivity(CustomMQ mq) {
   return BlocBuilder<SleepCubit, SleepState>(
     builder: (context, state) {
       if (state is SleepSuccess) {
-        final List = state.list;
+        final sleepList = state.list;
         return Expanded(
           child: ListView.builder(
             shrinkWrap: true,
-            itemCount: List.length,
+            itemCount: sleepList.length,
             itemBuilder: (context, index) {
-              final session = List[index];
+              final session = sleepList[index];
               return ListTile(
                 leading: Icon(
                   Icons.bedtime,
                   size: mq.width(5), // Set a responsive size for the icon
                 ),
                 title: Text(
-                    "${session.bedtime.hour}:${session.bedtime.minute} - ${session.wakeTime.hour}:${session.wakeTime.minute}"),
-                subtitle: const Text("time"),
+                    '${session.bedtime.hour}:${session.bedtime.minute} - ${session.wakeTime.hour}:${session.wakeTime.minute}'),
+                subtitle: const Text('time'),
                 titleAlignment: ListTileTitleAlignment.threeLine,
                 trailing: Column(
                   children: [
@@ -305,7 +302,7 @@ Widget _buildMyActivity(CustomMQ mq) {
                       ),
                     ),
                     Text(
-                      "${session.duration} Minuts",
+                      '${session.duration} Minuts',
                       style: TextStyle(
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.w800,

@@ -32,10 +32,19 @@ class Calculator {
             (13.75 * weight) +
             (5.003 * height) -
             (6.755 * age) * 1.9;
+      case 'Extra active (very active & physical job':
+        return 66.47 +
+            (13.75 * weight) +
+            (5.003 * height) -
+            (6.755 * age) * 1.9;
       case ' ':
         return 66.47 + (13.75 * weight) + (5.003 * height) - (6.755 * age) * 1;
       default:
-        throw ArgumentError('Invalid activity level');
+        // For any unrecognized activity level, use moderate as default
+        return 66.47 +
+            (13.75 * weight) +
+            (5.003 * height) -
+            (6.755 * age) * 1.55;
     }
   }
 

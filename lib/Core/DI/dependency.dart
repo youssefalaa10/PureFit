@@ -1,13 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:PureFit/Core/Networking/Dio/dio_aichat.dart';
-import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
-import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
-import 'package:PureFit/Features/Calories/Logic/cubit/todayfood_cubit.dart';
-import 'package:PureFit/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
-import 'package:get_it/get_it.dart';
-
 import 'package:PureFit/Core/Networking/Dio/dio_workout_categories_api.dart';
 import 'package:PureFit/Core/Networking/interceptors/dio_interceptor.dart';
+import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
 import 'package:PureFit/Core/local_db/SleepDb/sleepdb.dart';
 import 'package:PureFit/Core/local_db/TrakStepDb/track_steps_db.dart';
 import 'package:PureFit/Core/local_db/WaterIntakeDb/waterer_db.dart';
@@ -15,14 +9,19 @@ import 'package:PureFit/Features/AiChat/Data/Repository/ai_chat_repo.dart';
 import 'package:PureFit/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
 import 'package:PureFit/Features/Auth/Verifiy/Data/Repo/forgot_password_repo.dart';
 import 'package:PureFit/Features/Auth/Verifiy/Logic/verifiy_cubit/verification_cubit.dart';
+import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:PureFit/Features/Calories/Logic/cubit/todayfood_cubit.dart';
 import 'package:PureFit/Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
 import 'package:PureFit/Features/Exercises/Data/Repo/workout_categories_repo.dart';
+import 'package:PureFit/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import 'package:PureFit/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
 import 'package:PureFit/Features/Sleep/Logic/cubit/sleep_cubit.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Repository/track_steps_repo.dart';
 import 'package:PureFit/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:PureFit/Features/Water/Data/Repo/water_repo.dart';
 import 'package:PureFit/Features/Water/Logic/cubit/water_intake_cubit.dart';
+import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../Features/Auth/Login/Data/Repo/login_repo.dart';
 import '../../Features/Auth/Login/Logic/cubit/login_cubit.dart';
@@ -58,7 +57,13 @@ import '../local_db/food_db/food_db.dart';
 final getIT = GetIt.instance;
 
 Future<void> setUpGit() async {
-  Dio dio = Dio();
+  final Dio dio = Dio(BaseOptions(
+    followRedirects: true,
+    maxRedirects: 5,
+    validateStatus: (status) {
+      return status != null && status < 500;
+    },
+  ));
   dio.interceptors.add(DioInterceptor());
 
   getIT.registerLazySingleton<DioAuthApi>(() => DioAuthApi(dio: dio));
