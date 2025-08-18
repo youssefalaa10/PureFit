@@ -17,9 +17,10 @@ class TrackStepsDB {
   }
 
   Future<Database> initDb() async {
-    var dBpath = await getDatabasesPath();
-    String path = join(dBpath, 'Tracking.db');
-    Database myDB = await openDatabase(path, version: 1, onCreate: _onCreate);
+    final dBpath = await getDatabasesPath();
+    final String path = join(dBpath, 'Tracking.db');
+    final Database myDB =
+        await openDatabase(path, version: 1, onCreate: _onCreate);
     return myDB;
   }
 
@@ -42,14 +43,14 @@ class TrackStepsDB {
 
   // Method to read all tracking records
   Future<List<TrackStepsModel>> readHistoryTracks() async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
     final response = await myDatabase.query('Tracking');
     return response.map((e) => TrackStepsModel.fromMap(e)).toList();
   }
 
   // Method to read a tracking record by date
   Future<TrackStepsModel?> readTrackByDate(String date) async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
     final List<Map<String, dynamic>> result = await myDatabase.query(
       'Tracking',
       where: 'DATE = ?',
@@ -62,7 +63,7 @@ class TrackStepsDB {
 
   // Method to insert or update a tracking record
   Future<void> upsertTrack(int steps, String date) async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
 
     final existingTrack = await readTrackByDate(date);
 
@@ -84,7 +85,7 @@ class TrackStepsDB {
 
   // Optional: Method to delete a tracking record by ID
   Future<void> deleteTrack(int id) async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
     await myDatabase.delete(
       'Tracking',
       where: 'ID = ?',
@@ -95,7 +96,7 @@ class TrackStepsDB {
   // New Methods to save and retrieve _lastRecordedDate
 
   Future<void> saveLastRecordedDate(String date) async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
     await myDatabase.insert(
       'TOGGLEdate',
       {'KEY': 'lastRecordedDate', 'VALUE': date},
@@ -104,7 +105,7 @@ class TrackStepsDB {
   }
 
   Future<String?> getLastRecordedDate() async {
-    Database? myDatabase = await db;
+    final Database myDatabase = await db;
     final List<Map<String, dynamic>> result = await myDatabase.query(
       'TOGGLEdate',
       where: 'KEY = ?',

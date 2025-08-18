@@ -6,9 +6,8 @@ import '../../../../../../Core/Components/media_query.dart';
 import 'terms_item.dart';
 
 class TermsContentSection extends StatelessWidget {
+  const TermsContentSection({required this.mq, super.key});
   final CustomMQ mq;
-
-  const TermsContentSection({super.key, required this.mq});
 
   @override
   Widget build(BuildContext context) {

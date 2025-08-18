@@ -4,9 +4,8 @@ import 'package:flutter/foundation.dart';
 import '../../../../Core/Networking/Dio/dio_workout_categories_api.dart';
 
 class WorkoutCategoriesRepo {
-  final DioWorkoutCategoriesApi dioWorkoutCategoriesApi;
-
   WorkoutCategoriesRepo({required this.dioWorkoutCategoriesApi});
+  final DioWorkoutCategoriesApi dioWorkoutCategoriesApi;
 
   Future<List<WorkoutCategoriesModel>?> getWorkoutCategories() async {
     try {
@@ -19,7 +18,7 @@ class WorkoutCategoriesRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error in WorkoutCategoriesRepo: $e");
+        print('Error in WorkoutCategoriesRepo: $e');
       }
     }
     return null;

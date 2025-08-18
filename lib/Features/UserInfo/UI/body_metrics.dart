@@ -20,7 +20,6 @@ class BodyMetricsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
@@ -71,7 +70,6 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(4)),
               const Expanded(
-                flex: 1,
                 child: WeightPicker(),
               ),
               SizedBox(height: mq.height(4)),
@@ -85,7 +83,6 @@ class BodyMetricsScreen extends StatelessWidget {
               ),
               SizedBox(height: mq.height(1)),
               const Expanded(
-                flex: 1,
                 child: HeightPicker(),
               ),
             ],
@@ -131,12 +128,12 @@ class WeightPickerState extends State<WeightPicker> {
           SizedBox(height: mq.height(2)),
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 40, end: 150, scale: 1),
+              RulerRange(begin: 40, end: 150),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(
@@ -155,7 +152,6 @@ class WeightPickerState extends State<WeightPicker> {
                 color: Colors.grey,
                 width: 1,
                 height: 15,
-                scale: -1,
               )
             ],
             onValueChanged: (value) {
@@ -218,12 +214,12 @@ class HeightPickerState extends State<HeightPicker> {
           SizedBox(height: mq.height(2)),
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 100, end: 220, scale: 1),
+              RulerRange(begin: 100, end: 220),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(
@@ -242,7 +238,6 @@ class HeightPickerState extends State<HeightPicker> {
                 color: Colors.grey,
                 width: 1,
                 height: 15,
-                scale: -1,
               )
             ],
             onValueChanged: (value) {

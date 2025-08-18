@@ -10,22 +10,19 @@ final class InsertTrackStepLoading extends TrackStepState {}
 final class InsertTrackStepSucess extends TrackStepState {}
 
 final class InsertTrackStepError extends TrackStepState {
-  final String message;
-
   InsertTrackStepError({required this.message});
+  final String message;
 }
 
 // Get track steps
 final class GetTrackStepSucess extends TrackStepState {
-  final List<TrackStepsModel> trackSteps;
-
   GetTrackStepSucess({required this.trackSteps});
+  final List<TrackStepsModel> trackSteps;
 }
 
 final class GetTrackStepError extends TrackStepState {
-  final String message;
-
   GetTrackStepError({required this.message});
+  final String message;
 }
 
 final class GetTrackStepLoading extends TrackStepState {}
@@ -37,30 +34,26 @@ final class GetTrackStepLoadingByDate extends TrackStepState {
 }
 
 final class GetTrackStepSucessByDate extends TrackStepState {
-  final TrackStepsModel? trackSteps;
-
   GetTrackStepSucessByDate({required this.trackSteps});
+  final TrackStepsModel? trackSteps;
 }
 
 final class GetTrackStepErrorByDate extends TrackStepState {
-  final String message;
-
   GetTrackStepErrorByDate({required this.message});
+  final String message;
 }
 
 //Get Last Record
 final class GetLastRecordLoading extends TrackStepState {}
 
 final class GetLastRecordSucess extends TrackStepState {
-  final String lastRecordedSteps;
-
   GetLastRecordSucess({required this.lastRecordedSteps});
+  final String lastRecordedSteps;
 }
 
 final class GetLastRecordError extends TrackStepState {
-  final String message;
-
   GetLastRecordError({required this.message});
+  final String message;
 }
 
 //Inser Last Record
@@ -69,7 +62,6 @@ final class InsertLastRecordLoading extends TrackStepState {}
 final class InsertLastRecordSuccess extends TrackStepState {}
 
 final class InsertLastRecordError extends TrackStepState {
-  final String message;
-
   InsertLastRecordError({required this.message});
+  final String message;
 }

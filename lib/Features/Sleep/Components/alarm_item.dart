@@ -29,11 +29,11 @@ class _AlarmitemState extends State<Alarmitem> {
             child: Column(
               children: [
                 const Text(
-                  "3.50",
+                  '3.50',
                   style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Everyday".tr(context),
+                  'Everyday'.tr(context),
                   style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
@@ -43,7 +43,7 @@ class _AlarmitemState extends State<Alarmitem> {
             ),
           ),
           Switch(
-            activeColor: ColorManager.primaryColor,
+            activeThumbColor: ColorManager.primaryColor,
             value: isAlarmOn,
             onChanged: (value) {
               setState(() {
@@ -52,10 +52,10 @@ class _AlarmitemState extends State<Alarmitem> {
 
               if (isAlarmOn) {
                 // Logic to enable alarm
-                print("Alarm is ON");
+                print('Alarm is ON');
               } else {
                 // Logic to disable alarm
-                print("Alarm is OFF");
+                print('Alarm is OFF');
               }
             },
           ),

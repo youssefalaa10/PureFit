@@ -1,16 +1,7 @@
 import 'dart:convert';
 
 class ApiErrorModel {
-  final String? message;
-  final bool? success;
-  ApiErrorModel({required this.message,  this.success});
-
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'message': message,
-      'success': success,
-    };
-  }
+  ApiErrorModel({required this.message, this.success});
 
   factory ApiErrorModel.fromMap(Map<String, dynamic> map) {
     return ApiErrorModel(
@@ -19,8 +10,17 @@ class ApiErrorModel {
     );
   }
 
-  String toJson() => json.encode(toMap());
-
   factory ApiErrorModel.fromJson(String source) =>
       ApiErrorModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  final String? message;
+  final bool? success;
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'message': message,
+      'success': success,
+    };
+  }
+
+  String toJson() => json.encode(toMap());
 }

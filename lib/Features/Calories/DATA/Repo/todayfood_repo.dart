@@ -2,8 +2,8 @@ import 'package:PureFit/Core/local_db/EatToday/today_calories.dart';
 import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
 
 class TodayfoodRepo {
-  final TodayCaloriesDB todayCaloriesDB;
   TodayfoodRepo(this.todayCaloriesDB);
+  final TodayCaloriesDB todayCaloriesDB;
 
   Future<void> insertFoodToday(TodayFoodModel todayMeal) async {
     await todayCaloriesDB.insertFoodtoday(todayMeal);

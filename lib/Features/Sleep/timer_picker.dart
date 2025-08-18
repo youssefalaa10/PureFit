@@ -35,7 +35,6 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
             padding: EdgeInsets.symmetric(
                 horizontal: mq.width(5), vertical: mq.height(10)),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(height: mq.height(0)),
                 TimerPickerSection(
@@ -75,7 +74,7 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  "Today - Sun, Oct 6",
+                                  'Today - Sun, Oct 6',
                                   style: TextStyle(fontSize: mq.height(2)),
                                 ),
                                 Icon(
@@ -134,20 +133,19 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
 }
 
 class TimerPickerSection extends StatelessWidget {
-  final CustomMQ mq;
-  final int selectedHour;
-  final int selectedMinute;
-  final String period;
-  final Function(int, int, String) onTimeChange;
-
   const TimerPickerSection({
-    super.key,
     required this.mq,
     required this.selectedHour,
     required this.selectedMinute,
     required this.period,
     required this.onTimeChange,
+    super.key,
   });
+  final CustomMQ mq;
+  final int selectedHour;
+  final int selectedMinute;
+  final String period;
+  final Function(int, int, String) onTimeChange;
 
   @override
   Widget build(BuildContext context) {
@@ -244,14 +242,13 @@ class TimerPickerSection extends StatelessWidget {
 }
 
 class DaySelectorSection extends StatefulWidget {
-  final CustomMQ mq;
-  final List<bool> selectedDays;
-
   const DaySelectorSection({
-    super.key,
     required this.mq,
     required this.selectedDays,
+    super.key,
   });
+  final CustomMQ mq;
+  final List<bool> selectedDays;
 
   @override
   _DaySelectorSectionState createState() => _DaySelectorSectionState();
@@ -283,7 +280,6 @@ class _DaySelectorSectionState extends State<DaySelectorSection> {
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
                     color: Colors.grey,
-                    width: 1,
                   ),
                   color: isSelected
                       ? theme.primaryColor // Change text color when selected
@@ -312,20 +308,19 @@ class _DaySelectorSectionState extends State<DaySelectorSection> {
 }
 
 class AlarmDetailsSection extends StatelessWidget {
-  final CustomMQ mq;
-  final bool alarmSound;
-  final bool snooze;
-  final bool vibrate;
-  final Function(String) onToggle;
-
   const AlarmDetailsSection({
-    super.key,
     required this.mq,
     required this.alarmSound,
     required this.snooze,
     required this.vibrate,
     required this.onToggle,
+    super.key,
   });
+  final CustomMQ mq;
+  final bool alarmSound;
+  final bool snooze;
+  final bool vibrate;
+  final Function(String) onToggle;
 
   @override
   Widget build(BuildContext context) {
@@ -333,37 +328,37 @@ class AlarmDetailsSection extends StatelessWidget {
       children: [
         ListTile(
           leading: Text(
-            "alarmSound".tr(context),
+            'alarmSound'.tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: alarmSound,
-            onChanged: (_) => onToggle("alarmSound"),
-            activeColor: ColorManager.greyColor,
+            onChanged: (_) => onToggle('alarmSound'),
+            activeTrackColor: ColorManager.greyColor,
           ),
         ),
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
-            "Vibration".tr(context),
+            'Vibration'.tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: vibrate,
-            onChanged: (_) => onToggle("vibrate"),
-            activeColor: ColorManager.greyColor,
+            onChanged: (_) => onToggle('vibrate'),
+            activeTrackColor: ColorManager.greyColor,
           ),
         ),
         Divider(thickness: 1.0, color: ColorManager.lightGreyColor),
         ListTile(
           leading: Text(
-            "Snooze".tr(context),
+            'Snooze'.tr(context),
             style: TextStyle(fontSize: mq.height(2)),
           ),
           trailing: CupertinoSwitch(
             value: snooze,
-            onChanged: (_) => onToggle("snooze"),
-            activeColor: ColorManager.greyColor,
+            onChanged: (_) => onToggle('snooze'),
+            activeTrackColor: ColorManager.greyColor,
           ),
         ),
       ],
@@ -372,21 +367,20 @@ class AlarmDetailsSection extends StatelessWidget {
 }
 
 class BottomButtonsSection extends StatelessWidget {
+  const BottomButtonsSection({
+    required this.mq,
+    required this.selectedHours,
+    required this.selectedMin,
+    required this.period,
+    required this.selectedDays,
+    super.key,
+  });
   final CustomMQ mq;
 
   final int selectedHours;
   final int selectedMin;
   final String period;
   final List<bool> selectedDays;
-
-  const BottomButtonsSection({
-    super.key,
-    required this.mq,
-    required this.selectedHours,
-    required this.selectedMin,
-    required this.period,
-    required this.selectedDays,
-  });
 
   @override
   Widget build(BuildContext context) {

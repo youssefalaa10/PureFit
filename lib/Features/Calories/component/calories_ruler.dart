@@ -38,12 +38,12 @@ class HeightPickerState extends State<CaloriesRuler> {
           // Ruler Picker
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 1000, end: 6000, scale: 1),
+              RulerRange(begin: 1000, end: 6000),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(

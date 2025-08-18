@@ -4,9 +4,8 @@ import '../../../../Core/Networking/Dio/dio_exercise_api.dart';
 import '../Model/exercise_model.dart';
 
 class ExerciseRepo {
-  final DioExerciseApi dioExerciseApi;
-
   ExerciseRepo({required this.dioExerciseApi});
+  final DioExerciseApi dioExerciseApi;
 
   Future<List<ExerciseModel>?> getExercises(String categoryId) async {
     try {
@@ -18,7 +17,7 @@ class ExerciseRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error in ExerciseRepo: $e");
+        print('Error in ExerciseRepo: $e');
       }
     }
     return null;

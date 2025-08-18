@@ -68,7 +68,7 @@ void showLogoutConfirmationDialog(BuildContext context) {
               DietFavoriteDb()
                   .deleteAllData(); // Show a snackbar message using CustomSnackbar
               if (context.mounted) {
-                CustomSnackbar.showSnackbar(context, "Success");
+                CustomSnackbar.showSnackbar(context, 'Success');
               }
 
               // Navigate to the login screen
@@ -87,8 +87,8 @@ Widget _buildOptionItem(
   BuildContext context, {
   required IconData icon,
   required String title,
-  String? subtitle,
   required VoidCallback onTap,
+  String? subtitle,
 }) {
   final mq = CustomMQ(context);
   return Column(

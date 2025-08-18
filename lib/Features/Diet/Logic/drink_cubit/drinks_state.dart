@@ -9,18 +9,16 @@ class DrinksInitial extends DrinksState {}
 class DrinksLoading extends DrinksState {}
 
 class DrinksSuccess extends DrinksState {
-  final List<DietModel> drinks;
-
   DrinksSuccess(this.drinks);
+  final List<DietModel> drinks;
 
   @override
   List<Object> get props => [drinks];
 }
 
 class DrinksError extends DrinksState {
-  final String message;
-
   DrinksError(this.message);
+  final String message;
 
   @override
   List<Object> get props => [message];

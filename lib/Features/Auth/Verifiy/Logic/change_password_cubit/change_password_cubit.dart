@@ -3,9 +3,8 @@ import '../../Data/Repo/change_password_repo.dart';
 import 'change_password_state.dart';
 
 class ChangePasswordCubit extends Cubit<ChangePasswordState> {
-  final ChangePasswordRepo _repo;
-
   ChangePasswordCubit(this._repo) : super(ChangePasswordInitial());
+  final ChangePasswordRepo _repo;
 
   Future<void> changePassword(String email, String newPassword, context) async {
     try {
@@ -14,7 +13,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
       await _repo.changePassword(email, newPassword);
       emit(ChangePasswordSuccess());
     } catch (e) {
-      emit(ChangePasswordError("An error occurred: $e"));
+      emit(ChangePasswordError('An error occurred: $e'));
     }
   }
 }

@@ -8,9 +8,8 @@ import '../../../../Core/Components/media_query.dart';
 import '../../../../Core/Shared/app_string.dart';
 
 class UserStats extends StatefulWidget {
+  const UserStats({required this.mq, super.key});
   final CustomMQ mq;
-
-  const UserStats({super.key, required this.mq});
 
   @override
   State<UserStats> createState() => _UserStatsState();
@@ -33,7 +32,10 @@ class _UserStatsState extends State<UserStats> {
                   value: '${user.userWeight} kg',
                   mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
-              StatCard(label: AppString.age(context), value: '${user.age} yo', mq: widget.mq),
+              StatCard(
+                  label: AppString.age(context),
+                  value: '${user.age} yo',
+                  mq: widget.mq),
               VerticalDivider(color: Colors.grey[400], thickness: 0.5),
               StatCard(
                   label: AppString.height(context),
@@ -44,7 +46,7 @@ class _UserStatsState extends State<UserStats> {
         } else if (state is ProfileError) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             if (mounted) {
-              CustomSnackbar.showSnackbar(context, "Error");
+              CustomSnackbar.showSnackbar(context, 'Error');
             }
           });
         }
@@ -91,12 +93,11 @@ class _UserStatsState extends State<UserStats> {
 }
 
 class StatCard extends StatelessWidget {
+  const StatCard(
+      {required this.label, required this.value, required this.mq, super.key});
   final String label;
   final dynamic value;
   final CustomMQ mq;
-
-  const StatCard(
-      {super.key, required this.label, required this.value, required this.mq});
 
   @override
   Widget build(BuildContext context) {

@@ -1,14 +1,15 @@
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_text_field.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Login/Ui/login_block_listener.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
+
 import '../Data/Model/login_model.dart';
 import '../Logic/cubit/login_cubit.dart';
-import 'package:PureFit/Core/Components/custom_button.dart';
-import 'package:PureFit/Core/Components/custom_text_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -55,7 +56,7 @@ class LoginScreenState extends State<LoginScreen> {
                     ),
                     Image.asset(
                       color: theme.scaffoldBackgroundColor,
-                      "assets/images/AppLogo_white.png",
+                      'assets/images/AppLogo_white.png',
                       height: mq.height(10.0),
                     ),
                   ],

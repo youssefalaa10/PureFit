@@ -8,11 +8,10 @@ import '../../Data/Model/exercise_model.dart';
 import '../../Logic/training_cubit/training_cubit.dart';
 
 class GetReadyScreen extends StatefulWidget {
+  const GetReadyScreen(
+      {required this.exercises, required this.index, super.key});
   final List<ExerciseModel> exercises;
   final int index;
-
-  const GetReadyScreen(
-      {super.key, required this.exercises, required this.index});
 
   @override
   GetReadyScreenState createState() => GetReadyScreenState();
@@ -55,7 +54,8 @@ class GetReadyScreenState extends State<GetReadyScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
+        title: Text(
+            '${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
             style: TextStyle(fontFamily: AppString.font)),
         elevation: 0,
         centerTitle: true,
@@ -95,14 +95,14 @@ class GetReadyScreenState extends State<GetReadyScreen> {
 }
 
 class ExerciseImage extends StatelessWidget {
+  const ExerciseImage(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const ExerciseImage(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -118,14 +118,14 @@ class ExerciseImage extends StatelessWidget {
 }
 
 class ReadyMessage extends StatelessWidget {
+  const ReadyMessage(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const ReadyMessage(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -162,14 +162,13 @@ class ReadyMessage extends StatelessWidget {
 }
 
 class CircularCounter extends StatelessWidget {
-  final CustomMQ mq;
-  final int countdownValue;
-
   const CircularCounter({
-    super.key,
     required this.mq,
     required this.countdownValue,
+    super.key,
   });
+  final CustomMQ mq;
+  final int countdownValue;
 
   @override
   Widget build(BuildContext context) {
@@ -217,19 +216,18 @@ class CircularCounter extends StatelessWidget {
 }
 
 class NextExerciseInfo extends StatelessWidget {
+  const NextExerciseInfo(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final int index;
 
   final List<ExerciseModel> exercises;
-  const NextExerciseInfo(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           'Next',

@@ -9,7 +9,7 @@ class ColorManager {
   static Color blueColor = const Color(0xFF63B5F6);
   static Color blackColor = Colors.black;
   static Color lightGreyColor = Colors.grey.shade400;
-  static Color softGreyColor = Colors.grey.withOpacity(0.2);
+  static Color softGreyColor = Colors.grey.withValues(alpha: 0.2);
   static Color babyBlueColor = const Color.fromARGB(255, 192, 234, 255);
   static Color lightOrangeColor = const Color(0xfFFFF6E0);
   static Color lightGreenColor = const Color(0xFF66BB6A);

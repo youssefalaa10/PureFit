@@ -8,15 +8,7 @@ import 'package:PureFit/Features/Diet/Data/Model/base_diet_model.dart';
 import 'package:flutter/material.dart';
 
 class DietItem extends StatefulWidget {
-  final String itemImage;
-  final String itemName;
-  final String quantity;
-  final String calories;
-  final BaseDietModel item;
-  final VoidCallback onTap;
-  final String heroTag;
   const DietItem({
-    super.key,
     required this.itemImage,
     required this.itemName,
     required this.quantity,
@@ -24,7 +16,15 @@ class DietItem extends StatefulWidget {
     required this.onTap,
     required this.heroTag,
     required this.item,
+    super.key,
   });
+  final String itemImage;
+  final String itemName;
+  final String quantity;
+  final String calories;
+  final BaseDietModel item;
+  final VoidCallback onTap;
+  final String heroTag;
 
   @override
   State<DietItem> createState() => _DietItemState();
@@ -91,7 +91,7 @@ class _DietItemState extends State<DietItem> {
                           return ScaleTransitionDialog(
                             itemName: widget.itemName,
                             onPressed: (value) {
-                              String caloriesString =
+                              final String caloriesString =
                                   widget.calories.split(' ')[
                                       0]; // Get the first part before the space
                               final int calories = int.parse(

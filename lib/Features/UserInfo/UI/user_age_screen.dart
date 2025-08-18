@@ -27,7 +27,6 @@ class UserAgeScreenState extends State<UserAgeScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Back button + progress indicator
               Padding(
@@ -97,8 +96,6 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         });
                         context.read<RegisterCubit>().age = selectedAge;
                       },
-                      perspective: 0.003,
-                      diameterRatio: 2.0,
                       physics: const FixedExtentScrollPhysics(),
                       childDelegate: ListWheelChildBuilderDelegate(
                         childCount: 100, // Total number of age options
@@ -140,7 +137,6 @@ class UserAgeScreenState extends State<UserAgeScreen> {
 
                     // Highlighted line (top and bottom of selected item)
                     Align(
-                      alignment: Alignment.center,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

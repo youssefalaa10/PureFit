@@ -3,12 +3,9 @@ import 'package:flutter/foundation.dart';
 import '../../../../Core/Networking/Dio/dio_drink_api.dart';
 import '../Model/diet_model.dart';
 
-
-
 class DrinksRepo {
-  final DioDrinksApi dioDrinksApi;
-
   DrinksRepo({required this.dioDrinksApi});
+  final DioDrinksApi dioDrinksApi;
 
   Future<List<DietModel>?> getDrinks() async {
     try {
@@ -18,7 +15,7 @@ class DrinksRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error in DrinksRepo: $e");
+        print('Error in DrinksRepo: $e');
       }
     }
     return null;

@@ -5,10 +5,9 @@ import '../../Data/Repo/weekly_execises_repo.dart';
 import 'weekly_exercises_state.dart';
 
 class WeeklyExerciseCubit extends Cubit<WeeklyExerciseState> {
+  WeeklyExerciseCubit(this._repo) : super(WeeklyExerciseInitial());
   final WeeklyExerciseRepo _repo;
   WeeklyExerciseModel? calendar;
-
-  WeeklyExerciseCubit(this._repo) : super(WeeklyExerciseInitial());
 
   Future<void> loadCalendar(String profileId) async {
     try {
@@ -23,7 +22,7 @@ class WeeklyExerciseCubit extends Cubit<WeeklyExerciseState> {
       }
     } catch (e) {
       if (!isClosed) {
-        emit(WeeklyExerciseError("Failed to load calendar"));
+        emit(WeeklyExerciseError('Failed to load calendar'));
       }
     }
   }
@@ -37,7 +36,7 @@ class WeeklyExerciseCubit extends Cubit<WeeklyExerciseState> {
       emit(WeeklyExerciseUpdated());
       await loadCalendar(profileId);
     } catch (e) {
-      emit(WeeklyExerciseError("Failed to update calendar"));
+      emit(WeeklyExerciseError('Failed to update calendar'));
     }
   }
 }

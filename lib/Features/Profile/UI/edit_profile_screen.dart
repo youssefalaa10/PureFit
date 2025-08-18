@@ -7,16 +7,15 @@ import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
 import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/media_query.dart';
-import 'package:image_picker/image_picker.dart';
-
 import '../../../Core/Shared/app_string.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({required this.userModel, super.key});
   final UserModel userModel;
-  const EditProfileScreen({super.key, required this.userModel});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -99,7 +98,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 EditableField(
                   label: 'Your Name',
                   controller: _nameController,
-                  obscureText: false,
                   icon: Icons.person_outline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -168,7 +166,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 widget.userModel.userId,
                               );
-                          CustomSnackbar.showSnackbar(context, "Success");
+                          CustomSnackbar.showSnackbar(context, 'Success');
                         }
                       },
                       child: Text(
@@ -190,11 +188,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 }
 
 class ProfileImageSection extends StatefulWidget {
+  const ProfileImageSection(
+      {required this.onImageSelected, super.key, this.imageUrl});
   final Function(File) onImageSelected;
   final String? imageUrl;
-
-  const ProfileImageSection(
-      {super.key, required this.onImageSelected, this.imageUrl});
 
   @override
   _ProfileImageSectionState createState() => _ProfileImageSectionState();
@@ -236,8 +233,9 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
               radius: mq.width(3.75),
               backgroundColor: ColorManager.backGroundColor,
               child: IconButton(
-                icon: Icon(Icons.camera_alt,
-                    size: mq.width(3.75),
+                icon: Icon(
+                  Icons.camera_alt,
+                  size: mq.width(3.75),
                 ), // Changed to camera icon
                 onPressed: _pickImage,
               ),
@@ -250,6 +248,15 @@ class _ProfileImageSectionState extends State<ProfileImageSection> {
 }
 
 class EditableField extends StatelessWidget {
+  const EditableField({
+    required this.label,
+    required this.icon,
+    super.key,
+    this.obscureText = false,
+    this.isReadOnly = false,
+    this.validator,
+    this.controller,
+  });
   final String label;
 
   final IconData icon;
@@ -257,16 +264,6 @@ class EditableField extends StatelessWidget {
   final bool isReadOnly;
   final String? Function(String?)? validator;
   final TextEditingController? controller;
-
-  const EditableField({
-    super.key,
-    required this.label,
-    required this.icon,
-    this.obscureText = false,
-    this.isReadOnly = false,
-    this.validator,
-    this.controller,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -298,10 +295,10 @@ class EditableField extends StatelessWidget {
 }
 
 class WeightSlider extends StatefulWidget {
+  const WeightSlider(
+      {required this.weighslider, required this.onValueChanged, super.key});
   final int weighslider;
   final Function(int) onValueChanged;
-  const WeightSlider(
-      {super.key, required this.weighslider, required this.onValueChanged});
 
   @override
   WeightSliderState createState() => WeightSliderState();
@@ -357,10 +354,10 @@ class WeightSliderState extends State<WeightSlider> {
 }
 
 class HeightSlider extends StatefulWidget {
+  const HeightSlider(
+      {required this.height, required this.onValueChanged, super.key});
   final int height;
   final Function(int) onValueChanged;
-  const HeightSlider(
-      {super.key, required this.height, required this.onValueChanged});
 
   @override
   _HeightSliderState createState() => _HeightSliderState();

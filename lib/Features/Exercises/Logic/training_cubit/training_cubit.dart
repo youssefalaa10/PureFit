@@ -1,10 +1,16 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:bloc/bloc.dart';
+
 part 'training_state.dart';
 
 class TrainingCubit extends Cubit<TrainingCubitState> {
+  // Store the current stage
+
+  TrainingCubit(List<ExerciseModel> exercises) : super(TrainingInitial()) {
+    passExercises = exercises;
+  }
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
@@ -13,18 +19,14 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   int restDuration = 20; // Can be modified dynamically
   bool isPaused = false; // Pause flag
   int? remainingTime; // Remaining time to continue from when paused
-  EnumTrainingStage? currentStage; // Store the current stage
-
-  TrainingCubit(List<ExerciseModel> exercises) : super(TrainingInitial()) {
-    passExercises = exercises;
-  }
+  EnumTrainingStage? currentStage;
 
   // Start the stages
   void startExerciseRoutine() {
     if (passExercises != null && passExercises!.isNotEmpty) {
       _startGetReadyStage();
     } else {
-      emit(TrainingError("No exercises available"));
+      emit(TrainingError('No exercises available'));
     }
   }
 

@@ -1,6 +1,18 @@
 import 'package:flutter/material.dart';
 
 class OtpTextField extends StatefulWidget {
+  const OtpTextField({
+    required this.numberOfFields,
+    required this.fieldWidth,
+    required this.borderColor,
+    required this.borderRadius,
+    required this.cursorColor,
+    super.key,
+    this.showFieldAsBox = false,
+    this.onCodeChanged,
+    this.onSubmit,
+    this.externalController, // Add this line
+  });
   final int numberOfFields;
   final double fieldWidth;
   final Color borderColor;
@@ -10,19 +22,6 @@ class OtpTextField extends StatefulWidget {
   final ValueChanged<String>? onCodeChanged;
   final ValueChanged<String>? onSubmit;
   final TextEditingController? externalController;
-
-  const OtpTextField({
-    super.key,
-    required this.numberOfFields,
-    required this.fieldWidth,
-    required this.borderColor,
-    required this.borderRadius,
-    required this.cursorColor,
-    this.showFieldAsBox = false,
-    this.onCodeChanged,
-    this.onSubmit,
-    this.externalController, // Add this line
-  });
 
   @override
   OtpTextFieldState createState() => OtpTextFieldState();
@@ -36,7 +35,8 @@ class OtpTextFieldState extends State<OtpTextField> {
   @override
   void initState() {
     super.initState();
-    controllers = List.generate(widget.numberOfFields, (index) => TextEditingController());
+    controllers = List.generate(
+        widget.numberOfFields, (index) => TextEditingController());
     focusNodes = List.generate(widget.numberOfFields, (index) => FocusNode());
   }
 
@@ -69,7 +69,8 @@ class OtpTextFieldState extends State<OtpTextField> {
       FocusScope.of(context).requestFocus(focusNodes[index - 1]);
     }
 
-    if (currentCode.length == widget.numberOfFields && widget.onSubmit != null) {
+    if (currentCode.length == widget.numberOfFields &&
+        widget.onSubmit != null) {
       widget.onSubmit!(currentCode);
     }
   }

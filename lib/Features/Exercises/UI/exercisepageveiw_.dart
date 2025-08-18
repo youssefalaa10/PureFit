@@ -11,8 +11,8 @@ import 'components/rest_screen.dart';
 import 'components/training_screen.dart';
 
 class ExerciseStages extends StatefulWidget {
+  const ExerciseStages({required this.exercises, super.key});
   final List<ExerciseModel> exercises;
-  const ExerciseStages({super.key, required this.exercises});
 
   @override
   State<ExerciseStages> createState() => _ExerciseStagesState();
@@ -24,7 +24,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController();
     context.read<TrainingCubit>().startExerciseRoutine();
   }
 
@@ -65,7 +65,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
             );
           } else if (state is TrainingCompleted) {
             return AlertDialog(
-              content:  Text(AppString.trainingCompleted(context)),
+              content: Text(AppString.trainingCompleted(context)),
               actions: [
                 CustomButton(
                   label: AppString.done(context),

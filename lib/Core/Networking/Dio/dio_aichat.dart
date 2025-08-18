@@ -4,15 +4,14 @@ import 'package:flutter/foundation.dart';
 import '../../Shared/api_constants.dart';
 
 class DioChatApi {
-  final Dio _dio;
-
   DioChatApi({required Dio dio}) : _dio = dio;
+  final Dio _dio;
 
   Future<String> postChat(String message) async {
     try {
       final response = await _dio.post(
-        "${ApiConstants.baseUrl}${ApiConstants.gemini}",
-        data: {"message": message},
+        '${ApiConstants.baseUrl}${ApiConstants.gemini}',
+        data: {'message': message},
         options: Options(
           headers: {
             'Content-Type': 'application/json',
@@ -26,7 +25,7 @@ class DioChatApi {
       } else {}
     } catch (e) {
       if (kDebugMode) {
-        print("Error fetching drinks: $e");
+        print('Error fetching drinks: $e');
       }
     }
     return '';

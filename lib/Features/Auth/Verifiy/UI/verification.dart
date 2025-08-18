@@ -11,9 +11,8 @@ import '../Logic/verifiy_cubit/verification_cubit.dart';
 import '../Logic/verifiy_cubit/verification_state.dart';
 
 class VerificationScreen extends StatefulWidget {
+  const VerificationScreen({required this.email, super.key});
   final String email;
-
-  const VerificationScreen({super.key, required this.email});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -64,7 +63,6 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         }
                       },
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
                             AppString.verification(context),
@@ -106,8 +104,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
                               if (_otpController.text.length == 4) {
                                 _verifyCode(_otpController.text, widget.email);
                               } else {
-                                CustomSnackbar.showSnackbar(context,
-                                    AppString.pleaseEnterValidCode(context),);
+                                CustomSnackbar.showSnackbar(
+                                  context,
+                                  AppString.pleaseEnterValidCode(context),
+                                );
                               }
                             },
                           ),
@@ -143,7 +143,8 @@ class _VerificationScreenState extends State<VerificationScreen> {
       final verificationCubit = context.read<VerificationCubit>();
       verificationCubit.verifyCode(email, code, context);
     } else {
-      CustomSnackbar.showSnackbar(context, AppString.pleaseEnterValidCode(context));
+      CustomSnackbar.showSnackbar(
+          context, AppString.pleaseEnterValidCode(context));
     }
   }
 }

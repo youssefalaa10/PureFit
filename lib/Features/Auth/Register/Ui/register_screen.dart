@@ -1,11 +1,10 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:PureFit/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
-
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../Core/Components/custom_sizedbox.dart';
@@ -59,7 +58,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   Image.asset(
-                    "assets/images/AppLogo_white.png",
+                    'assets/images/AppLogo_white.png',
                     height: mq.height(10.0),
                   ),
                 ],
@@ -125,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         validator: (value) {
                           if (value.isEmpty) {
                             return AppString.pleaseEnterEmail(context);
-                          } else if (!value.contains("@")) {
+                          } else if (!value.contains('@')) {
                             return AppString.pleaseEnterValidEmail(context);
                           }
                         },
@@ -220,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Sign Up Button
                       CustomButton(
-                        label: "Sign Up",
+                        label: 'Sign Up',
                         onPressed: () {
                           context.read<RegisterCubit>().password =
                               (passwordController.text);

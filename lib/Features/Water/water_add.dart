@@ -7,15 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class Item {
+  Item(this.image, this.title, this.subtitle);
   final String image;
   final String title;
   final String subtitle;
-
-  Item(this.image, this.title, this.subtitle);
 }
 
 class WaterAdd extends StatefulWidget {
-  const WaterAdd({super.key, required this.waterIntakeCubit});
+  const WaterAdd({required this.waterIntakeCubit, super.key});
 
   final WaterIntakeCubit waterIntakeCubit;
 
@@ -29,9 +28,9 @@ class WaterAddState extends State<WaterAdd> {
   int value = 0;
 
   List<Item> items = [
-    Item(AppString.bottlewater, "Bottle of Water", "500ml \n 8.4 f oz"),
-    Item(AppString.cupwater, "Glass of Water", "100ml \n 8.4 f oz"),
-    Item(AppString.bottlewater, "Large Bottle of Water", "1000ml \n 8.4 f oz"),
+    Item(AppString.bottlewater, 'Bottle of Water', '500ml \n 8.4 f oz'),
+    Item(AppString.cupwater, 'Glass of Water', '100ml \n 8.4 f oz'),
+    Item(AppString.bottlewater, 'Large Bottle of Water', '1000ml \n 8.4 f oz'),
   ];
 
   @override
@@ -85,7 +84,7 @@ class WaterAddState extends State<WaterAdd> {
         controller: _controller,
         itemCount: items.length,
         itemBuilder: (context, index) {
-          Item item = items[index];
+          final Item item = items[index];
           return _buildImageItem(index, item, mq);
         },
       ),
@@ -100,7 +99,7 @@ class WaterAddState extends State<WaterAdd> {
         double opacity = 1.0;
 
         if (_controller.position.haveDimensions) {
-          double value = (_controller.page! - index).abs();
+          final double value = (_controller.page! - index).abs();
           scale = (1 - (value * 0.9)).clamp(0.8, 1.0);
           opacity = (1 - value).clamp(0.0, 1.0);
         }
@@ -189,7 +188,7 @@ class WaterAddState extends State<WaterAdd> {
     return CustomButton(
       backgroundColor: theme.primaryColor,
       textColor: theme.scaffoldBackgroundColor,
-      label: "Add Drink  +",
+      label: 'Add Drink  +',
       onPressed: () {
         if (currentIndex == 0) {
           value = 500;

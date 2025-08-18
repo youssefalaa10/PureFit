@@ -7,13 +7,13 @@ class ProfileInitial extends ProfileState {}
 class ProfileLoading extends ProfileState {}
 
 class ProfileSuccess extends ProfileState {
-  final UserModel user;
   ProfileSuccess({required this.user});
+  final UserModel user;
 }
 
 class ProfileError extends ProfileState {
-  final String message;
   ProfileError({required this.message});
+  final String message;
 }
 
 class ProfileUpdating extends ProfileState {}

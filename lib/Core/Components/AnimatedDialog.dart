@@ -3,10 +3,10 @@ import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class ScaleTransitionDialog extends StatefulWidget {
+  const ScaleTransitionDialog(
+      {required this.itemName, super.key, this.onPressed});
   final Function(String)? onPressed;
   final String itemName;
-  const ScaleTransitionDialog(
-      {super.key, this.onPressed, required this.itemName});
 
   @override
   ScaleTransitionDialogState createState() => ScaleTransitionDialogState();

@@ -14,8 +14,8 @@ import '../Data/Model/base_diet_model.dart';
 import '../Logic/favorite_cubit/favorite_cubit.dart';
 
 class DetailScreen extends StatefulWidget {
+  const DetailScreen({required this.dietItem, super.key});
   final BaseDietModel dietItem;
-  const DetailScreen({super.key, required this.dietItem});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -117,9 +117,12 @@ class _DetailScreenState extends State<DetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _buildNutritionData(AppString.kcal(context), '${dietItem.calories}', mq),
-                _buildNutritionData(AppString.fat(context), '${dietItem.fats}', mq),
-                _buildNutritionData(AppString.protein(context), '${dietItem.protein}', mq),
+                _buildNutritionData(
+                    AppString.kcal(context), '${dietItem.calories}', mq),
+                _buildNutritionData(
+                    AppString.fat(context), '${dietItem.fats}', mq),
+                _buildNutritionData(
+                    AppString.protein(context), '${dietItem.protein}', mq),
               ],
             ),
             CustomSizedbox(height: mq.height(5.0)),
@@ -135,7 +138,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         return ScaleTransitionDialog(
                           itemName: widget.dietItem.name,
                           onPressed: (value) {
-                            int calories = widget.dietItem
+                            final int calories = widget.dietItem
                                 .calories; // Get the first part before the space
                             // Convert the extracted part to integer
                             final oneGramC =

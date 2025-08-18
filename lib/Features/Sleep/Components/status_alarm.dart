@@ -2,10 +2,9 @@ import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class StatusAlarm extends StatelessWidget {
+  const StatusAlarm({required this.label, required this.trailing, super.key});
   final String label;
   final String trailing;
-
-  const StatusAlarm({super.key, required this.label, required this.trailing});
 
   @override
   Widget build(BuildContext context) {

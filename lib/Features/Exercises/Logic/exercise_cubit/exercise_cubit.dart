@@ -5,8 +5,8 @@ import '../../Data/Repo/exercise_repo.dart';
 part 'exercise_state.dart';
 
 class ExerciseCubit extends Cubit<ExerciseState> {
-  final ExerciseRepo exerciseRepo;
   ExerciseCubit(this.exerciseRepo) : super(ExerciseInitial());
+  final ExerciseRepo exerciseRepo;
   List<ExerciseModel>? passExercises;
 
   Future<void> fetchExercises(String categoryId) async {
@@ -20,12 +20,12 @@ class ExerciseCubit extends Cubit<ExerciseState> {
         passExercises = exercises;
       } else {
         if (!isClosed) {
-          emit(ExerciseError("No exercises found for $categoryId"));
+          emit(ExerciseError('No exercises found for $categoryId'));
         }
       }
     } catch (e) {
       if (!isClosed) {
-        emit(ExerciseError("Failed to load exercises: $e"));
+        emit(ExerciseError('Failed to load exercises: $e'));
       }
     }
   }

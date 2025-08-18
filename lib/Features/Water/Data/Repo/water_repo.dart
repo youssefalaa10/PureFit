@@ -1,9 +1,8 @@
 import 'package:PureFit/Core/local_db/WaterIntakeDb/waterer_db.dart';
 
 class WaterRepo {
-  final WatererDb watererDb;
-
   WaterRepo({required this.watererDb});
+  final WatererDb watererDb;
 
   getHistoryIntakes() async {
     return await watererDb.getAllIntakes();

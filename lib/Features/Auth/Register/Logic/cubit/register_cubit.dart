@@ -1,10 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_state.dart';
+import 'package:bloc/bloc.dart';
+
 import '../../Data/Model/register_model.dart';
 import '../../Data/Repo/register_repo.dart';
 
 // Enhanced RegisterCubit
 class RegisterCubit extends Cubit<RegisterState> {
+  RegisterCubit(this.registerRepo) : super(RegisterInitial());
   final RegisterRepo registerRepo;
 
   String? password;
@@ -13,11 +15,9 @@ class RegisterCubit extends Cubit<RegisterState> {
   int? age = 9;
   int? userHeight = 170;
   int? userWeight = 58;
-  String? gender = "male";
+  String? gender = 'male';
   String? goal;
   String? activity;
-
-  RegisterCubit(this.registerRepo) : super(RegisterInitial());
 
   // Validate the registration fields
 
@@ -33,7 +33,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         gender: gender!,
         goal: goal ?? 'fat lose',
         activity: activity ?? ' ',
-        image: "");
+        image: '');
 
     try {
       emit(RegisterLoading());
@@ -42,7 +42,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         emit(RegisterSuccess());
       }
     } catch (e) {
-      emit(RegisterFailure(message: "An error occurred: ${e.toString()}"));
+      emit(RegisterFailure(message: 'An error occurred: ${e.toString()}'));
     }
   }
 }

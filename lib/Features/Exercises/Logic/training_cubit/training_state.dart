@@ -9,17 +9,16 @@ class TrainingInitial extends TrainingCubitState {}
 class TrainingLoading extends TrainingCubitState {}
 
 class TrainingError extends TrainingCubitState {
-  final String message;
   TrainingError(this.message);
+  final String message;
 }
 
 // State representing the current stage and exercise index
 class TrainingStage extends TrainingCubitState {
+  TrainingStage(this.stage, this.currentExerciseIndex, this.remainingTime);
   final EnumTrainingStage stage;
   final int currentExerciseIndex;
   final int remainingTime;
-
-  TrainingStage(this.stage, this.currentExerciseIndex, this.remainingTime);
 }
 
 // State when training is completed

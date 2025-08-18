@@ -1,8 +1,7 @@
 class ChangePasswordModel {
+  ChangePasswordModel({required this.email, required this.newPassword});
   final String email;
   final String newPassword;
-
-  ChangePasswordModel({required this.email, required this.newPassword});
 
   Map<String, dynamic> toJson() {
     return {

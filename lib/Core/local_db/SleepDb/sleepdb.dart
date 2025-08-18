@@ -1,13 +1,13 @@
 import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class SleepDb {
-  static final SleepDb _instance = SleepDb._internal();
   factory SleepDb() => _instance;
-  static Database? _database;
 
   SleepDb._internal();
+  static final SleepDb _instance = SleepDb._internal();
+  static Database? _database;
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -17,7 +17,7 @@ class SleepDb {
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'sleep_sessions.db');
+    final String path = join(await getDatabasesPath(), 'sleep_sessions.db');
     return await openDatabase(
       path,
       version: 1,

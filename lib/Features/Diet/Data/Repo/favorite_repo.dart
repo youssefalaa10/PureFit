@@ -3,10 +3,9 @@ import '../../../../Core/local_db/food_db/food_db.dart';
 import '../Model/favorites_model.dart';
 
 class FavoriteRepo {
+  FavoriteRepo({required this.dioFavoriteApi, required this.dietFavoriteDb});
   final DioFavoriteApi dioFavoriteApi;
   final DietFavoriteDb dietFavoriteDb;
-
-  FavoriteRepo({required this.dioFavoriteApi, required this.dietFavoriteDb});
 
   // Insert favorite item into the local database (SQFlite)
   Future<void> insertFavoriteLocally(FavoriteModel favorite) async {
@@ -36,7 +35,7 @@ class FavoriteRepo {
       }
       return true;
     } catch (e) {
-      print("Error syncing with API: $e");
+      print('Error syncing with API: $e');
       return false;
     }
   }

@@ -7,8 +7,8 @@ class WeeklyExerciseInitial extends WeeklyExerciseState {}
 class WeeklyExerciseLoading extends WeeklyExerciseState {}
 
 class WeeklyExerciseLoaded extends WeeklyExerciseState {
-  final WeeklyExerciseModel calendar;
   WeeklyExerciseLoaded(this.calendar);
+  final WeeklyExerciseModel calendar;
 }
 
 class WeeklyExerciseUpdating extends WeeklyExerciseState {}
@@ -16,6 +16,6 @@ class WeeklyExerciseUpdating extends WeeklyExerciseState {}
 class WeeklyExerciseUpdated extends WeeklyExerciseState {}
 
 class WeeklyExerciseError extends WeeklyExerciseState {
-  final String message;
   WeeklyExerciseError(this.message);
+  final String message;
 }

@@ -1,12 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Repository/track_steps_repo.dart';
+import 'package:bloc/bloc.dart';
 
 part 'track_step_state.dart';
 
 class TrackStepCubit extends Cubit<TrackStepState> {
-  Trackstepsrepo trackstepsrepo;
   TrackStepCubit(this.trackstepsrepo) : super(TrackStepInitial());
+  Trackstepsrepo trackstepsrepo;
 
   void initDb() {
     trackstepsrepo.setinitDb();

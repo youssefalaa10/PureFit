@@ -10,10 +10,10 @@ import '../../Data/Model/exercise_model.dart';
 import '../../Logic/training_cubit/training_cubit.dart';
 
 class TrainingScreen extends StatefulWidget {
+  const TrainingScreen(
+      {required this.exercises, required this.index, super.key});
   final int index;
   final List<ExerciseModel> exercises;
-  const TrainingScreen(
-      {super.key, required this.exercises, required this.index});
   @override
   TrainingScreenState createState() => TrainingScreenState();
 }
@@ -62,7 +62,8 @@ class TrainingScreenState extends State<TrainingScreen> {
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
+        title: Text(
+            '${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
             style: TextStyle(fontFamily: AppString.font)),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -125,7 +126,7 @@ class TrainingScreenState extends State<TrainingScreen> {
                               return AlertDialog(
                                 backgroundColor: theme.primaryColor,
                                 content: Text(
-                                 AppString.instructions(context),
+                                  AppString.instructions(context),
                                   style: TextStyle(
                                       fontSize: mq.height(2),
                                       fontFamily: AppString.font,
@@ -158,14 +159,14 @@ class TrainingScreenState extends State<TrainingScreen> {
 }
 
 class ExerciseImageSection extends StatelessWidget {
+  const ExerciseImageSection(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const ExerciseImageSection(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -181,14 +182,14 @@ class ExerciseImageSection extends StatelessWidget {
 }
 
 class TitleSection extends StatelessWidget {
+  const TitleSection(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const TitleSection(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -210,10 +211,10 @@ class TitleSection extends StatelessWidget {
 }
 
 class TimerSection extends StatelessWidget {
+  const TimerSection(
+      {required this.mq, required this.countdownValue, super.key});
   final CustomMQ mq;
   final int countdownValue;
-  const TimerSection(
-      {super.key, required this.mq, required this.countdownValue});
 
   @override
   Widget build(BuildContext context) {
@@ -230,16 +231,15 @@ class TimerSection extends StatelessWidget {
 }
 
 class PausePlayButtonSection extends StatelessWidget {
-  final CustomMQ mq;
-  final bool isPaused;
-  final VoidCallback onPressed;
-
   const PausePlayButtonSection({
-    super.key,
     required this.mq,
     required this.isPaused,
     required this.onPressed,
+    super.key,
   });
+  final CustomMQ mq;
+  final bool isPaused;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {

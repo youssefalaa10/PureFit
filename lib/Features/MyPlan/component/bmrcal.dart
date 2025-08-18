@@ -2,21 +2,19 @@ import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class BMICard extends StatelessWidget {
+  const BMICard({required this.bmi, super.key});
   final double bmi;
   final double minBMI = 15.0;
   final double maxBMI = 40.0;
 
-  const BMICard({super.key, required this.bmi});
-
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Row(
           children: [
             Text(
-              "BMI (kg/m²): ",
+              'BMI (kg/m²): ',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -45,8 +43,9 @@ class BMICard extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         // Calculate position of the BMI marker relative to the container width
-        double barWidth = constraints.maxWidth; // Get the width of the bar
-        double bmiPosition = ((bmi - minBMI) / (maxBMI - minBMI)) *
+        final double barWidth =
+            constraints.maxWidth; // Get the width of the bar
+        final double bmiPosition = ((bmi - minBMI) / (maxBMI - minBMI)) *
             barWidth; // Calculate position based on the actual width
 
         return Stack(
@@ -114,7 +113,7 @@ class BMICard extends StatelessWidget {
   Widget _getBMICategory() {
     if (bmi < 18.5) {
       return Text(
-        "Underweight",
+        'Underweight',
         style: TextStyle(
           color: Colors.blue.shade300,
           fontWeight: FontWeight.bold,
@@ -123,7 +122,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 25) {
       return Text(
-        "Healthy weight",
+        'Healthy weight',
         style: TextStyle(
           color: Colors.green.shade400,
           fontWeight: FontWeight.bold,
@@ -132,7 +131,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 30) {
       return Text(
-        "Overweight",
+        'Overweight',
         style: TextStyle(
           color: Colors.lightGreen.shade300,
           fontWeight: FontWeight.bold,
@@ -141,7 +140,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 35) {
       return Text(
-        "Obese I",
+        'Obese I',
         style: TextStyle(
           color: Colors.orange.shade400,
           fontWeight: FontWeight.bold,
@@ -150,7 +149,7 @@ class BMICard extends StatelessWidget {
       );
     } else {
       return Text(
-        "Obese II",
+        'Obese II',
         style: TextStyle(
           color: Colors.red.shade400,
           fontWeight: FontWeight.bold,

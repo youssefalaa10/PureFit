@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});

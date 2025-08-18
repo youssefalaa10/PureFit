@@ -31,13 +31,13 @@ class WaterDetailsState extends State<WaterDetails> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       goalValue =
-          prefs.getInt("waterGoal") ?? 2; // Load saved value or default to 2
+          prefs.getInt('waterGoal') ?? 2; // Load saved value or default to 2
     });
   }
 
   Future<void> _saveGoalValue() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("waterGoal", goalValue); // Save the current goal value
+    await prefs.setInt('waterGoal', goalValue); // Save the current goal value
   }
 
   @override
@@ -143,7 +143,7 @@ class WaterDetailsState extends State<WaterDetails> {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "$goalValue", // Display the current goal value
+                    text: '$goalValue', // Display the current goal value
                     style: TextStyle(
                       fontFamily: AppString.font,
                       fontSize: mq.width(11.25),
@@ -151,7 +151,7 @@ class WaterDetailsState extends State<WaterDetails> {
                     ),
                   ),
                   TextSpan(
-                    text: " lits",
+                    text: ' lits',
                     style: TextStyle(
                       fontFamily: AppString.font,
                       fontSize: mq.width(5),

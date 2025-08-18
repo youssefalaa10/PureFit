@@ -1,8 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
-
 import 'package:PureFit/Core/DI/dependency.dart';
 import 'package:PureFit/Features/AiChat/trainer_chat.dart';
 import 'package:PureFit/Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
@@ -11,6 +6,10 @@ import 'package:PureFit/Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import 'package:PureFit/Features/Home/home_screen.dart';
 import 'package:PureFit/Features/MyPlan/myplan_screen.dart';
 import 'package:PureFit/Features/Profile/UI/profile_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 
 import '../Diet/UI/diet_screen.dart';
 

@@ -1,9 +1,9 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Features/Calories/component/calories_percentage.dart';
 import 'package:PureFit/Features/Calories/component/calories_ruler.dart';
 import 'package:PureFit/Features/Calories/component/header_calories.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
 
 import '../../../Core/Shared/app_string.dart';
 

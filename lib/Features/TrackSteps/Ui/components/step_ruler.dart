@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
 class StepRuler extends StatefulWidget {
+  const StepRuler({required this.onValueChanged, super.key});
   final Function(num) onValueChanged;
-  const StepRuler({super.key, required this.onValueChanged});
 
   @override
   HeightPickerState createState() => HeightPickerState();
@@ -39,7 +39,7 @@ class HeightPickerState extends State<StepRuler> {
           // Ruler Picker
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },

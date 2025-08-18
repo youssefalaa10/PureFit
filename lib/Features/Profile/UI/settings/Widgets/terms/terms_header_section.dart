@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 import '../../../../../../Core/Components/media_query.dart';
 
 class HeaderSection extends StatelessWidget {
+  const HeaderSection({required this.mq, super.key});
   final CustomMQ mq;
-
-  const HeaderSection({super.key, required this.mq});
 
   @override
   Widget build(BuildContext context) {

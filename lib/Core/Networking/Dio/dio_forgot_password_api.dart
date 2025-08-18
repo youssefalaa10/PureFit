@@ -1,9 +1,8 @@
 import 'package:dio/dio.dart';
 
 class DioForgotPasswordApi {
-  final Dio _dio;
-
   DioForgotPasswordApi({required Dio dio}) : _dio = dio;
+  final Dio _dio;
 
   Future<void> sendVerificationCode(String email) async {
     try {
@@ -11,9 +10,8 @@ class DioForgotPasswordApi {
         'https://fit-pro-app.glitch.me/auth/sendcode',
         data: {'email': email},
       );
-
     } catch (e) {
-      throw "Check your internet connection";
+      throw 'Check your internet connection';
     }
   }
 }

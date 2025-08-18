@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 
 class AppString {
   // images----------------------------------------------------------
-  static String profile = "assets/images/profile.jpeg";
-  static String waterLottie = "assets/lottie/water_lottie.json";
-  static String sleepLottie = "assets/lottie/sleep_lottie.json";
-  static String bottlewater = "assets/lottie/bottle.json";
-  static String cupwater = "assets/lottie/cupWater.json";
-  static String noConnection = "assets/images/noConnection.svg";
+  static String profile = 'assets/images/profile.jpeg';
+  static String waterLottie = 'assets/lottie/water_lottie.json';
+  static String sleepLottie = 'assets/lottie/sleep_lottie.json';
+  static String bottlewater = 'assets/lottie/bottle.json';
+  static String cupwater = 'assets/lottie/cupWater.json';
+  static String noConnection = 'assets/images/noConnection.svg';
   // font family-------------------------------------------------------------
   static String font = 'Lato';
 
@@ -285,7 +285,7 @@ class AppString {
 // terms and conditions
   static String termsoFService(BuildContext context) =>
       'termsoFService'.tr(context);
-  static String update(BuildContext context)=>'update'.tr(context);
+  static String update(BuildContext context) => 'update'.tr(context);
   static String privacyPolicy(BuildContext context) =>
       'privacyPolicy'.tr(context);
 }

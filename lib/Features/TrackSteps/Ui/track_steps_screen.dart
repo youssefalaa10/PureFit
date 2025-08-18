@@ -1,13 +1,14 @@
 import 'dart:math';
-import 'package:PureFit/Core/Routing/routes.dart';
-import 'package:dotted_border/dotted_border.dart';
+
 import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:PureFit/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -16,6 +17,7 @@ import 'package:pedometer/pedometer.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../../../Core/Components/media_query.dart';
 
 class TrackStepsScreen extends StatefulWidget {
@@ -46,7 +48,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       goalValue =
-          prefs.getInt("stepGoal") ?? 2; // Update the class-level goalValue
+          prefs.getInt('stepGoal') ?? 2; // Update the class-level goalValue
     });
   }
 
@@ -80,10 +82,10 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   }
 
   Future<void> _onStepCount(StepCount event) async {
-    String todayDate = _getFormattedDate(DateTime.now());
+    final String todayDate = _getFormattedDate(DateTime.now());
     final prefs = await SharedPreferences.getInstance();
 
-    bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+    final bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
     _savedSteps = prefs.getInt('savedSteps') ?? 0;
     _initialSteps = prefs.getInt('initialSteps') ?? event.steps;
 
@@ -145,7 +147,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       _stepCountStream?.listen(_onStepCount).onError(_onStepCountError);
     } else {
       if (kDebugMode) {
-        print("Permission not granted");
+        print('Permission not granted');
       }
     }
   }
@@ -304,7 +306,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                     ),
                     const CustomSizedbox(height: 10),
                     Text(
-                      "$_fullStepsOfToday",
+                      '$_fullStepsOfToday',
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,

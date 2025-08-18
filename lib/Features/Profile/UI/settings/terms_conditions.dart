@@ -1,4 +1,3 @@
-
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class TermsOfServiceScreen extends StatelessWidget {
     final mq = CustomMQ(context);
     final theme = Theme.of(context);
     return Scaffold(
-      
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
@@ -37,10 +35,10 @@ class TermsOfServiceScreen extends StatelessWidget {
     );
   }
 }
-class AgreementSection extends StatelessWidget {
-  final CustomMQ mq;
 
-  const AgreementSection({super.key, required this.mq});
+class AgreementSection extends StatelessWidget {
+  const AgreementSection({required this.mq, super.key});
+  final CustomMQ mq;
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +51,19 @@ class AgreementSection extends StatelessWidget {
   }
 }
 
-
 // Action Buttons Section
 class ActionButtonsSection extends StatelessWidget {
+  const ActionButtonsSection({required this.mq, super.key});
   final CustomMQ mq;
-
-  const ActionButtonsSection({super.key, required this.mq});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-      
         ElevatedButton(
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).primaryColor,
-
             padding: EdgeInsets.symmetric(
               horizontal: mq.width(10),
               vertical: mq.height(2),
@@ -78,7 +72,9 @@ class ActionButtonsSection extends StatelessWidget {
           onPressed: () {},
           child: Text(
             AppString.accept(context),
-            style: TextStyle(fontSize: mq.width(3.5), color: Theme.of(context).scaffoldBackgroundColor),
+            style: TextStyle(
+                fontSize: mq.width(3.5),
+                color: Theme.of(context).scaffoldBackgroundColor),
           ),
         ),
       ],

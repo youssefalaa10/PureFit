@@ -3,16 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../../../Core/Components/media_query.dart';
 
 class TermsItem extends StatelessWidget {
-  final CustomMQ mq;
-  final String title;
-  final String content;
-
   const TermsItem({
-    super.key,
     required this.mq,
     required this.title,
     required this.content,
+    super.key,
   });
+  final CustomMQ mq;
+  final String title;
+  final String content;
 
   @override
   Widget build(BuildContext context) {

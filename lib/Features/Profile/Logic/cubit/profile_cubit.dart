@@ -1,14 +1,13 @@
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
 import 'package:PureFit/Features/Profile/Data/Repo/profile_repo.dart';
+import 'package:bloc/bloc.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
+  ProfileCubit(this.profileRepo) : super(ProfileInitial());
   final ProfileRepo profileRepo;
   UserModel? user;
-
-  ProfileCubit(this.profileRepo) : super(ProfileInitial());
 
   Future<void> getProfile() async {
     // Avoid emitting if cubit is closed

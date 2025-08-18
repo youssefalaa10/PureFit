@@ -6,11 +6,11 @@ typedef NavigateFunction = void Function(String routeName);
 class NotificationController {
   static GlobalKey<NavigatorState>? navigatorKey; // Nullable navigator key
 
-  @pragma("vm:entry-point")
+  @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(
       ReceivedAction receivedAction) async {
     // Extract the screen from the payload
-    String? screen = receivedAction.payload?['screen'];
+    final String? screen = receivedAction.payload?['screen'];
 
     print('Received screen: $screen'); // Check what screen is received
 

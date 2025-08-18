@@ -1,9 +1,9 @@
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/weekly_execises_model.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
-import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../Core/Components/back_button.dart';
@@ -89,9 +89,9 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
     }
 
     // Calculate progress percentage
-    double progressPercentage = completedDays / totalDays;
-    int displayedPercentage = (progressPercentage * 100).round();
-    int daysLeft = totalDays - completedDays;
+    final double progressPercentage = completedDays / totalDays;
+    final int displayedPercentage = (progressPercentage * 100).round();
+    final int daysLeft = totalDays - completedDays;
 
     return Stack(
       children: [
@@ -225,7 +225,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             Padding(
               padding: EdgeInsets.only(bottom: mq.height(2)),
               child: _buildWeekSection(
-                "week",
+                'week',
                 calendar.weeks['week$i']!.days,
                 active: i == 1, // Highlight the current week
                 mq: mq,
@@ -237,7 +237,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
   }
 
   Widget _buildWeekSection(String weekTitle, Map<String, bool> weekData,
-      {bool active = false, required CustomMQ mq}) {
+      {required CustomMQ mq, bool active = false}) {
     final completedDays = weekData.values.where((day) => day).length;
     final totalDays = weekData.length;
 
@@ -317,10 +317,10 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
 
   List<Widget> _buildDaysRow(
       int start, int end, int completedDays, bool active, CustomMQ mq) {
-    List<Widget> dayWidgets = [];
+    final List<Widget> dayWidgets = [];
     for (int i = start; i <= end; i++) {
-      bool isCompleted = i <= completedDays;
-      bool isCurrentDay = i == completedDays + 1 && active;
+      final bool isCompleted = i <= completedDays;
+      final bool isCurrentDay = i == completedDays + 1 && active;
       dayWidgets.add(
         Container(
           width: mq.width(11.25),
@@ -376,8 +376,8 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
 class DashedLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    double dashWidth = 5.0;
-    double dashSpace = 3.0;
+    const double dashWidth = 5.0;
+    const double dashSpace = 3.0;
     double startY = 0;
 
     final paint = Paint()

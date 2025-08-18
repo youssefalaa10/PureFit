@@ -4,9 +4,8 @@ import '../../../../Core/Networking/Dio/dio_food_api.dart';
 import '../Model/diet_model.dart';
 
 class FoodsRepo {
-  final DioFoodsApi dioFoodsApi;
-
   FoodsRepo({required this.dioFoodsApi});
+  final DioFoodsApi dioFoodsApi;
   Future<List<DietModel>?> getFoods() async {
     try {
       final foodsJson = await dioFoodsApi.getFoods();
@@ -15,7 +14,7 @@ class FoodsRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error in FoodsRepo: $e");
+        print('Error in FoodsRepo: $e');
       }
     }
     return null;
@@ -29,7 +28,7 @@ class FoodsRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("Error in FoodsRepo: $e");
+        print('Error in FoodsRepo: $e');
       }
     }
     return null;

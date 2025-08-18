@@ -1,8 +1,7 @@
 class VerificationModel {
+  VerificationModel({required this.email, required this.verificationCode});
   final String email;
   final String verificationCode;
-
-  VerificationModel({required this.email, required this.verificationCode});
 
   Map<String, dynamic> toJson() {
     return {

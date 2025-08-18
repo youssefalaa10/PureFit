@@ -86,14 +86,14 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   validator: (value) {
                     if (value.isEmpty) {
                       return AppString.enterYourEmail(context);
-                    } else if (!value.contains("@")) {
+                    } else if (!value.contains('@')) {
                       return AppString.pleaseEnterAValidEmail(context);
                     }
                   },
                   controller: _emailController,
                   textInput: TextInputType.text,
                   isPassword: false,
-                  hintText: "Enter your email",
+                  hintText: 'Enter your email',
                   suffixIcon:
                       Icon(Icons.email, color: ColorManager.primaryColor),
                 ),
@@ -101,7 +101,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 CustomButton(
                   textColor: theme.scaffoldBackgroundColor,
                   backgroundColor: theme.primaryColor,
-                  label: "continue".tr(context),
+                  label: 'continue'.tr(context),
                   padding: EdgeInsets.symmetric(
                     horizontal: mq.width(20),
                     vertical: mq.height(2),

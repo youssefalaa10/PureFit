@@ -3,13 +3,13 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class TodayCaloriesDB {
-  static final TodayCaloriesDB _instance = TodayCaloriesDB._init();
   factory TodayCaloriesDB() => _instance;
+  TodayCaloriesDB._init();
+  static final TodayCaloriesDB _instance = TodayCaloriesDB._init();
 
   static Database? _database;
 
   String paths = '';
-  TodayCaloriesDB._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;

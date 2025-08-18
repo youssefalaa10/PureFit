@@ -3,9 +3,8 @@ import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
 import '../../../../Core/Networking/Dio/dio_profile_api.dart';
 
 class ProfileRepo {
-  final DioProfileApi dioProfileApi;
-
   ProfileRepo({required this.dioProfileApi});
+  final DioProfileApi dioProfileApi;
 
   Future<UserModel?> getProfile() async {
     return await dioProfileApi.getProfile();

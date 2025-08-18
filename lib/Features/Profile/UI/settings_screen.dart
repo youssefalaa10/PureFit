@@ -1,11 +1,9 @@
-
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../Core/Routing/routes.dart';
 import '../../../fitpro_app.dart';
-
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -55,7 +53,7 @@ class SettingScreenState extends State<SettingScreen> {
       // backgroundColor: ColorManager.backGroundColor,
       backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        title:  Text(AppString.settings(context)),
+        title: Text(AppString.settings(context)),
         // backgroundColor: ColorManager.backGroundColor,
         // title: Text(AppString.setting(context), style: textTheme.bodyLarge),
         centerTitle: true,
@@ -94,7 +92,7 @@ class SettingScreenState extends State<SettingScreen> {
                   // label: AppString.darkMode(context),
                   trailing: Switch(
                     inactiveTrackColor: Colors.transparent,
-                    activeColor: theme.colorScheme.primary,
+                    activeThumbColor: theme.colorScheme.primary,
                     value: _isDarkMode,
                     onChanged: (bool value) {
                       setState(() {
@@ -117,7 +115,7 @@ class SettingScreenState extends State<SettingScreen> {
                 //   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                 //   onTap: () {
                 //     // Handle About App tap
-                  
+
                 //   },
                 // ),
                 // CustomSettingsOption(
@@ -127,7 +125,7 @@ class SettingScreenState extends State<SettingScreen> {
                 //   trailing: const Icon(Icons.arrow_forward_ios, size: 18),
                 //   onTap: () {
                 //     // Handle help & support option tap
-                    
+
                 //   },
                 // ),
                 CustomSettingsOption(
@@ -138,7 +136,6 @@ class SettingScreenState extends State<SettingScreen> {
                   onTap: () {
                     Navigator.pushNamed(context, Routes.termsOfServiceScreen);
                     // Handle Terms & Conditions tap
-                   
                   },
                 ),
               ],
@@ -186,9 +183,8 @@ class SettingScreenState extends State<SettingScreen> {
 }
 
 class TitleSection extends StatelessWidget {
+  const TitleSection({required this.text, super.key});
   final String text;
-
-  const TitleSection({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -207,14 +203,13 @@ class TitleSection extends StatelessWidget {
 }
 
 class CustomSettingsSection extends StatelessWidget {
-  final String title;
-  final List<CustomSettingsOption> options;
-
   const CustomSettingsSection({
-    super.key,
     required this.title,
     required this.options,
+    super.key,
   });
+  final String title;
+  final List<CustomSettingsOption> options;
 
   @override
   Widget build(BuildContext context) {
@@ -252,23 +247,21 @@ class CustomSettingsSection extends StatelessWidget {
 }
 
 class CustomSettingsOption {
-  final IconData icon;
-  final String label;
-  final Widget? trailing;
-  final VoidCallback? onTap;
-
   CustomSettingsOption({
     required this.icon,
     required this.label,
     this.trailing,
     this.onTap,
   });
+  final IconData icon;
+  final String label;
+  final Widget? trailing;
+  final VoidCallback? onTap;
 }
 
 class BuildOptionIcon extends StatelessWidget {
+  const BuildOptionIcon({required this.icon, super.key});
   final IconData icon;
-
-  const BuildOptionIcon({super.key, required this.icon});
 
   @override
   Widget build(BuildContext context) {

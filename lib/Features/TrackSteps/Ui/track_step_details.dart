@@ -1,21 +1,22 @@
 import 'dart:math';
-import 'package:PureFit/Core/Services/notification_sleep_service.dart';
-import 'package:dotted_border/dotted_border.dart';
+
 import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
-import 'package:PureFit/Core/Components/media_query.dart'; 
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Services/notification_sleep_service.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/TrackSteps/Ui/components/step_ruler.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackStepDetails extends StatefulWidget {
+  const TrackStepDetails({required this.fullstepsOftoday, super.key});
   final int fullstepsOftoday;
-  const TrackStepDetails({super.key, required this.fullstepsOftoday});
 
   @override
   State<TrackStepDetails> createState() => _TrackStepDetailsState();
@@ -32,20 +33,20 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       goalValue =
-          prefs.getInt("stepGoal") ?? 2; // Load saved value or default to 2
+          prefs.getInt('stepGoal') ?? 2; // Load saved value or default to 2
     });
   }
 
   Future<void> _saveGoalValue() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("stepGoal", goalValue); // Save the current goal value
+    await prefs.setInt('stepGoal', goalValue); // Save the current goal value
   }
 
   sendNotify() {
     if (widget.fullstepsOftoday >= goalValue) {
       NotificationService().showNotification(
-        title: "PureFit",
-        body: "You hit the Steps goal!",
+        title: 'PureFit',
+        body: 'You hit the Steps goal!',
       );
     }
   }
@@ -84,7 +85,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
             StepRuler(
               onValueChanged: (value) {
                 setState(() {
-                  goalValue = value.toInt(); 
+                  goalValue = value.toInt();
                 });
               },
             ),
@@ -118,11 +119,11 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
         padding: EdgeInsets.symmetric(horizontal: mq.width(6)),
         child: Text(
           textAlign: TextAlign.center,
-          "Track Steps Details",
-          style:
-              TextStyle(
-                 fontFamily: AppString.font,
-                fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+          'Track Steps Details',
+          style: TextStyle(
+              fontFamily: AppString.font,
+              fontSize: mq.width(4.5),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -175,7 +176,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                     Icon(Icons.directions_walk, size: mq.width(9)),
                     CustomSizedbox(height: mq.height(1)),
                     Text(
-                      "${widget.fullstepsOftoday}",
+                      '${widget.fullstepsOftoday}',
                       style: TextStyle(
                           fontSize: mq.width(7), fontWeight: FontWeight.bold),
                     ),

@@ -1,7 +1,6 @@
 class ForgotPasswordModel {
-  final String email;
-
   ForgotPasswordModel({required this.email});
+  final String email;
 
   Map<String, dynamic> toJson() {
     return {

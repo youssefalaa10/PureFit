@@ -1,9 +1,9 @@
-import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/DI/dependency.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/AiChat/Logic/Cubit/aichat_cubit.dart';
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,8 +18,8 @@ class _TrainerChatState extends State<TrainerChat> {
   final TextEditingController _controller = TextEditingController();
 
   ChatUser currentUser =
-      ChatUser(id: "0", firstName: "Mohamed", lastName: "Amin");
-  ChatUser botUser = ChatUser(id: "1", firstName: "Coach");
+      ChatUser(id: '0', firstName: 'Mohamed', lastName: 'Amin');
+  ChatUser botUser = ChatUser(id: '1', firstName: 'Coach');
 
   List<ChatMessage> messages = [];
   @override
@@ -31,13 +31,13 @@ class _TrainerChatState extends State<TrainerChat> {
         surfaceTintColor: theme.scaffoldBackgroundColor,
         title: Text.rich(TextSpan(children: [
           TextSpan(
-              text: "Ai",
+              text: 'Ai',
               style: TextStyle(
                 fontFamily: AppString.font,
                 fontWeight: FontWeight.w700,
               )),
           TextSpan(
-              text: " Coach",
+              text: ' Coach',
               style: TextStyle(
                   fontFamily: AppString.font, fontWeight: FontWeight.w400))
         ])),
@@ -99,8 +99,6 @@ class _TrainerChatState extends State<TrainerChat> {
                   onSend: (ChatMessage message) {
                     handleSendMessage(context, message);
                   },
-                  messageListOptions:
-                      const MessageListOptions(showDateSeparator: true),
                   inputOptions: InputOptions(
                     inputTextStyle: TextStyle(color: theme.primaryColor),
                     inputToolbarStyle: BoxDecoration(

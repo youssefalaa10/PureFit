@@ -1,7 +1,7 @@
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:lottie/lottie.dart';
 // import '../../../Core/Shared/app_colors.dart';
 
@@ -60,14 +60,14 @@ class HeaderWidget extends StatelessWidget {
 }
 
 Widget datetime(context) {
-  DateTime now = DateTime.now();
-  int hour = now.hour;
+  final DateTime now = DateTime.now();
+  final int hour = now.hour;
 
   if (hour >= 6 && hour < 12) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("Good Morning".tr(context),
+        Text('Good Morning'.tr(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: 22,
@@ -82,7 +82,7 @@ Widget datetime(context) {
   } else if (hour >= 12 && hour < 17) {
     return Row(
       children: [
-        Text("Good Afternoon".tr(context),
+        Text('Good Afternoon'.tr(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: 22,
@@ -97,7 +97,7 @@ Widget datetime(context) {
   } else {
     return Row(
       children: [
-        Text("Good Evening".tr(context),
+        Text('Good Evening'.tr(context),
             style: TextStyle(
               fontFamily: AppString.font,
               fontSize: 22,

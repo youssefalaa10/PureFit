@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RestScreen extends StatefulWidget {
+  const RestScreen({required this.exercises, required this.index, super.key});
   final List<ExerciseModel> exercises;
   final int index;
-  const RestScreen({super.key, required this.exercises, required this.index});
 
   @override
   _RestScreenState createState() => _RestScreenState();
@@ -99,18 +99,17 @@ class _RestScreenState extends State<RestScreen> {
 }
 
 class RestTimerSection extends StatelessWidget {
-  final CustomMQ mq;
-  final int countdownValue;
-  final VoidCallback onAddTime;
-  final VoidCallback onSkip;
-
   const RestTimerSection({
-    super.key,
     required this.mq,
     required this.countdownValue,
     required this.onAddTime,
     required this.onSkip,
+    super.key,
   });
+  final CustomMQ mq;
+  final int countdownValue;
+  final VoidCallback onAddTime;
+  final VoidCallback onSkip;
 
   @override
   Widget build(BuildContext context) {
@@ -182,14 +181,14 @@ class RestTimerSection extends StatelessWidget {
 }
 
 class NextExerciseSection extends StatelessWidget {
+  const NextExerciseSection(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const NextExerciseSection(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -237,14 +236,14 @@ class NextExerciseSection extends StatelessWidget {
 }
 
 class ExerciseImageSection extends StatelessWidget {
+  const ExerciseImageSection(
+      {required this.mq,
+      required this.exercises,
+      required this.index,
+      super.key});
   final CustomMQ mq;
   final List<ExerciseModel> exercises;
   final int index;
-  const ExerciseImageSection(
-      {super.key,
-      required this.mq,
-      required this.exercises,
-      required this.index});
 
   @override
   Widget build(BuildContext context) {

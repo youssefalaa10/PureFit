@@ -27,7 +27,6 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildHeaderSection(mq),
                 SizedBox(height: mq.height(5)),
@@ -90,9 +89,9 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
     return Column(
       children: [
         Text(
-          "yourActivityLevel".tr(context),
+          'yourActivityLevel'.tr(context),
           style: TextStyle(
-             fontFamily: AppString.font,
+            fontFamily: AppString.font,
             fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,
             color: Colors.black,
@@ -103,7 +102,7 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
           AppString.helpUsCreateYourPersonalizedPlan(context),
           textAlign: TextAlign.center,
           style: TextStyle(
-             fontFamily: AppString.font,
+            fontFamily: AppString.font,
             fontSize: mq.height(2),
             color: ColorManager.greyColor.withOpacity(0.5),
           ),

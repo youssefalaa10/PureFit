@@ -1,7 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:PureFit/Core/Components/media_query.dart';
-
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../Logic/cubit/profile_cubit.dart';
@@ -22,7 +20,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     context.read<ProfileCubit>().getProfile();
     final userId = context.read<ProfileCubit>().user!.userId;
-    print('userId: ${userId}');
+    print('userId: $userId');
   }
 
   @override

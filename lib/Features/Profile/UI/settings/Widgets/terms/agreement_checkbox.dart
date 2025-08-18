@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import '../../../../../../Core/Components/media_query.dart';
 
 class AgreementCheckbox extends StatefulWidget {
+  const AgreementCheckbox({required this.mq, required this.label, super.key});
   final CustomMQ mq;
   final String label;
-
-  const AgreementCheckbox({super.key, required this.mq, required this.label});
 
   @override
   AgreementCheckboxState createState() => AgreementCheckboxState();

@@ -5,20 +5,19 @@ import 'package:flutter/material.dart';
 import '../../../Core/Components/media_query.dart';
 
 class StaticCard extends StatelessWidget {
-  final Icon icon;
-  final String headline;
-  final String static;
-  final String endline;
-  final Color color;
-
   const StaticCard({
-    super.key,
     required this.icon,
     required this.headline,
     required this.static,
     required this.endline,
     required this.color,
+    super.key,
   });
+  final Icon icon;
+  final String headline;
+  final String static;
+  final String endline;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,6 @@ class StaticCard extends StatelessWidget {
             ],
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -81,4 +79,3 @@ class StaticCard extends StatelessWidget {
     );
   }
 }
-

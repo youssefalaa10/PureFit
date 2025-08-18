@@ -3,10 +3,9 @@ import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
-
 class HeaderCalories extends StatelessWidget {
+  const HeaderCalories({required this.onPressed, super.key});
   final void Function() onPressed;
-  const HeaderCalories({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

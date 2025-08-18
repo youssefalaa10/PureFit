@@ -1,13 +1,13 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Calories/DATA/Model/todayfood_model.dart';
 import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:bloc/bloc.dart';
 
 part 'todayfood_state.dart';
 
 class TodayfoodCubit extends Cubit<TodayfoodState> {
-  final TodayfoodRepo todayfoodRepo;
   TodayfoodCubit(this.todayfoodRepo) : super(TodayfoodInitial());
+  final TodayfoodRepo todayfoodRepo;
 
   void getFoodToday() async {
     try {
@@ -26,7 +26,7 @@ class TodayfoodCubit extends Cubit<TodayfoodState> {
         totalFats: totalFats,
       ));
     } catch (e) {
-      emit(TodayfoodError("Failed to load food data"));
+      emit(TodayfoodError('Failed to load food data'));
     }
   }
 
@@ -35,14 +35,14 @@ class TodayfoodCubit extends Cubit<TodayfoodState> {
       await todayfoodRepo.removeFoodToday(dietItemId);
       getFoodToday(); // Refresh the data after deletion
     } catch (e) {
-      emit(TodayfoodError("Failed to remove food item"));
+      emit(TodayfoodError('Failed to remove food item'));
     }
   }
 
   resetDB() async {
     final now = DateTime.now();
     await AndroidAlarmManager.oneShotAt(
-      DateTime(now.year, now.month, now.day, 24, 0),
+      DateTime(now.year, now.month, now.day, 24),
       0, // unique ID for this alarm
       clearetoday, // The callback function that runs
       // The callback function that runs

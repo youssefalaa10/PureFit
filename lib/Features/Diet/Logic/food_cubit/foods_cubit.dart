@@ -4,11 +4,12 @@ import '../../Data/Repo/foods_repo.dart';
 import 'foods_state.dart';
 
 class FoodsCubit extends Cubit<FoodsState> {
-  final FoodsRepo foodsRepo;
-  List<DietModel> allFoods = []; // Store all foods
-  List<DietModel> filteredFoods = []; // Store filtered foods
+  // Store filtered foods
 
   FoodsCubit(this.foodsRepo) : super(FoodsInitial());
+  final FoodsRepo foodsRepo;
+  List<DietModel> allFoods = []; // Store all foods
+  List<DietModel> filteredFoods = [];
 
   Future<void> fetchFoods() async {
     emit(FoodsLoading());
@@ -27,7 +28,6 @@ class FoodsCubit extends Cubit<FoodsState> {
             protein: food.protein,
             fats: food.fats,
             image: food.image,
-            isFavorite: false, // Mark favorite
           );
         }).toList();
 
@@ -38,12 +38,12 @@ class FoodsCubit extends Cubit<FoodsState> {
         }
       } else {
         if (!isClosed) {
-          emit(FoodsError("No foods found"));
+          emit(FoodsError('No foods found'));
         }
       }
     } catch (e) {
       if (!isClosed) {
-        emit(FoodsError("Failed to load foods: $e"));
+        emit(FoodsError('Failed to load foods: $e'));
       }
     }
   }

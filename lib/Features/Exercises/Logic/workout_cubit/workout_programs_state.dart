@@ -7,13 +7,11 @@ class WorkoutProgramsInitial extends WorkoutProgramsState {}
 class WorkoutProgramsLoading extends WorkoutProgramsState {}
 
 class WorkoutProgramsSuccess extends WorkoutProgramsState {
-  final List<WorkoutCategoriesModel> workoutPrograms;
-
   WorkoutProgramsSuccess(this.workoutPrograms);
+  final List<WorkoutCategoriesModel> workoutPrograms;
 }
 
 class WorkoutProgramsError extends WorkoutProgramsState {
-  final String message;
-
   WorkoutProgramsError(this.message);
+  final String message;
 }

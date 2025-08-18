@@ -1,12 +1,12 @@
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
 import 'package:PureFit/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
+import 'package:bloc/bloc.dart';
 
 part 'sleep_state.dart';
 
 class SleepCubit extends Cubit<SleepState> {
-  final SleepRepo sleepRepo;
   SleepCubit(this.sleepRepo) : super(SleepInitial());
+  final SleepRepo sleepRepo;
 
   getallsessions() async {
     try {
@@ -21,6 +21,6 @@ class SleepCubit extends Cubit<SleepState> {
 
   insertSession(SleepSession sleepsession) async {
     await sleepRepo.insertSleep(sleepsession);
-    print("sucess");
+    print('sucess');
   }
 }

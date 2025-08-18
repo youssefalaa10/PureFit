@@ -1,14 +1,13 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Services/notification_sleep_service.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
-
 import 'package:PureFit/Features/Water/Logic/cubit/water_intake_cubit.dart';
 import 'package:PureFit/Features/Water/water_add.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -42,13 +41,13 @@ class _WaterScreenState extends State<WaterScreen> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       goalValue =
-          prefs.getInt("waterGoal") ?? 2; // Update the class-level goalValue
+          prefs.getInt('waterGoal') ?? 2; // Update the class-level goalValue
     });
   }
 
   void scheduleDailyNotifications(List<TimeOfDay> times) {
     // Get the current date
-    DateTime now = DateTime.now();
+    final DateTime now = DateTime.now();
 
     for (TimeOfDay time in times) {
       // Calculate the scheduled time for each TimeOfDay
@@ -58,7 +57,6 @@ class _WaterScreenState extends State<WaterScreen> {
         now.day,
         time.hour,
         time.minute,
-        0, // Seconds set to 0
       );
 
       // If the current time is past the scheduled time, set it for the next day
@@ -68,8 +66,8 @@ class _WaterScreenState extends State<WaterScreen> {
 
       // Schedule the notification
       NotificationService().scheduleNotification(
-        title: "PureFit",
-        body: "Stay Hydrated!",
+        title: 'PureFit',
+        body: 'Stay Hydrated!',
         scheduledTime: scheduledTime,
       );
     }
@@ -79,7 +77,7 @@ class _WaterScreenState extends State<WaterScreen> {
   Widget build(BuildContext context) {
     final mq = CustomMQ(context); // Instantiate CustomMQ
     final theme = Theme.of(context);
-    WaterIntakeCubit waterIntakeCubit = context.read<WaterIntakeCubit>();
+    final WaterIntakeCubit waterIntakeCubit = context.read<WaterIntakeCubit>();
 
     return Scaffold(
       appBar: AppBar(
@@ -170,7 +168,7 @@ class _WaterScreenState extends State<WaterScreen> {
     return BlocBuilder<WaterIntakeCubit, WaterIntakeState>(
         builder: (context, state) {
       if (state is WaterIntakeSuccess) {
-        int intake = state.totalIntake;
+        final int intake = state.totalIntake;
 
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -225,7 +223,7 @@ Widget _buildStackedLottieImage(CustomMQ mq, String value) {
                 ),
               ),
               TextSpan(
-                text: "lits",
+                text: 'lits',
                 style: TextStyle(
                   fontFamily: AppString.font,
                   fontSize: mq.width(5),
@@ -257,20 +255,20 @@ Widget _buildMyActivity(CustomMQ mq) {
                   color: ColorManager.primaryColor,
                   size: mq.width(5), // Set a responsive size for the icon
                 ),
-                title: Text("${session.intake}"),
-                subtitle: const Text("Intake"),
+                title: Text('${session.intake}'),
+                subtitle: const Text('Intake'),
                 titleAlignment: ListTileTitleAlignment.threeLine,
                 trailing: Column(
                   children: [
                     Text(
-                      "Date",
+                      'Date',
                       style: TextStyle(
                         color: ColorManager.lightGreyColor,
                         fontSize: mq.width(3),
                       ),
                     ),
                     Text(
-                      "${session.date} ",
+                      '${session.date} ',
                       style: TextStyle(
                         fontSize: mq.width(4),
                         fontWeight: FontWeight.w800,

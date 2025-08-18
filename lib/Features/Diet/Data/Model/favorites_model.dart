@@ -1,6 +1,31 @@
 import 'base_diet_model.dart';
 
 class FavoriteModel implements BaseDietModel {
+  FavoriteModel({
+    required this.id,
+    required this.name,
+    required this.calories,
+    required this.protein,
+    required this.fats,
+    required this.image,
+    required this.isFavorite,
+    this.localId,
+  });
+
+  factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
+        id: json['id'],
+        localId: json['localId'],
+        name: json['name'],
+        calories: json['calories'],
+        protein: (json['protein'] is int)
+            ? (json['protein'] as int).toDouble()
+            : json['protein'] as double,
+        fats: (json['fats'] is int)
+            ? (json['fats'] as int).toDouble()
+            : json['fats'] as double,
+        image: json['image'],
+        isFavorite: json['isFavorite'] == 1,
+      );
   @override
   final String id;
   int? localId;
@@ -16,17 +41,6 @@ class FavoriteModel implements BaseDietModel {
   final String image;
   @override
   final bool isFavorite;
-
-  FavoriteModel({
-    this.localId,
-    required this.id,
-    required this.name,
-    required this.calories,
-    required this.protein,
-    required this.fats,
-    required this.image,
-    required this.isFavorite,
-  });
 
   // Create a copyWith method to easily clone and modify values
   FavoriteModel copyWith({
@@ -51,29 +65,14 @@ class FavoriteModel implements BaseDietModel {
     );
   }
 
-  factory FavoriteModel.fromJson(Map<String, dynamic> json) => FavoriteModel(
-        id: json['id'],
-        localId: json['localId'],
-        name: json["name"],
-        calories: json["calories"],
-        protein: (json["protein"] is int)
-            ? (json["protein"] as int).toDouble()
-            : json["protein"] as double,
-        fats: (json["fats"] is int)
-            ? (json["fats"] as int).toDouble()
-            : json["fats"] as double,
-        image: json["image"],
-        isFavorite: json['isFavorite'] == 1,
-      );
-
   @override
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "calories": calories,
-        "protein": protein,
-        "fats": fats,
-        "image": image,
-        "isFavorite": isFavorite ? 1 : 0,
+        'id': id,
+        'name': name,
+        'calories': calories,
+        'protein': protein,
+        'fats': fats,
+        'image': image,
+        'isFavorite': isFavorite ? 1 : 0,
       };
 }

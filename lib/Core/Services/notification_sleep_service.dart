@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import '../Routing/Routes.dart';
 
 class NotificationService {
-  // Store the ID of the current repeating notification
-  int? currentNotificationId;
-
   NotificationService() {
     _initializeNotifications();
   }
+  // Store the ID of the current repeating notification
+  int? currentNotificationId;
 
   Future<void> _initializeNotifications() async {
     try {
@@ -45,7 +44,7 @@ class NotificationService {
   }) async {
     try {
       // Generate a unique notification ID
-      int notificationId =
+      final int notificationId =
           DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
       await AwesomeNotifications().createNotification(
@@ -54,7 +53,6 @@ class NotificationService {
           channelKey: 'basic_channel',
           title: title,
           body: body,
-          notificationLayout: NotificationLayout.Default,
           customSound: 'resource://raw/fire', // Optional: custom sound
           payload: routeName != null
               ? {'screen': routeName}
@@ -77,7 +75,7 @@ class NotificationService {
   }) async {
     try {
       // Generate a unique notification ID
-      int notificationId =
+      final int notificationId =
           DateTime.now().millisecondsSinceEpoch.remainder(100000);
 
       await AwesomeNotifications().createNotification(
@@ -86,7 +84,6 @@ class NotificationService {
           channelKey: 'basic_channel',
           title: title,
           body: body,
-          notificationLayout: NotificationLayout.Default,
           customSound: 'resource://raw/fire',
           payload: routeName != null ? {'screen': routeName} : null,
         ),
@@ -111,14 +108,12 @@ class NotificationService {
         channelKey: 'basic_channel',
         title: title,
         body: body,
-        notificationLayout: NotificationLayout.Default,
         customSound: 'resource://raw/fire',
         payload: {'screen': Routes.sleepScreen}, // Correct payload mapping
       ),
       schedule: NotificationCalendar(
         second: 30,
         repeats: true, // Repeat every 30 seconds (adjust as needed)
-        preciseAlarm: true,
         allowWhileIdle: true,
       ),
     );

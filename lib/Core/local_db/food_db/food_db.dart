@@ -3,13 +3,13 @@ import 'package:sqflite/sqflite.dart';
 import '../../../Features/Diet/Data/Model/favorites_model.dart';
 
 class DietFavoriteDb {
-  static final DietFavoriteDb _instance = DietFavoriteDb._init();
   factory DietFavoriteDb() => _instance;
+  DietFavoriteDb._init();
+  static final DietFavoriteDb _instance = DietFavoriteDb._init();
 
   static Database? _database;
 
   String paths = '';
-  DietFavoriteDb._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;

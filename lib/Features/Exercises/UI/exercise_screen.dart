@@ -1,14 +1,13 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shimmer/shimmer.dart';
-
 import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../Core/Routing/Routes.dart';
 import '../../../Core/Shared/app_string.dart';
@@ -16,9 +15,8 @@ import '../Data/Model/exercise_model.dart';
 import '../Logic/exercise_cubit/exercise_cubit.dart';
 
 class ExerciseScreen extends StatefulWidget {
+  const ExerciseScreen({required this.workoutCategory, super.key});
   final WorkoutCategoriesModel workoutCategory;
-
-  const ExerciseScreen({super.key, required this.workoutCategory});
 
   @override
   State<ExerciseScreen> createState() => _ExerciseScreenState();
@@ -171,9 +169,9 @@ Widget _buildDetailsRow(CustomMQ mq, WorkoutCategoriesModel workoutCategory) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      _buildDetailItem("Level", workoutCategory.level, mq),
-      _buildDetailItem("Time", workoutCategory.timeOfFullProgram, mq),
-      _buildDetailItem("Focus Area", workoutCategory.workoutName, mq),
+      _buildDetailItem('Level', workoutCategory.level, mq),
+      _buildDetailItem('Time', workoutCategory.timeOfFullProgram, mq),
+      _buildDetailItem('Focus Area', workoutCategory.workoutName, mq),
     ],
   );
 }
@@ -200,7 +198,7 @@ Widget _buildExercisesSection(CustomMQ mq, List<ExerciseModel> exercises) {
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Text(
-        "Exercises (${exercises.length})",
+        'Exercises (${exercises.length})',
         style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.bold),
       ),
       SizedBox(height: mq.height(1.5)),

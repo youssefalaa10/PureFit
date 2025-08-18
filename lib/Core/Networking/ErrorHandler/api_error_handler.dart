@@ -8,23 +8,23 @@ class ApiErrorHandler {
         case DioExceptionType.badResponse:
           return ApiErrorModel(message: error.response?.data['message']);
         case DioExceptionType.connectionTimeout:
-          return ApiErrorModel(message: "Connection timeout");
+          return ApiErrorModel(message: 'Connection timeout');
         case DioExceptionType.sendTimeout:
-          return ApiErrorModel(message: "Send timeout");
+          return ApiErrorModel(message: 'Send timeout');
         case DioExceptionType.receiveTimeout:
-          return ApiErrorModel(message: "Receive timeout");
+          return ApiErrorModel(message: 'Receive timeout');
         case DioExceptionType.cancel:
-          return ApiErrorModel(message: "Request canceled");
+          return ApiErrorModel(message: 'Request canceled');
         case DioExceptionType.connectionError:
-          return ApiErrorModel(message: "Connection error");
+          return ApiErrorModel(message: 'Connection error');
         case DioExceptionType.unknown:
-          return ApiErrorModel(message: "Unknown error");
+          return ApiErrorModel(message: 'Unknown error');
         default:
-          return ApiErrorModel(message: "Something went wrong");
+          return ApiErrorModel(message: 'Something went wrong');
       }
     } else {
       return ApiErrorModel(
-        message: "Unknown error occurred",
+        message: 'Unknown error occurred',
       );
     }
   }

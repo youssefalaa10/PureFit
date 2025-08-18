@@ -1,15 +1,15 @@
-import 'package:bloc/bloc.dart';
 import 'package:PureFit/Features/Diet/Data/Model/diet_model.dart';
+import 'package:bloc/bloc.dart';
 
 import '../../Data/Repo/drinks_repo.dart'; // Import the DrinksRepo
 import 'drinks_state.dart'; // Import the state classes for drinks
 
-class DrinksCubit extends Cubit<DrinksState> {
-  final DrinksRepo drinksRepo;
-  List<DietModel> allDrinks = []; // Store all drinks
-  List<DietModel> filteredDrinks = []; // Store filtered drinks
+class DrinksCubit extends Cubit<DrinksState> { // Store filtered drinks
 
   DrinksCubit(this.drinksRepo) : super(DrinksInitial());
+  final DrinksRepo drinksRepo;
+  List<DietModel> allDrinks = []; // Store all drinks
+  List<DietModel> filteredDrinks = [];
 
   // Fetch drinks from the repository
   fetchDrinks() async {
@@ -24,12 +24,12 @@ class DrinksCubit extends Cubit<DrinksState> {
         }
       } else {
         if (!isClosed) {
-          emit(DrinksError("No drinks found"));
+          emit(DrinksError('No drinks found'));
         }
       }
     } catch (e) {
       if (!isClosed) {
-        emit(DrinksError("Failed to load drinks: $e"));
+        emit(DrinksError('Failed to load drinks: $e'));
       }
     }
   }

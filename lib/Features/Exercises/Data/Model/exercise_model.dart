@@ -1,13 +1,4 @@
 class ExerciseModel {
-  final String categoryId;
-  final String equipment;
-  final String? gifUrl;
-  // final int id;
-  final String name;
-  final String target;
-  final List<String> secondaryMuscles;
-  final List<String> instructions;
-
   ExerciseModel({
     required this.categoryId,
     required this.equipment,
@@ -32,6 +23,14 @@ class ExerciseModel {
       instructions: List<String>.from(json['instructions']),
     );
   }
+  final String categoryId;
+  final String equipment;
+  final String? gifUrl;
+  // final int id;
+  final String name;
+  final String target;
+  final List<String> secondaryMuscles;
+  final List<String> instructions;
 
   // Method to convert Exercise object to JSON (useful if needed)
   Map<String, dynamic> toJson() {

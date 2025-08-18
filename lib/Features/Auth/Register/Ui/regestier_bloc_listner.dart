@@ -57,7 +57,7 @@ void showSuccessDialog(BuildContext context) {
             style: TextButton.styleFrom(
               foregroundColor: Colors.white,
               backgroundColor: ColorManager.primaryColor,
-              disabledForegroundColor: Colors.grey.withOpacity(0.38),
+              disabledForegroundColor: Colors.grey.withValues(alpha: 0.38),
             ),
             onPressed: () {
               Navigator.pop(context);

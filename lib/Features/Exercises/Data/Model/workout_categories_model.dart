@@ -1,13 +1,4 @@
 class WorkoutCategoriesModel {
-  final String id;
-  final String thumbnail;
-  final String programName;
-  final String workoutName;
-  final String timeOfFullProgram;
-  final String level;
-  final int burnedCalories;
-  final List<String> goals;
-
   WorkoutCategoriesModel({
     required this.goals,
     required this.id,
@@ -33,6 +24,14 @@ class WorkoutCategoriesModel {
           : [json['goals'].toString()],
     );
   }
+  final String id;
+  final String thumbnail;
+  final String programName;
+  final String workoutName;
+  final String timeOfFullProgram;
+  final String level;
+  final int burnedCalories;
+  final List<String> goals;
 
   Map<String, dynamic> toJson() {
     return {

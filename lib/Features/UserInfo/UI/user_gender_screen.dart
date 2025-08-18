@@ -26,7 +26,6 @@ class UserGenderScreenState extends State<UserGenderScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // Section 1: Progress Bar with Back Button and Step Indicator
               _buildHeaderSection(screenHeight, screenWidth),
@@ -132,9 +131,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               child: Icon(
                 Icons.male,
                 size: screenHeight * 0.06,
-                color: selectedGender == 'male'
-                    ? Colors.white
-                    : Colors.black,
+                color: selectedGender == 'male' ? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -160,9 +157,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               child: Icon(
                 Icons.female,
                 size: screenHeight * 0.06,
-                color: selectedGender == 'female'
-                    ? Colors.white
-                    : Colors.black,
+                color: selectedGender == 'female' ? Colors.white : Colors.black,
               ),
             ),
           ),

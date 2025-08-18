@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Shimmerloadingexercises extends StatelessWidget {
+  const Shimmerloadingexercises({required this.mq, super.key});
   final CustomMQ mq;
-  const Shimmerloadingexercises({super.key, required this.mq});
 
   @override
   Widget build(BuildContext context) {

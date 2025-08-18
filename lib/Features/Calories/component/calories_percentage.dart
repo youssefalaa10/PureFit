@@ -1,18 +1,17 @@
 import 'dart:math';
 
-import 'package:dotted_border/dotted_border.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class CaloriesPercentage extends StatelessWidget {
+  const CaloriesPercentage(
+      {required this.calories, required this.consumedCalories, super.key});
   final double calories;
   final double consumedCalories;
-
-  const CaloriesPercentage(
-      {super.key, required this.calories, required this.consumedCalories});
 
   @override
   Widget build(BuildContext context) {

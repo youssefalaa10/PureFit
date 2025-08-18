@@ -5,9 +5,10 @@ import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 import '../../../Core/Shared/app_string.dart';
 
 class WaterRuler extends StatefulWidget {
-  final Function(num) onValueChanged; // Callback parameter
+  // Callback parameter
 
-  const WaterRuler({super.key, required this.onValueChanged});
+  const WaterRuler({required this.onValueChanged, super.key});
+  final Function(num) onValueChanged;
 
   @override
   HeightPickerState createState() => HeightPickerState();
@@ -42,12 +43,12 @@ class HeightPickerState extends State<WaterRuler> {
           // Ruler Picker
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 1, end: 11, scale: 1),
+              RulerRange(begin: 1, end: 11),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(

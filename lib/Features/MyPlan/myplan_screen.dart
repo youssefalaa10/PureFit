@@ -20,9 +20,9 @@ class MyPlanScreen extends StatefulWidget {
 class _MyPlanScreenState extends State<MyPlanScreen> {
   double bmi = 0.0;
   double calories = 0.0;
-  String stepsValue = "0"; // Initial default value for steps
-  String sleepValue = "8 hr"; // Initial default value for sleep
-  String waterValue = "2 lits"; // Initial default value for water
+  String stepsValue = '0'; // Initial default value for steps
+  String sleepValue = '8 hr'; // Initial default value for sleep
+  String waterValue = '2 lits'; // Initial default value for water
 
   @override
   Widget build(BuildContext context) {
@@ -272,14 +272,13 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
 }
 
 class ShimmerStaticCard extends StatelessWidget {
-  final double width;
-  final double height;
-
   const ShimmerStaticCard({
     super.key,
     this.width = 100.0,
     this.height = 100.0,
   });
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -326,9 +325,7 @@ Widget _buildShimmerCard() {
     baseColor: Colors.grey.shade300,
     highlightColor: Colors.grey.shade100,
     child: Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-
         Container(
           height: 60,
           decoration: BoxDecoration(
@@ -339,7 +336,6 @@ Widget _buildShimmerCard() {
             children: List.generate(
               6,
               (index) => Expanded(
-                flex: 1,
                 child: Container(
                   color: Colors.white,
                 ),

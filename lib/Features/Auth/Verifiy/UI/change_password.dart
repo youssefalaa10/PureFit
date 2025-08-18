@@ -11,9 +11,8 @@ import '../Logic/change_password_cubit/change_password_cubit.dart';
 import '../Logic/change_password_cubit/change_password_state.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({required this.email, super.key});
   final String email;
-
-  const ChangePasswordScreen({super.key, required this.email});
 
   @override
   State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
@@ -68,11 +67,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           Text(
                             AppString.changePassword(context),
                             style: TextStyle(
-                              fontSize: mq.width(8),
-                              color: ColorManager.primaryColor,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: AppString.font
-                            ),
+                                fontSize: mq.width(8),
+                                color: ColorManager.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppString.font),
                           ),
                           SizedBox(height: mq.height(2)),
                           Text(

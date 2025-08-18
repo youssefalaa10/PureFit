@@ -1,23 +1,23 @@
-import 'package:flutter/material.dart';
 import 'package:PureFit/Core/Routing/app_router.dart';
 import 'package:PureFit/Core/Services/notificationcontroler.dart';
+import 'package:PureFit/Core/Shared/theme/theme_color.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:PureFit/Core/Shared/theme/theme_color.dart';
+
 import 'Core/Routing/routes.dart';
 import 'Core/Shared/localization/app_localizations.dart';
 
 class FitproApp extends StatefulWidget {
-  final AppRouter appRouter;
-  final Locale initialLocale;
-  final bool isDarkMode;
-
   const FitproApp({
-    super.key,
     required this.appRouter,
     required this.initialLocale,
     required this.isDarkMode,
+    super.key,
   });
+  final AppRouter appRouter;
+  final Locale initialLocale;
+  final bool isDarkMode;
 
   // Method to toggle the theme externally
   static void toggleTheme(BuildContext context, bool isDarkMode) {

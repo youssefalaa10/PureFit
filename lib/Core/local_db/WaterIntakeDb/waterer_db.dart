@@ -15,8 +15,8 @@ class WatererDb {
   }
 
   initDb() async {
-    var path = await getDatabasesPath();
-    final getDb = join(path, "Water.db");
+    final path = await getDatabasesPath();
+    final getDb = join(path, 'Water.db');
     return await openDatabase(getDb, version: 1, onCreate: _onCreate);
   }
 
@@ -33,11 +33,11 @@ class WatererDb {
   // Insert or update water intake for the same day
   Future<void> insertOrUpdateIntake(int newIntake) async {
     final database = await db;
-    String currentDate =
+    final String currentDate =
         DateTime.now().toString().split(' ')[0]; // Format: 'YYYY-MM-DD'
 
     // Check if there's an existing entry for the current date
-    var existingRecord = await database.query(
+    final existingRecord = await database.query(
       'Water',
       where: 'date = ?',
       whereArgs: [currentDate],
@@ -45,8 +45,8 @@ class WatererDb {
 
     if (existingRecord.isNotEmpty) {
       // If record exists, update the intake
-      int existingIntake = existingRecord.first['intake'] as int;
-      int updatedIntake = existingIntake + newIntake;
+      final int existingIntake = existingRecord.first['intake'] as int;
+      final int updatedIntake = existingIntake + newIntake;
       await database.update(
         'Water',
         {'intake': updatedIntake},
@@ -96,10 +96,10 @@ class WatererDb {
   // Get the total water intake for today
   Future<int> getTodayIntake() async {
     final database = await db;
-    String currentDate =
+    final String currentDate =
         DateTime.now().toString().split(' ')[0]; // Format: 'YYYY-MM-DD'
 
-    var result = await database.query(
+    final result = await database.query(
       'Water',
       columns: ['SUM(intake) as totalIntake'],
       where: 'date = ?',

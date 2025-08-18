@@ -5,9 +5,8 @@ import '../../Data/Repo/favorite_repo.dart';
 part 'favorite_state.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {
-  final FavoriteRepo favoriteRepo;
-
   FavoriteCubit({required this.favoriteRepo}) : super(FavoriteInitial());
+  final FavoriteRepo favoriteRepo;
 
   // Load favorites from the local database
   Future<void> loadFavorites() async {

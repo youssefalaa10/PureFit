@@ -7,14 +7,12 @@ final class WaterIntakeInitial extends WaterIntakeState {}
 final class WaterIntakeLoading extends WaterIntakeState {}
 
 final class WaterIntakeSuccess extends WaterIntakeState {
+  WaterIntakeSuccess(this.intakes, this.totalIntake);
   final List<WaterIntake> intakes;
   final int totalIntake;
-
-  WaterIntakeSuccess(this.intakes, this.totalIntake);
 }
 
 final class WaterIntakeFailure extends WaterIntakeState {
-  final String error;
-
   WaterIntakeFailure(this.error);
+  final String error;
 }

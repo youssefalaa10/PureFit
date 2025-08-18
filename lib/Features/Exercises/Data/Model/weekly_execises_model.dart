@@ -1,10 +1,4 @@
 class WeeklyExerciseModel {
-  final String profileId;
-  final Map<String, Week> weeks;
-  final DateTime createdAt;
-  final DateTime startDate;
-  final DateTime endDate;
-
   WeeklyExerciseModel({
     required this.profileId,
     required this.weeks,
@@ -15,7 +9,7 @@ class WeeklyExerciseModel {
 
   // Factory method to parse the JSON and create a WeeklyExerciseModel instance
   factory WeeklyExerciseModel.fromJson(Map<String, dynamic> json) {
-    Map<String, Week> weeksMap = {};
+    final Map<String, Week> weeksMap = {};
 
     // Convert weeks into Week objects
     json['weeks'].forEach((weekKey, weekData) {
@@ -32,17 +26,19 @@ class WeeklyExerciseModel {
       endDate: DateTime.parse(json['endDate']),
     );
   }
+  final String profileId;
+  final Map<String, Week> weeks;
+  final DateTime createdAt;
+  final DateTime startDate;
+  final DateTime endDate;
 }
 
 class Week {
-  final String id;
-  final Map<String, bool> days;
-
   Week({required this.id, required this.days});
 
   // Factory method to parse each week
   factory Week.fromJson(Map<String, dynamic> json) {
-    Map<String, bool> daysMap = {};
+    final Map<String, bool> daysMap = {};
 
     // Convert day values
     json.forEach((dayKey, dayValue) {
@@ -56,6 +52,8 @@ class Week {
       days: daysMap,
     );
   }
+  final String id;
+  final Map<String, bool> days;
 
   // Method to update a specific day in the week
   void updateDay(String day, bool value) {

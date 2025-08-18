@@ -1,13 +1,14 @@
 import 'dart:math';
+
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:PureFit/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class LinerChartCFT extends StatelessWidget {
+  const LinerChartCFT({required this.amount, super.key});
   final double amount;
-  const LinerChartCFT({super.key, required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class LinerChartCFT extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      "${amount.toStringAsFixed(1)}g",
+                      '${amount.toStringAsFixed(1)}g',
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: mq.width(3.5),
@@ -32,7 +33,7 @@ class LinerChartCFT extends StatelessWidget {
                     ),
                     CustomSizedbox(width: mq.width(3.5)),
                     Text(
-                      "${((amount / 150) * 100).toStringAsFixed(1)}%",
+                      '${((amount / 150) * 100).toStringAsFixed(1)}%',
                       style: TextStyle(
                         fontWeight: FontWeight.w800,
                         fontSize: mq.width(3.5),
