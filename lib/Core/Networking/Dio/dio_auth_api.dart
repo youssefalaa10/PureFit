@@ -15,6 +15,7 @@ class DioAuthApi {
   Future<void> _saveToken(String token) async {
     if (token.isNotEmpty) {
       await SaveTokenDB.saveToken(token);
+      print('Token saved: $token'); 
     } else {
       if (kDebugMode) {
         print('Token not found in response');
@@ -61,11 +62,14 @@ class DioAuthApi {
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
+        print('Response in dioLogin: ${response.data}');
+        print('Token in dioLogin: ${response.data['token']}');
         await _saveToken(response.data['token']);
         return true;
       }
       return false;
     } catch (error) {
+      print('Error in dioLogin: $error');
       final api = ApiErrorHandler.handle(error);
       throw "${api.message}";
     }
