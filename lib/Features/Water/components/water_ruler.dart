@@ -1,11 +1,14 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
-class WaterRuler extends StatefulWidget {
-  final Function(num) onValueChanged; // Callback parameter
+import '../../../Core/Shared/app_string.dart';
 
-  const WaterRuler({super.key, required this.onValueChanged});
+class WaterRuler extends StatefulWidget {
+  // Callback parameter
+
+  const WaterRuler({required this.onValueChanged, super.key});
+  final Function(num) onValueChanged;
 
   @override
   HeightPickerState createState() => HeightPickerState();
@@ -28,7 +31,7 @@ class HeightPickerState extends State<WaterRuler> {
         children: [
           // Display current height value
           Text(
-            '${currentValue.toStringAsFixed(0)} Liter',
+            '${currentValue.toStringAsFixed(0)} ${AppString.liters(context)}',
             style: TextStyle(
               fontSize: 32,
               fontWeight: FontWeight.bold,
@@ -40,12 +43,12 @@ class HeightPickerState extends State<WaterRuler> {
           // Ruler Picker
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 1, end: 11, scale: 1),
+              RulerRange(begin: 1, end: 11),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(
@@ -74,7 +77,7 @@ class HeightPickerState extends State<WaterRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: Colors.blue,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

@@ -1,5 +1,5 @@
+import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Core/local_db/DioSavedToken/save_token.dart';
 
 part 'tokencheck_state.dart';
 
@@ -17,11 +17,11 @@ class TokencheckCubit extends Cubit<TokencheckState> {
         emit(TokencheckSuccessed());
       } else {
         // Token is null or empty
-        emit(TokencheckFaliuer(message: "Token is null or empty"));
+        emit(TokencheckFaliuer(message: 'Token is null or empty'));
       }
     } catch (e) {
       // Catch any exception that might occur during the token check process
-      emit(TokencheckFaliuer(message: "Error occurred: ${e.toString()}"));
+      emit(TokencheckFaliuer(message: 'Error occurred: ${e.toString()}'));
     }
   }
 }

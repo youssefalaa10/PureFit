@@ -1,28 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:fitpro/Core/Components/media_query.dart'; // Import CustomMQ for responsive scaling
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
+import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 
-class PlanCard extends StatelessWidget {
-  const PlanCard({super.key});
+class PlanCard extends StatefulWidget {
+  const PlanCard({super.key, required this.userId});
+  final String userId;
+
+  @override
+  State<PlanCard> createState() => _PlanCardState();
+}
+
+class _PlanCardState extends State<PlanCard> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<WeeklyExerciseCubit>().loadCalendar(widget.userId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final mq = CustomMQ(context); // Instantiate CustomMQ for responsive calculations
+    final mq = CustomMQ(context);
 
+    return BlocBuilder<WeeklyExerciseCubit, WeeklyExerciseState>(
+      builder: (context, state) {
+        if (state is WeeklyExerciseLoaded) {
+          final calendar = state.calendar;
+
+          int totalDays = 0;
+          int completedDays = 0;
+
+          for (var week in calendar.weeks.values) {
+            totalDays += week.days.length;
+            completedDays += week.days.values.where((day) => day).length;
+          }
+
+          double progressPercentage = completedDays / totalDays;
+          int displayedPercentage = (progressPercentage * 100).round();
+
+          return _buildCard(mq, completedDays, totalDays, progressPercentage,
+              displayedPercentage);
+        } else {
+          return _buildCard(mq, 0, 0, 0.0, 0); // Display empty or default UI
+        }
+      },
+    );
+  }
+
+  Widget _buildCard(CustomMQ mq, int completedDays, int totalDays,
+      double progressPercentage, int displayedPercentage) {
+    final theme = Theme.of(context);
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: mq.width(1), vertical: mq.height(1)),
+      padding:
+          EdgeInsets.symmetric(horizontal: mq.width(2), vertical: mq.height(2)),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Container(
-            height: mq.height(10), // Adjusts based on the height of the screen
-            width: constraints.maxWidth, // Dynamically adjusts to screen width
-            padding: EdgeInsets.all(mq.width(4)), // Uses CustomMQ to maintain consistency
+            padding: EdgeInsets.all(mq.width(4)),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ColorManager.primaryColor,
-                  ColorManager.primaryColor.withOpacity(0.5),
+                  theme.primaryColor,
+                  theme.primaryColor.withOpacity(0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -32,52 +74,62 @@ class PlanCard extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'My Plan For Today',
-                      style: TextStyle(
-                        fontSize: mq.width(4), // Scales text size dynamically
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(height: mq.height(0.5)), // Responsive space between text
-                    Text(
-                      '1/7 Complete',
-                      style: TextStyle(
-                        fontSize: mq.width(3), // Scales text size dynamically
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(right: mq.width(2)),
-                  child: Stack(
-                    alignment: Alignment.center,
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularPercentIndicator(
-                        circularStrokeCap: CircularStrokeCap.round,
-                        animationDuration: 1000,
-                        lineWidth: mq.width(1.25), // Scales line width dynamically
-                        animation: true,
-                        percent: 0.25, // Progress percentage
-                        radius: mq.width(6.25), // Scales radius dynamically
-                        backgroundColor: Colors.white30,
-                        progressColor: Colors.white,
-                      ),
                       Text(
-                        '25%',
+                        AppString.monthlyChallenge(context),
                         style: TextStyle(
-                          fontSize: mq.width(3.75), // Scales text size dynamically
+                          fontSize: mq.width(4),
                           fontWeight: FontWeight.bold,
-                          color: Colors.white,
+                          color: theme.scaffoldBackgroundColor,
+                          fontFamily: AppString.font,
+                        ),
+                      ),
+                      SizedBox(height: mq.height(1)),
+                      Text(
+                        '$completedDays/$totalDays ${AppString.complete(context)}',
+                        style: TextStyle(
+                          fontSize: mq.width(3),
+                          color: theme.scaffoldBackgroundColor.withOpacity(0.7),
+                          fontFamily: AppString.font,
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: mq.width(2)),
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        CircularPercentIndicator(
+                          circularStrokeCap: CircularStrokeCap.round,
+                          animationDuration: 1000,
+                          lineWidth: mq.width(1.25),
+                          animation: true,
+                          percent: progressPercentage,
+                          radius: mq.width(6.25),
+                          backgroundColor:
+                              theme.scaffoldBackgroundColor.withOpacity(0.5),
+                          progressColor: theme.scaffoldBackgroundColor,
+                        ),
+                        Text(
+                          '$displayedPercentage%',
+                          style: TextStyle(
+                            fontSize: mq.width(3.75),
+                            fontWeight: FontWeight.bold,
+                            color: theme.scaffoldBackgroundColor,
+                            fontFamily: AppString.font,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

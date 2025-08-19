@@ -9,6 +9,6 @@ final class LoginLoading extends LoginState {}
 final class LoginSuccess extends LoginState {}
 
 final class LoginFaliuer extends LoginState {
-  final String message;
   LoginFaliuer({required this.message});
+  final String message;
 }

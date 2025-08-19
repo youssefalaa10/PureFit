@@ -1,4 +1,4 @@
-# fitpro
+# PureFit
 
 fitness app
 

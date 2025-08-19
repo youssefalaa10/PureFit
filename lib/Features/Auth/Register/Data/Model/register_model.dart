@@ -1,4 +1,18 @@
 class RegisterModel {
+  // Constructor with required parameters
+  RegisterModel({
+    required this.password,
+    required this.userName,
+    required this.userEmail,
+    required this.age,
+    required this.userHeight,
+    required this.userWeight,
+    required this.gender, // required this.userId,
+    this.activity,
+    this.goal,
+    this.goalSteps,
+    this.image,
+  });
   // Optional userId for future use (commented out for now)
   // final String userId;
   final String userEmail;
@@ -10,20 +24,8 @@ class RegisterModel {
   final String gender;
   final int? goalSteps;
   final String? image;
-
-  // Constructor with required parameters
-  RegisterModel({
-    // required this.userId,
-    required this.password,
-    required this.userName,
-    required this.userEmail,
-    required this.age,
-    required this.userHeight,
-    required this.userWeight,
-    required this.gender,
-    this.goalSteps,
-    this.image,
-  });
+  final String? activity;
+  final String? goal;
 
   // Convert the RegisterModel to a map for storage or transmission
   Map<String, dynamic> toMap() {
@@ -38,6 +40,8 @@ class RegisterModel {
       'gender': gender,
       'goalSteps': goalSteps,
       'image': image,
+      'activity': activity,
+      'goal': goal,
     };
   }
 

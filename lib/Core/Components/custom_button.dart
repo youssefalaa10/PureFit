@@ -1,7 +1,18 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
+  const CustomButton({
+    required this.label,
+    required this.onPressed,
+    super.key,
+    this.backgroundColor,
+    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+    this.borderRadius = 30.0,
+    this.fontSize = 16.0,
+    this.textColor = Colors.white,
+  });
   final String label;
   final VoidCallback onPressed;
   final Color? backgroundColor;
@@ -9,17 +20,6 @@ class CustomButton extends StatelessWidget {
   final double borderRadius;
   final double fontSize;
   final Color textColor;
-
-  const CustomButton({
-    super.key,
-    required this.label,
-    required this.onPressed,
-    this.backgroundColor,
-    this.padding = const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-    this.borderRadius = 30.0,
-    this.fontSize = 16.0,
-    this.textColor = Colors.white,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +39,8 @@ class CustomButton extends StatelessWidget {
         child: Text(
           label,
           style: TextStyle(
+            fontWeight: FontWeight.w700,
+            fontFamily: AppString.font,
             fontSize: fontSize,
             color: textColor,
           ),

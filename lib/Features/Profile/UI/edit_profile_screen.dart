@@ -1,17 +1,21 @@
-import 'package:fitpro/Core/DI/dependency.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
-import 'package:fitpro/Features/Profile/Logic/cubit/profile_cubit.dart';
+import 'dart:io';
+
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../Core/Components/back_button.dart';
 import '../../../Core/Components/media_query.dart';
 import '../../../Core/Shared/app_string.dart';
 
 class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({required this.userModel, super.key});
   final UserModel userModel;
-  const EditProfileScreen({super.key, required this.userModel});
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -20,23 +24,52 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late TextEditingController _nameController;
+  late TextEditingController _ageController;
+  // late int _currentHeight;
+  late int _currentWeight;
+  late String _selectedGender;
+  File? imageFile;
+  bool isUploading = false;
   @override
   void initState() {
     super.initState();
+
+    _nameController = TextEditingController(text: widget.userModel.userName);
+    _ageController =
+        TextEditingController(text: widget.userModel.age.toString());
+    // _currentHeight = widget.userModel.userHeight;
+    _currentWeight = widget.userModel.userWeight;
+    _selectedGender = widget.userModel.gender;
+  }
+
+  Future<void> _uploadProfileImage(File image) async {
+    setState(() {
+      isUploading = true;
+    });
+
+    // Simulate image upload
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Once uploaded, you can update the userModel's image field with the new file path or URL
+    setState(() {
+      isUploading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
         leading: const CustomBackButton(),
         title: Text(
           'Edit Profile',
           style: TextStyle(
-            fontSize: mq.width(5), // Replacing 20.sp
+            fontSize: mq.width(5),
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -50,12 +83,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const ProfileImageSection(),
+                ProfileImageSection(
+                  onImageSelected: (File selectedImage) async {
+                    setState(() {
+                      imageFile = selectedImage;
+                    });
+
+                    // Upload the image and update the user profile
+                    await _uploadProfileImage(selectedImage);
+                  },
+                  imageUrl: widget.userModel.image,
+                ),
                 SizedBox(height: mq.height(1)),
                 EditableField(
                   label: 'Your Name',
-                  hintText: widget.userModel.userName,
-                  obscureText: true,
+                  controller: _nameController,
                   icon: Icons.person_outline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -66,41 +108,44 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 SizedBox(height: mq.height(1)),
                 EditableField(
-                  label: 'Email',
-                  hintText: widget.userModel.userEmail,
-                  icon: Icons.email_outlined,
-                  isReadOnly: true, // Make the email field read-only
-                ),
-                SizedBox(height: mq.height(1)),
-                EditableField(
-                  label: 'Password',
-                  hintText: '***********',
-                  icon: Icons.lock_outline,
-                  obscureText: true,
+                  label: 'Age',
+                  controller: _ageController,
+                  icon: Icons.calendar_today_outlined,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your password';
-                    } else if (value.length < 6) {
-                      return 'Password must be at least 6 characters';
+                      return 'Please enter your age';
+                    } else if (int.tryParse(value) == null ||
+                        int.parse(value) <= 0) {
+                      return 'Please enter a valid age';
                     }
                     return null;
                   },
                 ),
+                // SizedBox(height: mq.height(1)),
+                // HeightSlider(
+                //   height: widget.userModel.userHeight,
+                //   onValueChanged: (height) {
+                //     setState(() {
+                //       _currentHeight = height;
+                //     });
+                //   },
+                // ),
                 SizedBox(height: mq.height(1)),
-                const GenderSelector(),
-                SizedBox(height: mq.height(1)),
-                HeightSlider(
-                  height: widget.userModel.userHeight,
+                WeightSlider(
+                  weighslider: widget.userModel.userWeight,
+                  onValueChanged: (weight) {
+                    setState(() {
+                      _currentWeight = weight;
+                    });
+                  },
                 ),
-                SizedBox(height: mq.height(1)),
-                WeightSlider(weighslider: widget.userModel.userWeight),
                 SizedBox(height: mq.height(2)),
                 BlocProvider(
                   create: (context) => getIT<ProfileCubit>(),
                   child: Center(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: ColorManager.primaryColor,
+                        backgroundColor: theme.primaryColor,
                         padding: EdgeInsets.symmetric(
                             horizontal: mq.width(12.5), vertical: mq.height(1)),
                         shape: RoundedRectangleBorder(
@@ -109,14 +154,26 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          // Pass updated userModel data
                           context.read<ProfileCubit>().updateProfile(
-                              widget.userModel, widget.userModel.userId);
+                                widget.userModel.copyWith(
+                                  userName: _nameController.text,
+                                  age: int.parse(_ageController.text),
+                                  // userHeight: _currentHeight,
+                                  userWeight: _currentWeight,
+                                  gender: _selectedGender,
+                                  image: imageFile?.path,
+                                ),
+                                widget.userModel.userId,
+                              );
+                          CustomSnackbar.showSnackbar(context, 'Success');
                         }
                       },
                       child: Text(
                         'Save Changes',
                         style: TextStyle(
-                            fontSize: mq.width(4), color: Colors.white),
+                            fontSize: mq.width(4),
+                            color: theme.scaffoldBackgroundColor),
                       ),
                     ),
                   ),
@@ -130,8 +187,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 }
 
-class ProfileImageSection extends StatelessWidget {
-  const ProfileImageSection({super.key});
+class ProfileImageSection extends StatefulWidget {
+  const ProfileImageSection(
+      {required this.onImageSelected, super.key, this.imageUrl});
+  final Function(File) onImageSelected;
+  final String? imageUrl;
+
+  @override
+  _ProfileImageSectionState createState() => _ProfileImageSectionState();
+}
+
+class _ProfileImageSectionState extends State<ProfileImageSection> {
+  XFile? _imageFile;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final XFile? selectedImage =
+        await _picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage != null) {
+      widget.onImageSelected(File(selectedImage.path));
+      setState(() {
+        _imageFile = selectedImage;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -142,16 +221,24 @@ class ProfileImageSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: mq.width(12.5),
-            backgroundImage: AssetImage(AppString.profile),
+            backgroundImage: _imageFile != null
+                ? FileImage(File(_imageFile!.path))
+                : AssetImage(AppString
+                    .profile), // Use the asset image if no file is present
           ),
           Positioned(
             bottom: 0,
             right: 0,
             child: CircleAvatar(
               radius: mq.width(3.75),
-              backgroundColor: Colors.orange,
-              child:
-                  Icon(Icons.edit, size: mq.width(3.75), color: Colors.white),
+              backgroundColor: ColorManager.backGroundColor,
+              child: IconButton(
+                icon: Icon(
+                  Icons.camera_alt,
+                  size: mq.width(3.75),
+                ), // Changed to camera icon
+                onPressed: _pickImage,
+              ),
             ),
           ),
         ],
@@ -161,22 +248,22 @@ class ProfileImageSection extends StatelessWidget {
 }
 
 class EditableField extends StatelessWidget {
+  const EditableField({
+    required this.label,
+    required this.icon,
+    super.key,
+    this.obscureText = false,
+    this.isReadOnly = false,
+    this.validator,
+    this.controller,
+  });
   final String label;
-  final String hintText;
+
   final IconData icon;
   final bool obscureText;
   final bool isReadOnly;
   final String? Function(String?)? validator;
-
-  const EditableField({
-    super.key,
-    required this.label,
-    required this.hintText,
-    required this.icon,
-    this.obscureText = false,
-    this.isReadOnly = false,
-    this.validator,
-  });
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -191,10 +278,10 @@ class EditableField extends StatelessWidget {
         ),
         SizedBox(height: mq.height(0.8)),
         TextFormField(
+          controller: controller,
           obscureText: obscureText,
           readOnly: isReadOnly,
           decoration: InputDecoration(
-            hintText: hintText,
             prefixIcon: Icon(icon),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(mq.width(2.5)),
@@ -208,15 +295,18 @@ class EditableField extends StatelessWidget {
 }
 
 class WeightSlider extends StatefulWidget {
+  const WeightSlider(
+      {required this.weighslider, required this.onValueChanged, super.key});
   final int weighslider;
-  const WeightSlider({super.key, required this.weighslider});
+  final Function(int) onValueChanged;
 
   @override
-  _WeightSliderState createState() => _WeightSliderState();
+  WeightSliderState createState() => WeightSliderState();
 }
 
-class _WeightSliderState extends State<WeightSlider> {
+class WeightSliderState extends State<WeightSlider> {
   double _currentWeight = 40;
+
   @override
   void initState() {
     super.initState();
@@ -226,6 +316,7 @@ class _WeightSliderState extends State<WeightSlider> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -239,15 +330,18 @@ class _WeightSliderState extends State<WeightSlider> {
             Text('40', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
+                activeColor: theme.primaryColor,
+                inactiveColor: Colors.grey,
                 value: _currentWeight,
                 min: 40,
                 max: 160,
-                divisions: 120, // Number of steps between 40 and 160
+                divisions: 120,
                 label: _currentWeight.round().toString(),
                 onChanged: (value) {
                   setState(() {
                     _currentWeight = value;
                   });
+                  widget.onValueChanged(_currentWeight.round());
                 },
               ),
             ),
@@ -260,8 +354,10 @@ class _WeightSliderState extends State<WeightSlider> {
 }
 
 class HeightSlider extends StatefulWidget {
+  const HeightSlider(
+      {required this.height, required this.onValueChanged, super.key});
   final int height;
-  const HeightSlider({super.key, required this.height});
+  final Function(int) onValueChanged;
 
   @override
   _HeightSliderState createState() => _HeightSliderState();
@@ -269,6 +365,7 @@ class HeightSlider extends StatefulWidget {
 
 class _HeightSliderState extends State<HeightSlider> {
   double _currentHeight = 130;
+
   @override
   void initState() {
     super.initState();
@@ -291,137 +388,22 @@ class _HeightSliderState extends State<HeightSlider> {
             Text('130', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
+                activeColor: ColorManager.primaryColor,
+                inactiveColor: Colors.grey,
                 value: _currentHeight,
                 min: 130,
                 max: 200,
-                divisions: 70, // Number of steps between 130 and 200
+                divisions: 70,
                 label: _currentHeight.round().toString(),
                 onChanged: (value) {
                   setState(() {
                     _currentHeight = value;
                   });
+                  widget.onValueChanged(_currentHeight.round());
                 },
               ),
             ),
             Text('200', style: TextStyle(fontSize: mq.width(3.5))),
-          ],
-        ),
-      ],
-    );
-  }
-}
-
-class GenderSelector extends StatefulWidget {
-  const GenderSelector({super.key});
-
-  @override
-  GenderSelectorState createState() => GenderSelectorState();
-}
-
-class GenderSelectorState extends State<GenderSelector> {
-  String _selectedGender = "Male";
-
-  @override
-  Widget build(BuildContext context) {
-    final mq = CustomMQ(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Gender',
-          style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
-        ),
-        SizedBox(height: mq.height(0.8)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedGender = "Male";
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(mq.width(0.25)),
-                  decoration: BoxDecoration(
-                    color: _selectedGender == "Male"
-                        ? Colors.blue.withOpacity(0.1)
-                        : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(mq.width(2.5)),
-                    border: Border.all(
-                      color:
-                          _selectedGender == "Male" ? Colors.blue : Colors.grey,
-                      width: mq.width(0.5),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Radio<String>(
-                        value: "Male",
-                        groupValue: _selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGender = value!;
-                          });
-                        },
-                        activeColor: Colors.blue,
-                      ),
-                      SizedBox(width: mq.width(2.5)),
-                      Text(
-                        "Male",
-                        style: TextStyle(fontSize: mq.width(4)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: mq.width(2.5)),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedGender = "Female";
-                  });
-                },
-                child: Container(
-                  padding: EdgeInsets.all(mq.width(0.25)),
-                  decoration: BoxDecoration(
-                    color: _selectedGender == "Female"
-                        ? Colors.pink.withOpacity(0.1)
-                        : Colors.grey[200],
-                    borderRadius: BorderRadius.circular(mq.width(2.5)),
-                    border: Border.all(
-                      color: _selectedGender == "Female"
-                          ? Colors.pink
-                          : Colors.grey,
-                      width: mq.width(0.5),
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Radio<String>(
-                        value: "Female",
-                        groupValue: _selectedGender,
-                        onChanged: (value) {
-                          setState(() {
-                            _selectedGender = value!;
-                          });
-                        },
-                        activeColor: Colors.pink,
-                      ),
-                      SizedBox(width: mq.width(2.5)),
-                      Text(
-                        "Female",
-                        style: TextStyle(fontSize: mq.width(4)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ],

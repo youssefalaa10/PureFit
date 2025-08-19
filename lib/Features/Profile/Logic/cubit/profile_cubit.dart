@@ -1,22 +1,26 @@
+import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
+import 'package:PureFit/Features/Profile/Data/Repo/profile_repo.dart';
 import 'package:bloc/bloc.dart';
-import 'package:fitpro/Features/Profile/Data/Model/user_model.dart';
-import 'package:fitpro/Features/Profile/Data/Repo/profile_repo.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  final ProfileRepo profileRepo;
-
   ProfileCubit(this.profileRepo) : super(ProfileInitial());
+  final ProfileRepo profileRepo;
   UserModel? user;
-  getProfile() async {
+
+  Future<void> getProfile() async {
+    // Avoid emitting if cubit is closed
+    if (isClosed) return;
+
     emit(ProfileLoading());
     try {
-      final user = await profileRepo.getProfile();
-      if (user != null) {
+      final fetchedUser = await profileRepo.getProfile();
+      if (fetchedUser != null) {
+        user = fetchedUser;
+        // Check again if the cubit is closed before emitting
         if (!isClosed) {
-          emit(ProfileSuccess(user: user));
-          this.user = user;
+          emit(ProfileSuccess(user: user!));
         }
       } else {
         if (!isClosed) {
@@ -30,18 +34,18 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-  void updateProfile(UserModel user, String profileId) async {
-    emit(ProfileUpdating());
+  Future<void> updateProfile(UserModel updatedUser, String profileId) async {
+    // Avoid emitting if cubit is closed
+    if (isClosed) return;
+
+    emit(ProfileLoading());
     try {
-      final success = await profileRepo.updateProfile(user, profileId);
-      if (success) {
-        if (!isClosed) {
-          emit(ProfileUpdated());
-        }
-      } else {
-        if (!isClosed) {
-          emit(ProfileError(message: 'Failed to update profile'));
-        }
+      await profileRepo.updateProfile(updatedUser, profileId);
+      user = updatedUser;
+
+      if (!isClosed) {
+        emit(ProfileSuccess(user: updatedUser));
+        await getProfile(); // Optionally refresh the profile
       }
     } catch (e) {
       if (!isClosed) {

@@ -1,11 +1,11 @@
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Core/Components/custom_icon_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/media_query.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/Water/components/water_ruler.dart';
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Components/custom_icon_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Water/components/water_ruler.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,21 +31,21 @@ class WaterDetailsState extends State<WaterDetails> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       goalValue =
-          prefs.getInt("waterGoal") ?? 2; // Load saved value or default to 2
+          prefs.getInt('waterGoal') ?? 2; // Load saved value or default to 2
     });
   }
 
   Future<void> _saveGoalValue() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt("waterGoal", goalValue); // Save the current goal value
+    await prefs.setInt('waterGoal', goalValue); // Save the current goal value
   }
 
   @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,8 +55,9 @@ class WaterDetailsState extends State<WaterDetails> {
             Padding(
               padding: EdgeInsets.only(left: mq.width(5)),
               child: Text(
-                "Set New Target",
+                AppString.setNewTarget(context),
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(7.5),
                   fontWeight: FontWeight.w900,
                 ),
@@ -74,7 +75,7 @@ class WaterDetailsState extends State<WaterDetails> {
             SizedBox(height: mq.height(2)),
             Center(
               child: CustomButton(
-                label: "Save",
+                label: AppString.save(context),
                 onPressed: () async {
                   await _saveGoalValue();
                   if (mounted) {
@@ -113,9 +114,10 @@ class WaterDetailsState extends State<WaterDetails> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Water Intake Details",
+          AppString.waterIntakeTarget(context),
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: AppString.font,
             fontSize: mq.width(4.5),
             fontWeight: FontWeight.bold,
           ),
@@ -141,15 +143,17 @@ class WaterDetailsState extends State<WaterDetails> {
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "$goalValue", // Display the current goal value
+                    text: '$goalValue', // Display the current goal value
                     style: TextStyle(
+                      fontFamily: AppString.font,
                       fontSize: mq.width(11.25),
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   TextSpan(
-                    text: " lits",
+                    text: ' lits',
                     style: TextStyle(
+                      fontFamily: AppString.font,
                       fontSize: mq.width(5),
                       color: ColorManager.backGroundColor,
                     ),

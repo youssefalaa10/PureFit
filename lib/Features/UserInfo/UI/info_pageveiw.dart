@@ -1,8 +1,12 @@
-import 'package:fitpro/Core/Components/custom_button.dart';
-import 'package:fitpro/Features/Auth/Register/Ui/register_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/body_metrics.dart';
-import 'package:fitpro/Features/UserInfo/UI/user_age_screen.dart';
-import 'package:fitpro/Features/UserInfo/UI/user_gender_screen.dart';
+import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/Auth/Register/Ui/register_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/activity_level_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/body_metrics.dart';
+import 'package:PureFit/Features/UserInfo/UI/fitness_goal_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/user_age_screen.dart';
+import 'package:PureFit/Features/UserInfo/UI/user_gender_screen.dart';
 import 'package:flutter/material.dart';
 
 class InfoPageView extends StatefulWidget {
@@ -23,7 +27,7 @@ class InfoPageViewState extends State<InfoPageView> {
   }
 
   void _nextPage() {
-    if (_currentPage < 3) {
+    if (_currentPage < 5) {
       _pageController.animateToPage(
         _currentPage + 1,
         duration: const Duration(milliseconds: 300),
@@ -45,10 +49,12 @@ class InfoPageViewState extends State<InfoPageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorManager.backGroundColor,
       body: Column(
         children: [
           Expanded(
             child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _pageController,
               onPageChanged: (int page) {
                 setState(() {
@@ -59,25 +65,27 @@ class InfoPageViewState extends State<InfoPageView> {
                 UserGenderScreen(),
                 UserAgeScreen(),
                 BodyMetricsScreen(),
+                AcitivtyLevelScreen(),
+                FitnessGoalScreen(),
                 RegisterScreen(),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _currentPage > 0
                     ? CustomButton(
                         onPressed: _previousPage,
-                        label: "Back",
+                        label: AppString.back(context),
                       )
                     : const SizedBox.shrink(),
-                _currentPage < 3
+                _currentPage < 5
                     ? CustomButton(
                         onPressed: _nextPage,
-                        label: 'Next',
+                        label: AppString.next(context),
                       )
                     : const SizedBox.shrink()
               ],

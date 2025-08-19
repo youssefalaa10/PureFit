@@ -1,9 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TrackStepSharedPref {
-  final SharedPreferences _prefs;
-
   TrackStepSharedPref(this._prefs);
+  final SharedPreferences _prefs;
 
   // Initialize preferences
   static Future<TrackStepSharedPref> create() async {
@@ -18,8 +17,8 @@ class TrackStepSharedPref {
 
   // Load saved steps and initial steps
   Future<Map<String, int>> loadSteps() async {
-    int savedSteps = _prefs.getInt('savedSteps') ?? 0;
-    int initialSteps = _prefs.getInt('initialSteps') ?? 0;
+    final int savedSteps = _prefs.getInt('savedSteps') ?? 0;
+    final int initialSteps = _prefs.getInt('initialSteps') ?? 0;
 
     return {
       'savedSteps': savedSteps,

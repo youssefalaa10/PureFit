@@ -1,12 +1,14 @@
 import 'dart:math';
+
+import 'package:PureFit/Core/Components/back_button.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Components/custom_snackbar.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
+import 'package:PureFit/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:fitpro/Core/Components/back_button.dart';
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Components/custom_snackbar.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
-import 'package:fitpro/Core/Shared/app_string.dart';
-import 'package:fitpro/Features/TrackSteps/Data/Model/track_steps_model.dart';
-import 'package:fitpro/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -31,6 +33,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   String? _lastRecordedDate;
   int? _savedSteps = 0;
   int _initialSteps = 0;
+  int goalValue = 2000;
 
   @override
   void initState() {
@@ -38,19 +41,32 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     _loadData().then((_) {
       _initializePedometer();
     });
+    _fetchGoalValue();
+  }
+
+  void _fetchGoalValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      goalValue =
+          prefs.getInt('stepGoal') ?? 2; // Update the class-level goalValue
+    });
   }
 
   Future<void> _loadData() async {
     _getHistoryTracks();
     final String todayDate = _getFormattedDate(DateTime.now());
+
+    // Load saved steps and last recorded date
     _savedSteps =
         await context.read<TrackStepCubit>().readStepsByDate(todayDate);
+    print(_savedSteps); // For debugging purposes
 
     if (mounted) {
       _lastRecordedDate =
           await context.read<TrackStepCubit>().getLastRecordedDate();
     }
 
+    // Set state with loaded steps
     if (mounted) {
       setState(() {
         _fullStepsOfToday = _savedSteps ?? 0;
@@ -66,18 +82,21 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   }
 
   Future<void> _onStepCount(StepCount event) async {
-    String todayDate = _getFormattedDate(DateTime.now());
+    final String todayDate = _getFormattedDate(DateTime.now());
     final prefs = await SharedPreferences.getInstance();
-    bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
+
+    final bool isFirstLaunch = prefs.getBool('isFirstLaunch') ?? true;
     _savedSteps = prefs.getInt('savedSteps') ?? 0;
     _initialSteps = prefs.getInt('initialSteps') ?? event.steps;
 
+    // Handle first app launch
     if (isFirstLaunch) {
       _savedSteps = 0;
       _initialSteps = event.steps;
       await prefs.setInt('initialSteps', _initialSteps);
       await prefs.setInt('savedSteps', _savedSteps!);
       await prefs.setBool('isFirstLaunch', false);
+
       if (mounted) {
         await context
             .read<TrackStepCubit>()
@@ -85,21 +104,30 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       }
     }
 
+    // Handle date change
     if (_lastRecordedDate != todayDate) {
       await _resetForNewDay(todayDate);
       _initialSteps = event.steps;
+
       await prefs.setInt('initialSteps', _initialSteps);
       _savedSteps = 0;
       await prefs.setInt('savedSteps', _savedSteps!);
     }
 
-    int todaySteps = event.steps - _initialSteps + _savedSteps!;
-    todaySteps = todaySteps < 0 ? 0 : todaySteps;
-
+    // Calculate today's steps
+    int todaySteps;
+    if (event.steps == 0) {
+      todaySteps = event.steps + _savedSteps!;
+    } else {
+      todaySteps = event.steps - _initialSteps;
+      todaySteps = todaySteps < 0 ? 0 : todaySteps;
+    }
+    // Persist the updated steps
     if (mounted) {
       await context.read<TrackStepCubit>().upsertSteps(todaySteps, todayDate);
     }
 
+    // Update UI
     setState(() {
       _fullStepsOfToday = todaySteps;
     });
@@ -119,7 +147,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       _stepCountStream?.listen(_onStepCount).onError(_onStepCountError);
     } else {
       if (kDebugMode) {
-        print("Permission not granted");
+        print('Permission not granted');
       }
     }
   }
@@ -133,13 +161,38 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: ColorManager.backGroundColor,
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                final result = await Navigator.pushNamed(
+                    context, Routes.trackStepsDetailsScreen,
+                    arguments: _fullStepsOfToday);
+                if (result == true) {
+                  _fetchGoalValue();
+                }
+              },
+              icon: const Icon(Icons.edit))
+        ],
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, _fullStepsOfToday);
+            },
+            icon: const Icon(Icons.arrow_back)),
+        centerTitle: true,
+        title: Text(
+          style:
+              TextStyle(fontFamily: AppString.font, color: theme.primaryColor),
+          AppString.steps(context),
+        ),
+      ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Column(
           children: [
-            _buildHeaderSection(mq),
             const CustomSizedbox(height: 30),
             _buildWelcomeMessage(mq),
             const CustomSizedbox(height: 20),
@@ -173,10 +226,12 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: mq.width(7.5)),
         child: Text(
-          "Steps Details",
+          AppString.stepsDetails(context),
           textAlign: TextAlign.center,
-          style:
-              TextStyle(fontSize: mq.width(4.5), fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: mq.width(4.5),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
@@ -186,7 +241,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         shape: const CircleBorder(),
-        backgroundColor: ColorManager.backGroundColor,
         padding: EdgeInsets.all(mq.width(2.5)),
       ),
       onPressed: () {},
@@ -198,16 +252,20 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     return Column(
       children: [
         Text(
-          AppString.greatWork,
+          AppString.greatWork(context),
           style: TextStyle(
-              fontSize: mq.width(3.75),
-              fontWeight: FontWeight.bold,
-              color: ColorManager.lightGreyColor),
+            fontSize: mq.width(3.75),
+            fontWeight: FontWeight.bold,
+            color: ColorManager.lightGreyColor,
+          ),
         ),
         Text(
-          AppString.yourDailytasksAlmostDone,
+          AppString.yourDailyTasksAlmostDone(context),
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: mq.width(7), fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: mq.width(7),
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -228,7 +286,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
               backgroundColor: const Color.fromARGB(255, 228, 225, 225),
               progressColor: ColorManager.primaryColor,
               radius: mq.width(22.5),
-              percent: min(_fullStepsOfToday / 1000, 1.0),
+              percent: min(_fullStepsOfToday / goalValue, 1.0),
             ),
             DottedBorder(
               color: ColorManager.primaryColor,
@@ -242,23 +300,32 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.directions_walk,
-                        color: ColorManager.primaryColor, size: mq.width(8.75)),
+                    Icon(
+                      Icons.directions_walk,
+                      size: mq.width(8.75),
+                    ),
                     const CustomSizedbox(height: 10),
-                    Text("$_fullStepsOfToday",
-                        style: const TextStyle(
-                            fontSize: 28, fontWeight: FontWeight.bold)),
-                    Text(AppString.steps,
-                        style: TextStyle(
-                            fontSize: mq.width(3.75),
-                            color: ColorManager.lightGreyColor,
-                            fontWeight: FontWeight.bold)),
+                    Text(
+                      '$_fullStepsOfToday',
+                      style: const TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      AppString.steps(context),
+                      style: TextStyle(
+                        fontSize: mq.width(3.75),
+                        color: ColorManager.lightGreyColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -294,16 +361,23 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(AppString.myActivity,
-              style: TextStyle(
-                  fontSize: mq.width(5), fontWeight: FontWeight.bold)),
+          Text(
+            AppString.myActivity(context),
+            style: TextStyle(
+              fontSize: mq.width(5),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           TextButton(
             onPressed: () {},
-            child: Text(AppString.steps,
-                style: TextStyle(
-                    fontSize: mq.width(3.75),
-                    fontWeight: FontWeight.bold,
-                    color: ColorManager.primaryColor)),
+            child: Text(
+              AppString.steps(context),
+              style: TextStyle(
+                fontSize: mq.width(3.75),
+                fontWeight: FontWeight.bold,
+                color: ColorManager.primaryColor,
+              ),
+            ),
           ),
         ],
       ),
@@ -316,10 +390,9 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
         shrinkWrap: true,
         itemCount: historyTracking.length,
         itemBuilder: (context, index) {
-          final trackStepsModel = historyTracking[index];
+          final trackStepsModel = historyTracking.reversed.toList()[index];
           return ListTile(
-            leading:
-                Icon(Icons.directions_walk, color: ColorManager.primaryColor),
+            leading: const Icon(Icons.directions_walk),
             title: Text(trackStepsModel.date),
             trailing: Text(
               trackStepsModel.steps.toString(),

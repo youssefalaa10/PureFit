@@ -1,4 +1,4 @@
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ruler_picker/flutter_ruler_picker.dart';
 
@@ -38,12 +38,12 @@ class HeightPickerState extends State<CaloriesRuler> {
           // Ruler Picker
           RulerPicker(
             rulerBackgroundColor: Colors.transparent,
-            controller: _rulerPickerController!,
+            controller: _rulerPickerController,
             onBuildRulerScaleText: (index, value) {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 1000, end: 6000, scale: 1),
+              RulerRange(begin: 1000, end: 6000),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(
@@ -77,7 +77,7 @@ class HeightPickerState extends State<CaloriesRuler> {
               width: 4,
               height: 50,
               decoration: BoxDecoration(
-                color: ColorManager.primaryColor.withAlpha(100),
+                color: ColorManager.darkredColor,
                 borderRadius: BorderRadius.circular(5),
               ),
             ),

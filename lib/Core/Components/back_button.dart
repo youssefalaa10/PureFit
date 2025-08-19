@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomBackButton extends StatelessWidget {
-  const CustomBackButton({super.key});
-
+  const CustomBackButton({super.key, this.iconColor});
+  final Color? iconColor;
   @override
   Widget build(BuildContext context) {
     return SizedBox(

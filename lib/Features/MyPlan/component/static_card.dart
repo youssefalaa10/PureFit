@@ -1,28 +1,28 @@
-import 'package:fitpro/Core/Components/custom_sizedbox.dart';
-import 'package:fitpro/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Components/custom_sizedbox.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Components/media_query.dart';
 
 class StaticCard extends StatelessWidget {
+  const StaticCard({
+    required this.icon,
+    required this.headline,
+    required this.static,
+    required this.endline,
+    required this.color,
+    super.key,
+  });
   final Icon icon;
   final String headline;
   final String static;
   final String endline;
   final Color color;
 
-  const StaticCard({
-    super.key,
-    required this.icon,
-    required this.headline,
-    required this.static,
-    required this.endline,
-    required this.color,
-  });
-
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
     return Container(
       padding: EdgeInsets.all(mq.width(4)),
       height: mq.height(10),
@@ -41,9 +41,9 @@ class StaticCard extends StatelessWidget {
               Text(
                 headline,
                 style: TextStyle(
-                  fontSize: mq.width(5),
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: mq.width(5),
+                    fontWeight: FontWeight.bold,
+                    fontFamily: AppString.font),
               ),
               const CustomSizedbox(
                 width: 10,
@@ -52,13 +52,13 @@ class StaticCard extends StatelessWidget {
             ],
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 static,
                 textAlign: TextAlign.start,
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(6.25),
                   fontWeight: FontWeight.bold,
                 ),
@@ -67,8 +67,9 @@ class StaticCard extends StatelessWidget {
                 endline,
                 textAlign: TextAlign.start,
                 style: TextStyle(
+                  fontFamily: AppString.font,
                   fontSize: mq.width(3.75),
-                  color: ColorManager.greyColor,
+                  color: theme.scaffoldBackgroundColor,
                 ),
               ),
             ],

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomMQ {
-  final BuildContext context;
-
   // Constructor to accept the BuildContext
   CustomMQ(this.context);
+  final BuildContext context;
 
   // Method to calculate width based on a factor
   double width(double factor) {
