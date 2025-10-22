@@ -55,7 +55,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   // Start Get Ready Stage and First Stage
   void _startGetReadyStage() {
     if (currentExercise >= (passExercises?.length ?? 0)) {
-      _completeWorkout();
+      completeWorkout();
       return;
     }
     currentStage = EnumTrainingStage.getReady;
@@ -85,7 +85,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
       if (currentExercise == (passExercises?.length ?? 0) - 1) {
         // If this is the last exercise, mark training as completed
-        _completeWorkout();
+        completeWorkout();
       } else {
         // Otherwise, start the rest stage
         _startRestStage();
@@ -110,7 +110,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
       _startGetReadyStage(); // Start the next exercise
     } else {
       _timer?.cancel();
-      _completeWorkout(); // Just in case, ensure we emit completion here too
+      completeWorkout(); // Just in case, ensure we emit completion here too
     }
   }
 
@@ -170,6 +170,23 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
     }
   }
 
+  // Skip Current Exercise
+  void skipCurrentExercise() {
+    if (currentStage == EnumTrainingStage.start) {
+      _timer?.cancel();
+      // Record exercise completion before skipping
+      _recordExerciseCompletion();
+
+      if (currentExercise == (passExercises?.length ?? 0) - 1) {
+        // If this is the last exercise, mark training as completed
+        completeWorkout();
+      } else {
+        // Otherwise, start the rest stage
+        _startRestStage();
+      }
+    }
+  }
+
   // Add extra time to rest
   void addRestTime(int extraSeconds) {
     restDuration += extraSeconds;
@@ -197,7 +214,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   }
 
   // Complete workout and save session
-  void _completeWorkout() async {
+  void completeWorkout() async {
     if (_workoutStartTime != null && _currentSessionExercises.isNotEmpty) {
       final workoutSession = WorkoutSession(
         id: DateTime.now().millisecondsSinceEpoch.toString(),

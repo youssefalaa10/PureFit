@@ -15,3 +15,8 @@ class WorkoutProgramsError extends WorkoutProgramsState {
   WorkoutProgramsError(this.message);
   final String message;
 }
+
+class WorkoutProgramsConnectionError extends WorkoutProgramsState {
+  WorkoutProgramsConnectionError(this.message);
+  final String message;
+}

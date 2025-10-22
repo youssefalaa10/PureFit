@@ -93,18 +93,8 @@ class TrainingScreenState extends State<TrainingScreen> {
   }
 
   void skipToNextExercise() {
-    if (widget.index < widget.exercises.length - 1) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute<void>(
-          builder: (context) => TrainingScreen(
-            exercises: widget.exercises,
-            index: widget.index + 1,
-          ),
-        ),
-      );
-    } else {
-      Navigator.of(context).pop();
-    }
+    // Skip the current exercise and move to the next one
+    context.read<TrainingCubit>().skipCurrentExercise();
   }
 
   @override
@@ -135,7 +125,6 @@ class TrainingScreenState extends State<TrainingScreen> {
                 padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
                 child: Column(
                   children: [
-
                     ExerciseImageSection(
                       index: widget.index,
                       mq: mq,
@@ -310,7 +299,7 @@ class EquipmentSection extends StatelessWidget {
             size: mq.height(2),
             color: Colors.grey[600],
           ),
-          SizedBox(width: mq.width(2)),
+          SizedBox(width: mq.width(1)),
           Text(
             exercises[index].equipment,
             style: TextStyle(
@@ -341,7 +330,7 @@ class TimerSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: mq.width(6),
-        vertical: mq.height(1),
+        vertical: mq.height(.5),
       ),
       decoration: BoxDecoration(
         color: theme.primaryColor.withOpacity(0.1),
@@ -362,7 +351,7 @@ class TimerSection extends StatelessWidget {
           Text(
             '${(countdownValue ~/ 60).toString().padLeft(2, '0')}:${(countdownValue % 60).toString().padLeft(2, '0')}',
             style: TextStyle(
-              fontSize: mq.height(8),
+              fontSize: mq.height(6),
               fontWeight: FontWeight.bold,
               color: theme.primaryColor,
               fontFamily: AppString.font,

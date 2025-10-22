@@ -70,31 +70,31 @@ class GetReadyScreenState extends State<GetReadyScreen> {
           padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
           child: Column(
             children: [
-              SizedBox(height: mq.height(4)),
+              SizedBox(height: mq.height(2)),
               ExerciseImage(
                 mq: mq,
                 exercises: widget.exercises,
                 index: widget.index,
               ),
-              SizedBox(height: mq.height(4)),
+              SizedBox(height: mq.height(2)),
               ReadyMessage(
                 index: widget.index,
                 mq: mq,
                 exercises: widget.exercises,
               ),
-              SizedBox(height: mq.height(5)),
+              SizedBox(height: mq.height(3)),
               CircularCounter(
                 mq: mq,
                 countdownValue: countdownValue,
                 theme: theme,
               ),
-              SizedBox(height: mq.height(5)),
+              SizedBox(height: mq.height(3)),
               NextExerciseInfo(
                 index: widget.index,
                 mq: mq,
                 exercises: widget.exercises,
               ),
-              SizedBox(height: mq.height(3)),
+              SizedBox(height: mq.height(2)),
             ],
           ),
         ),
@@ -119,12 +119,12 @@ class ExerciseImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(mq.width(4)),
       child: Image.network(
         exercises[index].gifUrl!,
-        height: mq.height(35),
+        height: mq.height(30),
         width: double.infinity,
         fit: BoxFit.cover,
         errorBuilder: (context, error, stackTrace) {
           return Container(
-            height: mq.height(35),
+            height: mq.height(30),
             decoration: BoxDecoration(
               color: Colors.grey[200],
               borderRadius: BorderRadius.circular(mq.width(4)),
@@ -134,15 +134,15 @@ class ExerciseImage extends StatelessWidget {
               children: [
                 Icon(
                   Icons.fitness_center,
-                  size: mq.height(8),
+                  size: mq.height(6),
                   color: Colors.grey[400],
                 ),
-                SizedBox(height: mq.height(2)),
+                SizedBox(height: mq.height(1)),
                 Text(
                   'Exercise Preview',
                   style: TextStyle(
                     color: Colors.grey[600],
-                    fontSize: mq.height(2),
+                    fontSize: mq.height(1.8),
                   ),
                 ),
               ],
@@ -173,18 +173,18 @@ class ReadyMessage extends StatelessWidget {
         Text(
           AppString.readyToGo(context),
           style: TextStyle(
-            fontSize: mq.height(3),
+            fontSize: mq.height(2.5),
             fontWeight: FontWeight.w600,
             color: Colors.grey[600],
             letterSpacing: 1,
           ),
         ),
-        SizedBox(height: mq.height(1.5)),
+        SizedBox(height: mq.height(1)),
         Text(
           exercises[index].name,
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: mq.height(3),
+            fontSize: mq.height(1.8),
             fontWeight: FontWeight.bold,
             color: theme.primaryColor,
             fontFamily: AppString.font,
@@ -214,8 +214,8 @@ class CircularCounter extends StatelessWidget {
         countdownValue / context.read<TrainingCubit>().getReadyDuration;
 
     return Container(
-      width: mq.width(50),
-      height: mq.width(50),
+      width: mq.width(40),
+      height: mq.width(40),
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: Colors.grey[100],
@@ -224,11 +224,11 @@ class CircularCounter extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           SizedBox(
-            width: mq.width(45),
-            height: mq.width(45),
+            width: mq.width(35),
+            height: mq.width(35),
             child: CircularProgressIndicator(
               value: progress,
-              strokeWidth: mq.width(3),
+              strokeWidth: mq.width(2.5),
               color: theme.primaryColor,
               backgroundColor: Colors.grey[300],
               strokeCap: StrokeCap.round,
@@ -240,7 +240,7 @@ class CircularCounter extends StatelessWidget {
               Text(
                 '$countdownValue',
                 style: TextStyle(
-                  fontSize: mq.height(10),
+                  fontSize: mq.height(7),
                   fontWeight: FontWeight.bold,
                   color: theme.primaryColor,
                   fontFamily: AppString.font,
@@ -272,7 +272,7 @@ class NextExerciseInfo extends StatelessWidget {
     }
 
     return Container(
-      padding: EdgeInsets.all(mq.width(4)),
+      padding: EdgeInsets.all(mq.width(3)),
       decoration: BoxDecoration(
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(mq.width(3)),
@@ -282,18 +282,18 @@ class NextExerciseInfo extends StatelessWidget {
           Text(
             'NEXT UP',
             style: TextStyle(
-              fontSize: mq.height(1.8),
+              fontSize: mq.height(1.5),
               fontWeight: FontWeight.w600,
               color: Colors.grey[600],
               letterSpacing: 1.5,
             ),
           ),
-          SizedBox(height: mq.height(1)),
+          SizedBox(height: mq.height(0.8)),
           Text(
             exercises[index + 1].name,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: mq.height(2.2),
+              fontSize: mq.height(1.8),
               fontWeight: FontWeight.bold,
               fontFamily: AppString.font,
             ),

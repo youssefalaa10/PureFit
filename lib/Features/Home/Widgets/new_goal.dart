@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Components/connection_error_dialog.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
@@ -73,8 +74,49 @@ class NewGoalWidget extends StatelessWidget {
                   },
                 ),
               );
+            } else if (state is WorkoutProgramsConnectionError) {
+              return NoConnectionWidget(
+                message: state.message,
+                onRetry: () {
+                  context.read<WorkoutProgramsCubit>().fetchWorkoutPrograms();
+                },
+              );
             } else if (state is WorkoutProgramsError) {
-              return Center(child: Text(state.message));
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      size: mq.height(6),
+                      color: Colors.red,
+                    ),
+                    SizedBox(height: mq.height(1)),
+                    Text(
+                      state.message,
+                      style: TextStyle(
+                        fontSize: mq.height(1.8),
+                        color: Colors.red,
+                        fontFamily: AppString.font,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: mq.height(2)),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context
+                            .read<WorkoutProgramsCubit>()
+                            .fetchWorkoutPrograms();
+                      },
+                      icon: Icon(Icons.refresh, size: mq.height(2)),
+                      label: Text(
+                        'Retry',
+                        style: TextStyle(fontSize: mq.height(1.8)),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             } else {
               return const Center(
                   child: Text('Unexpected Error from Workout Category Api'));
@@ -85,8 +127,8 @@ class NewGoalWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(
-      WorkoutCategoriesModel workoutCategories, CustomMQ mq, context) {
+  Widget _buildGoalCard(WorkoutCategoriesModel workoutCategories, CustomMQ mq,
+      BuildContext context) {
     final theme = Theme.of(context);
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Container(

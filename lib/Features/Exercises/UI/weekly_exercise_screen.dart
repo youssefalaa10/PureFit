@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Components/connection_error_dialog.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
@@ -30,6 +31,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
+    final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: ColorManager.backGroundColor,
@@ -37,21 +39,122 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
         child: BlocBuilder<WeeklyExerciseCubit, WeeklyExerciseState>(
           builder: (context, state) {
             if (state is WeeklyExerciseLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return _buildLoadingState(mq, theme);
             } else if (state is WeeklyExerciseLoaded) {
-              return _buildScreenContent(context, mq, state.calendar);
+              return _buildScreenContent(
+                  context, mq, state.calendar, state.isNewCalendar);
+            } else if (state is WeeklyExerciseConnectionError) {
+              return _buildConnectionError(context, mq, theme, state.message);
             } else if (state is WeeklyExerciseError) {
-              return Center(child: Text(state.message));
+              return _buildErrorState(context, mq, theme, state.message);
             }
-            return const Center(child: Text('Unknown State'));
+            return _buildUnknownState(mq, theme);
           },
         ),
       ),
     );
   }
 
-  Widget _buildScreenContent(
-      BuildContext context, CustomMQ mq, WeeklyExerciseModel calendar) {
+  Widget _buildLoadingState(CustomMQ mq, ThemeData theme) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
+            color: theme.primaryColor,
+            strokeWidth: 3,
+          ),
+          SizedBox(height: mq.height(2)),
+          Text(
+            'Loading your workout calendar...',
+            style: TextStyle(
+              fontSize: mq.height(2),
+              color: theme.textTheme.bodyLarge?.color,
+              fontFamily: AppString.font,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConnectionError(
+      BuildContext context, CustomMQ mq, ThemeData theme, String message) {
+    return NoConnectionWidget(
+      message: message,
+      onRetry: () {
+        final profileId = context.read<ProfileCubit>().user!.userId;
+        context.read<WeeklyExerciseCubit>().loadCalendar(profileId);
+      },
+    );
+  }
+
+  Widget _buildErrorState(
+      BuildContext context, CustomMQ mq, ThemeData theme, String message) {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(mq.width(5)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.error_outline,
+              size: mq.height(8),
+              color: Colors.red,
+            ),
+            SizedBox(height: mq.height(1)),
+            Text(
+              message,
+              style: TextStyle(
+                fontSize: mq.height(1.8),
+                color: theme.textTheme.bodyMedium?.color,
+                fontFamily: AppString.font,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: mq.height(3)),
+            ElevatedButton.icon(
+              onPressed: () {
+                final profileId = context.read<ProfileCubit>().user!.userId;
+                context.read<WeeklyExerciseCubit>().loadCalendar(profileId);
+              },
+              icon: Icon(Icons.refresh,
+                  size: mq.height(2), color: theme.scaffoldBackgroundColor),
+              label: Text(
+                'Retry',
+                style: TextStyle(
+                    fontSize: mq.height(1.8),
+                    color: theme.scaffoldBackgroundColor),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.primaryColor,
+                padding: EdgeInsets.symmetric(
+                  horizontal: mq.width(6),
+                  vertical: mq.height(1.5),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUnknownState(CustomMQ mq, ThemeData theme) {
+    return Center(
+      child: Text(
+        'Unknown calendar state',
+        style: TextStyle(
+          fontSize: mq.height(2),
+          color: theme.textTheme.bodyLarge?.color,
+          fontFamily: AppString.font,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScreenContent(BuildContext context, CustomMQ mq,
+      WeeklyExerciseModel calendar, bool isNewCalendar) {
     return Stack(
       children: [
         SingleChildScrollView(
@@ -60,6 +163,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderSection(context, mq, calendar),
+              if (isNewCalendar) _buildWelcomeBanner(mq),
               _buildMotivationalMessage(mq),
               SizedBox(height: mq.height(2)),
               _buildWeekProgress(context, mq, calendar),
@@ -74,6 +178,68 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
           child: _buildGoButton(context, mq),
         ),
       ],
+    );
+  }
+
+  Widget _buildWelcomeBanner(CustomMQ mq) {
+    return Container(
+      margin:
+          EdgeInsets.symmetric(horizontal: mq.width(4), vertical: mq.height(1)),
+      padding: EdgeInsets.all(mq.width(4)),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            ColorManager.primaryColor.withOpacity(0.1),
+            ColorManager.primaryColor.withOpacity(0.05),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(mq.width(3)),
+        border: Border.all(
+          color: ColorManager.primaryColor.withOpacity(0.3),
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: EdgeInsets.all(mq.width(2)),
+            decoration: BoxDecoration(
+              color: ColorManager.primaryColor.withOpacity(0.2),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.celebration,
+              color: ColorManager.primaryColor,
+              size: mq.height(3),
+            ),
+          ),
+          SizedBox(width: mq.width(3)),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Welcome to Your Workout Journey! 🎯',
+                  style: TextStyle(
+                    fontSize: mq.height(1.8),
+                    fontWeight: FontWeight.bold,
+                    color: ColorManager.primaryColor,
+                    fontFamily: AppString.font,
+                  ),
+                ),
+                SizedBox(height: mq.height(0.5)),
+                Text(
+                  'Start tracking your progress by completing workouts each day!',
+                  style: TextStyle(
+                    fontSize: mq.height(1.5),
+                    color: Colors.grey[700],
+                    fontFamily: AppString.font,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
