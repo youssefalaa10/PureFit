@@ -56,10 +56,10 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25.0),
-            color: theme.primaryColor,
+            color: theme.cardColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
+                color: theme.shadowColor.withValues(alpha: 0.2),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -73,7 +73,7 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: theme.scaffoldBackgroundColor,
+                  color: theme.textTheme.titleLarge?.color,
                 ),
               ),
               const SizedBox(height: 20),
@@ -92,15 +92,19 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: theme.scaffoldBackgroundColor,
-                      backgroundColor: theme.scaffoldBackgroundColor,
+                      foregroundColor: theme.colorScheme.onSurface,
+                      backgroundColor: theme.colorScheme.surface,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: theme.colorScheme.outline),
                       ),
                     ),
                     child: Text(
                       AppString.cancel(context),
-                      style: TextStyle(color: theme.primaryColor),
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                   ElevatedButton(
@@ -111,15 +115,18 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.scaffoldBackgroundColor,
-                      foregroundColor: theme.primaryColor,
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
                     child: Text(
                       AppString.add(context),
-                      style: TextStyle(color: theme.primaryColor),
+                      style: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],

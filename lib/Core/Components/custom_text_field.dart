@@ -31,17 +31,17 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         keyboardType: textInput,
         obscureText: isPassword,
-        cursorColor: theme.scaffoldBackgroundColor,
-        style: TextStyle(color: theme.scaffoldBackgroundColor),
+        cursorColor: theme.primaryColor,
+        style: TextStyle(color: theme.primaryColor),
         
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: theme.scaffoldBackgroundColor),
+          hintStyle: TextStyle(color: theme.primaryColor),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
-          labelStyle: TextStyle(color: theme.scaffoldBackgroundColor),
+          labelStyle: TextStyle(color: theme.primaryColor),
           focusedBorder:  UnderlineInputBorder(
-            borderSide: BorderSide(color: theme.scaffoldBackgroundColor),
+            borderSide: BorderSide(color: theme.primaryColor),
           ),
           contentPadding: EdgeInsets.all(mq.width(2.0)),
         ));

@@ -213,7 +213,8 @@ class AppString {
   static String alreadyHaveAccount(BuildContext context) =>
       'alreadyHaveAccount'.tr(context);
   static String login(BuildContext context) => 'login'.tr(context);
-
+  static String createYourAccount(BuildContext context) =>
+      'createYourAccount'.tr(context);
 // Forgot Password Screen
   static String enterYourEmail(BuildContext context) =>
       'enterYourEmail'.tr(context);
@@ -399,4 +400,11 @@ class AppString {
       'unexpectedError'.tr(context);
   static String youAreOffline(BuildContext context) =>
       'youAreOffline'.tr(context);
+
+  // Register Screen
+  static String signUp(BuildContext context) => 'signUp'.tr(context);
+  static String passwordDoesNotMatch(BuildContext context) =>
+      'passwordDoesNotMatch'.tr(context);
+  static String mustContainAtLeast8CharRegister(BuildContext context) =>
+      'mustContainAtLeast8Char'.tr(context);
 }

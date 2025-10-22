@@ -21,6 +21,8 @@
     "forgotPassword": "Forgot Password?",
     "passwordsDoNotMatch": "Passwords do not match!",
     "invalidEmailOrPassword": "Invalid email or password",
+    "createYourAccount": "Create Your Account",
+
     "gotIt": "Got it",
     "general": "General",
     "customizeSettings": "Customize your settings",
@@ -102,7 +104,7 @@
     "pleaseEnterEmail": "Please enter an email address!",
     "pleaseEnterValidEmail": "Please enter a valid email address!",
     "enterEmail": "Enter email",
-    "mustContainAtLeast8Char": "Must contain at least 8 characters",
+    "mustContainAtLeast8CharRegister": "Must contain at least 8 characters",
     "alreadyHaveAccount": "Already have an account",
     "login": "Login",
     "enterYourEmail": "Enter your email, we will send you a code on your email",
@@ -211,5 +213,8 @@
     "exercisesCount": "Exercises",
     "error": "Error",
     "unexpectedError": "Unexpected Error",
-    "youAreOffline": "You are offline. Showing cached exercises."
+    "youAreOffline": "You are offline. Showing cached exercises.",
+    "signUp": "Sign Up",
+    "passwordDoesNotMatch": "Password does not match",
+    "mustContainAtLeast8Char": "Must contain at least 8 characters"
 }

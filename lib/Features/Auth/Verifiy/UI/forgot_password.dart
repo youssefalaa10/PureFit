@@ -100,7 +100,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 SizedBox(height: mq.width(4)),
                 CustomButton(
-                  textColor: theme.scaffoldBackgroundColor,
                   backgroundColor: theme.primaryColor,
                   label: 'continue'.tr(context),
                   padding: EdgeInsets.symmetric(

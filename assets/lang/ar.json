@@ -102,12 +102,13 @@
   "pleaseEnterEmail": "يرجى إدخال عنوان البريد الإلكتروني!",
   "pleaseEnterValidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح!",
   "enterEmail": "أدخل البريد الإلكتروني",
-  "mustContainAtLeast8Char": "يجب أن يحتوي على 8 أحرف على الأقل",
+  "mustContainAtLeast8CharRegister": "يجب أن يحتوي على 8 أحرف على الأقل",
   "alreadyHaveAccount": "لديك حساب بالفعل",
   "login": "تسجيل الدخول",
   "enterYourEmail": "أدخل بريدك الإلكتروني، سنرسل لك رمزًا على بريدك",
   "pleaseEnterAnEmail": "يرجى إدخال عنوان بريد إلكتروني!",
   "pleaseEnterAValidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح!",
+  "createYourAccount": "إنشاء حساب",
   "verification": "التحقق",
   "success": "نجاح",
   "weSentCode": "لقد أرسلنا رمزًا إلى بريدك الإلكتروني، تحقق منه",
@@ -209,5 +210,8 @@
     "exercisesCount": "التمارين",
     "error": "خطأ",
     "unexpectedError": "خطأ غير متوقع",
-    "youAreOffline": "أنت غير متصل بالإنترنت. عرض التمارين المحفوظة."
+    "youAreOffline": "أنت غير متصل بالإنترنت. عرض التمارين المحفوظة.",
+    "signUp": "إنشاء حساب",
+    "passwordDoesNotMatch": "كلمة المرور غير متطابقة",
+    "mustContainAtLeast8Char": "يجب أن تحتوي على 8 أحرف على الأقل"
 }

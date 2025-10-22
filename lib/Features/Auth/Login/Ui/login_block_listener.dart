@@ -38,6 +38,7 @@ class LoginBlockListener extends StatelessWidget {
   }
 
   void setupErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
     Navigator.pop(context);
     showDialog<void>(
       context: context,
@@ -50,7 +51,7 @@ class LoginBlockListener extends StatelessWidget {
         content: Text(
           textAlign: TextAlign.center,
           AppString.invalidEmailOrPassword(context),
-          style: const TextStyle(color: Colors.black),
+          style: TextStyle(color: theme.primaryColor),
         ),
         actions: [
           TextButton(
@@ -59,7 +60,7 @@ class LoginBlockListener extends StatelessWidget {
             },
             child: Text(
               AppString.gotIt(context),
-              style: const TextStyle(color: Colors.black),
+              style: TextStyle(color: theme.primaryColor),
             ),
           ),
         ],

@@ -218,7 +218,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                               child: Text(
-                                'Sign Up',
+                                AppString.signUp(context),
                                 style: TextStyle(
                                   fontSize: mq.height(2.0),
                                 ),
