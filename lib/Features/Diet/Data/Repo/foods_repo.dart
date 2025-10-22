@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import '../../../../Core/Networking/Dio/dio_food_api.dart';
+import '../../../../Core/helpers/app_logger.dart';
 import '../Model/diet_model.dart';
 
 class FoodsRepo {
@@ -14,7 +15,7 @@ class FoodsRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error in FoodsRepo: $e');
+        AppLogger.log('Error in FoodsRepo: $e');
       }
     }
     return null;
@@ -28,7 +29,7 @@ class FoodsRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error in FoodsRepo: $e');
+        AppLogger.error('Error in FoodsRepo: $e', StackTrace.current);
       }
     }
     return null;

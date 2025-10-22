@@ -1,8 +1,9 @@
 import 'dart:async';
-import 'package:PureFit/Core/Shared/app_colors.dart';
+
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../Core/Components/media_query.dart';
 import '../../Data/Model/exercise_model.dart';
 import '../../Logic/training_cubit/training_cubit.dart';
@@ -51,43 +52,51 @@ class GetReadyScreenState extends State<GetReadyScreen> {
     mq = CustomMQ(context);
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
-            '${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
-            style: TextStyle(fontFamily: AppString.font)),
+          '${AppString.exercises(context)} ${widget.index + 1}/${widget.exercises.length}',
+          style: TextStyle(
+            fontFamily: AppString.font,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         elevation: 0,
         centerTitle: true,
+        backgroundColor: Colors.transparent,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ExerciseImage(
-              mq: mq,
-              exercises: widget.exercises,
-              index: widget.index,
-            ),
-            SizedBox(height: mq.height(3)),
-            ReadyMessage(
-              index: widget.index,
-              mq: mq,
-              exercises: widget.exercises,
-            ),
-            SizedBox(height: mq.height(2)),
-            CircularCounter(
-              mq: mq,
-              countdownValue: countdownValue,
-            ),
-            SizedBox(height: mq.height(2)),
-            NextExerciseInfo(
-              index: widget.index,
-              mq: mq,
-              exercises: widget.exercises,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+          child: Column(
+            children: [
+              SizedBox(height: mq.height(4)),
+              ExerciseImage(
+                mq: mq,
+                exercises: widget.exercises,
+                index: widget.index,
+              ),
+              SizedBox(height: mq.height(4)),
+              ReadyMessage(
+                index: widget.index,
+                mq: mq,
+                exercises: widget.exercises,
+              ),
+              SizedBox(height: mq.height(5)),
+              CircularCounter(
+                mq: mq,
+                countdownValue: countdownValue,
+                theme: theme,
+              ),
+              SizedBox(height: mq.height(5)),
+              NextExerciseInfo(
+                index: widget.index,
+                mq: mq,
+                exercises: widget.exercises,
+              ),
+              SizedBox(height: mq.height(3)),
+            ],
+          ),
         ),
       ),
     );
@@ -106,12 +115,40 @@ class ExerciseImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: mq.height(24),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(mq.width(4)),
       child: Image.network(
         exercises[index].gifUrl!,
+        height: mq.height(35),
         width: double.infinity,
         fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: mq.height(35),
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(mq.width(4)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.fitness_center,
+                  size: mq.height(8),
+                  color: Colors.grey[400],
+                ),
+                SizedBox(height: mq.height(2)),
+                Text(
+                  'Exercise Preview',
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: mq.height(2),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -136,25 +173,24 @@ class ReadyMessage extends StatelessWidget {
         Text(
           AppString.readyToGo(context),
           style: TextStyle(
-            fontSize: mq.height(3.5),
-            fontWeight: FontWeight.bold,
-            color: theme.primaryColor,
+            fontSize: mq.height(3),
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[600],
+            letterSpacing: 1,
           ),
         ),
-        SizedBox(height: mq.height(1)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Center(
-            child: Text(
-              textAlign: TextAlign.center,
-              exercises[index].name,
-              style: TextStyle(
-                color: ColorManager.greyColor,
-                fontSize: mq.height(2.5),
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+        SizedBox(height: mq.height(1.5)),
+        Text(
+          exercises[index].name,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: mq.height(3),
+            fontWeight: FontWeight.bold,
+            color: theme.primaryColor,
+            fontFamily: AppString.font,
           ),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
@@ -165,49 +201,52 @@ class CircularCounter extends StatelessWidget {
   const CircularCounter({
     required this.mq,
     required this.countdownValue,
+    required this.theme,
     super.key,
   });
   final CustomMQ mq;
   final int countdownValue;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final progress =
+        countdownValue / context.read<TrainingCubit>().getReadyDuration;
 
-    return SizedBox(
+    return Container(
       width: mq.width(50),
       height: mq.width(50),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey[100],
+      ),
       child: Stack(
         alignment: Alignment.center,
         children: [
-          // Circular Timer Indicator
           SizedBox(
-            width: mq.width(30),
-            height: mq.width(30),
+            width: mq.width(45),
+            height: mq.width(45),
             child: CircularProgressIndicator(
-              value: countdownValue /
-                  context.read<TrainingCubit>().getReadyDuration,
-              strokeWidth: mq.width(2),
-              color: theme.scaffoldBackgroundColor.withOpacity(0.6),
-              backgroundColor: Colors.grey.shade300,
+              value: progress,
+              strokeWidth: mq.width(3),
+              color: theme.primaryColor,
+              backgroundColor: Colors.grey[300],
+              strokeCap: StrokeCap.round,
             ),
           ),
-          // Countdown Text
-          Text(
-            '$countdownValue',
-            style:
-                TextStyle(fontSize: mq.height(4), fontWeight: FontWeight.bold),
-          ),
-
-          Positioned(
-            right: mq.width(0),
-            child: GestureDetector(
-              child: Icon(
-                Icons.arrow_forward_ios,
-                color: Colors.grey,
-                size: mq.width(7),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '$countdownValue',
+                style: TextStyle(
+                  fontSize: mq.height(10),
+                  fontWeight: FontWeight.bold,
+                  color: theme.primaryColor,
+                  fontFamily: AppString.font,
+                ),
               ),
-            ),
+            ],
           ),
         ],
       ),
@@ -227,31 +266,42 @@ class NextExerciseInfo extends StatelessWidget {
   final List<ExerciseModel> exercises;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'Next',
-          style: TextStyle(
-            fontSize: mq.height(2),
-            fontWeight: FontWeight.w400,
-            color: Colors.grey,
-          ),
-        ),
-        SizedBox(height: mq.height(1)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: Center(
-            child: Text(
-              textAlign: TextAlign.center,
-              exercises[index].name, // need it ne
-              style: TextStyle(
-                fontSize: mq.height(2.5),
-                fontWeight: FontWeight.bold,
-              ),
+    // Show next exercise only if it exists
+    if (index + 1 >= exercises.length) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      padding: EdgeInsets.all(mq.width(4)),
+      decoration: BoxDecoration(
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(mq.width(3)),
+      ),
+      child: Column(
+        children: [
+          Text(
+            'NEXT UP',
+            style: TextStyle(
+              fontSize: mq.height(1.8),
+              fontWeight: FontWeight.w600,
+              color: Colors.grey[600],
+              letterSpacing: 1.5,
             ),
           ),
-        ),
-      ],
+          SizedBox(height: mq.height(1)),
+          Text(
+            exercises[index + 1].name,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: mq.height(2.2),
+              fontWeight: FontWeight.bold,
+              fontFamily: AppString.font,
+            ),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
+      ),
     );
   }
 }

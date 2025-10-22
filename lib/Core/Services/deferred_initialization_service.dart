@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 import 'package:flutter/material.dart';
+import '../helpers/app_logger.dart';
 import 'notificationcontroler.dart';
 import 'voice_service.dart';
 
@@ -24,7 +25,7 @@ class DeferredInitializationService {
       _initializeServicesInBackground();
     } catch (e) {
       developer.Timeline.finishSync();
-      print('Deferred initialization failed: $e');
+      AppLogger.error('Deferred initialization failed: $e', StackTrace.current);
     }
   }
 
@@ -48,7 +49,7 @@ class DeferredInitializationService {
       developer.Timeline.finishSync();
     } catch (e) {
       developer.Timeline.finishSync();
-      print('Background service initialization failed: $e');
+      AppLogger.log('Background service initialization failed: $e');
     } finally {
       _isInitializing = false;
     }
@@ -61,10 +62,10 @@ class DeferredInitializationService {
         final hasPermission =
             await NotificationController.requestNotificationPermission();
         if (!hasPermission) {
-          print('Notification permission not granted');
+          AppLogger.log('Notification permission not granted');
         }
       } catch (e) {
-        print('Permission request failed: $e');
+        AppLogger.log('Permission request failed: $e');
       }
     });
   }

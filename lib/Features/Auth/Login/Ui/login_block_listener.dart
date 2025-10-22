@@ -14,7 +14,7 @@ class LoginBlockListener extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginLoading || state is LoginInitial) {
-            showDialog(
+            showDialog<void>(
               context: context,
               builder: (context) => Center(
                 child: CircularProgressIndicator(
@@ -38,7 +38,7 @@ class LoginBlockListener extends StatelessWidget {
 
   void setupErrorState(BuildContext context, String error) {
     Navigator.pop(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(

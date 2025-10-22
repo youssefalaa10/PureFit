@@ -3,6 +3,7 @@ import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../../Core/Components/custom_button.dart';
 import '../../../../Core/Components/otp_text_field.dart';
 import '../../../../Core/Routing/routes.dart';
@@ -44,7 +45,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     child: BlocListener<VerificationCubit, VerificationState>(
                       listener: (context, state) {
                         if (state is VerificationLoading) {
-                          showDialog(
+                          showDialog<void>(
                             context: context,
                             builder: (context) => const Center(
                                 child: CircularProgressIndicator()),

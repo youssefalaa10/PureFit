@@ -48,7 +48,7 @@ class _TrainerChatState extends State<TrainerChat> {
         child: BlocConsumer<AichatCubit, AichatState>(
           listener: (context, state) {
             if (state is AichatLoading) {
-              showDialog(
+              showDialog<void>(
                   barrierDismissible: false,
                   barrierColor: Colors.transparent,
                   context: context,

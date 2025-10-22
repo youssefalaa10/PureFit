@@ -41,7 +41,7 @@ class UserAgeScreenState extends State<UserAgeScreen> {
                         child: LinearProgressIndicator(
                           value: 0.40, // 2/3 progress as per your image
                           backgroundColor:
-                              ColorManager.greyColor.withOpacity(.5),
+                              ColorManager.greyColor.withValues(alpha: .5),
                           valueColor: AlwaysStoppedAnimation<Color>(
                               ColorManager.primaryColor),
                           minHeight: screenHeight * 0.005,

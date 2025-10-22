@@ -3,7 +3,6 @@
 
 import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:PureFit/Core/Services/workout_tracking_service.dart';
-import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
 
 class EnhancedExerciseUsageExample {
   // Example: Initialize voice service

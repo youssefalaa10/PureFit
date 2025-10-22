@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../Shared/api_constants.dart';
+import '../../helpers/app_logger.dart';
 
 class DioChatApi {
   DioChatApi({required Dio dio}) : _dio = dio;
@@ -9,7 +10,7 @@ class DioChatApi {
 
   Future<String> postChat(String message) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.gemini}',
         data: {'message': message},
         options: Options(
@@ -25,7 +26,7 @@ class DioChatApi {
       } else {}
     } catch (e) {
       if (kDebugMode) {
-        print('Error fetching drinks: $e');
+        AppLogger.error('Error fetching drinks: $e', StackTrace.current);
       }
     }
     return '';

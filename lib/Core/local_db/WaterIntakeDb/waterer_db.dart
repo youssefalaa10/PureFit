@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -14,7 +15,7 @@ class WatererDb {
     return _db!;
   }
 
-  initDb() async {
+  Future<Database> initDb() async {
     final path = await getDatabasesPath();
     final getDb = join(path, 'Water.db');
     return await openDatabase(getDb, version: 1, onCreate: _onCreate);

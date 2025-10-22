@@ -9,11 +9,11 @@ class CustomBackButton extends StatelessWidget {
       // with background------------------
       // decoration: BoxDecoration(
       //   color: Colors.white,
-      //   border: Border.all(color: ColorManager.greyColor.withOpacity(0.5)),
+      //   border: Border.all(color: ColorManager.greyColor.withValues(alpha:0.5)),
       //   borderRadius: BorderRadius.circular(50),
       //   boxShadow: [
       //     BoxShadow(
-      //       color: Colors.grey.withOpacity(0.2),
+      //       color: Colors.grey.withValues(alpha:0.2),
       //       spreadRadius: 2,
       //       blurRadius: 5,
       //       offset: const Offset(0, 3),

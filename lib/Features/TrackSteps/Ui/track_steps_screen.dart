@@ -6,6 +6,7 @@ import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
 import 'package:PureFit/Features/TrackSteps/Logic/cubit/track_step_cubit.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -59,7 +60,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
     // Load saved steps and last recorded date
     _savedSteps =
         await context.read<TrackStepCubit>().readStepsByDate(todayDate);
-    print(_savedSteps); // For debugging purposes
+    AppLogger.log('$_savedSteps'); // For debugging purposes
 
     if (mounted) {
       _lastRecordedDate =
@@ -147,7 +148,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
       _stepCountStream?.listen(_onStepCount).onError(_onStepCountError);
     } else {
       if (kDebugMode) {
-        print('Permission not granted');
+        AppLogger.log('Permission not granted');
       }
     }
   }
@@ -291,12 +292,12 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
             DottedBorder(
               options: RoundedRectDottedBorderOptions(
                 radius: const Radius.circular(90),
-              color: ColorManager.primaryColor,
-              strokeWidth: 4,
-              dashPattern: const [10, 5],
-              // borderType: BorderType.Circle,
+                color: ColorManager.primaryColor,
+                strokeWidth: 4,
+                dashPattern: const [10, 5],
+                // borderType: BorderType.Circle,
               ),
-              // color: ColorManager.primaryColor, 
+              // color: ColorManager.primaryColor,
               // strokeWidth: mq.width(1),
               // borderType: BorderType.Circle,
               // dashPattern: [mq.height(1), mq.width(1.25)],

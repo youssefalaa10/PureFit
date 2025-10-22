@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../Core/Routing/Routes.dart';
+import '../../Core/helpers/app_logger.dart';
 
 class TokenCheck extends StatefulWidget {
   const TokenCheck({super.key});
@@ -29,7 +30,7 @@ class _TokenCheckState extends State<TokenCheck> {
     } else if (state is TokencheckFaliuer) {
       _navigateTo(context, Routes.loginScreen);
       // Log the failure or handle error-specific actions
-      debugPrint('Token check failed: ${state.message}');
+      AppLogger.error('Token check failed: ${state.message}', StackTrace.current);
     }
   }
 

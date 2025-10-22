@@ -1,4 +1,5 @@
 import '../../../../Core/Networking/Dio/dio_favorite_api.dart';
+import '../../../../Core/helpers/app_logger.dart';
 import '../../../../Core/local_db/food_db/food_db.dart';
 import '../Model/favorites_model.dart';
 
@@ -15,7 +16,7 @@ class FavoriteRepo {
   // Fetch all favorite items from the local database (SQFlite)
   Future<List<FavoriteModel>> fetchFavoritesLocally() async {
     final favorites = await dietFavoriteDb.fetchFavorites();
-    print('Fetched from local DB: $favorites'); // Debugging purpose
+    AppLogger.info('Fetched from local DB: $favorites'); // Debugging purpose
     return favorites;
   }
 
@@ -35,7 +36,7 @@ class FavoriteRepo {
       }
       return true;
     } catch (e) {
-      print('Error syncing with API: $e');
+      AppLogger.error('Error syncing with API: $e', StackTrace.current);
       return false;
     }
   }

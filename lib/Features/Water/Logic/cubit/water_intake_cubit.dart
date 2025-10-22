@@ -2,6 +2,8 @@ import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
 import 'package:PureFit/Features/Water/Data/Repo/water_repo.dart';
 import 'package:bloc/bloc.dart';
 
+import '../../../../Core/helpers/app_logger.dart';
+
 part 'water_intake_state.dart';
 
 class WaterIntakeCubit extends Cubit<WaterIntakeState> {
@@ -16,7 +18,7 @@ class WaterIntakeCubit extends Cubit<WaterIntakeState> {
       final List<WaterIntake> allIntakes = await waterRepo.getHistoryIntakes();
       emit(WaterIntakeSuccess(allIntakes, todayIntake));
     } catch (e) {
-      print('error');
+      AppLogger.error('error in fetchTodayIntake', e, StackTrace.current);
       emit(WaterIntakeFailure('Failed to load water intake data'));
     }
   }

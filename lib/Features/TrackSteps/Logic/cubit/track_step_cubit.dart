@@ -13,7 +13,7 @@ class TrackStepCubit extends Cubit<TrackStepState> {
 
     emit(TrackStepInitial());
   }
-
+  
   readStepsByDate(String date) async {
     emit(GetTrackStepLoading());
     try {

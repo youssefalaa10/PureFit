@@ -51,47 +51,106 @@ class _RestScreenState extends State<RestScreen> {
     mq = CustomMQ(context);
     final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text(
           AppString.restScreen(context),
           style: TextStyle(
             fontFamily: AppString.font,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        backgroundColor: theme.scaffoldBackgroundColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            RestTimerSection(
-              mq: mq,
-              countdownValue: countdownValue,
-              onAddTime: () {
-                setState(() {
-                  context.read<TrainingCubit>().addRestTime(20);
-                  countdownValue = context.read<TrainingCubit>().restDuration;
-                });
-              },
-              onSkip: () {
-                context.read<TrainingCubit>().skipRest();
-              },
-            ),
-            SizedBox(height: mq.height(5)),
-            NextExerciseSection(
-                index: widget.index, exercises: widget.exercises, mq: mq),
-            SizedBox(height: mq.height(3)),
-            ExerciseImageSection(
-              index: widget.index,
-              mq: mq,
-              exercises: widget.exercises,
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
+          child: Column(
+            children: [
+              // SizedBox(height: mq.height(2)),
+              RestTimerSection(
+                mq: mq,
+                countdownValue: countdownValue,
+                theme: theme,
+              ),
+              SizedBox(height: mq.height(1)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        context.read<TrainingCubit>().addRestTime(20);
+                        countdownValue =
+                            context.read<TrainingCubit>().restDuration;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.primaryColor,
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: mq.width(8),
+                        vertical: mq.height(1),
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(mq.width(3)),
+                      ),
+                    ),
+                    child: Text(
+                      '+20s',
+                      style: TextStyle(
+                        fontSize: mq.height(2.2),
+                        fontFamily: AppString.font,
+                        color: theme.scaffoldBackgroundColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: mq.width(4)),
+                  OutlinedButton(
+                    onPressed: () {
+                      context.read<TrainingCubit>().skipRest();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      elevation: 0,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: mq.width(8),
+                        vertical: mq.height(1),
+                      ),
+                      side: BorderSide(color: theme.primaryColor, width: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(mq.width(3)),
+                      ),
+                    ),
+                    child: Text(
+                      AppString.skip(context),
+                      style: TextStyle(
+                        fontFamily: AppString.font,
+                        fontSize: mq.height(2),
+                        color: theme.primaryColor,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: mq.height(2)),
+              NextExerciseSection(
+                index: widget.index,
+                exercises: widget.exercises,
+                mq: mq,
+              ),
+              SizedBox(height: mq.height(3)),
+              ExerciseImageSection(
+                index: widget.index,
+                mq: mq,
+                exercises: widget.exercises,
+              ),
+              // SizedBox(height: mq.height(1)),
+            ],
+          ),
         ),
       ),
     );
@@ -102,78 +161,36 @@ class RestTimerSection extends StatelessWidget {
   const RestTimerSection({
     required this.mq,
     required this.countdownValue,
-    required this.onAddTime,
-    required this.onSkip,
+    required this.theme,
     super.key,
   });
   final CustomMQ mq;
   final int countdownValue;
-  final VoidCallback onAddTime;
-  final VoidCallback onSkip;
+  final ThemeData theme;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Column(
       children: [
         Text(
           AppString.rest(context),
           style: TextStyle(
-            fontSize: mq.height(3),
-            fontWeight: FontWeight.bold,
+            fontSize: mq.height(2.5),
+            fontWeight: FontWeight.w600,
             fontFamily: AppString.font,
+            color: Colors.grey[600],
           ),
         ),
         SizedBox(height: mq.height(2)),
         Text(
-          '${(countdownValue ~/ 60).toString().padLeft(2, '0')} : ${(countdownValue % 60).toString().padLeft(2, '0')}',
+          '${(countdownValue ~/ 60).toString().padLeft(2, '0')}:${(countdownValue % 60).toString().padLeft(2, '0')}',
           style: TextStyle(
-            fontSize: mq.height(8),
+            fontSize: mq.height(5),
             fontFamily: AppString.font,
             fontWeight: FontWeight.bold,
-            color: theme.primaryColor.withOpacity(0.6),
+            color: theme.primaryColor,
+            letterSpacing: 4,
           ),
-        ),
-        SizedBox(height: mq.height(3)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: onAddTime,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Text(
-                '+20s',
-                style: TextStyle(
-                  fontSize: mq.height(2.5),
-                  fontFamily: AppString.font,
-                  color: theme.scaffoldBackgroundColor,
-                ),
-              ),
-            ),
-            SizedBox(width: mq.width(5)),
-            ElevatedButton(
-              onPressed: onSkip,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: theme.primaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Text(
-                AppString.skip(context),
-                style: TextStyle(
-                  fontFamily: AppString.font,
-                  fontSize: mq.height(2.5),
-                  color: theme.scaffoldBackgroundColor,
-                ),
-              ),
-            ),
-          ],
         ),
       ],
     );
@@ -192,44 +209,29 @@ class NextExerciseSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        // The column that contains 'Next' and the exercise name
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                AppString.next(context),
-                style: TextStyle(
-                  fontFamily: AppString.font,
-                  fontSize: mq.height(2),
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey,
-                ),
-              ),
-              SizedBox(
-                width: mq.width(90), // Limit width for proper overflow handling
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Center(
-                    child: Text(
-                      exercises[index].name,
-                      style: TextStyle(
-                        fontSize: mq.height(3),
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              )
-            ],
+        Text(
+          AppString.next(context),
+          style: TextStyle(
+            fontFamily: AppString.font,
+            fontSize: mq.height(2),
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[600],
           ),
         ),
-        // The 'x 5' text
+        SizedBox(height: mq.height(1)),
+        Text(
+          exercises[index].name,
+          style: TextStyle(
+            fontSize: mq.height(2),
+            fontWeight: FontWeight.bold,
+            fontFamily: AppString.font,
+          ),
+          textAlign: TextAlign.center,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
       ],
     );
   }
@@ -247,12 +249,24 @@ class ExerciseImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: mq.height(25),
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(mq.width(3)),
       child: Image.network(
         exercises[index].gifUrl!,
+        height: mq.height(40),
         width: double.infinity,
-        fit: BoxFit.contain,
+        fit: BoxFit.cover,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            height: mq.height(30),
+            alignment: Alignment.center,
+            child: Icon(
+              Icons.fitness_center,
+              size: mq.height(8),
+              color: Colors.grey,
+            ),
+          );
+        },
       ),
     );
   }

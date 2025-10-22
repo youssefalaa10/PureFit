@@ -64,7 +64,7 @@ class _PlanCardState extends State<PlanCard> {
               gradient: LinearGradient(
                 colors: [
                   theme.primaryColor,
-                  theme.primaryColor.withOpacity(0.5),
+                  theme.primaryColor.withValues(alpha: 0.5),
                 ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
@@ -94,7 +94,8 @@ class _PlanCardState extends State<PlanCard> {
                         '$completedDays/$totalDays ${AppString.complete(context)}',
                         style: TextStyle(
                           fontSize: mq.width(3),
-                          color: theme.scaffoldBackgroundColor.withOpacity(0.7),
+                          color: theme.scaffoldBackgroundColor
+                              .withValues(alpha: 0.7),
                           fontFamily: AppString.font,
                         ),
                       ),
@@ -115,8 +116,8 @@ class _PlanCardState extends State<PlanCard> {
                           animation: true,
                           percent: progressPercentage,
                           radius: mq.width(6.25),
-                          backgroundColor:
-                              theme.scaffoldBackgroundColor.withOpacity(0.5),
+                          backgroundColor: theme.scaffoldBackgroundColor
+                              .withValues(alpha: 0.5),
                           progressColor: theme.scaffoldBackgroundColor,
                         ),
                         Text(

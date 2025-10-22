@@ -1,7 +1,7 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
+import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
 import 'package:PureFit/Features/Exercises/UI/components/get_ready_screen.dart';
-import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -97,7 +97,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
     final progress = (state.currentExerciseIndex + 1) / widget.exercises.length;
 
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       child: Column(
         children: [
           Row(
@@ -133,7 +133,7 @@ class _ExerciseStagesState extends State<ExerciseStages> {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(1.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

@@ -12,7 +12,7 @@ class VoiceService {
 
   Future<void> initialize() async {
     _flutterTts = FlutterTts();
-    
+
     // Load preferences
     final prefs = await SharedPreferences.getInstance();
     _isEnabled = prefs.getBool('voice_enabled') ?? true;
@@ -27,7 +27,7 @@ class VoiceService {
 
   Future<void> speak(String text) async {
     if (!_isEnabled || _flutterTts == null) return;
-    
+
     try {
       await _flutterTts?.speak(text);
     } catch (e) {

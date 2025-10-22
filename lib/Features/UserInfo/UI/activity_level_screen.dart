@@ -66,7 +66,7 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
               child: LinearProgressIndicator(
                 value: 0.80,
-                backgroundColor: ColorManager.greyColor.withOpacity(0.5),
+                backgroundColor: ColorManager.greyColor.withValues(alpha: 0.5),
                 valueColor:
                     AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
                 minHeight: mq.height(0.5),
@@ -104,7 +104,7 @@ class AcitivtyLevelScreenState extends State<AcitivtyLevelScreen> {
           style: TextStyle(
             fontFamily: AppString.font,
             fontSize: mq.height(2),
-            color: ColorManager.greyColor.withOpacity(0.5),
+            color: ColorManager.greyColor.withValues(alpha: 0.5),
           ),
         ),
       ],

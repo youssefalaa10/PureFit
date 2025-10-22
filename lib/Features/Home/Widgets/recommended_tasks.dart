@@ -33,7 +33,7 @@ class RecommendedTasks extends StatelessWidget {
             //   AppString.seeAll(context),
             //   style: TextStyle(
             //       fontSize: mq.width(4),
-            //       color: ColorManager.primaryColor.withOpacity(.5)),
+            //       color: ColorManager.primaryColor.withValues(alpha:.5)),
             // ),
           ],
         ),

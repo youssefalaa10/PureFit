@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../../../Core/Networking/Dio/dio_exercise_api.dart';
@@ -17,7 +18,7 @@ class ExerciseRepo {
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error in ExerciseRepo: $e');
+        AppLogger.error('Error in ExerciseRepo: $e', StackTrace.current);
       }
     }
     return null;

@@ -17,7 +17,7 @@ class DioAuthApi {
 
   Future<bool> dioRegister({required RegisterModel user}) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         'https://fit-pro-app.glitch.me/auth/register',
         data: user.toMap(),
         options: Options(
@@ -47,9 +47,9 @@ class DioAuthApi {
     }
   }
 
-  dioLogin({required LoginModel user}) async {
+  Future<bool> dioLogin({required LoginModel user}) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         'https://fit-pro-app.glitch.me/auth/login',
         data: user.toMap(),
         options: Options(

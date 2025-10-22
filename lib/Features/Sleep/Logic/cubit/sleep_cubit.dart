@@ -2,25 +2,27 @@ import 'package:PureFit/Features/Sleep/Data/Model/sleepmodel.dart';
 import 'package:PureFit/Features/Sleep/Data/Reposotiory/sleep_repo.dart';
 import 'package:bloc/bloc.dart';
 
+import '../../../../Core/helpers/app_logger.dart';
+
 part 'sleep_state.dart';
 
 class SleepCubit extends Cubit<SleepState> {
   SleepCubit(this.sleepRepo) : super(SleepInitial());
   final SleepRepo sleepRepo;
 
-  getallsessions() async {
+  Future<void> getallsessions() async {
     try {
       emit(SleepLoading());
       final response = await sleepRepo.getallsessions();
       emit(SleepSuccess(list: response));
     } on Exception catch (e) {
-      print(e);
+      AppLogger.error(e.toString(), StackTrace.current);
       emit(SleepFailuer());
     }
   }
 
-  insertSession(SleepSession sleepsession) async {
+  Future<void> insertSession(SleepSession sleepsession) async {
     await sleepRepo.insertSleep(sleepsession);
-    print('sucess');
+    AppLogger.info('sucess');
   }
 }

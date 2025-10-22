@@ -14,6 +14,7 @@ import 'package:lottie/lottie.dart';
 import '../../Core/Components/custom_icon_button.dart';
 import '../../Core/Components/media_query.dart';
 import '../../Core/Routing/Routes.dart';
+import '../../Core/helpers/app_logger.dart';
 
 class SleepScreen extends StatefulWidget {
   const SleepScreen({super.key});
@@ -34,7 +35,7 @@ class _SleepScreenState extends State<SleepScreen> {
     super.initState();
   }
 
-  loadData() async {
+  Future<void> loadData() async {
     await context.read<SleepCubit>().getallsessions();
   }
 
@@ -102,7 +103,7 @@ class _SleepScreenState extends State<SleepScreen> {
 
   static void _triggerAlarm() {
     // Assuming you have a way to show the snackbar from here
-    print('Alarm triggered!');
+    AppLogger.info('Alarm triggered!');
 
     // You may not have access to context here, use a method to show notifications
     NotificationService().repeatAlarm('Wake Up!', "It's time to wake up.");
@@ -148,7 +149,7 @@ class _SleepScreenState extends State<SleepScreen> {
       CustomSnackbar.showSnackbar(context, 'Failed to set alarm: $e');
     }
 
-    print(
+    AppLogger.info(
         'Bedtime: ${sleepSession.bedtime} Wake-up time: ${sleepSession.wakeTime}  Duration: ${sleepSession.duration} minutes ');
   }
 

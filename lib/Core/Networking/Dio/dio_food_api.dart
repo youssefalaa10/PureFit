@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../Shared/api_constants.dart';
+import '../../helpers/app_logger.dart';
 
 class DioFoodsApi {
   DioFoodsApi({required Dio dio}) : _dio = dio;
@@ -9,7 +10,7 @@ class DioFoodsApi {
 
   Future<List<Map<String, dynamic>>?> getFoods() async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.get<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.apiFoods}',
         options: Options(
           headers: {
@@ -20,18 +21,20 @@ class DioFoodsApi {
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
-        final List data = response.data;
-        // print(data.toString());
+        final List<dynamic> data = response.data;
+        // AppLogger.log(data.toString());
         return data.map((e) => e as Map<String, dynamic>).toList();
       } else {
         if (kDebugMode) {
-          print(
-              'Error fetching workout categories: Status Code ${response.statusCode}');
+          AppLogger.error(
+              'Error fetching workout categories: Status Code ${response.statusCode}',
+              StackTrace.current);
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error fetching workout categories: $e');
+        AppLogger.error(
+            'Error fetching workout categories: $e', StackTrace.current);
       }
     }
     return null;
@@ -39,7 +42,7 @@ class DioFoodsApi {
 
   Future<List<Map<String, dynamic>>?> getFavouriteFoods(String id) async {
     try {
-      final response = await _dio.get(
+      final response = await _dio.get<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.apiFavorite(id)}',
         options: Options(
           headers: {
@@ -50,18 +53,19 @@ class DioFoodsApi {
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
           response.statusCode! < 300) {
-        final List data = response.data['favoriteFoods'];
-        // print(data.toString());
+        final List<dynamic> data = response.data['favoriteFoods'];
+        // AppLogger.log(data.toString());
         return data.map((e) => e as Map<String, dynamic>).toList();
       } else {
         if (kDebugMode) {
-          print(
+          AppLogger.error(
               'Error fetching workout categories: Status Code ${response.statusCode}');
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error fetching workout categories: $e');
+        AppLogger.error(
+            'Error fetching workout categories: $e', StackTrace.current);
       }
     }
     return null;

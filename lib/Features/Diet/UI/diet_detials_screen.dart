@@ -9,6 +9,7 @@ import 'package:PureFit/Features/Calories/DATA/Repo/todayfood_repo.dart';
 import 'package:PureFit/Features/Diet/Data/Model/favorites_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../Core/Shared/app_string.dart';
 import '../Data/Model/base_diet_model.dart';
 import '../Logic/favorite_cubit/favorite_cubit.dart';
@@ -132,7 +133,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 textColor: theme.scaffoldBackgroundColor,
                 label: AppString.addMeal(context),
                 onPressed: () {
-                  showDialog(
+                  showDialog<void>(
                       context: context,
                       builder: (_) {
                         return ScaleTransitionDialog(

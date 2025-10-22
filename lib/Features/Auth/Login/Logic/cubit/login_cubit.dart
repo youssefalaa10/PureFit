@@ -10,7 +10,7 @@ class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this.loginRepo) : super(LoginInitial());
   final LoginRepo loginRepo;
 
-  doLogin(LoginModel userlogin) async {
+  Future<void> doLogin(LoginModel userlogin) async {
     emit(LoginLoading());
     try {
       await loginRepo.doLogin(userlogin);

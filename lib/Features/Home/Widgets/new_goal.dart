@@ -36,7 +36,7 @@ class NewGoalWidget extends StatelessWidget {
             //   AppString.seeAll(context),
             //   style: TextStyle(
             //     fontSize: mq.width(4),
-            //     color: theme.primaryColor.withOpacity(.5),
+            //     color: theme.primaryColor.withValues(alpha:.5),
             //     fontFamily: AppString.font,
             //   ),
             // ),

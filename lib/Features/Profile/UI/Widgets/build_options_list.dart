@@ -43,7 +43,7 @@ Widget buildOptionsList(BuildContext context) {
 }
 
 void showLogoutConfirmationDialog(BuildContext context) {
-  showDialog(
+  showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(

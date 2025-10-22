@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../../Shared/api_constants.dart';
+import '../../helpers/app_logger.dart';
 
 class DioWeeklyExerciseApi {
   DioWeeklyExerciseApi({required Dio dio}) : _dio = dio;
@@ -8,8 +9,8 @@ class DioWeeklyExerciseApi {
 
   Future<Map<String, dynamic>?> getCalendar(String profileId) async {
     try {
-      final response = await _dio
-          .get('${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}');
+      final response = await _dio.get<dynamic>(
+          '${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}');
 
       return response.data;
     } catch (e) {
@@ -20,14 +21,14 @@ class DioWeeklyExerciseApi {
   Future<bool> updateCalendar(
       String profileId, int weekNumber, Map<String, bool> dayUpdates) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}',
         data: {
           'weekNumber': weekNumber,
           'dayUpdates': dayUpdates,
         },
       );
-      print('Response data Update: ${response.data}');
+      AppLogger.info('Response data Update: ${response.data}');
       return true;
     } catch (e) {
       throw 'updating calendar: $e';
@@ -36,12 +37,12 @@ class DioWeeklyExerciseApi {
 
   Future<bool> resetCalendar(String profileId) async {
     try {
-      await _dio
-          .put('${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}');
+      await _dio.put<dynamic>(
+          '${ApiConstants.baseUrl}${ApiConstants.apiCalender(profileId)}');
 
       return true;
     } catch (e) {
-      print('Error resetting calendar: $e');
+      AppLogger.error('Error resetting calendar: $e', StackTrace.current);
       return false;
     }
   }
