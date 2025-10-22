@@ -289,10 +289,17 @@ class _TrackStepsScreenState extends State<TrackStepsScreen> {
               percent: min(_fullStepsOfToday / goalValue, 1.0),
             ),
             DottedBorder(
+              options: RoundedRectDottedBorderOptions(
+                radius: const Radius.circular(90),
               color: ColorManager.primaryColor,
-              strokeWidth: mq.width(1),
-              borderType: BorderType.Circle,
-              dashPattern: [mq.height(1), mq.width(1.25)],
+              strokeWidth: 4,
+              dashPattern: const [10, 5],
+              // borderType: BorderType.Circle,
+              ),
+              // color: ColorManager.primaryColor, 
+              // strokeWidth: mq.width(1),
+              // borderType: BorderType.Circle,
+              // dashPattern: [mq.height(1), mq.width(1.25)],
               child: Container(
                 margin: EdgeInsets.all(mq.width(3.75)),
                 padding: EdgeInsets.all(mq.width(7.5)),

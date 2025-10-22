@@ -28,6 +28,11 @@ android {
          // Enable core library desugaring
         coreLibraryDesugaringEnabled true
     }
+    
+    // Suppress deprecation warnings for third-party packages
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:-deprecation"
+    }
     kotlinOptions {
         jvmTarget = "17"
     }
@@ -45,6 +50,17 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Optimize debug builds for faster compilation
+            minifyEnabled false
+            shrinkResources false
+            // Enable incremental compilation
+            crunchPngs false
+            // Disable unnecessary debug features for faster builds
+            debuggable true
+            jniDebuggable false
+            renderscriptDebuggable false
+        }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
@@ -62,7 +78,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat-resources:1.6.1'
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.multidex:multidex:2.0.1'
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.4'
 }
 
 flutter {

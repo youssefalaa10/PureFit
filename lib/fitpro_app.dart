@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Routing/app_router.dart';
+import 'package:PureFit/Core/Services/deferred_initialization_service.dart';
 import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:PureFit/Core/Shared/theme/theme_color.dart';
 import 'package:flutter/material.dart';
@@ -21,23 +22,23 @@ class FitproApp extends StatefulWidget {
 
   // Method to toggle the theme externally
   static void toggleTheme(BuildContext context, bool isDarkMode) {
-    final _FitproAppState? state =
-        context.findAncestorStateOfType<_FitproAppState>();
+    final FitproAppState? state =
+        context.findAncestorStateOfType<FitproAppState>();
     state?.toggleTheme(isDarkMode);
   }
 
   // Method to set the locale externally
   static void setLocale(BuildContext context, Locale newLocale) {
-    final _FitproAppState? state =
-        context.findAncestorStateOfType<_FitproAppState>();
+    final FitproAppState? state =
+        context.findAncestorStateOfType<FitproAppState>();
     state?.setLocale(newLocale);
   }
 
   @override
-  _FitproAppState createState() => _FitproAppState();
+  FitproAppState createState() => FitproAppState();
 }
 
-class _FitproAppState extends State<FitproApp> {
+class FitproAppState extends State<FitproApp> {
   late Locale _locale;
   late bool _isDarkMode;
 
@@ -52,7 +53,14 @@ class _FitproAppState extends State<FitproApp> {
 
     // Set the navigator key in NotificationController
     NotificationController.setNavigatorKey(navigatorKey);
+
+    // Defer non-critical initialization to improve startup time
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      DeferredInitializationService.initializeAfterFirstFrame(context);
+    });
   }
+
+  // Removed _initializeNotifications - now handled by DeferredInitializationService
 
   // Method to toggle the theme and update SharedPreferences
   void toggleTheme(bool isDarkMode) async {

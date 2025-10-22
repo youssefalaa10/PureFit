@@ -3,6 +3,19 @@ allprojects {
         google()
         mavenCentral()
     }
+    
+    // Performance optimizations - suppress deprecation warnings for third-party packages
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xlint:unchecked"
+        // Don't treat deprecation warnings as errors for third-party packages
+        options.deprecation = false
+    }
+    
+    // Enable parallel execution
+    tasks.withType(org.gradle.api.tasks.compile.JavaCompile) {
+        options.fork = true
+        options.forkOptions.jvmArgs << "-Xmx2g"
+    }
 }
 
 rootProject.buildDir = "../build"

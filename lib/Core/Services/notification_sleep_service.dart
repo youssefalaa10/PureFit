@@ -1,8 +1,7 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-
 import 'package:flutter/material.dart';
-
 import '../Routing/Routes.dart';
+import 'notificationcontroler.dart';
 
 class NotificationService {
   NotificationService() {
@@ -13,24 +12,9 @@ class NotificationService {
 
   Future<void> _initializeNotifications() async {
     try {
-      await AwesomeNotifications().initialize(
-        'resource://drawable/file', // Replace with your actual icon resource
-        [
-          NotificationChannel(
-            enableVibration: true,
-            channelKey: 'basic_channel',
-            channelName: 'PureFit Alarm',
-            channelDescription: 'PureFit Alarm Channel',
-            defaultColor: const Color(0xFF9D50BB),
-            ledColor: Colors.white,
-            importance: NotificationImportance.Max,
-            defaultRingtoneType: DefaultRingtoneType.Ringtone,
-            playSound: true,
-            soundSource: 'resource://raw/fire', // Custom sound
-          ),
-        ],
-      );
-      print('Notification channel initialized successfully.');
+      // Use the enhanced notification controller
+      await NotificationController.initializeEnhancedNotifications();
+      print('Enhanced notification channels initialized successfully.');
     } catch (e) {
       print('Error initializing notifications: $e');
     }
@@ -121,5 +105,80 @@ class NotificationService {
 
   Future<void> cancel() async {
     await AwesomeNotifications().cancelAll();
+  }
+
+  // Enhanced notification methods using the controller
+  Future<void> scheduleWorkoutReminder({
+    required TimeOfDay workoutTime,
+    required List<int> daysOfWeek,
+    String? customMessage,
+  }) async {
+    await NotificationController.scheduleWorkoutReminder(
+      workoutTime: workoutTime,
+      daysOfWeek: daysOfWeek,
+      customMessage: customMessage,
+    );
+  }
+
+  Future<void> scheduleWaterIntakeReminders({
+    required int intervalHours,
+    required TimeOfDay startTime,
+    required TimeOfDay endTime,
+  }) async {
+    await NotificationController.scheduleWaterIntakeReminders(
+      intervalHours: intervalHours,
+      startTime: startTime,
+      endTime: endTime,
+    );
+  }
+
+  Future<void> scheduleSleepReminders({
+    required TimeOfDay bedtime,
+    required TimeOfDay wakeUpTime,
+    required int windDownMinutes,
+  }) async {
+    await NotificationController.scheduleSleepReminders(
+      bedtime: bedtime,
+      wakeUpTime: wakeUpTime,
+      windDownMinutes: windDownMinutes,
+    );
+  }
+
+  Future<void> showGoalAchievement({
+    required String goalType,
+    required String achievement,
+    String? celebrationMessage,
+  }) async {
+    await NotificationController.showGoalAchievement(
+      goalType: goalType,
+      achievement: achievement,
+      celebrationMessage: celebrationMessage,
+    );
+  }
+
+  Future<void> showQuickCelebration(String message) async {
+    await NotificationController.showQuickCelebration(message);
+  }
+
+  // Toggle methods
+  Future<void> toggleWorkoutReminders(bool enabled) async {
+    await NotificationController.toggleWorkoutReminders(enabled);
+  }
+
+  Future<void> toggleWaterIntakeReminders(bool enabled) async {
+    await NotificationController.toggleWaterIntakeReminders(enabled);
+  }
+
+  Future<void> toggleSleepScheduleReminders(bool enabled) async {
+    await NotificationController.toggleSleepScheduleReminders(enabled);
+  }
+
+  Future<void> toggleGoalCelebrations(bool enabled) async {
+    await NotificationController.toggleGoalCelebrations(enabled);
+  }
+
+  // Get preferences
+  Future<Map<String, bool>> getNotificationPreferences() async {
+    return await NotificationController.getNotificationPreferences();
   }
 }

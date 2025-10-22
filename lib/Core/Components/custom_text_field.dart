@@ -17,7 +17,7 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon? prefixIcon;
   final Widget? suffixIcon;
-  final Function(String)? validator;
+  final Function? validator;
   final TextEditingController? controller;
 
   @override

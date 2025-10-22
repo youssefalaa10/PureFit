@@ -162,10 +162,17 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                   1.0), // Updated with real step data
             ),
             DottedBorder(
+               options: RoundedRectDottedBorderOptions(
+                radius: const Radius.circular(90),
               color: ColorManager.backGroundColor,
-              strokeWidth: mq.width(1),
-              borderType: BorderType.Circle,
-              dashPattern: [mq.width(2.5), mq.width(1.25)],
+              strokeWidth: 4,
+              dashPattern: const [10, 5],
+              // borderType: BorderType.Circle,
+              ),
+              // color: ColorManager.backGroundColor,
+              // strokeWidth: mq.width(1),
+              // borderType: BorderType.Circle,
+              // dashPattern: [mq.width(2.5), mq.width(1.25)],
               child: Container(
                 margin: EdgeInsets.all(mq.width(3)),
                 padding: EdgeInsets.all(mq.width(7.5)),

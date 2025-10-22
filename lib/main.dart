@@ -7,32 +7,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer' as developer;
 
 // Conditional import for Android-specific packages
 import 'android_services.dart' if (dart.library.html) 'web_services.dart';
 
 void main() async {
+  // Performance monitoring - track total startup time
+  developer.Timeline.startSync('app_startup');
+
   WidgetsFlutterBinding.ensureInitialized();
 
   // Platform-specific initialization
   if (!kIsWeb) {
-    // Android-specific imports and initialization
+    developer.Timeline.startSync('android_services_init');
     try {
       await initializeAndroidServices();
     } catch (e) {
       print('Android services initialization failed: $e');
     }
+    developer.Timeline.finishSync();
   }
 
+  developer.Timeline.startSync('dependency_injection');
   setUpGit();
+  developer.Timeline.finishSync();
+
   // Lock the app to portrait mode
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+
+  developer.Timeline.startSync('preferences_loading');
   // Load saved language preference
   final prefs = await SharedPreferences.getInstance();
   final savedLocaleCode = prefs.getString('locale') ?? 'en';
   final isDarkMode = prefs.getBool('isDarkMode') ?? false;
+  developer.Timeline.finishSync();
+
+  developer.Timeline.startSync('app_launch');
   runApp(BlocProvider(
     create: (context) => getIT<ProfileCubit>()..getProfile(),
     child: FitproApp(
@@ -41,4 +54,6 @@ void main() async {
       isDarkMode: isDarkMode,
     ),
   ));
+  developer.Timeline.finishSync();
+  developer.Timeline.finishSync(); // Finish total startup tracking
 }

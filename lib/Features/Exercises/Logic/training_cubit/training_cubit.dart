@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:PureFit/Core/Services/voice_service.dart';
+import 'package:PureFit/Core/Services/workout_tracking_service.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
 import 'package:bloc/bloc.dart';
 
@@ -10,7 +12,11 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
   TrainingCubit(List<ExerciseModel> exercises) : super(TrainingInitial()) {
     passExercises = exercises;
+    _voiceService = VoiceService();
+    _workoutStartTime = DateTime.now();
+    _initializeVoice();
   }
+
   List<ExerciseModel>? passExercises;
   Timer? _timer;
   int currentExercise = 0;
@@ -20,6 +26,22 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   bool isPaused = false; // Pause flag
   int? remainingTime; // Remaining time to continue from when paused
   EnumTrainingStage? currentStage;
+
+  // Voice and tracking services
+  late VoiceService _voiceService;
+  DateTime? _workoutStartTime;
+  String? _workoutName;
+  final List<ExerciseRecord> _currentSessionExercises = [];
+
+  // Initialize voice service
+  Future<void> _initializeVoice() async {
+    await _voiceService.initialize();
+  }
+
+  // Set workout name for tracking
+  void setWorkoutName(String name) {
+    _workoutName = name;
+  }
 
   // Start the stages
   void startExerciseRoutine() {
@@ -33,20 +55,37 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   // Start Get Ready Stage and First Stage
   void _startGetReadyStage() {
     if (currentExercise >= (passExercises?.length ?? 0)) {
-      emit(TrainingCompleted());
+      _completeWorkout();
+      return;
     }
     currentStage = EnumTrainingStage.getReady;
+
+    // Voice announcement for next exercise
+    if (passExercises != null && currentExercise < passExercises!.length) {
+      final exerciseName = passExercises![currentExercise].name;
+      _voiceService.speakGetReady(exerciseName);
+    }
+
     _startTimer(getReadyDuration, _startExerciseStage);
   }
 
   // Start Exercise Stage and This is Second Stage
   void _startExerciseStage() {
     currentStage = EnumTrainingStage.start;
-    // _startTimer(exerciseDuration, _startRestStage);
+
+    // Voice announcement for starting exercise
+    if (passExercises != null && currentExercise < passExercises!.length) {
+      final exerciseName = passExercises![currentExercise].name;
+      _voiceService.speakStartExercise(exerciseName);
+    }
+
     _startTimer(exerciseDuration, () {
+      // Record exercise completion
+      _recordExerciseCompletion();
+
       if (currentExercise == (passExercises?.length ?? 0) - 1) {
         // If this is the last exercise, mark training as completed
-        emit(TrainingCompleted());
+        _completeWorkout();
       } else {
         // Otherwise, start the rest stage
         _startRestStage();
@@ -57,6 +96,10 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   // Start Rest Stage (skipped for the last exercise)
   void _startRestStage() {
     currentStage = EnumTrainingStage.rest;
+
+    // Voice announcement for rest time
+    _voiceService.speakRestTime(restDuration);
+
     _startTimer(restDuration, _nextExercise);
   }
 
@@ -67,8 +110,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
       _startGetReadyStage(); // Start the next exercise
     } else {
       _timer?.cancel();
-      emit(
-          TrainingCompleted()); // Just in case, ensure we emit completion here too
+      _completeWorkout(); // Just in case, ensure we emit completion here too
     }
   }
 
@@ -138,10 +180,65 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
     }
   }
 
+  // Record exercise completion
+  void _recordExerciseCompletion() {
+    if (passExercises != null && currentExercise < passExercises!.length) {
+      final exercise = passExercises![currentExercise];
+      final record = ExerciseRecord(
+        exerciseName: exercise.name,
+        duration: exerciseDuration,
+        sets: 1,
+        reps: 1, // Default reps, can be enhanced later
+        weight: 0.0, // Default weight, can be enhanced later
+        notes: '',
+      );
+      _currentSessionExercises.add(record);
+    }
+  }
+
+  // Complete workout and save session
+  void _completeWorkout() async {
+    if (_workoutStartTime != null && _currentSessionExercises.isNotEmpty) {
+      final workoutSession = WorkoutSession(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        workoutName: _workoutName ?? 'Workout',
+        startTime: _workoutStartTime!,
+        endTime: DateTime.now(),
+        totalDuration: DateTime.now().difference(_workoutStartTime!).inSeconds,
+        exercises: _currentSessionExercises,
+        caloriesBurned: _calculateCaloriesBurned(),
+        difficulty: 'Medium', // Can be enhanced later
+      );
+
+      await WorkoutTrackingService.saveWorkoutSession(workoutSession);
+
+      // Voice announcement for workout completion
+      _voiceService.speakWorkoutComplete();
+    }
+
+    emit(TrainingCompleted());
+  }
+
+  // Calculate calories burned (simplified calculation)
+  int _calculateCaloriesBurned() {
+    // Simple calculation: 10 calories per minute of exercise
+    final totalMinutes = _currentSessionExercises.fold(
+            0, (sum, exercise) => sum + exercise.duration) /
+        60;
+    return (totalMinutes * 10).round();
+  }
+
+  // Get current progress
+  int get currentProgress => currentExercise;
+  int get totalExercises => passExercises?.length ?? 0;
+  double get progressPercentage =>
+      totalExercises > 0 ? (currentExercise / totalExercises) : 0.0;
+
   // Cancel the timer when the cubit is closed
   @override
   Future<void> close() {
     _timer?.cancel();
+    _voiceService.dispose();
     return super.close();
   }
 }

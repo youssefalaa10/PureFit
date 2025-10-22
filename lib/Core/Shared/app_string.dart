@@ -277,6 +277,52 @@ class AppString {
 // Build Options
   static String areYouSureToLogOut(BuildContext context) =>
       'areYouSureToLogOut'.tr(context);
+
+// Voice and Tracking Features
+  static String voiceEnabled(BuildContext context) =>
+      'voiceEnabled'.tr(context);
+  static String voiceDisabled(BuildContext context) =>
+      'voiceDisabled'.tr(context);
+  static String workoutHistory(BuildContext context) =>
+      'workoutHistory'.tr(context);
+  static String personalRecords(BuildContext context) =>
+      'personalRecords'.tr(context);
+  static String achievements(BuildContext context) =>
+      'achievements'.tr(context);
+  static String totalWorkouts(BuildContext context) =>
+      'totalWorkouts'.tr(context);
+  static String totalCalories(BuildContext context) =>
+      'totalCalories'.tr(context);
+  static String workoutStreak(BuildContext context) =>
+      'workoutStreak'.tr(context);
+  static String averageWorkoutTime(BuildContext context) =>
+      'averageWorkoutTime'.tr(context);
+  static String favoriteExercise(BuildContext context) =>
+      'favoriteExercise'.tr(context);
+  static String recentWorkouts(BuildContext context) =>
+      'recentWorkouts'.tr(context);
+  static String newPersonalRecord(BuildContext context) =>
+      'newPersonalRecord'.tr(context);
+  static String workoutComplete(BuildContext context) =>
+      'workoutComplete'.tr(context);
+  static String getReadyFor(BuildContext context) => 'getReadyFor'.tr(context);
+  static String startExercise(BuildContext context) =>
+      'startExercise'.tr(context);
+  static String restFor(BuildContext context) => 'restFor'.tr(context);
+  static String secondsRemaining(BuildContext context) =>
+      'secondsRemaining'.tr(context);
+  static String exerciseProgress(BuildContext context) =>
+      'exerciseProgress'.tr(context);
+  static String viewHistory(BuildContext context) => 'viewHistory'.tr(context);
+  static String noWorkoutHistory(BuildContext context) =>
+      'noWorkoutHistory'.tr(context);
+  static String noPersonalRecords(BuildContext context) =>
+      'noPersonalRecords'.tr(context);
+  static String bestWeight(BuildContext context) => 'bestWeight'.tr(context);
+  static String bestReps(BuildContext context) => 'bestReps'.tr(context);
+  static String bestDuration(BuildContext context) =>
+      'bestDuration'.tr(context);
+  static String achievedOn(BuildContext context) => 'achievedOn'.tr(context);
   static String cancel(BuildContext context) => 'cancel'.tr(context);
 
 // Sleep Screen
