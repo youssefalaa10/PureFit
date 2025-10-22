@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Components/back_button.dart';
 import 'package:PureFit/Core/Components/connection_error_dialog.dart';
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
@@ -7,8 +8,6 @@ import 'package:PureFit/Features/Exercises/Data/Model/weekly_execises_model.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../Core/Components/back_button.dart';
-import '../../../Core/Components/custom_icon_button.dart';
 import '../../Profile/Logic/cubit/profile_cubit.dart';
 import '../Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import '../Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
@@ -163,7 +162,6 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildHeaderSection(context, mq, calendar),
-              if (isNewCalendar) _buildWelcomeBanner(mq),
               _buildMotivationalMessage(mq),
               SizedBox(height: mq.height(2)),
               _buildWeekProgress(context, mq, calendar),
@@ -178,68 +176,6 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
           child: _buildGoButton(context, mq),
         ),
       ],
-    );
-  }
-
-  Widget _buildWelcomeBanner(CustomMQ mq) {
-    return Container(
-      margin:
-          EdgeInsets.symmetric(horizontal: mq.width(4), vertical: mq.height(1)),
-      padding: EdgeInsets.all(mq.width(4)),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            ColorManager.primaryColor.withOpacity(0.1),
-            ColorManager.primaryColor.withOpacity(0.05),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(mq.width(3)),
-        border: Border.all(
-          color: ColorManager.primaryColor.withOpacity(0.3),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(mq.width(2)),
-            decoration: BoxDecoration(
-              color: ColorManager.primaryColor.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.celebration,
-              color: ColorManager.primaryColor,
-              size: mq.height(3),
-            ),
-          ),
-          SizedBox(width: mq.width(3)),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Welcome to Your Workout Journey! 🎯',
-                  style: TextStyle(
-                    fontSize: mq.height(1.8),
-                    fontWeight: FontWeight.bold,
-                    color: ColorManager.primaryColor,
-                    fontFamily: AppString.font,
-                  ),
-                ),
-                SizedBox(height: mq.height(0.5)),
-                Text(
-                  'Start tracking your progress by completing workouts each day!',
-                  style: TextStyle(
-                    fontSize: mq.height(1.5),
-                    color: Colors.grey[700],
-                    fontFamily: AppString.font,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -269,7 +205,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
         Container(
           height: mq.height(25),
           width: double.infinity,
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withValues(alpha: 0.4),
         ),
         Container(
           height: mq.height(25),
@@ -277,18 +213,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomBackButton(iconColor: ColorManager.backGroundColor),
-                  CustomIconButton(
-                    icon: Icons.more_vert,
-                    iconColor: ColorManager.backGroundColor,
-                    onPressed: () {},
-                  ),
-                ],
-              ),
-              SizedBox(height: mq.height(2)),
+              CustomBackButton(iconColor: ColorManager.backGroundColor),
               RichText(
                 text: TextSpan(
                   children: [
@@ -334,10 +259,11 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                   ),
                 ],
               ),
-              const Spacer(),
+              SizedBox(height: mq.height(2)),
               LinearProgressIndicator(
+                borderRadius: BorderRadius.circular(mq.width(1)),
                 value: progressPercentage,
-                backgroundColor: Colors.grey.withOpacity(0.5),
+                backgroundColor: Colors.grey.withValues(alpha: 0.5),
                 valueColor:
                     AlwaysStoppedAnimation<Color>(ColorManager.backGroundColor),
                 minHeight: mq.height(0.8),
@@ -392,7 +318,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
               padding: EdgeInsets.only(bottom: mq.height(2)),
               child: _buildWeekSection(
                 'week',
-                calendar.weeks['week$i']!.days,
+                calendar.weeks['$i']?.days ?? {},
                 active: i == 1, // Highlight the current week
                 mq: mq,
               ),

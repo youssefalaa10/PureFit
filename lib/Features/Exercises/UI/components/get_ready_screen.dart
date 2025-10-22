@@ -94,7 +94,7 @@ class GetReadyScreenState extends State<GetReadyScreen> {
                 mq: mq,
                 exercises: widget.exercises,
               ),
-              SizedBox(height: mq.height(2)),
+              SizedBox(height: mq.height(1)),
             ],
           ),
         ),
@@ -119,9 +119,9 @@ class ExerciseImage extends StatelessWidget {
       borderRadius: BorderRadius.circular(mq.width(4)),
       child: Image.network(
         exercises[index].gifUrl!,
-        height: mq.height(30),
+        height: mq.height(32),
         width: double.infinity,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         errorBuilder: (context, error, stackTrace) {
           return Container(
             height: mq.height(30),

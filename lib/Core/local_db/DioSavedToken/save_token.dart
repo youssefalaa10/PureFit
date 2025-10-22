@@ -18,6 +18,6 @@ class SaveTokenDB {
 
   static Future<void> clearToken() async {
     final preferances = await SharedPreferences.getInstance();
-    await preferances.clear();
+    await preferances.remove(_tokenKey);
   }
 }

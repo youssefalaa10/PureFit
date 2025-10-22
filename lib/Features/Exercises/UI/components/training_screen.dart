@@ -333,7 +333,7 @@ class TimerSection extends StatelessWidget {
         vertical: mq.height(.5),
       ),
       decoration: BoxDecoration(
-        color: theme.primaryColor.withOpacity(0.1),
+        color: theme.primaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(mq.width(4)),
       ),
       child: Column(

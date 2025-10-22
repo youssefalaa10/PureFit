@@ -4,8 +4,6 @@ import 'package:PureFit/Features/Profile/Data/Model/user_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../helpers/app_logger.dart';
-
 class DioProfileApi {
   DioProfileApi({required Dio dio}) : _dio = dio;
   final Dio _dio;
@@ -14,7 +12,7 @@ class DioProfileApi {
     try {
       final token = await SaveTokenDB.getToken();
 
-      final response = await _dio.get<dynamic>(
+      final response = await _dio.get(
         '${ApiConstants.baseUrl}${ApiConstants.apiGetProfile}',
         options: Options(
           headers: {
@@ -48,7 +46,7 @@ class DioProfileApi {
       }
     } catch (e) {
       if (kDebugMode) {
-        AppLogger.error('Error fetching profile: $e', StackTrace.current);
+        print('Error fetching profile: $e');
       }
       // Return mock data on error
       return UserModel(
@@ -74,7 +72,7 @@ class DioProfileApi {
         return true;
       }
 
-      final response = await _dio.put<dynamic>(
+      final response = await _dio.put(
         '${ApiConstants.baseUrl}${ApiConstants.apiGetProfile}/$profileId',
         data: user.toMap(),
         options: Options(
@@ -93,7 +91,7 @@ class DioProfileApi {
           response.statusCode! < 300;
     } catch (e) {
       if (kDebugMode) {
-        AppLogger.log('Error updating profile: $e');
+        print('Error updating profile: $e');
       }
       // Return true for mock testing
       return true;

@@ -16,11 +16,15 @@ class ExerciseRepo {
             .map((json) => ExerciseModel.fromJson(json))
             .toList();
       }
+      return null;
+    } on ExerciseApiException {
+      // Re-throw the exception to preserve connection error information
+      rethrow;
     } catch (e) {
       if (kDebugMode) {
         AppLogger.error('Error in ExerciseRepo: $e', StackTrace.current);
       }
+      rethrow;
     }
-    return null;
   }
 }

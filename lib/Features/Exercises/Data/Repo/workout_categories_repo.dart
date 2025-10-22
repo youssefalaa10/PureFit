@@ -17,11 +17,16 @@ class WorkoutCategoriesRepo {
             .map((json) => WorkoutCategoriesModel.fromJson(json))
             .toList();
       }
+      return null;
+    } on WorkoutCategoriesApiException {
+      // Re-throw the exception to preserve connection error information
+      rethrow;
     } catch (e) {
       if (kDebugMode) {
-        AppLogger.error('Error in WorkoutCategoriesRepo: $e', StackTrace.current);
+        AppLogger.error(
+            'Error in WorkoutCategoriesRepo: $e', StackTrace.current);
       }
+      rethrow;
     }
-    return null;
   }
 }

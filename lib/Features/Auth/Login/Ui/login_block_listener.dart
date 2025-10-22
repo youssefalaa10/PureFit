@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -47,7 +48,8 @@ class LoginBlockListener extends StatelessWidget {
           size: 32,
         ),
         content: Text(
-          error,
+          textAlign: TextAlign.center,
+          AppString.invalidEmailOrPassword(context),
           style: const TextStyle(color: Colors.black),
         ),
         actions: [
@@ -55,9 +57,9 @@ class LoginBlockListener extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text(
-              'Got it',
-              style: TextStyle(color: Colors.black),
+            child: Text(
+              AppString.gotIt(context),
+              style: const TextStyle(color: Colors.black),
             ),
           ),
         ],

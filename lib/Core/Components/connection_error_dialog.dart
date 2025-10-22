@@ -52,7 +52,7 @@ class ConnectionErrorDialog extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(mq.width(4)),
             decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -186,7 +186,7 @@ class NoConnectionWidget extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(mq.width(6)),
               decoration: BoxDecoration(
-                color: Colors.grey.withOpacity(0.1),
+                color: Colors.grey.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -199,7 +199,7 @@ class NoConnectionWidget extends StatelessWidget {
 
             // Title
             Text(
-              'No Internet Connection',
+              AppString.noInternetConnection(context),
               style: TextStyle(
                 fontSize: mq.height(2.5),
                 fontWeight: FontWeight.bold,
@@ -212,7 +212,7 @@ class NoConnectionWidget extends StatelessWidget {
 
             // Message
             Text(
-              message ?? 'Please check your internet connection and try again.',
+              message ?? AppString.pleaseCheckYourInternetConnectionAndTryAgain(context),
               style: TextStyle(
                 fontSize: mq.height(1.8),
                 fontFamily: AppString.font,
@@ -230,14 +230,16 @@ class NoConnectionWidget extends StatelessWidget {
                 onPressed: onRetry,
                 icon: Icon(
                   Icons.refresh_rounded,
+                  color: theme.scaffoldBackgroundColor,
                   size: mq.height(2.2),
                 ),
                 label: Text(
-                  'Try Again',
+                  AppString.retry(context),
                   style: TextStyle(
                     fontSize: mq.height(1.8),
                     fontFamily: AppString.font,
                     fontWeight: FontWeight.w600,
+                    color: theme.scaffoldBackgroundColor,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(

@@ -1,8 +1,11 @@
 import 'dart:async';
 
+import 'package:PureFit/Core/DI/dependency.dart';
 import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:PureFit/Core/Services/workout_tracking_service.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
+import 'package:PureFit/Features/Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
+import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:bloc/bloc.dart';
 
 part 'training_state.dart';
@@ -32,6 +35,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
   DateTime? _workoutStartTime;
   String? _workoutName;
   final List<ExerciseRecord> _currentSessionExercises = [];
+  bool _hasMarkedToday = false;
 
   // Initialize voice service
   Future<void> _initializeVoice() async {
@@ -210,6 +214,21 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
         notes: '',
       );
       _currentSessionExercises.add(record);
+
+      // Mark today's calendar as completed on the first completed exercise
+      if (!_hasMarkedToday) {
+        try {
+          final profileCubit = getIT<ProfileCubit>();
+          final profileId = profileCubit.user?.userId;
+          if (profileId != null && profileId.isNotEmpty) {
+            final weeklyCubit = getIT<WeeklyExerciseCubit>();
+            weeklyCubit.markTodayAsCompleted(profileId);
+            _hasMarkedToday = true;
+          }
+        } catch (_) {
+          // Silently ignore if dependencies are not available
+        }
+      }
     }
   }
 
@@ -224,7 +243,7 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
         totalDuration: DateTime.now().difference(_workoutStartTime!).inSeconds,
         exercises: _currentSessionExercises,
         caloriesBurned: _calculateCaloriesBurned(),
-        difficulty: 'Medium', // Can be enhanced later
+        difficulty: _calculateDifficulty(),
       );
 
       await WorkoutTrackingService.saveWorkoutSession(workoutSession);
@@ -235,6 +254,64 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
 
     emit(TrainingCompleted());
   }
+
+  // Calculate workout difficulty based on duration and exercises
+  String _calculateDifficulty() {
+    final totalDuration = _currentSessionExercises.fold(
+        0, (sum, exercise) => sum + exercise.duration);
+    final totalMinutes = totalDuration / 60;
+    final exerciseCount = _currentSessionExercises.length;
+
+    if (totalMinutes < 15 || exerciseCount < 3) {
+      return 'Easy';
+    } else if (totalMinutes < 30 || exerciseCount < 6) {
+      return 'Medium';
+    } else {
+      return 'Hard';
+    }
+  }
+
+  // Get workout statistics for the completion dialog
+  Map<String, dynamic> getWorkoutStats() {
+    final totalDuration = _currentSessionExercises.fold(
+        0, (sum, exercise) => sum + exercise.duration);
+    final totalMinutes = (totalDuration / 60).round();
+    final caloriesBurned = _calculateCaloriesBurned();
+    final exerciseCount = _currentSessionExercises.length;
+
+    return {
+      'totalExercises': exerciseCount,
+      'totalDuration': totalMinutes,
+      'caloriesBurned': caloriesBurned,
+      'difficulty': _calculateDifficulty(),
+      'workoutName': _workoutName ?? 'Workout',
+      'startTime': _workoutStartTime,
+      'endTime': DateTime.now(),
+    };
+  }
+
+  // Get current exercise name
+  String? getCurrentExerciseName() {
+    if (passExercises != null && currentExercise < passExercises!.length) {
+      return passExercises![currentExercise].name;
+    }
+    return null;
+  }
+
+  // Get next exercise name
+  String? getNextExerciseName() {
+    if (passExercises != null && currentExercise + 1 < passExercises!.length) {
+      return passExercises![currentExercise + 1].name;
+    }
+    return null;
+  }
+
+  // Check if this is the last exercise
+  bool get isLastExercise =>
+      currentExercise >= (passExercises?.length ?? 0) - 1;
+
+  // Get remaining exercises count
+  int get remainingExercises => (passExercises?.length ?? 0) - currentExercise;
 
   // Calculate calories burned (simplified calculation)
   int _calculateCaloriesBurned() {

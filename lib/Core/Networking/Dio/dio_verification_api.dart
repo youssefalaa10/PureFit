@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Shared/api_constants.dart';
 import 'package:dio/dio.dart';
 
 import '../../helpers/app_logger.dart';
@@ -9,7 +10,7 @@ class DioVerificationApi {
   Future<void> verifyCode(String email, String code) async {
     try {
       final response = await _dio.post<dynamic>(
-        'https://fit-pro-app.glitch.me/auth/verifycode',
+        '${ApiConstants.baseUrl}/auth/verifycode',
         data: {'email': email, 'verificationCode': code},
       );
       AppLogger.info('dio verify : ${response.data}');

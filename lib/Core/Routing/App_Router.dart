@@ -215,8 +215,15 @@ class AppRouter {
       case Routes.trainingScreen:
         final exercises = settings.arguments as List<ExerciseModel>;
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => TrainingCubit(exercises),
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => TrainingCubit(exercises),
+              ),
+              BlocProvider(
+                create: (context) => getIT<WeeklyExerciseCubit>(),
+              ),
+            ],
             child: ExerciseStages(exercises: exercises),
           ),
         );

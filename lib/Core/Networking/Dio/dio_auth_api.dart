@@ -4,6 +4,8 @@ import 'package:dio/dio.dart';
 
 import '../../../Features/Auth/Login/Data/Model/login_model.dart';
 import '../../../Features/Auth/Register/Data/Model/register_model.dart';
+import '../../Shared/api_constants.dart';
+import '../../helpers/app_logger.dart';
 
 class DioAuthApi {
   DioAuthApi({required Dio dio}) : _dio = dio;
@@ -17,8 +19,8 @@ class DioAuthApi {
 
   Future<bool> dioRegister({required RegisterModel user}) async {
     try {
-      final response = await _dio.post<dynamic>(
-        'https://fit-pro-app.glitch.me/auth/register',
+      final Response<dynamic> response = await _dio.post<dynamic>(
+        '${ApiConstants.baseUrl}${ApiConstants.apiRegister}',
         data: user.toMap(),
         options: Options(
           headers: {
@@ -49,8 +51,13 @@ class DioAuthApi {
 
   Future<bool> dioLogin({required LoginModel user}) async {
     try {
-      final response = await _dio.post<dynamic>(
-        'https://fit-pro-app.glitch.me/auth/login',
+      final String originalUrl =
+          '${ApiConstants.baseUrl}${ApiConstants.apiLogin}';
+
+      AppLogger.info('Attempting login for: ${user.userEmail}');
+
+      final Response<dynamic> response = await _dio.post<dynamic>(
+        originalUrl,
         data: user.toMap(),
         options: Options(
           headers: {
@@ -59,21 +66,54 @@ class DioAuthApi {
           validateStatus: (status) {
             return status != null && status < 500;
           },
-          followRedirects: true,
-          maxRedirects: 5,
+          followRedirects: false,
+          maxRedirects: 0,
         ),
       );
 
-      // Handle 308 redirect with mock response for testing
+      AppLogger.info('Login status: ${response.statusCode}');
+      AppLogger.info('Login response: ${response.data}');
+
+      // Handle 308 Permanent Redirect by following the Location header and retrying the POST
       if (response.statusCode == 308) {
-        await _saveToken(
-            'mock_token_for_testing_${DateTime.now().millisecondsSinceEpoch}');
-        return true;
+        final String? location = response.headers.value('location');
+        if (location != null && location.isNotEmpty) {
+          final String redirectUrl = _resolveRedirectUrl(originalUrl, location);
+          AppLogger.info('Following redirect to: $redirectUrl');
+          final Response<dynamic> redirected = await _dio.post<dynamic>(
+            redirectUrl,
+            data: user.toMap(),
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              validateStatus: (status) {
+                return status != null && status < 500;
+              },
+              followRedirects: false,
+              maxRedirects: 0,
+            ),
+          );
+
+          AppLogger.info('Redirected status: ${redirected.statusCode}');
+          AppLogger.info('Redirected response: ${redirected.data}');
+
+          if (redirected.statusCode != null &&
+              redirected.statusCode! >= 200 &&
+              redirected.statusCode! < 300 &&
+              redirected.data is Map &&
+              redirected.data['token'] != null) {
+            await _saveToken(redirected.data['token']);
+            return true;
+          }
+          return false;
+        }
+        return false;
       }
 
       if (response.statusCode != null &&
           response.statusCode! >= 200 &&
-          response.statusCode! < 400) {
+          response.statusCode! < 300) {
         if (response.data != null &&
             response.data is Map &&
             response.data['token'] != null) {
@@ -87,6 +127,15 @@ class DioAuthApi {
     } catch (error) {
       final api = ApiErrorHandler.handle(error);
       throw '${api.message}';
+    }
+  }
+
+  String _resolveRedirectUrl(String baseUrl, String location) {
+    try {
+      final Uri resolved = Uri.parse(baseUrl).resolve(location);
+      return resolved.toString();
+    } catch (_) {
+      return location;
     }
   }
 }

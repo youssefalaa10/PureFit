@@ -62,53 +62,59 @@ class DioWeeklyExerciseApi {
   }
 
   Map<String, dynamic> _createDefaultCalendar() {
+    final now = DateTime.now();
+    final startDate = now.subtract(
+        Duration(days: now.weekday - 1)); // Start of current week (Monday)
+    final endDate =
+        startDate.add(const Duration(days: 27)); // 4 weeks from start
+
     return {
+      'profileId': 'default',
       'weeks': {
         '1': {
-          'days': {
-            'Monday': false,
-            'Tuesday': false,
-            'Wednesday': false,
-            'Thursday': false,
-            'Friday': false,
-            'Saturday': false,
-            'Sunday': false,
-          }
+          '_id': 'week1',
+          'day1': false,
+          'day2': false,
+          'day3': false,
+          'day4': false,
+          'day5': false,
+          'day6': false,
+          'day7': false,
         },
         '2': {
-          'days': {
-            'Monday': false,
-            'Tuesday': false,
-            'Wednesday': false,
-            'Thursday': false,
-            'Friday': false,
-            'Saturday': false,
-            'Sunday': false,
-          }
+          '_id': 'week2',
+          'day1': false,
+          'day2': false,
+          'day3': false,
+          'day4': false,
+          'day5': false,
+          'day6': false,
+          'day7': false,
         },
         '3': {
-          'days': {
-            'Monday': false,
-            'Tuesday': false,
-            'Wednesday': false,
-            'Thursday': false,
-            'Friday': false,
-            'Saturday': false,
-            'Sunday': false,
-          }
+          '_id': 'week3',
+          'day1': false,
+          'day2': false,
+          'day3': false,
+          'day4': false,
+          'day5': false,
+          'day6': false,
+          'day7': false,
         },
         '4': {
-          'days': {
-            'Monday': false,
-            'Tuesday': false,
-            'Wednesday': false,
-            'Thursday': false,
-            'Friday': false,
-            'Saturday': false,
-            'Sunday': false,
-          }
+          '_id': 'week4',
+          'day1': false,
+          'day2': false,
+          'day3': false,
+          'day4': false,
+          'day5': false,
+          'day6': false,
+          'day7': false,
         },
-      }
+      },
+      'createdAt': now.toIso8601String(),
+      'startDate': startDate.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
     };
   }
 

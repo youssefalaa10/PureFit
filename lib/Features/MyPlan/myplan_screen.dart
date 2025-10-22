@@ -7,6 +7,7 @@ import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart'; // Import shimmer package
+
 import '../../Core/Components/media_query.dart';
 import '../../Core/Routing/routes.dart';
 
@@ -54,18 +55,17 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
             child: BlocBuilder<ProfileCubit, ProfileState>(
               builder: (context, state) {
                 if (state is ProfileSuccess) {
-                  final user = context.read<ProfileCubit>().user;
+                  final user = state.user;
 
-                  if (user != null) {
-                    bmi = Calculator()
-                        .getBmiActivity(user.userWeight, user.userHeight);
-                    calories = Calculator().getBmrActivity(
-                      activityLevel: user.activity!,
-                      weight: user.userWeight,
-                      height: user.userHeight,
-                      age: user.age,
-                    );
-                  }
+                  bmi = Calculator()
+                      .getBmiActivity(user.userWeight, user.userHeight);
+                  calories = Calculator().getBmrActivity(
+                    activityLevel:
+                        user.activity ?? 'Moderate exercise (3-5 days/wk)',
+                    weight: user.userWeight,
+                    height: user.userHeight,
+                    age: user.age,
+                  );
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

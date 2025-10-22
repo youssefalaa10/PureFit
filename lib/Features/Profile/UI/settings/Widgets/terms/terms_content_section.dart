@@ -18,29 +18,17 @@ class TermsContentSection extends StatelessWidget {
           TermsItem(
             mq: mq,
             title: 'termsConditionsTitle'.tr(context),
-            content: 'Don\'t misuse our Services. You may use our Services '
-                'only as permitted by law, including applicable export and '
-                're-export control laws and regulations. We may suspend or stop '
-                'providing our Services to you if you do not comply with our terms '
-                'or policies or if we are investigating suspected misconduct.',
+            content: 'termsContent'.tr(context),
           ),
           TermsItem(
             mq: mq,
             title: 'privacyPolicyTitle'.tr(context),
-            content: 'Don\'t misuse our Services. You may use our Services '
-                'only as permitted by law, including applicable export and '
-                're-export control laws and regulations. We may suspend or stop '
-                'providing our Services to you if you do not comply with our terms '
-                'or policies or if we are investigating suspected misconduct.',
+            content: 'termsContent'.tr(context),
           ),
           TermsItem(
             mq: mq,
             title: 'privacyPolicy'.tr(context),
-            content: 'Don\'t misuse our Services. You may use our Services '
-                'only as permitted by law, including applicable export and '
-                're-export control laws and regulations. We may suspend or stop '
-                'providing our Services to you if you do not comply with our terms '
-                'or policies or if we are investigating suspected misconduct.',
+            content: 'termsContent'.tr(context),
           ),
         ],
       ),

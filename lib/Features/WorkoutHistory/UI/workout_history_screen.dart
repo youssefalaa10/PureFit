@@ -248,7 +248,7 @@ class _WorkoutHistoryScreenState extends State<WorkoutHistoryScreen> {
       margin: EdgeInsets.only(bottom: mq.height(1)),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: theme.primaryColor.withOpacity(0.1),
+          backgroundColor: theme.primaryColor.withValues(alpha: 0.1),
           child: Icon(
             Icons.fitness_center,
             color: theme.primaryColor,
