@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -16,7 +17,7 @@ class NotificationController {
     final String? screen = receivedAction.payload?['screen'];
     final String? type = receivedAction.payload?['type'];
 
-    print('Received screen: $screen, type: $type');
+    AppLogger.info('Received screen: $screen, type: $type');
 
     if (screen != null && navigatorKey != null) {
       // Use navigatorKey to navigate
@@ -26,7 +27,7 @@ class NotificationController {
         arguments: receivedAction,
       );
     } else {
-      print('Navigation failed: screen or navigatorKey is null');
+      AppLogger.error('Navigation failed: screen or navigatorKey is null', StackTrace.current);
     }
   }
 
@@ -454,7 +455,7 @@ class NotificationController {
 
       return permissions;
     } catch (e) {
-      print('Error requesting permissions: $e');
+      AppLogger.error('Error requesting permissions: $e', StackTrace.current);
       return {
         'notifications': false,
         'alarms': false,
@@ -483,7 +484,7 @@ class NotificationController {
 
       return permissions;
     } catch (e) {
-      print('Error checking permissions: $e');
+      AppLogger.error('Error checking permissions: $e', StackTrace.current);
       return {
         'notifications': false,
         'alarms': false,

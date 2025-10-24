@@ -15,14 +15,14 @@ class HeaderCalories extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const CustomBackButton(),
-          _buildHeaderTitle(context),
+          buildHeaderTitle(context),
           _buildEditButton(),
         ],
       ),
     );
   }
 
-  Widget _buildHeaderTitle(context) {
+  Widget buildHeaderTitle(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),

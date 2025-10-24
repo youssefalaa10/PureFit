@@ -13,10 +13,10 @@ class RestScreen extends StatefulWidget {
   final int index;
 
   @override
-  _RestScreenState createState() => _RestScreenState();
+  RestScreenState createState() => RestScreenState();
 }
 
-class _RestScreenState extends State<RestScreen> {
+class RestScreenState extends State<RestScreen> {
   late CustomMQ mq;
   int countdownValue = 1;
   Timer? countdownTimer;

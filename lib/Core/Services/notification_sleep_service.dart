@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,9 @@ class NotificationService {
     try {
       // Use the enhanced notification controller
       await NotificationController.initializeEnhancedNotifications();
-      print('Enhanced notification channels initialized successfully.');
+      AppLogger.info('Enhanced notification channels initialized successfully.');
     } catch (e) {
-      print('Error initializing notifications: $e');
+      AppLogger.error('Error initializing notifications: $e', StackTrace.current);
     }
   }
 
@@ -45,9 +46,9 @@ class NotificationService {
         ),
       );
 
-      print('Notification shown: $title - $body');
+      AppLogger.info('Notification shown: $title - $body');
     } catch (e) {
-      print('Error showing notification: $e');
+      AppLogger.error('Error showing notification: $e', StackTrace.current);
     }
   }
 
@@ -76,9 +77,9 @@ class NotificationService {
             date: scheduledTime), // Schedule the notification
       );
 
-      print('Scheduled notification: $title - $body at $scheduledTime');
+      AppLogger.info('Scheduled notification: $title - $body at $scheduledTime');
     } catch (e) {
-      print('Error scheduling notification: $e');
+      AppLogger.error('Error scheduling notification: $e', StackTrace.current);
     }
   }
 

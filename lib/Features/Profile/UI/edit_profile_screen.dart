@@ -194,10 +194,10 @@ class ProfileImageSection extends StatefulWidget {
   final String? imageUrl;
 
   @override
-  _ProfileImageSectionState createState() => _ProfileImageSectionState();
+  ProfileImageSectionState createState() => ProfileImageSectionState();
 }
 
-class _ProfileImageSectionState extends State<ProfileImageSection> {
+class ProfileImageSectionState extends State<ProfileImageSection> {
   XFile? _imageFile;
   final ImagePicker _picker = ImagePicker();
 
@@ -360,10 +360,10 @@ class HeightSlider extends StatefulWidget {
   final Function(int) onValueChanged;
 
   @override
-  _HeightSliderState createState() => _HeightSliderState();
+  HeightSliderState createState() => HeightSliderState();
 }
 
-class _HeightSliderState extends State<HeightSlider> {
+class HeightSliderState extends State<HeightSlider> {
   double _currentHeight = 130;
 
   @override

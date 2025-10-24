@@ -3,6 +3,7 @@
 
 import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:PureFit/Core/Services/workout_tracking_service.dart';
+import 'package:PureFit/Core/helpers/app_logger.dart';
 
 class EnhancedExerciseUsageExample {
   // Example: Initialize voice service
@@ -85,27 +86,27 @@ class EnhancedExerciseUsageExample {
   static Future<void> getWorkoutStats() async {
     // Get workout history
     final history = await WorkoutTrackingService.getWorkoutHistory();
-    print('Total workouts: ${history.length}');
+    AppLogger.info('Total workouts: ${history.length}');
 
     // Get personal records
     final records = await WorkoutTrackingService.getPersonalRecords();
-    print('Personal records: ${records.length}');
+    AppLogger.info('Personal records: ${records.length}');
 
     // Get workout streak
     final streak = await WorkoutTrackingService.getWorkoutStreak();
-    print('Workout streak: $streak days');
+    AppLogger.info('Workout streak: $streak days');
 
     // Get total calories burned
     final calories = await WorkoutTrackingService.getTotalCaloriesBurned();
-    print('Total calories burned: $calories');
+    AppLogger.info('Total calories burned: $calories');
 
     // Get total workout time
     final time = await WorkoutTrackingService.getTotalWorkoutTime();
-    print('Total workout time: $time minutes');
+    AppLogger.info('Total workout time: $time minutes');
 
     // Get comprehensive stats
     final stats = await WorkoutTrackingService.getWorkoutStats();
-    print('Stats: $stats');
+    AppLogger.info('Stats: $stats');
   }
 
   // Example: Check for personal records
@@ -113,11 +114,11 @@ class EnhancedExerciseUsageExample {
     final records = await WorkoutTrackingService.getPersonalRecords();
 
     for (final record in records) {
-      print('${record.exerciseName}:');
-      print('  Best weight: ${record.bestWeight} kg');
-      print('  Best reps: ${record.bestReps}');
-      print('  Best duration: ${record.bestDuration} seconds');
-      print('  Achieved on: ${record.achievedDate}');
+      AppLogger.info('${record.exerciseName}:');
+      AppLogger.info('  Best weight: ${record.bestWeight} kg');
+      AppLogger.info('  Best reps: ${record.bestReps}');
+      AppLogger.info('  Best duration: ${record.bestDuration} seconds');
+      AppLogger.info('  Achieved on: ${record.achievedDate}');
     }
   }
 
@@ -126,7 +127,7 @@ class EnhancedExerciseUsageExample {
     final recent = await WorkoutTrackingService.getRecentWorkouts();
 
     for (final workout in recent) {
-      print('${workout.workoutName} - ${workout.caloriesBurned} cal');
+      AppLogger.info('${workout.workoutName} - ${workout.caloriesBurned} cal');
     }
   }
 
@@ -135,7 +136,7 @@ class EnhancedExerciseUsageExample {
     final voiceService = VoiceService();
 
     // Check if voice is enabled
-    print('Voice enabled: ${voiceService.isEnabled}');
+    AppLogger.info('Voice enabled: ${voiceService.isEnabled}');
 
     // Toggle voice
     await voiceService.setEnabled(!voiceService.isEnabled);

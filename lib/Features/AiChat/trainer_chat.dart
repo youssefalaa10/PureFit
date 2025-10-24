@@ -54,9 +54,23 @@ class _TrainerChatState extends State<TrainerChat> {
                   context: context,
                   builder: (_) {
                     return Center(
-                        child: CircularProgressIndicator(
-                      color: ColorManager.primaryColor,
-                      backgroundColor: ColorManager.backGroundColor,
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(
+                          color: ColorManager.primaryColor,
+                          backgroundColor: ColorManager.backGroundColor,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'AI Coach is thinking...',
+                          style: TextStyle(
+                            fontFamily: AppString.font,
+                            color: theme.primaryColor,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
                     ));
                   });
             }
@@ -74,10 +88,37 @@ class _TrainerChatState extends State<TrainerChat> {
                 ];
               });
             } else if (state is AichatError) {
-              // Handle error, show a message or dialog
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text(state.message),
-              ));
+              // Dismiss loading dialog first
+              Navigator.pop(context);
+
+              // Show error message with retry option
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AlertDialog(
+                    title: Text(
+                      'AI Coach Error',
+                      style: TextStyle(fontFamily: AppString.font),
+                    ),
+                    content: Text(
+                      state.message,
+                      style: TextStyle(fontFamily: AppString.font),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(dialogContext).pop(),
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                            fontFamily: AppString.font,
+                            color: theme.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
             }
           },
           builder: (context, state) {

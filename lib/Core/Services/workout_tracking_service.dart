@@ -153,7 +153,7 @@ class WorkoutTrackingService {
       final List<dynamic> historyList = jsonDecode(historyJson);
       return historyList.map((json) => WorkoutSession.fromJson(json)).toList();
     } catch (e) {
-      print('Error parsing workout history: $e');
+      AppLogger.error('Error parsing workout history: $e', StackTrace.current);
       return [];
     }
   }
@@ -169,7 +169,7 @@ class WorkoutTrackingService {
       final List<dynamic> recordsList = jsonDecode(recordsJson);
       return recordsList.map((json) => PersonalRecord.fromJson(json)).toList();
     } catch (e) {
-      AppLogger.error('Error parsing personal records: $e');
+      AppLogger.error('Error parsing personal records: $e', StackTrace.current);
       return [];
     }
   }
