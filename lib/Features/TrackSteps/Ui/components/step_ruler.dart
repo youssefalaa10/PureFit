@@ -44,7 +44,7 @@ class HeightPickerState extends State<StepRuler> {
               return value.toInt().toString();
             },
             ranges: const [
-              RulerRange(begin: 1000, end: 15000, scale: 100),
+              RulerRange(begin: 100, end: 30000, scale: 100),
             ],
             scaleLineStyleList: const [
               ScaleLineStyle(

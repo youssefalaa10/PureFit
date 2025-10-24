@@ -68,7 +68,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             'Loading your workout calendar...',
             style: TextStyle(
               fontSize: mq.height(2),
-              color: theme.textTheme.bodyLarge?.color,
+              color: theme.textTheme.bodyLarge?.color ?? Colors.grey,
               fontFamily: AppString.font,
             ),
           ),
@@ -120,10 +120,12 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
               icon: Icon(Icons.refresh,
                   size: mq.height(2), color: theme.scaffoldBackgroundColor),
               label: Text(
-                'Retry',
+                AppString.retry(context),
                 style: TextStyle(
-                    fontSize: mq.height(1.8),
-                    color: theme.scaffoldBackgroundColor),
+                  fontSize: mq.height(1.8),
+                  color: theme.scaffoldBackgroundColor,
+                  fontFamily: AppString.font,
+                ),
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.primaryColor,
@@ -145,7 +147,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
         'Unknown calendar state',
         style: TextStyle(
           fontSize: mq.height(2),
-          color: theme.textTheme.bodyLarge?.color,
+          color: theme.textTheme.bodyLarge?.color ?? Colors.grey,
           fontFamily: AppString.font,
         ),
       ),
@@ -213,7 +215,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomBackButton(iconColor: ColorManager.backGroundColor),
+              CustomBackButton(iconColor:Theme.of(context).primaryColor),
               RichText(
                 text: TextSpan(
                   children: [
@@ -308,6 +310,21 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
 
   Widget _buildWeekProgress(
       BuildContext context, CustomMQ mq, WeeklyExerciseModel calendar) {
+    // Calculate current week based on calendar start date
+    final now = DateTime.now();
+    final start = DateTime(
+      calendar.startDate.year,
+      calendar.startDate.month,
+      calendar.startDate.day,
+    );
+    final current = DateTime(now.year, now.month, now.day);
+    final daysDiff = current.difference(start).inDays;
+    int currentWeek = (daysDiff / 7).floor() + 1;
+
+    // Clamp to valid range
+    if (currentWeek < 1) currentWeek = 1;
+    if (currentWeek > 4) currentWeek = 4;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: mq.width(4)),
       child: Column(
@@ -319,7 +336,8 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
               child: _buildWeekSection(
                 'week',
                 calendar.weeks['$i']?.days ?? {},
-                active: i == 1, // Highlight the current week
+                active:
+                    i == currentWeek, // Highlight the current week dynamically
                 mq: mq,
               ),
             ),
@@ -374,6 +392,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                       fontSize: mq.width(4.5),
                       fontWeight: FontWeight.bold,
                       color: active ? ColorManager.primaryColor : Colors.grey,
+                      fontFamily: AppString.font,
                     ),
                   ),
                   Text(
@@ -382,6 +401,7 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                       fontSize: mq.width(4),
                       fontWeight: FontWeight.bold,
                       color: active ? ColorManager.primaryColor : Colors.grey,
+                      fontFamily: AppString.font,
                     ),
                   ),
                 ],
@@ -391,12 +411,12 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _buildDaysRow(1, 4, completedDays, active, mq),
+                    children: _buildDaysRow(1, 4, weekData, active, mq),
                   ),
                   SizedBox(height: mq.height(1.5)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: _buildDaysRow(5, 7, completedDays, active, mq),
+                    children: _buildDaysRow(5, 7, weekData, active, mq),
                   ),
                 ],
               ),
@@ -407,12 +427,18 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
     );
   }
 
-  List<Widget> _buildDaysRow(
-      int start, int end, int completedDays, bool active, CustomMQ mq) {
+  List<Widget> _buildDaysRow(int start, int end, Map<String, bool> weekData,
+      bool active, CustomMQ mq) {
     final List<Widget> dayWidgets = [];
+    final now = DateTime.now();
+    final currentDayOfWeek = now.weekday; // 1-7 (Monday-Sunday)
+
     for (int i = start; i <= end; i++) {
-      final bool isCompleted = i <= completedDays;
-      final bool isCurrentDay = i == completedDays + 1 && active;
+      final dayKey = 'day$i';
+      final bool isCompleted = weekData[dayKey] ?? false;
+      final bool isCurrentDay = active && i == currentDayOfWeek;
+      final bool isMissed = active && i < currentDayOfWeek && !isCompleted;
+
       dayWidgets.add(
         Container(
           width: mq.width(11.25),
@@ -421,31 +447,57 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
             shape: BoxShape.circle,
             color: isCompleted
                 ? ColorManager.primaryColor
-                : isCurrentDay
-                    ? Colors.grey.shade400
-                    : Colors.grey.shade300,
+                : isMissed
+                    ? Colors.red.shade300
+                    : isCurrentDay
+                        ? Colors.amber.shade300
+                        : Colors.grey.shade300,
           ),
-          child: Center(
-            child: i == 7
-                ? Icon(Icons.emoji_events,
-                    color: isCompleted ? Colors.orange : Colors.grey,
-                    size: mq.width(5))
-                : isCompleted
-                    ? Icon(Icons.check, color: Colors.white, size: mq.width(5))
-                    : Text(
-                        '$i',
-                        style: TextStyle(
-                          color: isCurrentDay ? Colors.black : Colors.grey,
-                          fontWeight: FontWeight.bold,
-                          fontSize: mq.width(4),
-                        ),
-                      ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Day number behind the icon (semi-transparent)
+              if ((isCompleted || isMissed) && i != 7)
+                Text(
+                  '$i',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    fontWeight: FontWeight.bold,
+                    fontSize: mq.width(6),
+                  ),
+                ),
+              // Show icon or number in center
+              if (i == 7)
+                Icon(
+                  Icons.emoji_events,
+                  color: isCompleted ? Colors.orange : Colors.grey,
+                  size: mq.width(5),
+                )
+              else if (isCompleted)
+                Icon(Icons.check, color: Colors.white, size: mq.width(5))
+              else if (isMissed)
+                Icon(Icons.close, color: Colors.white, size: mq.width(5))
+              else
+                Text(
+                  '$i',
+                  style: TextStyle(
+                    color: isCurrentDay ? Colors.black : Colors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontSize: mq.width(4),
+                  ),
+                ),
+            ],
           ),
         ),
       );
       if (i < end) {
-        dayWidgets.add(Icon(Icons.arrow_forward_ios,
-            size: mq.width(4), color: Colors.grey));
+        dayWidgets.add(Icon(
+          Icons.arrow_forward_ios,
+          size: mq.width(4),
+          color: active
+              ? ColorManager.primaryColor.withValues(alpha: 0.5)
+              : Colors.grey,
+        ));
       }
     }
     return dayWidgets;
@@ -454,14 +506,97 @@ class WeeklyExerciseScreenState extends State<WeeklyExerciseScreen> {
   Widget _buildGoButton(BuildContext context, CustomMQ mq) {
     return CustomButton(
       label: AppString.reset(context),
-      onPressed: () {
-        // Implement navigation or action on button press
-      },
+      textColor: Theme.of(context).primaryColor,
+      onPressed: () => _showResetConfirmationDialog(context),
       backgroundColor: ColorManager.primaryColor,
       padding: EdgeInsets.symmetric(vertical: mq.height(0.8)),
       borderRadius: mq.width(7.5),
       fontSize: mq.width(4.5),
     );
+  }
+
+  Future<void> _showResetConfirmationDialog(BuildContext context) async {
+    final shouldReset = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(
+            'Reset Calendar?',
+            style: TextStyle(
+              fontFamily: AppString.font,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
+            'This will reset all your workout progress. Are you sure you want to continue?',
+            style: TextStyle(fontFamily: AppString.font),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(false),
+              child: Text(
+                'Cancel',
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: AppString.font,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(true),
+              child: Text(
+                'Reset',
+                style: TextStyle(
+                  color: Colors.red,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: AppString.font,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (shouldReset == true && mounted) {
+      await _resetCalendar();
+    }
+  }
+
+  Future<void> _resetCalendar() async {
+    final profileId = context.read<ProfileCubit>().user!.userId;
+
+    // Reset all weeks by setting all days to false
+    for (int week = 1; week <= 4; week++) {
+      final dayUpdates = {
+        'day1': false,
+        'day2': false,
+        'day3': false,
+        'day4': false,
+        'day5': false,
+        'day6': false,
+        'day7': false,
+      };
+
+      await context.read<WeeklyExerciseCubit>().updateCalendar(
+            profileId,
+            week,
+            dayUpdates,
+          );
+    }
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Calendar reset successfully!',
+            style: TextStyle(fontFamily: AppString.font),
+          ),
+          backgroundColor: ColorManager.primaryColor,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
   }
 }
 

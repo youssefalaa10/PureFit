@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:PureFit/Core/DI/dependency.dart';
+import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:PureFit/Core/Services/voice_service.dart';
 import 'package:PureFit/Core/Services/workout_tracking_service.dart';
 import 'package:PureFit/Features/Exercises/Data/Model/exercise_model.dart';
@@ -224,6 +225,9 @@ class TrainingCubit extends Cubit<TrainingCubitState> {
             final weeklyCubit = getIT<WeeklyExerciseCubit>();
             weeklyCubit.markTodayAsCompleted(profileId);
             _hasMarkedToday = true;
+
+            // Cancel today's workout reminder notification
+            NotificationController.cancelTodayWorkoutReminder();
           }
         } catch (_) {
           // Silently ignore if dependencies are not available

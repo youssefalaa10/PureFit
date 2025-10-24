@@ -9,7 +9,7 @@ class CustomBackButton extends StatelessWidget {
     return IconButton(
       icon:  Icon(
         Icons.arrow_back,
-        color: theme.scaffoldBackgroundColor,
+        color: iconColor ?? theme.scaffoldBackgroundColor,
       ),
       onPressed: () {
         Navigator.pop(context);

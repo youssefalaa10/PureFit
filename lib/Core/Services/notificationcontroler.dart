@@ -234,9 +234,14 @@ class NotificationController {
     await AwesomeNotifications().cancel(3000);
 
     // Wind-down reminder
-    final DateTime windDownTime = DateTime.now()
+    DateTime windDownTime = DateTime.now()
         .copyWith(hour: bedtime.hour, minute: bedtime.minute, second: 0)
         .subtract(Duration(minutes: windDownMinutes));
+
+    // If time has passed, schedule for next day
+    if (windDownTime.isBefore(DateTime.now())) {
+      windDownTime = windDownTime.add(const Duration(days: 1));
+    }
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
@@ -246,18 +251,25 @@ class NotificationController {
         body: 'Start preparing for bed. Dim the lights and relax.',
         payload: {'screen': '/sleep', 'type': 'wind_down'},
         notificationLayout: NotificationLayout.BigText,
-        // icon: 'resource://drawable/ic_launcher',
-        // largeIcon: 'resource://drawable/ic_launcher',
+        category: NotificationCategory.Reminder,
       ),
-      schedule: NotificationCalendar.fromDate(date: windDownTime),
+      schedule: NotificationCalendar.fromDate(
+        date: windDownTime,
+        allowWhileIdle: true,
+      ),
     );
 
     // Bedtime reminder
-    final DateTime bedtimeDateTime = DateTime.now().copyWith(
+    DateTime bedtimeDateTime = DateTime.now().copyWith(
       hour: bedtime.hour,
       minute: bedtime.minute,
       second: 0,
     );
+
+    // If time has passed, schedule for next day
+    if (bedtimeDateTime.isBefore(DateTime.now())) {
+      bedtimeDateTime = bedtimeDateTime.add(const Duration(days: 1));
+    }
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
@@ -267,18 +279,25 @@ class NotificationController {
         body: 'Time to go to bed for a good night\'s rest!',
         payload: {'screen': '/sleep', 'type': 'bedtime'},
         notificationLayout: NotificationLayout.BigText,
-        // icon: 'resource://drawable/ic_launcher',
-        // largeIcon: 'resource://drawable/ic_launcher',
+        category: NotificationCategory.Reminder,
       ),
-      schedule: NotificationCalendar.fromDate(date: bedtimeDateTime),
+      schedule: NotificationCalendar.fromDate(
+        date: bedtimeDateTime,
+        allowWhileIdle: true,
+      ),
     );
 
-    // Wake-up reminder
-    final DateTime wakeUpDateTime = DateTime.now().copyWith(
+    // Wake-up alarm (most important one)
+    DateTime wakeUpDateTime = DateTime.now().copyWith(
       hour: wakeUpTime.hour,
       minute: wakeUpTime.minute,
       second: 0,
     );
+
+    // If time has passed, schedule for next day
+    if (wakeUpDateTime.isBefore(DateTime.now())) {
+      wakeUpDateTime = wakeUpDateTime.add(const Duration(days: 1));
+    }
 
     await AwesomeNotifications().createNotification(
       content: NotificationContent(
@@ -288,11 +307,25 @@ class NotificationController {
         body: 'Rise and shine! Start your day with energy and positivity.',
         payload: {'screen': '/dashboard', 'type': 'wake_up'},
         notificationLayout: NotificationLayout.BigText,
-        // icon: 'resource://drawable/ic_launcher',
-        // largeIcon: 'resource://drawable/ic_launcher',
+        category: NotificationCategory.Alarm,
+        criticalAlert: true,
+        wakeUpScreen: true,
       ),
-      schedule: NotificationCalendar.fromDate(date: wakeUpDateTime),
+      schedule: NotificationCalendar.fromDate(
+        date: wakeUpDateTime,
+        allowWhileIdle: true,
+      ),
     );
+  }
+
+  /// Cancel all sleep-related notifications
+  static Future<void> cancelSleepReminders() async {
+    await AwesomeNotifications().cancel(3001); // Wind-down reminder
+    await AwesomeNotifications().cancel(3002); // Bedtime reminder
+    await AwesomeNotifications().cancel(3003); // Wake-up alarm
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('sleep_schedule_enabled', false);
   }
 
   // Goal Achievement Celebrations
@@ -476,11 +509,15 @@ class NotificationController {
       daysOfWeek.map((e) => e.toString()).toList(),
     );
 
-    // Cancel existing step reminders
+    // Cancel ALL existing step reminders by ID to prevent duplicates
+    for (int i = 5000; i < 5008; i++) {
+      await AwesomeNotifications().cancel(i);
+    }
     await AwesomeNotifications().cancelNotificationsByGroupKey(
       'step_reminders',
     );
 
+    // Schedule new reminders for selected days only
     for (int day in daysOfWeek) {
       await AwesomeNotifications().createNotification(
         content: NotificationContent(
@@ -491,11 +528,10 @@ class NotificationController {
               'Get up and take some steps! Your health depends on it.',
           payload: {'screen': '/tracksteps', 'type': 'step_reminder'},
           notificationLayout: NotificationLayout.BigText,
-          category: NotificationCategory.Alarm,
+          category:
+              NotificationCategory.Reminder, // Changed from Alarm to Reminder
           wakeUpScreen: true,
-          fullScreenIntent: true,
-          // icon: 'resource://drawable/ic_launcher',
-          // largeIcon: 'resource://drawable/ic_launcher',
+          // Removed fullScreenIntent to prevent immediate display
         ),
         schedule: NotificationCalendar(
           weekday: day,
@@ -541,5 +577,103 @@ class NotificationController {
       'time': reminderTime,
       'days': days?.map((e) => int.parse(e)).toList() ?? [1, 2, 3, 4, 5, 6, 7],
     };
+  }
+
+  // Cancel today's workout reminder when workout is completed
+  static Future<void> cancelTodayWorkoutReminder() async {
+    final prefs = await SharedPreferences.getInstance();
+    final today = DateTime.now().weekday; // 1-7 (Monday-Sunday)
+    await AwesomeNotifications().cancel(1000 + today);
+    await prefs.setBool('workout_completed_today', true);
+    await prefs.setString(
+      'workout_completed_date',
+      DateTime.now().toIso8601String().split('T').first,
+    );
+  }
+
+  // Check if workout was completed today
+  static Future<bool> isWorkoutCompletedToday() async {
+    final prefs = await SharedPreferences.getInstance();
+    final completed = prefs.getBool('workout_completed_today') ?? false;
+    final dateStr = prefs.getString('workout_completed_date');
+    final today = DateTime.now().toIso8601String().split('T').first;
+
+    if (dateStr != today) {
+      // Reset for new day
+      await prefs.setBool('workout_completed_today', false);
+      return false;
+    }
+    return completed;
+  }
+
+  // Get workout reminder settings
+  static Future<Map<String, dynamic>> getWorkoutReminderSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool enabled =
+        prefs.getBool('daily_workout_reminder_enabled') ?? false;
+    final String? timeString = prefs.getString('daily_workout_reminder_time');
+
+    TimeOfDay reminderTime =
+        const TimeOfDay(hour: 10, minute: 0); // Default 10:00 AM
+    if (timeString != null) {
+      final parts = timeString.split(':');
+      reminderTime = TimeOfDay(
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
+      );
+    }
+
+    return {
+      'enabled': enabled,
+      'time': reminderTime,
+    };
+  }
+
+  // Schedule daily workout reminder
+  static Future<void> scheduleDailyWorkoutReminder({
+    required TimeOfDay reminderTime,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('daily_workout_reminder_enabled', true);
+    await prefs.setString(
+      'daily_workout_reminder_time',
+      '${reminderTime.hour}:${reminderTime.minute}',
+    );
+
+    // Cancel existing reminders
+    for (int day = 1; day <= 7; day++) {
+      await AwesomeNotifications().cancel(1000 + day);
+    }
+
+    // Schedule for all 7 days of the week
+    for (int day = 1; day <= 7; day++) {
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 1000 + day,
+          channelKey: 'workout_reminders',
+          title: '💪 Time to Workout!',
+          body: 'Don\'t forget your workout today 💪',
+          payload: {'screen': '/workout', 'type': 'daily_workout_reminder'},
+        ),
+        schedule: NotificationCalendar(
+          weekday: day,
+          hour: reminderTime.hour,
+          minute: reminderTime.minute,
+          repeats: true,
+          allowWhileIdle: true,
+        ),
+      );
+    }
+  }
+
+  // Cancel daily workout reminder
+  static Future<void> cancelDailyWorkoutReminder() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('daily_workout_reminder_enabled', false);
+
+    // Cancel all daily workout reminders
+    for (int day = 1; day <= 7; day++) {
+      await AwesomeNotifications().cancel(1000 + day);
+    }
   }
 }

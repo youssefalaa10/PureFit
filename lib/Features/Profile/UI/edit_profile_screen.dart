@@ -67,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         elevation: 0,
         leading: const CustomBackButton(),
         title: Text(
-          'Edit Profile',
+          AppString.editProfile(context),
           style: TextStyle(
             fontSize: mq.width(5),
             fontWeight: FontWeight.bold,
@@ -96,27 +96,27 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 SizedBox(height: mq.height(1)),
                 EditableField(
-                  label: 'Your Name',
+                  label: AppString.yourName(context),
                   controller: _nameController,
                   icon: Icons.person_outline,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your name';
+                      return AppString.pleaseEnterYourName(context);
                     }
                     return null;
                   },
                 ),
                 SizedBox(height: mq.height(1)),
                 EditableField(
-                  label: 'Age',
+                  label: AppString.age(context),
                   controller: _ageController,
                   icon: Icons.calendar_today_outlined,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter your age';
+                      return AppString.pleaseEnterYourAge(context);
                     } else if (int.tryParse(value) == null ||
                         int.parse(value) <= 0) {
-                      return 'Please enter a valid age';
+                      return AppString.pleaseEnterValidAge(context);
                     }
                     return null;
                   },
@@ -170,7 +170,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         }
                       },
                       child: Text(
-                        'Save Changes',
+                        AppString.saveChanges(context),
                         style: TextStyle(
                             fontSize: mq.width(4),
                             color: theme.scaffoldBackgroundColor),
@@ -305,7 +305,7 @@ class WeightSlider extends StatefulWidget {
 }
 
 class WeightSliderState extends State<WeightSlider> {
-  double _currentWeight = 40;
+  double _currentWeight = 30;
 
   @override
   void initState() {
@@ -322,20 +322,20 @@ class WeightSliderState extends State<WeightSlider> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Weight (kg)',
+          AppString.weight(context),
           style: TextStyle(fontSize: mq.width(4), fontWeight: FontWeight.w600),
         ),
         Row(
           children: [
-            Text('40', style: TextStyle(fontSize: mq.width(3.5))),
+            Text('30', style: TextStyle(fontSize: mq.width(3.5))),
             Expanded(
               child: Slider(
                 activeColor: theme.primaryColor,
                 inactiveColor: Colors.grey,
                 value: _currentWeight,
-                min: 40,
-                max: 160,
-                divisions: 120,
+                min: 30,
+                max: 300,
+                divisions: 270,
                 label: _currentWeight.round().toString(),
                 onChanged: (value) {
                   setState(() {
@@ -345,7 +345,7 @@ class WeightSliderState extends State<WeightSlider> {
                 },
               ),
             ),
-            Text('160', style: TextStyle(fontSize: mq.width(3.5))),
+            Text('300', style: TextStyle(fontSize: mq.width(3.5))),
           ],
         ),
       ],

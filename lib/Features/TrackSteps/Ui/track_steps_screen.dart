@@ -56,16 +56,25 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   }
 
   Future<void> _checkNotificationPermission() async {
-    final hasPermission =
-        await NotificationController.requestNotificationPermission();
+    // Check permission status without requesting
+    final permissions = await NotificationController.checkAllPermissions();
+    final hasPermission = permissions['notifications'] ?? false;
+
     if (!hasPermission && mounted) {
-      // Show a one-time message about notification permission
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        CustomSnackbar.showSnackbar(
-          context,
-          'Enable notifications for step reminders and alarms',
-        );
-      });
+      // Only show message once per app session
+      final prefs = await SharedPreferences.getInstance();
+      final hasShownMessage =
+          prefs.getBool('has_shown_notification_message') ?? false;
+
+      if (!hasShownMessage) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          CustomSnackbar.showSnackbar(
+            context,
+            'Enable notifications for step reminders and alarms',
+          );
+        });
+        await prefs.setBool('has_shown_notification_message', true);
+      }
     }
   }
 
@@ -97,9 +106,9 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     if (mounted && _fullStepsOfToday >= 0) {
       try {
         await context.read<TrackStepCubit>().upsertSteps(
-          _fullStepsOfToday,
-          todayDate,
-        );
+              _fullStepsOfToday,
+              todayDate,
+            );
         final prefs = await SharedPreferences.getInstance();
         await prefs.setInt('savedSteps', _fullStepsOfToday);
       } catch (e) {
@@ -130,14 +139,13 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
 
     // Load saved steps and last recorded date
     _savedSteps = await context.read<TrackStepCubit>().readStepsByDate(
-      todayDate,
-    );
+          todayDate,
+        );
     AppLogger.log('$_savedSteps'); // For debugging purposes
 
     if (mounted) {
-      _lastRecordedDate = await context
-          .read<TrackStepCubit>()
-          .getLastRecordedDate();
+      _lastRecordedDate =
+          await context.read<TrackStepCubit>().getLastRecordedDate();
     }
 
     // Set state with loaded steps
@@ -175,9 +183,9 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
 
         if (mounted) {
           await context.read<TrackStepCubit>().upsertSteps(
-            _savedSteps!,
-            todayDate,
-          );
+                _savedSteps!,
+                todayDate,
+              );
         }
       }
 
@@ -462,18 +470,102 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   }
 
   Widget _buildMyActivity(List<TrackStepsModel> historyTracking) {
+    final mq = CustomMQ(context);
+    final theme = Theme.of(context);
     return Expanded(
       child: ListView.builder(
         shrinkWrap: true,
         itemCount: historyTracking.length,
         itemBuilder: (context, index) {
           final trackStepsModel = historyTracking.reversed.toList()[index];
-          return ListTile(
-            leading: const Icon(Icons.directions_walk),
-            title: Text(trackStepsModel.date),
-            trailing: Text(
-              trackStepsModel.steps.toString(),
-              style: TextStyle(fontSize: CustomMQ(context).width(3.75)),
+          return Dismissible(
+            key: Key(trackStepsModel.id.toString()),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              // alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(right: mq.width(5)),
+              color: theme.colorScheme.error,
+              child: Icon(
+                Icons.delete,
+                color: theme.colorScheme.onError,
+                size: mq.width(7),
+              ),
+            ),
+            confirmDismiss: (direction) async {
+              return await showDialog<bool>(
+                context: context,
+                builder: (BuildContext dialogContext) {
+                  return AlertDialog(
+                    title: Text(
+                      AppString.deleteStepsRecord(context),
+                      style: TextStyle(
+                        fontFamily: AppString.font,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    content: Text(
+                      AppString.areYouSureDeleteStepsRecord(context),
+                      style: TextStyle(
+                        fontFamily: AppString.font,
+                        color: theme.colorScheme.onSurface,
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.of(dialogContext).pop(false),
+                        child: Text(
+                          AppString.cancel(context),
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurface
+                                .withValues(alpha: 0.6),
+                            fontFamily: AppString.font,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.of(dialogContext).pop(true),
+                        child: Text(
+                          AppString.delete(context),
+                          style: TextStyle(
+                            color: theme.colorScheme.error,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: AppString.font,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+            onDismissed: (direction) {
+              context.read<TrackStepCubit>().deleteTrack(trackStepsModel.id);
+              CustomSnackbar.showSnackbar(
+                context,
+                AppString.stepsRecordDeleted(context),
+              );
+            },
+            child: ListTile(
+              leading: Icon(
+                Icons.directions_walk,
+                color: theme.colorScheme.primary,
+              ),
+              title: Text(
+                trackStepsModel.date,
+                style: TextStyle(
+                  fontFamily: AppString.font,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
+              trailing: Text(
+                '${trackStepsModel.steps} steps',
+                style: TextStyle(
+                  fontSize: mq.width(3.75),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: AppString.font,
+                  color: theme.colorScheme.onSurface,
+                ),
+              ),
             ),
           );
         },
@@ -491,7 +583,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
           borderRadius: BorderRadius.circular(15),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -557,9 +649,10 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   }
 
   Future<void> _showAlarmTimePicker(BuildContext context) async {
-    // Request notification permission first
-    final hasPermission =
-        await NotificationController.requestNotificationPermission();
+    // Check permission silently first, only request if showing time picker
+    final permissions = await NotificationController.checkAllPermissions();
+    final hasPermission = permissions['notifications'] ?? false;
+
     if (!hasPermission) {
       if (mounted) {
         CustomSnackbar.showSnackbar(
@@ -579,6 +672,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     );
 
     if (picked != null) {
+      // Only schedule when user actually picks a time
       await NotificationController.scheduleStepReminder(
         reminderTime: picked,
         daysOfWeek: [1, 2, 3, 4, 5, 6, 7], // Every day

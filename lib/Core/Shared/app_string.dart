@@ -76,7 +76,26 @@ class AppString {
       'pleaseEnterYourAge'.tr(context);
   static String pleaseEnterValidAge(BuildContext context) =>
       'pleaseEnterValidAge'.tr(context);
+  static String workoutReminders(BuildContext context) =>
+      'workoutReminders'.tr(context);
+  static String dailyWorkoutReminder(BuildContext context) =>
+      'dailyWorkoutReminder'.tr(context);
+  static String reminderTime(BuildContext context) =>
+      'reminderTime'.tr(context);
   static String saveChanges(BuildContext context) => 'saveChanges'.tr(context);
+  static String deleteStepsRecord(BuildContext context) =>
+      'deleteStepsRecord'.tr(context);
+  static String areYouSureDeleteStepsRecord(BuildContext context) =>
+      'areYouSureDeleteStepsRecord'.tr(context);
+  static String delete(BuildContext context) => 'delete'.tr(context);
+  static String stepsRecordDeleted(BuildContext context) =>
+      'stepsRecordDeleted'.tr(context);
+  static String deleteSleepSession(BuildContext context) =>
+      'deleteSleepSession'.tr(context);
+  static String areYouSureDeleteSleepSession(BuildContext context) =>
+      'areYouSureDeleteSleepSession'.tr(context);
+  static String sleepSessionDeleted(BuildContext context) =>
+      'sleepSessionDeleted'.tr(context);
   static String weight(BuildContext context) => 'weight'.tr(context);
   static String height(BuildContext context) => 'height'.tr(context);
   static String areYouSure(BuildContext context) => 'areYouSure'.tr(context);
@@ -159,6 +178,10 @@ class AppString {
       'stepReminder'.tr(context);
   static String tapToSetAlarm(BuildContext context) =>
       'tapToSetAlarm'.tr(context);
+  static String trackStepsDetails(BuildContext context) =>
+      'trackStepsDetails'.tr(context);
+  static String editAlarmTime(BuildContext context) =>
+      'editAlarmTime'.tr(context);
 
 // Calories Screen ------------------------------------------------
   static String youHaveToEatMoreCalories(BuildContext context) =>
@@ -170,6 +193,13 @@ class AppString {
   static String imWakedUp(BuildContext context) => 'imWakedUp'.tr(context);
   static String sleepDetails(BuildContext context) =>
       'sleepDetails'.tr(context);
+  static String pleaseSelectWakeUpTime(BuildContext context) =>
+      'pleaseSelectWakeUpTime'.tr(context);
+  static String wakeUpTimeMustBeInFuture(BuildContext context) =>
+      'wakeUpTimeMustBeInFuture'.tr(context);
+  static String alarmSetFor(BuildContext context) => 'alarmSetFor'.tr(context);
+  static String failedToSetAlarm(BuildContext context) =>
+      'failedToSetAlarm'.tr(context);
   static String today(BuildContext context) => 'today'.tr(context);
   static String setNewAlarm(BuildContext context) => 'setNewAlarm'.tr(context);
   static String todayMeals(BuildContext context) => 'todayMeals'.tr(context);

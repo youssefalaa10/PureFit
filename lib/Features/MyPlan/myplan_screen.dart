@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/calculator.dart';
@@ -6,6 +8,7 @@ import 'package:PureFit/Features/MyPlan/component/static_card.dart';
 import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart'; // Import shimmer package
 
 import '../../Core/Components/media_query.dart';
@@ -24,6 +27,39 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
   String stepsValue = '0'; // Initial default value for steps
   String sleepValue = '8 hr'; // Initial default value for sleep
   String waterValue = '2 lits'; // Initial default value for water
+  Timer? _stepUpdateTimer;
+  int _currentSteps = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _startStepListener();
+  }
+
+  @override
+  void dispose() {
+    _stepUpdateTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startStepListener() {
+    _loadCurrentSteps();
+    // Update steps every 5 seconds
+    _stepUpdateTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      _loadCurrentSteps();
+    });
+  }
+
+  Future<void> _loadCurrentSteps() async {
+    final prefs = await SharedPreferences.getInstance();
+    final steps = prefs.getInt('savedSteps') ?? 0;
+    if (mounted && steps != _currentSteps) {
+      setState(() {
+        _currentSteps = steps;
+        stepsValue = steps.toString();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

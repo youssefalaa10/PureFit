@@ -1,13 +1,14 @@
+import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-import 'package:PureFit/Core/Components/media_query.dart';
+
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_cubit.dart';
 import '../../Exercises/Logic/weekly_exercises_cubit/weekly_exercises_state.dart';
-import 'package:PureFit/Core/Shared/app_string.dart';
 
 class PlanCard extends StatefulWidget {
-  const PlanCard({super.key, required this.userId});
+  const PlanCard({required this.userId, super.key});
   final String userId;
 
   @override
@@ -38,8 +39,8 @@ class _PlanCardState extends State<PlanCard> {
             completedDays += week.days.values.where((day) => day).length;
           }
 
-          double progressPercentage = completedDays / totalDays;
-          int displayedPercentage = (progressPercentage * 100).round();
+          final double progressPercentage = completedDays / totalDays;
+          final int displayedPercentage = (progressPercentage * 100).round();
 
           return _buildCard(mq, completedDays, totalDays, progressPercentage,
               displayedPercentage);
@@ -103,7 +104,6 @@ class _PlanCardState extends State<PlanCard> {
                   ),
                 ),
                 Expanded(
-                  flex: 1,
                   child: Padding(
                     padding: EdgeInsets.only(right: mq.width(2)),
                     child: Stack(

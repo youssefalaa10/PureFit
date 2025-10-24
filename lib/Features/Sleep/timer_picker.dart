@@ -23,6 +23,41 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
   bool vibrate = true;
 
   @override
+  void initState() {
+    super.initState();
+    // Default to current time instead of hardcoded 4:25 AM
+    final now = DateTime.now();
+    selectedHour =
+        now.hour > 12 ? now.hour - 12 : (now.hour == 0 ? 12 : now.hour);
+    selectedMinute = now.minute;
+    period = now.hour >= 12 ? 'PM' : 'AM';
+  }
+
+  String _formatCurrentDate() {
+    final now = DateTime.now();
+    final days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
+    final dayName = days[now.weekday - 1];
+    final monthName = months[now.month - 1];
+
+    return 'Today - $dayName, $monthName ${now.day}';
+  }
+
+  @override
   Widget build(BuildContext context) {
     mq = CustomMQ(context);
     final theme = Theme.of(context);
@@ -74,7 +109,7 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  'Today - Sun, Oct 6',
+                                  _formatCurrentDate(),
                                   style: TextStyle(fontSize: mq.height(2)),
                                 ),
                                 Icon(
@@ -122,6 +157,9 @@ class _TimerPickerScreenState extends State<TimerPickerScreen> {
                   selectedHours: selectedHour,
                   selectedMin: selectedMinute,
                   period: period,
+                  alarmSound: alarmSound,
+                  snooze: snooze,
+                  vibrate: vibrate,
                 ),
               ],
             ),
@@ -251,10 +289,10 @@ class DaySelectorSection extends StatefulWidget {
   final List<bool> selectedDays;
 
   @override
-  _DaySelectorSectionState createState() => _DaySelectorSectionState();
+  DaySelectorSectionState createState() => DaySelectorSectionState();
 }
 
-class _DaySelectorSectionState extends State<DaySelectorSection> {
+class DaySelectorSectionState extends State<DaySelectorSection> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -373,6 +411,9 @@ class BottomButtonsSection extends StatelessWidget {
     required this.selectedMin,
     required this.period,
     required this.selectedDays,
+    required this.alarmSound,
+    required this.snooze,
+    required this.vibrate,
     super.key,
   });
   final CustomMQ mq;
@@ -381,6 +422,9 @@ class BottomButtonsSection extends StatelessWidget {
   final int selectedMin;
   final String period;
   final List<bool> selectedDays;
+  final bool alarmSound;
+  final bool snooze;
+  final bool vibrate;
 
   @override
   Widget build(BuildContext context) {
@@ -414,6 +458,10 @@ class BottomButtonsSection extends StatelessWidget {
               'hour': selectedHours,
               'minute': selectedMin,
               'period': period,
+              'alarmSound': alarmSound,
+              'snooze': snooze,
+              'vibrate': vibrate,
+              'selectedDays': selectedDays,
             });
           },
           style: ElevatedButton.styleFrom(

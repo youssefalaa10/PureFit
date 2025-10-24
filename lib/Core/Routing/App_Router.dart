@@ -21,8 +21,11 @@ import '../../Features/AuthHelper/token_check.dart';
 import '../../Features/Calories/Ui/calories_details.dart';
 import '../../Features/Calories/Ui/calories_screen.dart';
 import '../../Features/Diet/Data/Repo/favorite_repo.dart';
+import '../../Features/Diet/Logic/drink_cubit/drinks_cubit.dart';
 import '../../Features/Diet/Logic/favorite_cubit/favorite_cubit.dart';
+import '../../Features/Diet/Logic/food_cubit/foods_cubit.dart';
 import '../../Features/Diet/UI/diet_detials_screen.dart';
+import '../../Features/Diet/UI/diet_screen.dart';
 import '../../Features/Exercises/Data/Model/exercise_model.dart';
 import '../../Features/Exercises/Data/Model/workout_categories_model.dart';
 import '../../Features/Exercises/Logic/exercise_cubit/exercise_cubit.dart';
@@ -57,7 +60,7 @@ import '../DI/dependency.dart';
 import 'Routes.dart';
 
 class AppRouter {
-  Route? generateRoute(RouteSettings settings) {
+  Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       // Home Screen ======================================================
       case Routes.homeScreen:
@@ -252,12 +255,36 @@ class AppRouter {
       case Routes.timerPicker:
         return MaterialPageRoute(builder: (_) => const TimerPickerScreen());
 
-      // FoodDiet ===============================================================
-      // case Routes.foodDietScreen:
-      //   return MaterialPageRoute(
-      //       builder: (_) => const DietScreen()); //in laDietScreen// Food Item Screen =========================DietModel====================
-      // case Routes.foodItem:
-      //   return MaterialPageRoute(builder: (_) => const FoodItem());
+      // Diet Screen ===============================================================
+      case Routes.dietScreen:
+        return MaterialPageRoute(
+          builder: (_) => MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) {
+                  final cubit = getIT<FoodsCubit>();
+                  cubit.fetchFoods();
+                  return cubit;
+                },
+              ),
+              BlocProvider(
+                create: (context) {
+                  final cubit = getIT<DrinksCubit>();
+                  cubit.fetchDrinks();
+                  return cubit;
+                },
+              ),
+              BlocProvider(
+                create: (context) {
+                  final cubit = getIT<FavoriteCubit>();
+                  cubit.loadFavorites();
+                  return cubit;
+                },
+              ),
+            ],
+            child: const DietScreen(),
+          ),
+        );
 
       // Food Details Screen ===================================================
       case Routes.detailsScreen:

@@ -141,7 +141,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
         padding: EdgeInsets.symmetric(horizontal: mq.width(6)),
         child: Text(
           textAlign: TextAlign.center,
-          'Track Steps Details',
+          AppString.trackStepsDetails(context),
           style: TextStyle(
               fontFamily: AppString.font,
               fontSize: mq.width(4.5),
@@ -185,7 +185,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
             ),
             DottedBorder(
               options: CircularDottedBorderOptions(
-                color: theme.primaryColor.withOpacity(0.3),
+                color: theme.primaryColor.withValues(alpha: 0.3),
                 strokeWidth: 4,
                 dashPattern: const [10, 5],
               ),
@@ -231,13 +231,13 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
           borderRadius: BorderRadius.circular(15),
           border: Border.all(
             color: _alarmEnabled
-                ? theme.primaryColor.withOpacity(0.3)
+                ? theme.primaryColor.withValues(alpha: 0.3)
                 : Colors.transparent,
             width: 2,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -254,8 +254,9 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                       padding: EdgeInsets.all(mq.width(2.5)),
                       decoration: BoxDecoration(
                         color: _alarmEnabled
-                            ? theme.primaryColor.withOpacity(0.1)
-                            : ColorManager.lightGreyColor.withOpacity(0.1),
+                            ? theme.primaryColor.withValues(alpha: 0.1)
+                            : ColorManager.lightGreyColor
+                                .withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
@@ -316,7 +317,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                     vertical: mq.height(1.5),
                   ),
                   decoration: BoxDecoration(
-                    color: theme.primaryColor.withOpacity(0.1),
+                    color: theme.primaryColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
@@ -329,7 +330,7 @@ class _TrackStepDetailsState extends State<TrackStepDetails> {
                       ),
                       SizedBox(width: mq.width(2)),
                       Text(
-                        'Edit Alarm Time',
+                        AppString.editAlarmTime(context),
                         style: TextStyle(
                           fontSize: mq.width(3.5),
                           color: theme.primaryColor,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class WorkoutSession {
@@ -168,7 +169,7 @@ class WorkoutTrackingService {
       final List<dynamic> recordsList = jsonDecode(recordsJson);
       return recordsList.map((json) => PersonalRecord.fromJson(json)).toList();
     } catch (e) {
-      print('Error parsing personal records: $e');
+      AppLogger.error('Error parsing personal records: $e');
       return [];
     }
   }

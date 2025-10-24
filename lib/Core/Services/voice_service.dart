@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +32,7 @@ class VoiceService {
     try {
       await _flutterTts?.speak(text);
     } catch (e) {
-      print('Error speaking: $e');
+      AppLogger.error('Error speaking: $e');
     }
   }
 

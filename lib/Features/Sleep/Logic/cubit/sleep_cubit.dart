@@ -25,4 +25,18 @@ class SleepCubit extends Cubit<SleepState> {
     await sleepRepo.insertSleep(sleepsession);
     AppLogger.info('sucess');
   }
+
+  Future<void> deleteSession(SleepSession session) async {
+    try {
+      if (session.id != null) {
+        await sleepRepo.deleteSleepSession(session.id!);
+        // Reload sessions after deletion
+        await getallsessions();
+        AppLogger.info('Sleep session deleted successfully');
+      }
+    } on Exception catch (e) {
+      AppLogger.error('Failed to delete sleep session: $e', StackTrace.current);
+      emit(SleepFailuer());
+    }
+  }
 }
