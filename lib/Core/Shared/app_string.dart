@@ -155,6 +155,10 @@ class AppString {
       'stepsDetails'.tr(context);
   static String yourDailyTasksAlmostDone(BuildContext context) =>
       'yourDailyTasksAlmostDone'.tr(context);
+  static String stepReminder(BuildContext context) =>
+      'stepReminder'.tr(context);
+  static String tapToSetAlarm(BuildContext context) =>
+      'tapToSetAlarm'.tr(context);
 
 // Calories Screen ------------------------------------------------
   static String youHaveToEatMoreCalories(BuildContext context) =>

@@ -1,5 +1,6 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 typedef NavigateFunction = void Function(String routeName);
@@ -9,7 +10,8 @@ class NotificationController {
 
   @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(
-      ReceivedAction receivedAction) async {
+    ReceivedAction receivedAction,
+  ) async {
     // Extract the screen from the payload
     final String? screen = receivedAction.payload?['screen'];
     final String? type = receivedAction.payload?['type'];
@@ -35,7 +37,7 @@ class NotificationController {
   // Initialize enhanced notifications
   static Future<void> initializeEnhancedNotifications() async {
     await AwesomeNotifications().initialize(
-      'resource://drawable/ic_launcher',
+      'resource://mipmap/ic_launcher',
       [
         // Workout Reminders Channel
         NotificationChannel(
@@ -86,6 +88,31 @@ class NotificationController {
           playSound: true,
           enableVibration: true,
         ),
+        // Step Reminder Channel
+        NotificationChannel(
+          channelKey: 'step_reminder',
+          channelName: 'Step Reminders',
+          channelDescription: 'Reminders to take steps and stay active',
+          defaultColor: const Color(0xFF00BCD4),
+          ledColor: Colors.cyan,
+          importance: NotificationImportance.Max,
+          defaultRingtoneType: DefaultRingtoneType.Alarm,
+          playSound: true,
+          enableVibration: true,
+          enableLights: true,
+        ),
+        // Sleep Schedule Channel (single definition)
+        // Basic Channel (for backward compatibility)
+        NotificationChannel(
+          channelKey: 'basic_channel',
+          channelName: 'Basic Notifications',
+          channelDescription: 'General notifications',
+          defaultColor: const Color(0xFF00BCD4),
+          importance: NotificationImportance.High,
+          defaultRingtoneType: DefaultRingtoneType.Alarm,
+          playSound: true,
+          enableVibration: true,
+        ),
       ],
     );
   }
@@ -99,9 +126,13 @@ class NotificationController {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('workout_reminder_enabled', true);
     await prefs.setString(
-        'workout_time', '${workoutTime.hour}:${workoutTime.minute}');
+      'workout_time',
+      '${workoutTime.hour}:${workoutTime.minute}',
+    );
     await prefs.setStringList(
-        'workout_days', daysOfWeek.map((e) => e.toString()).toList());
+      'workout_days',
+      daysOfWeek.map((e) => e.toString()).toList(),
+    );
 
     // Cancel existing workout reminders
     await AwesomeNotifications().cancel(1000);
@@ -138,9 +169,13 @@ class NotificationController {
     await prefs.setBool('water_intake_enabled', true);
     await prefs.setInt('water_interval', intervalHours);
     await prefs.setString(
-        'water_start_time', '${startTime.hour}:${startTime.minute}');
+      'water_start_time',
+      '${startTime.hour}:${startTime.minute}',
+    );
     await prefs.setString(
-        'water_end_time', '${endTime.hour}:${endTime.minute}');
+      'water_end_time',
+      '${endTime.hour}:${endTime.minute}',
+    );
 
     // Cancel existing water reminders
     await AwesomeNotifications().cancel(2000);
@@ -190,7 +225,9 @@ class NotificationController {
     await prefs.setBool('sleep_schedule_enabled', true);
     await prefs.setString('bedtime', '${bedtime.hour}:${bedtime.minute}');
     await prefs.setString(
-        'wake_up_time', '${wakeUpTime.hour}:${wakeUpTime.minute}');
+      'wake_up_time',
+      '${wakeUpTime.hour}:${wakeUpTime.minute}',
+    );
     await prefs.setInt('wind_down_minutes', windDownMinutes);
 
     // Cancel existing sleep reminders
@@ -198,11 +235,7 @@ class NotificationController {
 
     // Wind-down reminder
     final DateTime windDownTime = DateTime.now()
-        .copyWith(
-          hour: bedtime.hour,
-          minute: bedtime.minute,
-          second: 0,
-        )
+        .copyWith(hour: bedtime.hour, minute: bedtime.minute, second: 0)
         .subtract(Duration(minutes: windDownMinutes));
 
     await AwesomeNotifications().createNotification(
@@ -213,6 +246,8 @@ class NotificationController {
         body: 'Start preparing for bed. Dim the lights and relax.',
         payload: {'screen': '/sleep', 'type': 'wind_down'},
         notificationLayout: NotificationLayout.BigText,
+        // icon: 'resource://drawable/ic_launcher',
+        // largeIcon: 'resource://drawable/ic_launcher',
       ),
       schedule: NotificationCalendar.fromDate(date: windDownTime),
     );
@@ -232,6 +267,8 @@ class NotificationController {
         body: 'Time to go to bed for a good night\'s rest!',
         payload: {'screen': '/sleep', 'type': 'bedtime'},
         notificationLayout: NotificationLayout.BigText,
+        // icon: 'resource://drawable/ic_launcher',
+        // largeIcon: 'resource://drawable/ic_launcher',
       ),
       schedule: NotificationCalendar.fromDate(date: bedtimeDateTime),
     );
@@ -251,6 +288,8 @@ class NotificationController {
         body: 'Rise and shine! Start your day with energy and positivity.',
         payload: {'screen': '/dashboard', 'type': 'wake_up'},
         notificationLayout: NotificationLayout.BigText,
+        // icon: 'resource://drawable/ic_launcher',
+        // largeIcon: 'resource://drawable/ic_launcher',
       ),
       schedule: NotificationCalendar.fromDate(date: wakeUpDateTime),
     );
@@ -289,9 +328,11 @@ class NotificationController {
         payload: {
           'screen': '/achievements',
           'type': 'goal_achievement',
-          'goal': goalType
+          'goal': goalType,
         },
         notificationLayout: NotificationLayout.BigText,
+        // icon: 'resource://drawable/ic_launcher',
+        // largeIcon: 'resource://drawable/ic_launcher',
       ),
     );
   }
@@ -305,6 +346,8 @@ class NotificationController {
         title: '🎉 Great Job!',
         body: message,
         payload: {'type': 'quick_celebration'},
+        // icon: 'resource://drawable/ic_launcher',
+        // largeIcon: 'resource://drawable/ic_launcher',
       ),
     );
   }
@@ -356,5 +399,147 @@ class NotificationController {
   // Request notification permission
   static Future<bool> requestNotificationPermission() async {
     return await AwesomeNotifications().requestPermissionToSendNotifications();
+  }
+
+  // Request all required permissions for alarms and notifications
+  static Future<Map<String, bool>> requestAllPermissions() async {
+    final Map<String, bool> permissions = {};
+
+    try {
+      // Request notification permission
+      final notificationPermission =
+          await AwesomeNotifications().requestPermissionToSendNotifications();
+      permissions['notifications'] = notificationPermission;
+
+      // Request alarm permission (Android 12+)
+      final alarmPermission = await Permission.scheduleExactAlarm.request();
+      permissions['alarms'] = alarmPermission.isGranted;
+
+      // Request activity recognition permission for step tracking
+      final activityPermission = await Permission.activityRecognition.request();
+      permissions['activity_recognition'] = activityPermission.isGranted;
+
+      return permissions;
+    } catch (e) {
+      print('Error requesting permissions: $e');
+      return {
+        'notifications': false,
+        'alarms': false,
+        'activity_recognition': false,
+      };
+    }
+  }
+
+  // Check if all required permissions are granted
+  static Future<Map<String, bool>> checkAllPermissions() async {
+    final Map<String, bool> permissions = {};
+
+    try {
+      // Check notification permission
+      final notificationPermission =
+          await AwesomeNotifications().isNotificationAllowed();
+      permissions['notifications'] = notificationPermission;
+
+      // Check alarm permission
+      final alarmPermission = await Permission.scheduleExactAlarm.status;
+      permissions['alarms'] = alarmPermission.isGranted;
+
+      // Check activity recognition permission
+      final activityPermission = await Permission.activityRecognition.status;
+      permissions['activity_recognition'] = activityPermission.isGranted;
+
+      return permissions;
+    } catch (e) {
+      print('Error checking permissions: $e');
+      return {
+        'notifications': false,
+        'alarms': false,
+        'activity_recognition': false,
+      };
+    }
+  }
+
+  // Step Reminder Alarm
+  static Future<void> scheduleStepReminder({
+    required TimeOfDay reminderTime,
+    required List<int> daysOfWeek,
+    String? customMessage,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('step_reminder_enabled', true);
+    await prefs.setString(
+      'step_reminder_time',
+      '${reminderTime.hour}:${reminderTime.minute}',
+    );
+    await prefs.setStringList(
+      'step_reminder_days',
+      daysOfWeek.map((e) => e.toString()).toList(),
+    );
+
+    // Cancel existing step reminders
+    await AwesomeNotifications().cancelNotificationsByGroupKey(
+      'step_reminders',
+    );
+
+    for (int day in daysOfWeek) {
+      await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+          id: 5000 + day,
+          channelKey: 'step_reminder',
+          title: '👟 Time to Move!',
+          body: customMessage ??
+              'Get up and take some steps! Your health depends on it.',
+          payload: {'screen': '/tracksteps', 'type': 'step_reminder'},
+          notificationLayout: NotificationLayout.BigText,
+          category: NotificationCategory.Alarm,
+          wakeUpScreen: true,
+          fullScreenIntent: true,
+          // icon: 'resource://drawable/ic_launcher',
+          // largeIcon: 'resource://drawable/ic_launcher',
+        ),
+        schedule: NotificationCalendar(
+          weekday: day,
+          hour: reminderTime.hour,
+          minute: reminderTime.minute,
+          second: 0,
+          repeats: true,
+          allowWhileIdle: true,
+        ),
+      );
+    }
+  }
+
+  static Future<void> cancelStepReminder() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('step_reminder_enabled', false);
+    await AwesomeNotifications().cancelNotificationsByGroupKey(
+      'step_reminders',
+    );
+    // Also cancel by ID range
+    for (int i = 5000; i < 5008; i++) {
+      await AwesomeNotifications().cancel(i);
+    }
+  }
+
+  static Future<Map<String, dynamic>> getStepReminderSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool enabled = prefs.getBool('step_reminder_enabled') ?? false;
+    final String? timeString = prefs.getString('step_reminder_time');
+    final List<String>? days = prefs.getStringList('step_reminder_days');
+
+    TimeOfDay? reminderTime;
+    if (timeString != null) {
+      final parts = timeString.split(':');
+      reminderTime = TimeOfDay(
+        hour: int.parse(parts[0]),
+        minute: int.parse(parts[1]),
+      );
+    }
+
+    return {
+      'enabled': enabled,
+      'time': reminderTime,
+      'days': days?.map((e) => int.parse(e)).toList() ?? [1, 2, 3, 4, 5, 6, 7],
+    };
   }
 }

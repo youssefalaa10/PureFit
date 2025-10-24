@@ -33,8 +33,7 @@ class CaloriesPercentage extends StatelessWidget {
                   1.0), // Updated with real step data
             ),
             DottedBorder(
-              options: RoundedRectDottedBorderOptions(
-                radius: const Radius.circular(90),
+              options: CircularDottedBorderOptions(
               color: ColorManager.orangeColor,
               strokeWidth: 4,
               dashPattern: const [10, 5],

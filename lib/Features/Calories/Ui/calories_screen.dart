@@ -28,12 +28,17 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
 
     // Fetch the user profile data and calculate the calories
     final user = context.read<ProfileCubit>().user;
-    calories = Calculator().getBmrActivity(
-      activityLevel: user!.activity!,
-      weight: user.userWeight,
-      height: user.userHeight,
-      age: user.age,
-    );
+    if (user != null) {
+      calories = Calculator().getBmrActivity(
+        activityLevel: user.activity ?? 'moderate', // Provide default value
+        weight: user.userWeight,
+        height: user.userHeight,
+        age: user.age,
+      );
+    } else {
+      // Set default calories if user is null
+      calories = 2000.0;
+    }
 
     // Initialize data by getting today's food
     context.read<TodayfoodCubit>().getFoodToday();

@@ -1,4 +1,5 @@
 import 'package:PureFit/Core/Routing/app_router.dart';
+import 'package:PureFit/Core/Services/auth_service.dart';
 import 'package:PureFit/Core/Services/deferred_initialization_service.dart';
 import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:PureFit/Core/Shared/theme/theme_color.dart';
@@ -42,8 +43,8 @@ class FitproAppState extends State<FitproApp> {
   late Locale _locale;
   late bool _isDarkMode;
 
-  // Create a GlobalKey for NavigatorState
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  // Use the global navigator key from AuthService
+  GlobalKey<NavigatorState> get navigatorKey => AuthService.navigatorKey;
 
   @override
   void initState() {

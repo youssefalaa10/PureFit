@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Services/token_validation_service.dart';
 import 'package:PureFit/Core/local_db/DioSavedToken/save_token.dart';
 import 'package:bloc/bloc.dart';
 
@@ -10,14 +11,16 @@ class TokencheckCubit extends Cubit<TokencheckState> {
     emit(TokencheckLoading());
 
     try {
-      final token = await SaveTokenDB.getToken();
+      // Check if token exists and is valid (not expired)
+      final isValid = await TokenValidationService.isTokenValid();
 
-      if (token?.isNotEmpty ?? false) {
-        // Token is valid and not empty
+      if (isValid) {
+        // Token is valid and not expired
         emit(TokencheckSuccessed());
       } else {
-        // Token is null or empty
-        emit(TokencheckFaliuer(message: 'Token is null or empty'));
+        // Token is null, empty, or expired
+        await SaveTokenDB.clearToken(); // Clear expired token
+        emit(TokencheckFaliuer(message: 'Token is invalid or expired'));
       }
     } catch (e) {
       // Catch any exception that might occur during the token check process

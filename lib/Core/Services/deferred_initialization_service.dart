@@ -1,5 +1,7 @@
 import 'dart:developer' as developer;
+
 import 'package:flutter/material.dart';
+
 import '../helpers/app_logger.dart';
 import 'notificationcontroler.dart';
 import 'voice_service.dart';
@@ -59,11 +61,24 @@ class DeferredInitializationService {
   static void _requestPermissionsInBackground() {
     Future.microtask(() async {
       try {
-        final hasPermission =
-            await NotificationController.requestNotificationPermission();
-        if (!hasPermission) {
+        final permissions =
+            await NotificationController.requestAllPermissions();
+
+        if (!permissions['notifications']!) {
           AppLogger.log('Notification permission not granted');
         }
+        if (!permissions['alarms']!) {
+          AppLogger.log(
+            'Alarm permission not granted - alarms and reminders may not work',
+          );
+        }
+        if (!permissions['activity_recognition']!) {
+          AppLogger.log(
+            'Activity recognition permission not granted - step tracking may not work',
+          );
+        }
+
+        AppLogger.log('Permission status: $permissions');
       } catch (e) {
         AppLogger.log('Permission request failed: $e');
       }

@@ -69,25 +69,25 @@ class _SleepScreenState extends State<SleepScreen> {
             const CustomSizedbox(height: 20),
             _buildPercentIndicator(mq),
             const CustomSizedbox(height: 20),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomButton(
-                      textColor: theme.scaffoldBackgroundColor,
-                      backgroundColor: theme.primaryColor,
-                      label: AppString.startSleep(context),
-                      onPressed: _startSleepSession),
-                  CustomButton(
-                      textColor: theme.scaffoldBackgroundColor,
-                      backgroundColor: theme.primaryColor,
-                      label: AppString.imWakedUp(context),
-                      onPressed: () {
-                        // Call this when the user wakes up and dismisses the notification
-                        NotificationService().cancel(); // Use the correct ID
-                      }),
-                ],
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomButton(
+                    textColor: theme.scaffoldBackgroundColor,
+                    backgroundColor: theme.primaryColor,
+                    label: AppString.startSleep(context),
+                    fontSize: mq.width(4),
+                    onPressed: _startSleepSession),
+                CustomButton(
+                    textColor: theme.scaffoldBackgroundColor,
+                    backgroundColor: theme.primaryColor,
+                    label: AppString.imWakedUp(context),
+                    fontSize: mq.width(4),
+                    onPressed: () {
+                      // Call this when the user wakes up and dismisses the notification
+                      NotificationService().cancel(); // Use the correct ID
+                    }),
+              ],
             ), // Start Sleep button
             const CustomSizedbox(height: 20),
             _buildRowOfMyActivityAndSteps(mq, context),

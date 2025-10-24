@@ -6,6 +6,7 @@ class ApiConstants {
   static String apiRegister = '/auth/register';
   static String apiLogin = '/auth/login';
   static String apiToken = '/api/token';
+  static String apiRefreshToken = '/auth/refresh';
 
   // Profile
   static String apiGetProfile = '/api/profile';

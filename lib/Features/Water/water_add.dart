@@ -188,7 +188,7 @@ class WaterAddState extends State<WaterAdd> {
     return CustomButton(
       backgroundColor: theme.primaryColor,
       textColor: theme.scaffoldBackgroundColor,
-      label: 'Add Drink  +',
+      label: '${AppString.addWater(context)} +',
       onPressed: () {
         if (currentIndex == 0) {
           value = 500;
