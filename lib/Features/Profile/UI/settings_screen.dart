@@ -92,7 +92,7 @@ class SettingScreenState extends State<SettingScreen> {
                   // label: AppString.darkMode(context),
                   trailing: Switch(
                     inactiveTrackColor: Colors.transparent,
-                    activeThumbColor: theme.colorScheme.primary,
+                    activeColor: theme.colorScheme.primary,
                     value: _isDarkMode,
                     onChanged: (bool value) {
                       setState(() {

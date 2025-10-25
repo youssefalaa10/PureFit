@@ -43,7 +43,7 @@ class _AlarmitemState extends State<Alarmitem> {
             ),
           ),
           Switch(
-            activeThumbColor: ColorManager.primaryColor,
+            activeColor: ColorManager.primaryColor,
             value: isAlarmOn,
             onChanged: (value) {
               setState(() {
