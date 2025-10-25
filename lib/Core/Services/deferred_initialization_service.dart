@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../helpers/app_logger.dart';
 import 'notificationcontroler.dart';
 import 'voice_service.dart';
+import 'permission_manager.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 /// Service to handle deferred initialization of non-critical services
 /// This prevents blocking the main thread during app startup
@@ -61,24 +63,24 @@ class DeferredInitializationService {
   static void _requestPermissionsInBackground() {
     Future.microtask(() async {
       try {
-        final permissions =
-            await NotificationController.requestAllPermissions();
+        // Request notification permission with rationale
+        await PermissionManager.requestNotificationPermission();
 
-        if (!permissions['notifications']!) {
-          AppLogger.log('Notification permission not granted');
-        }
-        if (!permissions['alarms']!) {
-          AppLogger.log(
-            'Alarm permission not granted - alarms and reminders may not work',
-          );
-        }
-        if (!permissions['activity_recognition']!) {
-          AppLogger.log(
-            'Activity recognition permission not granted - step tracking may not work',
-          );
-        }
+        // Request activity recognition permission with rationale
+        await PermissionManager.requestPermission(
+          permissionName: 'activity_recognition',
+          permission: Permission.activityRecognition,
+          rationale: 'Enable step tracking to monitor your daily activity',
+        );
 
-        AppLogger.log('Permission status: $permissions');
+        // Request alarm permission with rationale
+        await PermissionManager.requestPermission(
+          permissionName: 'alarms',
+          permission: Permission.scheduleExactAlarm,
+          rationale: 'Enable exact alarms for step reminders',
+        );
+
+        AppLogger.log('Background permissions requested');
       } catch (e) {
         AppLogger.log('Permission request failed: $e');
       }

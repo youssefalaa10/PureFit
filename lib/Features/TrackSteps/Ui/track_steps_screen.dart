@@ -5,6 +5,9 @@ import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:PureFit/Core/Services/notificationcontroler.dart';
+import 'package:PureFit/Core/Services/background_step_service.dart';
+import 'package:PureFit/Core/Services/goal_tracking_service.dart';
+import 'package:PureFit/Core/Services/permission_manager.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/helpers/app_logger.dart';
@@ -36,11 +39,11 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   String? _lastRecordedDate;
   int? _savedSteps = 0;
   int _initialSteps = 0;
-  int goalValue = 2000;
+  int goalValue = 1000;
   Timer? _backgroundSaveTimer;
   bool _alarmEnabled = false;
   TimeOfDay? _alarmTime;
-  bool _goalNotificationSent = false;
+  // Removed _goalNotificationSent - now using GoalTrackingService
 
   @override
   void initState() {
@@ -53,28 +56,49 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     _fetchGoalValue();
     _loadAlarmSettings();
     _checkNotificationPermission();
+
+    // Initialize background service and sync goal
+    _initializeBackgroundService();
+  }
+
+  Future<void> _initializeBackgroundService() async {
+    try {
+      // Initialize background service
+      await BackgroundStepService.initialize();
+
+      // Reset goal flags for new day
+      await GoalTrackingService.resetGoalFlagsForNewDay();
+
+      AppLogger.log('Background service initialized and goal flags reset');
+    } catch (e) {
+      AppLogger.log('Error initializing background service: $e');
+    }
   }
 
   Future<void> _checkNotificationPermission() async {
-    // Check permission status without requesting
-    final permissions = await NotificationController.checkAllPermissions();
-    final hasPermission = permissions['notifications'] ?? false;
+    try {
+      // Check if notification permission is already granted
+      final hasPermission =
+          await PermissionManager.isPermissionGranted('notifications');
 
-    if (!hasPermission && mounted) {
-      // Only show message once per app session
-      final prefs = await SharedPreferences.getInstance();
-      final hasShownMessage =
-          prefs.getBool('has_shown_notification_message') ?? false;
+      if (!hasPermission && mounted) {
+        // Only show message once per app session
+        final prefs = await SharedPreferences.getInstance();
+        final hasShownMessage =
+            prefs.getBool('has_shown_notification_message') ?? false;
 
-      if (!hasShownMessage) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          CustomSnackbar.showSnackbar(
-            context,
-            'Enable notifications for step reminders and alarms',
-          );
-        });
-        await prefs.setBool('has_shown_notification_message', true);
+        if (!hasShownMessage) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            CustomSnackbar.showSnackbar(
+              context,
+              'Enable notifications for step reminders and goal celebrations',
+            );
+          });
+          await prefs.setBool('has_shown_notification_message', true);
+        }
       }
+    } catch (e) {
+      AppLogger.log('Error checking notification permission: $e');
     }
   }
 
@@ -98,7 +122,29 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     // Save steps every 15 seconds for better persistence and responsiveness
     _backgroundSaveTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
       _saveCurrentSteps();
+      _updateStepsFromBackgroundService();
     });
+  }
+
+  void _updateStepsFromBackgroundService() async {
+    try {
+      if (BackgroundStepService.isRunning) {
+        // Get steps from Android service (works when app is terminated)
+        final androidSteps =
+            await BackgroundStepService.getStepsFromAndroidService();
+        if (androidSteps > 0 && androidSteps != _fullStepsOfToday) {
+          setState(() {
+            _fullStepsOfToday = androidSteps;
+          });
+
+          // Check goal achievement with background service steps
+          await GoalTrackingService.checkStepGoalAchievement(
+              androidSteps, goalValue);
+        }
+      }
+    } catch (e) {
+      AppLogger.log('Error updating steps from background service: $e');
+    }
   }
 
   Future<void> _saveCurrentSteps() async {
@@ -127,10 +173,16 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
 
   void _fetchGoalValue() async {
     final prefs = await SharedPreferences.getInstance();
+    final goal = prefs.getInt('stepGoal') ?? 1000;
+
     setState(() {
-      goalValue =
-          prefs.getInt('stepGoal') ?? 2; // Update the class-level goalValue
+      goalValue = goal;
     });
+
+    // Sync goal with background service
+    await BackgroundStepService.updateGoal(goal);
+
+    AppLogger.log('Goal synced with background service: $goal');
   }
 
   Future<void> _loadData() async {
@@ -179,7 +231,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
         await prefs.setInt('initialSteps', _initialSteps);
         await prefs.setInt('savedSteps', _savedSteps!);
         await prefs.setBool('isFirstLaunch', false);
-        _goalNotificationSent = false;
+        // Goal tracking handled by GoalTrackingService
 
         if (mounted) {
           await context.read<TrackStepCubit>().upsertSteps(
@@ -193,7 +245,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
       if (_lastRecordedDate != todayDate) {
         await _resetForNewDay(todayDate);
         _initialSteps = event.steps;
-        _goalNotificationSent = false;
+        // Goal tracking handled by GoalTrackingService
 
         await prefs.setInt('initialSteps', _initialSteps);
         _savedSteps = 0;
@@ -216,14 +268,8 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
         });
       }
 
-      // Check if goal is reached and send notification
-      if (todaySteps >= goalValue && !_goalNotificationSent) {
-        _goalNotificationSent = true;
-        await NotificationController.showGoalAchievement(
-          goalType: 'steps',
-          achievement: 'You hit your daily step goal of $goalValue steps!',
-        );
-      }
+      // Check if goal is reached and send notification (only once per day)
+      await GoalTrackingService.checkStepGoalAchievement(todaySteps, goalValue);
     } catch (e) {
       AppLogger.log('Error processing step count: $e');
     }
@@ -239,9 +285,15 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
 
   Future<void> _initializePedometer() async {
     try {
-      final permissionStatus = await Permission.activityRecognition.request();
+      // Use centralized permission manager
+      final hasPermission = await PermissionManager.requestPermission(
+        permissionName: 'activity_recognition',
+        permission: Permission.activityRecognition,
+        rationale:
+            'Enable step tracking to monitor your daily activity and reach your fitness goals',
+      );
 
-      if (permissionStatus.isGranted) {
+      if (hasPermission) {
         _stepCountStream = Pedometer.stepCountStream;
         _stepCountStream?.listen(
           _onStepCount,
@@ -250,16 +302,12 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
         );
 
         AppLogger.log('Pedometer initialized successfully');
-      } else if (permissionStatus.isPermanentlyDenied) {
+      } else {
         if (mounted) {
           CustomSnackbar.showSnackbar(
             context,
-            'Please enable activity recognition in Settings',
+            'Step tracking requires activity recognition permission. Please enable it in Settings.',
           );
-        }
-      } else {
-        if (kDebugMode) {
-          AppLogger.log('Activity recognition permission denied');
         }
       }
     } catch (e) {
@@ -358,7 +406,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   }
 
   Widget _buildPercentIndicator(CustomMQ mq) {
-    final theme = Theme.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -647,18 +694,26 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   }
 
   Future<void> _showAlarmTimePicker(BuildContext context) async {
-    // Check permission silently first, only request if showing time picker
-    final permissions = await NotificationController.checkAllPermissions();
-    final hasPermission = permissions['notifications'] ?? false;
+    // Check permission using centralized manager
+    final hasPermission =
+        await PermissionManager.isPermissionGranted('notifications');
 
     if (!hasPermission) {
-      if (mounted) {
-        CustomSnackbar.showSnackbar(
-          context,
-          'Notification permission is required for step reminders. Please enable it in Settings.',
-        );
+      // Request notification permission with rationale
+      final granted = await PermissionManager.requestNotificationPermission(
+        rationale:
+            'Enable notifications to receive step reminders and stay motivated',
+      );
+
+      if (!granted) {
+        if (mounted) {
+          CustomSnackbar.showSnackbar(
+            context,
+            'Notification permission is required for step reminders. Please enable it in Settings.',
+          );
+        }
+        return;
       }
-      return;
     }
 
     final TimeOfDay? picked = await showTimePicker(

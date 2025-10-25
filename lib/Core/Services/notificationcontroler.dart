@@ -27,7 +27,8 @@ class NotificationController {
         arguments: receivedAction,
       );
     } else {
-      AppLogger.error('Navigation failed: screen or navigatorKey is null', StackTrace.current);
+      AppLogger.error('Navigation failed: screen or navigatorKey is null',
+          StackTrace.current);
     }
   }
 
@@ -336,7 +337,14 @@ class NotificationController {
     String? celebrationMessage,
   }) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('goal_celebration_enabled', true);
+    final bool celebrationsEnabled =
+        prefs.getBool('goal_celebration_enabled') ?? true;
+
+    // Only show celebration if enabled
+    if (!celebrationsEnabled) {
+      AppLogger.info('Goal celebrations are disabled, skipping notification');
+      return;
+    }
 
     final celebrationMessages = {
       'weight_loss':

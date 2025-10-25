@@ -2,6 +2,7 @@ import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Components/custom_icon_button.dart';
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Services/goal_tracking_service.dart';
 import 'package:PureFit/Core/Services/notification_sleep_service.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
@@ -29,6 +30,7 @@ class _WaterScreenState extends State<WaterScreen> {
   void initState() {
     super.initState();
     _fetchGoalValue();
+    GoalTrackingService.resetGoalFlagsForNewDay();
     BlocProvider.of<WaterIntakeCubit>(context).fetchTodayIntake();
     scheduleDailyNotifications([
       const TimeOfDay(hour: 8, minute: 0),

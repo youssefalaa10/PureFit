@@ -37,19 +37,23 @@ android {
 
     signingConfigs {
         release {
-            def storeFilePath = keystoreProperties["storeFile"]
-            if (storeFilePath != null) {
-                storeFile file(storeFilePath)
+            if (keystorePropertiesFile.exists()) {
+                def storeFilePath = keystoreProperties["storeFile"]
+                if (storeFilePath != null) {
+                    storeFile file(storeFilePath)
+                }
+                storePassword keystoreProperties["storePassword"]
+                keyAlias keystoreProperties["keyAlias"]
+                keyPassword keystoreProperties["keyPassword"]
             }
-            storePassword keystoreProperties["storePassword"]
-            keyAlias keystoreProperties["keyAlias"]
-            keyPassword keystoreProperties["keyPassword"]
         }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

@@ -1,8 +1,10 @@
 import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
 import 'package:PureFit/Features/Water/Data/Repo/water_repo.dart';
 import 'package:bloc/bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../Core/helpers/app_logger.dart';
+import '../../../../Core/Services/goal_tracking_service.dart';
 
 part 'water_intake_state.dart';
 
@@ -28,8 +30,26 @@ class WaterIntakeCubit extends Cubit<WaterIntakeState> {
       emit(WaterIntakeLoading());
       await waterRepo.inserOrUpdateIntake(intakeAmount);
       await fetchTodayIntake(); // Refresh data after updating intake
+
+      // Check if water goal is reached and send celebration (only once per day)
+      await _checkWaterGoalAchievement();
     } catch (e) {
       emit(WaterIntakeFailure('Failed to update water intake'));
+    }
+  }
+
+  /// Check if water goal is achieved and send celebration notification
+  Future<void> _checkWaterGoalAchievement() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final int waterGoal = prefs.getInt('waterGoal') ?? 2; // Default 2 liters
+      final int todayIntake = await waterRepo.getTodayIntake();
+
+      await GoalTrackingService.checkWaterGoalAchievement(
+          todayIntake, waterGoal);
+    } catch (e) {
+      AppLogger.error(
+          'Error checking water goal achievement: $e', StackTrace.current);
     }
   }
 
