@@ -4,6 +4,7 @@ import 'package:PureFit/Core/Shared/localization/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../Core/Routing/Routes.dart';
+import '../../../Core/helpers/app_logger.dart';
 
 class Alarmitem extends StatefulWidget {
   const Alarmitem({super.key});
@@ -52,10 +53,10 @@ class _AlarmitemState extends State<Alarmitem> {
 
               if (isAlarmOn) {
                 // Logic to enable alarm
-                print('Alarm is ON');
+                AppLogger.info('Alarm is ON');
               } else {
                 // Logic to disable alarm
-                print('Alarm is OFF');
+                AppLogger.info('Alarm is OFF');
               }
             },
           ),

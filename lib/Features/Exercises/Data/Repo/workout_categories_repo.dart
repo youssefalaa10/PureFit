@@ -2,6 +2,7 @@ import 'package:PureFit/Features/Exercises/Data/Model/workout_categories_model.d
 import 'package:flutter/foundation.dart';
 
 import '../../../../Core/Networking/Dio/dio_workout_categories_api.dart';
+import '../../../../Core/helpers/app_logger.dart';
 
 class WorkoutCategoriesRepo {
   WorkoutCategoriesRepo({required this.dioWorkoutCategoriesApi});
@@ -16,11 +17,16 @@ class WorkoutCategoriesRepo {
             .map((json) => WorkoutCategoriesModel.fromJson(json))
             .toList();
       }
+      return null;
+    } on WorkoutCategoriesApiException {
+      // Re-throw the exception to preserve connection error information
+      rethrow;
     } catch (e) {
       if (kDebugMode) {
-        print('Error in WorkoutCategoriesRepo: $e');
+        AppLogger.error(
+            'Error in WorkoutCategoriesRepo: $e', StackTrace.current);
       }
+      rethrow;
     }
-    return null;
   }
 }

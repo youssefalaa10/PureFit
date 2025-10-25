@@ -36,4 +36,7 @@ class Routes {
   static const String userProfileScreen = '/userProfileScreen';
   static const String settingScreen = '/settingScreen';
   static const String termsOfServiceScreen = '/termsOfServiceScreen';
+  static const String workoutHistoryScreen = '/workoutHistoryScreen';
+  static const String personalRecordsScreen = '/personalRecordsScreen';
+  static const String achievementsScreen = '/achievementsScreen';
 }

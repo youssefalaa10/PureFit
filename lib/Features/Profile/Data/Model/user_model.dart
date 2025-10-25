@@ -18,8 +18,8 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: map['id']?.toString() ?? '',
-      userEmail: map['userEmail']?.toString() ?? '',
+      userId: (map['id'] ?? map['_id'] ?? map['userId'] ?? '').toString(),
+      userEmail: (map['userEmail'] ?? map['email'] ?? '').toString(),
       userName: map['userName']?.toString() ?? '',
       age: _parseInt(map['age']),
       userHeight: _parseInt(map['userHeight']),

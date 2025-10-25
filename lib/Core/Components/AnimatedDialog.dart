@@ -1,11 +1,11 @@
 import 'package:PureFit/Core/Components/custom_text_field.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 
 class ScaleTransitionDialog extends StatefulWidget {
   const ScaleTransitionDialog(
       {required this.itemName, super.key, this.onPressed});
-  final Function(String)? onPressed;
+  final void Function(String)? onPressed;
   final String itemName;
 
   @override
@@ -43,7 +43,7 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
   @override
   Widget build(BuildContext context) {
     final TextEditingController nameController = TextEditingController();
-
+    final theme = Theme.of(context);
     return ScaleTransition(
       // step four wrap Dialog with Scale Transition and givin scale to the handled scale animation
       scale: _scaleAnimation!,
@@ -56,14 +56,10 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25.0),
-            gradient: LinearGradient(
-              colors: [ColorManager.primaryColor, ColorManager.backGroundColor],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: theme.cardColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.2),
+                color: theme.shadowColor.withValues(alpha: 0.2),
                 blurRadius: 10,
                 offset: const Offset(0, 5),
               ),
@@ -73,11 +69,11 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Amount of ${widget.itemName}',
-                style: const TextStyle(
+                '${AppString.amountOf(context)} ${widget.itemName}',
+                style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: theme.textTheme.titleLarge?.color,
                 ),
               ),
               const SizedBox(height: 20),
@@ -85,7 +81,7 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                 textInput: TextInputType.number,
                 isPassword: false,
                 controller: nameController,
-                hintText: 'Bon appetit!',
+                hintText: AppString.bonAppetit(context),
               ),
               const SizedBox(height: 20),
               Row(
@@ -96,13 +92,20 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                       Navigator.of(context).pop();
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: ColorManager.primaryColor,
-                      backgroundColor: ColorManager.backGroundColor,
+                      foregroundColor: theme.colorScheme.onSurface,
+                      backgroundColor: theme.colorScheme.surface,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
+                        side: BorderSide(color: theme.colorScheme.outline),
                       ),
                     ),
-                    child: const Text('Cancel'),
+                    child: Text(
+                      AppString.cancel(context),
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurface,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -112,13 +115,19 @@ class ScaleTransitionDialogState extends State<ScaleTransitionDialog>
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorManager.backGroundColor,
-                      foregroundColor: ColorManager.primaryColor,
+                      backgroundColor: theme.colorScheme.primary,
+                      foregroundColor: theme.colorScheme.onPrimary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    child: const Text('Add'),
+                    child: Text(
+                      AppString.add(context),
+                      style: TextStyle(
+                        color: theme.colorScheme.onPrimary,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
                 ],
               ),

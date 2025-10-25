@@ -17,13 +17,13 @@ class CustomTextField extends StatelessWidget {
   final String hintText;
   final Icon? prefixIcon;
   final Widget? suffixIcon;
-  final Function(String)? validator;
+  final Function? validator;
   final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     final mq = CustomMQ(context);
-
+    final theme = Theme.of(context);
     return TextFormField(
         validator: (value) {
           return validator!(value!);
@@ -31,13 +31,17 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         keyboardType: textInput,
         obscureText: isPassword,
+        cursorColor: theme.primaryColor,
+        style: TextStyle(color: theme.primaryColor),
+        
         decoration: InputDecoration(
           hintText: hintText,
+          hintStyle: TextStyle(color: theme.primaryColor),
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
-          labelStyle: const TextStyle(color: Colors.grey),
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+          labelStyle: TextStyle(color: theme.primaryColor),
+          focusedBorder:  UnderlineInputBorder(
+            borderSide: BorderSide(color: theme.primaryColor),
           ),
           contentPadding: EdgeInsets.all(mq.width(2.0)),
         ));

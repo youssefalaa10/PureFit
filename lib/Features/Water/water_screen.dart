@@ -119,7 +119,7 @@ class _WaterScreenState extends State<WaterScreen> {
             CustomButton(
                 label: AppString.addWater(context),
                 onPressed: () {
-                  showModalBottomSheet(
+                  showModalBottomSheet<void>(
                       backgroundColor: theme.scaffoldBackgroundColor,
                       shape: const RoundedRectangleBorder(
                           borderRadius:

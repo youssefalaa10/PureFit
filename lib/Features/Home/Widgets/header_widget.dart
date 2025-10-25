@@ -59,7 +59,7 @@ class HeaderWidget extends StatelessWidget {
   }
 }
 
-Widget datetime(context) {
+Widget datetime(BuildContext context) {
   final DateTime now = DateTime.now();
   final int hour = now.hour;
 

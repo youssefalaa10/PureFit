@@ -2,6 +2,7 @@ import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../Core/helpers/app_logger.dart';
 import '../Logic/cubit/profile_cubit.dart';
 import 'Widgets/build_options_list.dart';
 import 'Widgets/profile_header.dart';
@@ -20,7 +21,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     context.read<ProfileCubit>().getProfile();
     final userId = context.read<ProfileCubit>().user!.userId;
-    print('userId: $userId');
+    AppLogger.log('userId: $userId');
   }
 
   @override

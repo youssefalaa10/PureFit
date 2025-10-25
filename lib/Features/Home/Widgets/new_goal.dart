@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Components/connection_error_dialog.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
@@ -36,7 +37,7 @@ class NewGoalWidget extends StatelessWidget {
             //   AppString.seeAll(context),
             //   style: TextStyle(
             //     fontSize: mq.width(4),
-            //     color: theme.primaryColor.withOpacity(.5),
+            //     color: theme.primaryColor.withValues(alpha:.5),
             //     fontFamily: AppString.font,
             //   ),
             // ),
@@ -48,33 +49,116 @@ class NewGoalWidget extends StatelessWidget {
             if (state is WorkoutProgramsLoading) {
               return Shimmerloadingexercises(mq: mq);
             } else if (state is WorkoutProgramsSuccess) {
-              return SizedBox(
-                height: mq.height(
-                    29), // Set an appropriate height for the horizontal ListView
-                child: ListView.builder(
-                  scrollDirection:
-                      Axis.horizontal, // Make the ListView scroll horizontally
-                  itemCount: state.workoutPrograms.length,
-                  itemBuilder: (context, index) {
-                    final workoutCategory = state.workoutPrograms[index];
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          Routes.exerciseScreen,
-                          arguments: workoutCategory,
+              return Column(
+                children: [
+                  if (state.isFromCache)
+                    _buildOfflineBanner(
+                        context, mq, theme, 'Showing cached workouts'),
+                  SizedBox(
+                    height: mq.height(
+                        29), // Set an appropriate height for the horizontal ListView
+                    child: ListView.builder(
+                      scrollDirection: Axis
+                          .horizontal, // Make the ListView scroll horizontally
+                      itemCount: state.workoutPrograms.length,
+                      itemBuilder: (context, index) {
+                        final workoutCategory = state.workoutPrograms[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.exerciseScreen,
+                              arguments: workoutCategory,
+                            );
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: mq.width(4)),
+                            child: _buildGoalCard(workoutCategory, mq, context),
+                          ),
                         );
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(right: mq.width(4)),
-                        child: _buildGoalCard(workoutCategory, mq, context),
+                    ),
+                  ),
+                ],
+              );
+            } else if (state is WorkoutProgramsConnectionError) {
+              if (state.cachedPrograms != null &&
+                  state.cachedPrograms!.isNotEmpty) {
+                // Show cached programs with offline banner
+                return Column(
+                  children: [
+                    _buildOfflineBanner(context, mq, theme, state.message),
+                    SizedBox(
+                      height: mq.height(29),
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: state.cachedPrograms!.length,
+                        itemBuilder: (context, index) {
+                          final workoutCategory = state.cachedPrograms![index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                Routes.exerciseScreen,
+                                arguments: workoutCategory,
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(right: mq.width(4)),
+                              child:
+                                  _buildGoalCard(workoutCategory, mq, context),
+                            ),
+                          );
+                        },
                       ),
-                    );
+                    ),
+                  ],
+                );
+              } else {
+                // No cached data available
+                return NoConnectionWidget(
+                  message: state.message,
+                  onRetry: () {
+                    context.read<WorkoutProgramsCubit>().retryFetch();
                   },
+                );
+              }
+            } else if (state is WorkoutProgramsError) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      size: mq.height(6),
+                      color: Colors.red,
+                    ),
+                    SizedBox(height: mq.height(1)),
+                    Text(
+                      state.message,
+                      style: TextStyle(
+                        fontSize: mq.height(1.8),
+                        color: Colors.red,
+                        fontFamily: AppString.font,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(height: mq.height(2)),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        context
+                            .read<WorkoutProgramsCubit>()
+                            .fetchWorkoutPrograms();
+                      },
+                      icon: Icon(Icons.refresh, size: mq.height(2)),
+                      label: Text(
+                        'Retry',
+                        style: TextStyle(fontSize: mq.height(1.8)),
+                      ),
+                    ),
+                  ],
                 ),
               );
-            } else if (state is WorkoutProgramsError) {
-              return Center(child: Text(state.message));
             } else {
               return const Center(
                   child: Text('Unexpected Error from Workout Category Api'));
@@ -85,8 +169,61 @@ class NewGoalWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(
-      WorkoutCategoriesModel workoutCategories, CustomMQ mq, context) {
+  Widget _buildOfflineBanner(
+    BuildContext context,
+    CustomMQ mq,
+    ThemeData theme,
+    String message,
+  ) {
+    return Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(bottom: mq.height(1)),
+      padding: EdgeInsets.symmetric(
+        horizontal: mq.width(3),
+        vertical: mq.height(1),
+      ),
+      decoration: BoxDecoration(
+        color: Colors.orange.shade100,
+        borderRadius: BorderRadius.circular(mq.width(2)),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            Icons.wifi_off_rounded,
+            color: Colors.orange.shade800,
+            size: mq.height(2),
+          ),
+          SizedBox(width: mq.width(2)),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                fontSize: mq.height(1.5),
+                fontFamily: AppString.font,
+                color: Colors.orange.shade900,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.refresh_rounded,
+              color: Colors.orange.shade800,
+              size: mq.height(2),
+            ),
+            onPressed: () {
+              context.read<WorkoutProgramsCubit>().retryFetch();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGoalCard(WorkoutCategoriesModel workoutCategories, CustomMQ mq,
+      BuildContext context) {
     final theme = Theme.of(context);
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Container(

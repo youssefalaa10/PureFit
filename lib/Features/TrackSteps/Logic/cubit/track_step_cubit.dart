@@ -14,7 +14,7 @@ class TrackStepCubit extends Cubit<TrackStepState> {
     emit(TrackStepInitial());
   }
 
-  readStepsByDate(String date) async {
+  Future<int> readStepsByDate(String date) async {
     emit(GetTrackStepLoading());
     try {
       final response = await trackstepsrepo.readStepsByDate(date);
@@ -23,10 +23,11 @@ class TrackStepCubit extends Cubit<TrackStepState> {
       return response!.steps;
     } catch (e) {
       emit(GetTrackStepErrorByDate(message: e.toString()));
+      return 0; // Return 0 on error
     }
   }
 
-  readHistorySteps() async {
+  Future<List<TrackStepsModel>> readHistorySteps() async {
     emit(GetTrackStepLoadingByDate());
     try {
       final response = await trackstepsrepo.readHistorySteps();
@@ -34,6 +35,7 @@ class TrackStepCubit extends Cubit<TrackStepState> {
       return response;
     } catch (e) {
       emit(GetTrackStepError(message: e.toString()));
+      return [];
     }
   }
 
@@ -47,14 +49,15 @@ class TrackStepCubit extends Cubit<TrackStepState> {
     }
   }
 
-  getLastRecordedDate() async {
+  Future<String?> getLastRecordedDate() async {
     emit(GetLastRecordLoading());
     try {
       final response = await trackstepsrepo.getLastRecordedDate();
-      emit(GetLastRecordSucess(lastRecordedSteps: response));
+      emit(GetLastRecordSucess(lastRecordedSteps: response ?? ''));
       return response;
     } catch (e) {
       emit(GetLastRecordError(message: e.toString()));
+      return null;
     }
   }
 
@@ -65,6 +68,16 @@ class TrackStepCubit extends Cubit<TrackStepState> {
       emit(InsertLastRecordSuccess());
     } catch (e) {
       emit(InsertTrackStepError(message: e.toString()));
+    }
+  }
+
+  Future<void> deleteTrack(int id) async {
+    try {
+      await trackstepsrepo.deleteTrack(id);
+      // Reload history after deletion
+      await readHistorySteps();
+    } catch (e) {
+      emit(GetTrackStepError(message: e.toString()));
     }
   }
 }

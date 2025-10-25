@@ -33,7 +33,7 @@ class RecommendedTasks extends StatelessWidget {
             //   AppString.seeAll(context),
             //   style: TextStyle(
             //       fontSize: mq.width(4),
-            //       color: ColorManager.primaryColor.withOpacity(.5)),
+            //       color: ColorManager.primaryColor.withValues(alpha:.5)),
             // ),
           ],
         ),
@@ -69,6 +69,44 @@ class RecommendedTasks extends StatelessWidget {
                   },
                 ),
               );
+            } else if (state is WorkoutProgramsConnectionError) {
+              if (state.cachedPrograms != null &&
+                  state.cachedPrograms!.isNotEmpty) {
+                // Show cached programs filtered for build muscles
+                final filteredPrograms = state.cachedPrograms!
+                    .where((program) => program.goals.contains('build muscles'))
+                    .toList();
+                return SizedBox(
+                  height: mq.height(29),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: filteredPrograms.length,
+                    itemBuilder: (context, index) {
+                      final workoutCategory = filteredPrograms[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.exerciseScreen,
+                            arguments: workoutCategory,
+                          );
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(right: mq.width(4)),
+                          child: _buildGoalCard(workoutCategory, mq, context),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return Center(
+                  child: Text(
+                    'No cached workouts available',
+                    style: TextStyle(fontSize: mq.height(1.8)),
+                  ),
+                );
+              }
             } else if (state is WorkoutProgramsError) {
               return Center(child: Text(state.message));
             } else {
@@ -144,8 +182,8 @@ class RecommendedTasks extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(
-      WorkoutCategoriesModel workoutCategories, CustomMQ mq, context) {
+  Widget _buildGoalCard(WorkoutCategoriesModel workoutCategories, CustomMQ mq,
+      BuildContext context) {
     final bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Container(
       width: mq.width(55),

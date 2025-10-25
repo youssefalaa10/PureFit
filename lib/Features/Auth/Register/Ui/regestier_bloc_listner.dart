@@ -15,7 +15,7 @@ class RegisterBlocListener extends StatelessWidget {
     return BlocListener<RegisterCubit, RegisterState>(
       listener: (context, state) {
         if (state is RegisterInitial || state is RegisterLoading) {
-          showDialog(
+          showDialog<void>(
             context: context,
             builder: (context) => Center(
               child: CircularProgressIndicator(
@@ -40,7 +40,7 @@ class RegisterBlocListener extends StatelessWidget {
 }
 
 void showSuccessDialog(BuildContext context) {
-  showDialog(
+  showDialog<void>(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(

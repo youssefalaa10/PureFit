@@ -9,7 +9,7 @@ class TodayfoodRepo {
     await todayCaloriesDB.insertFoodtoday(todayMeal);
   }
 
-  getFoodToday() async {
+  Future<List<TodayFoodModel>> getFoodToday() async {
     final foodstoday = await todayCaloriesDB.getFoodstoday();
 
     return foodstoday;

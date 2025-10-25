@@ -1,22 +1,23 @@
 import 'package:PureFit/Core/local_db/WaterIntakeDb/waterer_db.dart';
+import 'package:PureFit/Features/Water/Data/Model/water_model.dart';
 
 class WaterRepo {
   WaterRepo({required this.watererDb});
   final WatererDb watererDb;
 
-  getHistoryIntakes() async {
+  Future<List<WaterIntake>> getHistoryIntakes() async {
     return await watererDb.getAllIntakes();
   }
 
-  getTodayIntake() async {
+  Future<int> getTodayIntake() async {
     return await watererDb.getTodayIntake();
   }
 
-  inserOrUpdateIntake(int intake) async {
+  Future<void> inserOrUpdateIntake(int intake) async {
     await watererDb.insertOrUpdateIntake(intake);
   }
 
-  updateIntake(int id, int intake) async {
+  Future<void> updateIntake(int id, int intake) async {
     await watererDb.updateIntake(id, intake);
   }
 }

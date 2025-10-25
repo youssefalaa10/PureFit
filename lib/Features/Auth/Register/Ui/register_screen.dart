@@ -1,6 +1,5 @@
 import 'package:PureFit/Core/Components/custom_button.dart';
 import 'package:PureFit/Core/Routing/routes.dart';
-import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Register/Logic/cubit/register_cubit.dart';
 import 'package:PureFit/Features/Auth/Register/Ui/regestier_bloc_listner.dart';
@@ -49,17 +48,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Create\nYour Account',
-                    style: TextStyle(
-                      fontSize: mq.width(7.0),
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      AppString.createYourAccount(context),
+                      style: TextStyle(
+                        fontSize: mq.width(7.0),
+                        fontWeight: FontWeight.bold,
+                        color: theme.scaffoldBackgroundColor,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
                   ),
-                  Image.asset(
-                    'assets/images/AppLogo_white.png',
-                    height: mq.height(10.0),
+                  SizedBox(width: mq.width(2.0)),
+                  Flexible(
+                    child: Image.asset(
+                      color: theme.scaffoldBackgroundColor,
+                      'assets/images/AppLogo_white.png',
+                      height: mq.height(10.0),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
@@ -88,7 +97,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
-                          color: ColorManager.primaryColor,
+                          color: theme.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -102,8 +111,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textInput: TextInputType.emailAddress,
                         isPassword: false,
                         hintText: AppString.enterUserName(context),
-                        suffixIcon: Icon(Icons.person,
-                            color: ColorManager.primaryColor),
+                        suffixIcon:
+                            Icon(Icons.person, color: theme.primaryColor),
                       ),
 
                       CustomSizedbox(
@@ -116,7 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
-                          color: ColorManager.primaryColor,
+                          color: theme.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -133,7 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         isPassword: false,
                         hintText: AppString.enterEmail(context),
                         suffixIcon:
-                            Icon(Icons.email, color: ColorManager.primaryColor),
+                            Icon(Icons.email, color: theme.primaryColor),
                       ),
 
                       CustomSizedbox(
@@ -146,7 +155,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
-                          color: ColorManager.primaryColor,
+                          color: theme.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -157,7 +166,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             } else if (passwordController
                                     .text.characters.length <
                                 8) {
-                              return 'Must contains at least 8 char';
+                              return AppString.mustContainAtLeast8CharRegister(
+                                  context);
                             }
                           },
                           controller: passwordController,
@@ -184,7 +194,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontSize: mq.width(5.0),
-                          color: ColorManager.primaryColor,
+                          color: theme.primaryColor,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -193,7 +203,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value.isEmpty) {
                               return AppString.confirmPassword(context);
                             } else if (value != passwordController.text) {
-                              return 'Password does not match';
+                              return AppString.passwordDoesNotMatch(context);
                             }
                           },
                           controller: confirmpassowrdController,
@@ -219,7 +229,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Sign Up Button
                       CustomButton(
-                        label: 'Sign Up',
+                        label: AppString.signUp(context),
                         onPressed: () {
                           context.read<RegisterCubit>().password =
                               (passwordController.text);
@@ -245,7 +255,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             AppString.alreadyHaveAccount(context),
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                color: Colors.grey, fontFamily: AppString.font),
+                                color: theme.textTheme.bodyMedium?.color
+                                    ?.withValues(alpha: 0.6),
+                                fontFamily: AppString.font),
                           ),
                           TextButton(
                             onPressed: () {
@@ -259,7 +271,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               AppString.login(context),
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                  color: ColorManager.primaryColor,
+                                  color: theme.primaryColor,
                                   fontSize: mq.height(2.0),
                                   fontFamily: AppString.font),
                             ),

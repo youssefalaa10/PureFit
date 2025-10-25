@@ -85,7 +85,7 @@ class _DietItemState extends State<DietItem> {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: theme.primaryColor),
                   onPressed: () {
-                    showDialog(
+                    showDialog<void>(
                         context: context,
                         builder: (_) {
                           return ScaleTransitionDialog(

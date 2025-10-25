@@ -1,6 +1,7 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../../Features/Diet/Data/Model/favorites_model.dart';
+import '../../helpers/app_logger.dart';
 
 class DietFavoriteDb {
   factory DietFavoriteDb() => _instance;
@@ -93,6 +94,6 @@ class DietFavoriteDb {
     // Delete all records from the favorites table
     await db.delete('favorites');
 
-    print('All data deleted from favorites table.');
+    AppLogger.info('All data deleted from favorites table.');
   }
 }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
 import '../../Shared/api_constants.dart';
+import '../../helpers/app_logger.dart';
 
 class DioFavoriteApi {
   DioFavoriteApi({required Dio dio}) : _dio = dio;
@@ -9,7 +10,7 @@ class DioFavoriteApi {
 
   Future<bool> addFavorite(String dietItemId) async {
     try {
-      final response = await _dio.post(
+      final response = await _dio.post<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.apiFavorite(dietItemId)}',
         options: Options(
           headers: {
@@ -23,12 +24,14 @@ class DioFavoriteApi {
         return true;
       } else {
         if (kDebugMode) {
-          print('Error adding favorite: Status Code ${response.statusCode}');
+          AppLogger.error(
+              'Error adding favorite: Status Code ${response.statusCode}',
+              StackTrace.current);
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error adding favorite: $e');
+        AppLogger.error('Error adding favorite: $e', StackTrace.current);
       }
     }
     return false;
@@ -36,7 +39,7 @@ class DioFavoriteApi {
 
   Future<bool> removeFavorite(String dietItemId) async {
     try {
-      final response = await _dio.delete(
+      final response = await _dio.delete<dynamic>(
         '${ApiConstants.baseUrl}${ApiConstants.apiFavorite(dietItemId)}',
         options: Options(
           headers: {
@@ -50,12 +53,13 @@ class DioFavoriteApi {
         return true;
       } else {
         if (kDebugMode) {
-          print('Error removing favorite: Status Code ${response.statusCode}');
+          AppLogger.log(
+              'Error removing favorite: Status Code ${response.statusCode}');
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Error removing favorite: $e');
+        AppLogger.log('Error removing favorite: $e');
       }
     }
     return false;

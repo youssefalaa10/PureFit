@@ -26,7 +26,12 @@ class AppString {
   static String seeAll(BuildContext context) => 'seeAll'.tr(context);
   static String complete(BuildContext context) => 'complete'.tr(context);
   static String start(BuildContext context) => 'start'.tr(context);
-
+  static String retry(BuildContext context) => 'retry'.tr(context);
+  static String noInternetConnection(BuildContext context) =>
+      'noInternetConnection'.tr(context);
+  static String pleaseCheckYourInternetConnectionAndTryAgain(
+          BuildContext context) =>
+      'pleaseCheckYourInternetConnectionAndTryAgain'.tr(context);
   // Auth ---------------------------------------------------------------
   static String changePassword(BuildContext context) =>
       'changePassword'.tr(context);
@@ -46,6 +51,9 @@ class AppString {
   static String resetPassword(BuildContext context) =>
       'resetPassword'.tr(context);
   static String back(BuildContext context) => 'back'.tr(context);
+  static String invalidEmailOrPassword(BuildContext context) =>
+      'invalidEmailOrPassword'.tr(context);
+  static String gotIt(BuildContext context) => 'gotIt'.tr(context);
 
   // Settings
   static String general(BuildContext context) => 'general'.tr(context);
@@ -68,7 +76,26 @@ class AppString {
       'pleaseEnterYourAge'.tr(context);
   static String pleaseEnterValidAge(BuildContext context) =>
       'pleaseEnterValidAge'.tr(context);
+  static String workoutReminders(BuildContext context) =>
+      'workoutReminders'.tr(context);
+  static String dailyWorkoutReminder(BuildContext context) =>
+      'dailyWorkoutReminder'.tr(context);
+  static String reminderTime(BuildContext context) =>
+      'reminderTime'.tr(context);
   static String saveChanges(BuildContext context) => 'saveChanges'.tr(context);
+  static String deleteStepsRecord(BuildContext context) =>
+      'deleteStepsRecord'.tr(context);
+  static String areYouSureDeleteStepsRecord(BuildContext context) =>
+      'areYouSureDeleteStepsRecord'.tr(context);
+  static String delete(BuildContext context) => 'delete'.tr(context);
+  static String stepsRecordDeleted(BuildContext context) =>
+      'stepsRecordDeleted'.tr(context);
+  static String deleteSleepSession(BuildContext context) =>
+      'deleteSleepSession'.tr(context);
+  static String areYouSureDeleteSleepSession(BuildContext context) =>
+      'areYouSureDeleteSleepSession'.tr(context);
+  static String sleepSessionDeleted(BuildContext context) =>
+      'sleepSessionDeleted'.tr(context);
   static String weight(BuildContext context) => 'weight'.tr(context);
   static String height(BuildContext context) => 'height'.tr(context);
   static String areYouSure(BuildContext context) => 'areYouSure'.tr(context);
@@ -147,6 +174,14 @@ class AppString {
       'stepsDetails'.tr(context);
   static String yourDailyTasksAlmostDone(BuildContext context) =>
       'yourDailyTasksAlmostDone'.tr(context);
+  static String stepReminder(BuildContext context) =>
+      'stepReminder'.tr(context);
+  static String tapToSetAlarm(BuildContext context) =>
+      'tapToSetAlarm'.tr(context);
+  static String trackStepsDetails(BuildContext context) =>
+      'trackStepsDetails'.tr(context);
+  static String editAlarmTime(BuildContext context) =>
+      'editAlarmTime'.tr(context);
 
 // Calories Screen ------------------------------------------------
   static String youHaveToEatMoreCalories(BuildContext context) =>
@@ -158,6 +193,13 @@ class AppString {
   static String imWakedUp(BuildContext context) => 'imWakedUp'.tr(context);
   static String sleepDetails(BuildContext context) =>
       'sleepDetails'.tr(context);
+  static String pleaseSelectWakeUpTime(BuildContext context) =>
+      'pleaseSelectWakeUpTime'.tr(context);
+  static String wakeUpTimeMustBeInFuture(BuildContext context) =>
+      'wakeUpTimeMustBeInFuture'.tr(context);
+  static String alarmSetFor(BuildContext context) => 'alarmSetFor'.tr(context);
+  static String failedToSetAlarm(BuildContext context) =>
+      'failedToSetAlarm'.tr(context);
   static String today(BuildContext context) => 'today'.tr(context);
   static String setNewAlarm(BuildContext context) => 'setNewAlarm'.tr(context);
   static String todayMeals(BuildContext context) => 'todayMeals'.tr(context);
@@ -205,7 +247,8 @@ class AppString {
   static String alreadyHaveAccount(BuildContext context) =>
       'alreadyHaveAccount'.tr(context);
   static String login(BuildContext context) => 'login'.tr(context);
-
+  static String createYourAccount(BuildContext context) =>
+      'createYourAccount'.tr(context);
 // Forgot Password Screen
   static String enterYourEmail(BuildContext context) =>
       'enterYourEmail'.tr(context);
@@ -229,7 +272,7 @@ class AppString {
   static String favorites(BuildContext context) => 'favorites'.tr(context);
   static String drinks(BuildContext context) => 'drinks'.tr(context);
   static String search(BuildContext context) => 'search'.tr(context);
-
+  static String bonAppetit(BuildContext context) => 'bonAppetit'.tr(context);
 // Diet Details Screen
   static String per100g(BuildContext context) => 'per100g'.tr(context);
   static String perPortion(BuildContext context) => 'perPortion'.tr(context);
@@ -277,6 +320,52 @@ class AppString {
 // Build Options
   static String areYouSureToLogOut(BuildContext context) =>
       'areYouSureToLogOut'.tr(context);
+
+// Voice and Tracking Features
+  static String voiceEnabled(BuildContext context) =>
+      'voiceEnabled'.tr(context);
+  static String voiceDisabled(BuildContext context) =>
+      'voiceDisabled'.tr(context);
+  static String workoutHistory(BuildContext context) =>
+      'workoutHistory'.tr(context);
+  static String personalRecords(BuildContext context) =>
+      'personalRecords'.tr(context);
+  static String achievements(BuildContext context) =>
+      'achievements'.tr(context);
+  static String totalWorkouts(BuildContext context) =>
+      'totalWorkouts'.tr(context);
+  static String totalCalories(BuildContext context) =>
+      'totalCalories'.tr(context);
+  static String workoutStreak(BuildContext context) =>
+      'workoutStreak'.tr(context);
+  static String averageWorkoutTime(BuildContext context) =>
+      'averageWorkoutTime'.tr(context);
+  static String favoriteExercise(BuildContext context) =>
+      'favoriteExercise'.tr(context);
+  static String recentWorkouts(BuildContext context) =>
+      'recentWorkouts'.tr(context);
+  static String newPersonalRecord(BuildContext context) =>
+      'newPersonalRecord'.tr(context);
+  static String workoutComplete(BuildContext context) =>
+      'workoutComplete'.tr(context);
+  static String getReadyFor(BuildContext context) => 'getReadyFor'.tr(context);
+  static String startExercise(BuildContext context) =>
+      'startExercise'.tr(context);
+  static String restFor(BuildContext context) => 'restFor'.tr(context);
+  static String secondsRemaining(BuildContext context) =>
+      'secondsRemaining'.tr(context);
+  static String exerciseProgress(BuildContext context) =>
+      'exerciseProgress'.tr(context);
+  static String viewHistory(BuildContext context) => 'viewHistory'.tr(context);
+  static String noWorkoutHistory(BuildContext context) =>
+      'noWorkoutHistory'.tr(context);
+  static String noPersonalRecords(BuildContext context) =>
+      'noPersonalRecords'.tr(context);
+  static String bestWeight(BuildContext context) => 'bestWeight'.tr(context);
+  static String bestReps(BuildContext context) => 'bestReps'.tr(context);
+  static String bestDuration(BuildContext context) =>
+      'bestDuration'.tr(context);
+  static String achievedOn(BuildContext context) => 'achievedOn'.tr(context);
   static String cancel(BuildContext context) => 'cancel'.tr(context);
 
 // Sleep Screen
@@ -288,4 +377,68 @@ class AppString {
   static String update(BuildContext context) => 'update'.tr(context);
   static String privacyPolicy(BuildContext context) =>
       'privacyPolicy'.tr(context);
+
+// Workout Completion Dialog
+  static String workoutCompleteTitle(BuildContext context) =>
+      'workoutCompleteTitle'.tr(context);
+  static String workoutCompleteSubtitle(BuildContext context) =>
+      'workoutCompleteSubtitle'.tr(context);
+  static String exercisesCompleted(BuildContext context) =>
+      'exercisesCompleted'.tr(context);
+  static String workoutDuration(BuildContext context) =>
+      'workoutDuration'.tr(context);
+  static String caloriesBurned(BuildContext context) =>
+      'caloriesBurned'.tr(context);
+  static String dayStreak(BuildContext context) => 'dayStreak'.tr(context);
+  static String markAsComplete(BuildContext context) =>
+      'markAsComplete'.tr(context);
+  static String home(BuildContext context) => 'home'.tr(context);
+  static String workoutMarkedComplete(BuildContext context) =>
+      'workoutMarkedComplete'.tr(context);
+  static String failedToUpdateCalendar(BuildContext context) =>
+      'failedToUpdateCalendar'.tr(context);
+  static String workoutStats(BuildContext context) =>
+      'workoutStats'.tr(context);
+  static String totalExercises(BuildContext context) =>
+      'totalExercises'.tr(context);
+  static String totalDuration(BuildContext context) =>
+      'totalDuration'.tr(context);
+  static String currentStreak(BuildContext context) =>
+      'currentStreak'.tr(context);
+
+  // Animated Dialog
+  static String amountOf(BuildContext context) => 'amountOf'.tr(context);
+  static String add(BuildContext context) => 'add'.tr(context);
+
+  // My Plan
+  static String myPlan(BuildContext context) => 'myPlan'.tr(context);
+
+  // Terms Content
+  static String termsContent(BuildContext context) =>
+      'termsContent'.tr(context);
+
+  // BMI Categories
+  static String bmiLabel(BuildContext context) => 'bmiLabel'.tr(context);
+  static String underweight(BuildContext context) => 'underweight'.tr(context);
+  static String healthyWeight(BuildContext context) =>
+      'healthyWeight'.tr(context);
+  static String overweight(BuildContext context) => 'overweight'.tr(context);
+  static String obeseI(BuildContext context) => 'obeseI'.tr(context);
+  static String obeseII(BuildContext context) => 'obeseII'.tr(context);
+
+  // Exercise Screen
+  static String exercisesCount(BuildContext context) =>
+      'exercisesCount'.tr(context);
+  static String error(BuildContext context) => 'error'.tr(context);
+  static String unexpectedError(BuildContext context) =>
+      'unexpectedError'.tr(context);
+  static String youAreOffline(BuildContext context) =>
+      'youAreOffline'.tr(context);
+
+  // Register Screen
+  static String signUp(BuildContext context) => 'signUp'.tr(context);
+  static String passwordDoesNotMatch(BuildContext context) =>
+      'passwordDoesNotMatch'.tr(context);
+  static String mustContainAtLeast8CharRegister(BuildContext context) =>
+      'mustContainAtLeast8Char'.tr(context);
 }

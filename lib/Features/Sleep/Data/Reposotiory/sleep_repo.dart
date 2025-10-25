@@ -5,11 +5,15 @@ class SleepRepo {
   SleepRepo({required this.db});
   final SleepDb db;
 
-  insertSleep(SleepSession sleepsession) async {
+  Future<void> insertSleep(SleepSession sleepsession) async {
     await db.insertSleepSession(sleepsession);
   }
 
-  getallsessions() async {
+  Future<List<SleepSession>> getallsessions() async {
     return await db.getSleepSessions();
+  }
+
+  Future<void> deleteSleepSession(int id) async {
+    await db.deleteSleepSession(id);
   }
 }

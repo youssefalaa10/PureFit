@@ -33,7 +33,7 @@ class BodyMetricsScreen extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: 0.60,
                           backgroundColor:
-                              ColorManager.greyColor.withOpacity(0.5),
+                              ColorManager.greyColor.withValues(alpha: 0.5),
                           valueColor: AlwaysStoppedAnimation<Color>(
                               ColorManager.primaryColor),
                           minHeight: mq.height(0.5),

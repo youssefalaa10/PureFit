@@ -60,8 +60,9 @@ class UserGenderScreenState extends State<UserGenderScreen> {
               padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
               child: LinearProgressIndicator(
                 value: 0.20,
-                backgroundColor:
-                    ColorManager.greyColor.withOpacity(0.5).withOpacity(.5),
+                backgroundColor: ColorManager.greyColor
+                    .withValues(alpha: 0.5)
+                    .withValues(alpha: .5),
                 valueColor:
                     AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
                 minHeight: screenHeight * 0.005,
@@ -99,7 +100,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: screenHeight * 0.02,
-            color: ColorManager.greyColor.withOpacity(0.5),
+            color: ColorManager.greyColor.withValues(alpha: 0.5),
           ),
         ),
       ],
@@ -126,7 +127,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
                 shape: BoxShape.circle,
                 color: selectedGender == 'male'
                     ? ColorManager.primaryColor
-                    : ColorManager.greyColor.withOpacity(0.5),
+                    : ColorManager.greyColor.withValues(alpha: 0.5),
               ),
               child: Icon(
                 Icons.male,
@@ -152,7 +153,7 @@ class UserGenderScreenState extends State<UserGenderScreen> {
                 shape: BoxShape.circle,
                 color: selectedGender == 'female'
                     ? ColorManager.primaryColor
-                    : ColorManager.greyColor.withOpacity(0.5),
+                    : ColorManager.greyColor.withValues(alpha: 0.5),
               ),
               child: Icon(
                 Icons.female,

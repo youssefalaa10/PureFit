@@ -9,7 +9,7 @@ class DioChangePasswordApi {
 
   Future<void> changePassword(ChangePasswordModel model) async {
     try {
-      await _dio.post(
+      await _dio.post<dynamic>(
         'https://fit-pro-app.glitch.me/auth/resetpassword',
         data: model.toJson(),
       );

@@ -18,7 +18,7 @@ class CustomSnackbar {
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 16.0),
         ),
-        backgroundColor: ColorManager.primaryColor.withOpacity(0.95),
+        backgroundColor: ColorManager.primaryColor.withValues(alpha: 0.95),
         duration: const Duration(seconds: 3),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),

@@ -27,7 +27,6 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 _buildHeaderSection(mq),
                 SizedBox(height: mq.height(5)),
@@ -67,7 +66,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
               padding: EdgeInsets.symmetric(horizontal: mq.width(5)),
               child: LinearProgressIndicator(
                 value: 1,
-                backgroundColor: ColorManager.greyColor.withOpacity(0.5),
+                backgroundColor: ColorManager.greyColor.withValues(alpha: 0.5),
                 valueColor:
                     AlwaysStoppedAnimation<Color>(ColorManager.primaryColor),
                 minHeight: mq.height(0.5),
@@ -90,7 +89,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
     return Column(
       children: [
         Text(
-          "yourGoal".tr(context),
+          'yourGoal'.tr(context),
           style: TextStyle(
             fontSize: mq.height(2.8),
             fontWeight: FontWeight.bold,
@@ -103,7 +102,7 @@ class FitnessGoalScreenState extends State<FitnessGoalScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: mq.height(2),
-            color: ColorManager.greyColor.withOpacity(0.5),
+            color: ColorManager.greyColor.withValues(alpha: 0.5),
           ),
         ),
       ],

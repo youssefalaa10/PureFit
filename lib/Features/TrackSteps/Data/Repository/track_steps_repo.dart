@@ -2,16 +2,15 @@ import 'package:PureFit/Core/local_db/TrakStepDb/track_steps_db.dart';
 import 'package:PureFit/Features/TrackSteps/Data/Model/track_steps_model.dart';
 
 class Trackstepsrepo {
-  final TrackStepsDB _trackStepsDB;
-
   Trackstepsrepo({required TrackStepsDB trackStepsDB})
       : _trackStepsDB = trackStepsDB;
+  final TrackStepsDB _trackStepsDB;
 
-  setinitDb() {
+  void setinitDb() {
     _trackStepsDB.initDb();
   }
 
-  readHistorySteps() async {
+  Future<List<TrackStepsModel>> readHistorySteps() async {
     return await _trackStepsDB.readHistoryTracks();
   }
 
@@ -19,15 +18,19 @@ class Trackstepsrepo {
     return await _trackStepsDB.readTrackByDate(date);
   }
 
-  upsertSteps(int steps, String date) async {
+  Future<void> upsertSteps(int steps, String date) async {
     await _trackStepsDB.upsertTrack(steps, date);
   }
 
-  saveLastRecordedDate(String date) async {
+  Future<void> saveLastRecordedDate(String date) async {
     await _trackStepsDB.saveLastRecordedDate(date);
   }
 
-  getLastRecordedDate() async {
+  Future<String?> getLastRecordedDate() async {
     return await _trackStepsDB.getLastRecordedDate();
+  }
+
+  Future<void> deleteTrack(int id) async {
+    await _trackStepsDB.deleteTrack(id);
   }
 }

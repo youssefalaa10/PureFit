@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../Data/Repo/change_password_repo.dart';
 import 'change_password_state.dart';
@@ -6,7 +7,7 @@ class ChangePasswordCubit extends Cubit<ChangePasswordState> {
   ChangePasswordCubit(this._repo) : super(ChangePasswordInitial());
   final ChangePasswordRepo _repo;
 
-  Future<void> changePassword(String email, String newPassword, context) async {
+  Future<void> changePassword(String email, String newPassword, BuildContext context) async {
     try {
       emit(ChangePasswordLoading());
 

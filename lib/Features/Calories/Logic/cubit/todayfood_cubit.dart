@@ -39,7 +39,7 @@ class TodayfoodCubit extends Cubit<TodayfoodState> {
     }
   }
 
-  resetDB() async {
+  Future<void> resetDB() async {
     final now = DateTime.now();
     await AndroidAlarmManager.oneShotAt(
       DateTime(now.year, now.month, now.day, 24),

@@ -1,11 +1,12 @@
 class ApiConstants {
   // Base API URL
-  static String baseUrl = 'https://fit-pro-app.glitch.me';
+  static String baseUrl = 'https://pure-fit.vercel.app';
 
   // Authentication
   static String apiRegister = '/auth/register';
   static String apiLogin = '/auth/login';
   static String apiToken = '/api/token';
+  static String apiRefreshToken = '/auth/refresh';
 
   // Profile
   static String apiGetProfile = '/api/profile';

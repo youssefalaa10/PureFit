@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../helpers/app_logger.dart';
+
 class AppLocalizations {
   AppLocalizations({this.locale});
   final Locale? locale;
@@ -26,7 +28,8 @@ class AppLocalizations {
       });
     } catch (e) {
       if (kDebugMode) {
-        print('Error parsing JSON for locale ${locale!.languageCode}: $e');
+        AppLogger.error(
+            'Error parsing JSON for locale ${locale!.languageCode}: $e', StackTrace.current);
       }
       // Optionally, handle the error or rethrow it
       rethrow; // You can choose to rethrow or handle it accordingly
@@ -37,6 +40,7 @@ class AppLocalizations {
     try {
       return _localizedStrings[key] ?? key;
     } catch (e) {
+      AppLogger.error('Error translating key $key: $e', StackTrace.current);
       return key;
     }
   }
@@ -73,6 +77,7 @@ extension TranslateX on String {
         return this;
       }
     } catch (e) {
+      AppLogger.error('Error translating key $this: $e', StackTrace.current);
       return this;
     }
   }

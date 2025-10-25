@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:PureFit/Core/local_db/database_manager.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -12,7 +13,8 @@ class TrackStepsDB {
       return _db!;
     }
 
-    _db = await initDb(); // Initialize the database
+    // Use lazy initialization through DatabaseManager
+    _db = await DatabaseManager.getDatabase('tracking', initDb);
     return _db!;
   }
 

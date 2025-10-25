@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_snackbar.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
+import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Features/Auth/Login/Logic/cubit/login_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +15,7 @@ class LoginBlockListener extends StatelessWidget {
     return BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
           if (state is LoginLoading || state is LoginInitial) {
-            showDialog(
+            showDialog<void>(
               context: context,
               builder: (context) => Center(
                 child: CircularProgressIndicator(
@@ -37,8 +38,9 @@ class LoginBlockListener extends StatelessWidget {
   }
 
   void setupErrorState(BuildContext context, String error) {
+    final theme = Theme.of(context);
     Navigator.pop(context);
-    showDialog(
+    showDialog<void>(
       context: context,
       builder: (context) => AlertDialog(
         icon: const Icon(
@@ -47,17 +49,18 @@ class LoginBlockListener extends StatelessWidget {
           size: 32,
         ),
         content: Text(
-          error,
-          style: const TextStyle(color: Colors.black),
+          textAlign: TextAlign.center,
+          AppString.invalidEmailOrPassword(context),
+          style: TextStyle(color: theme.primaryColor),
         ),
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text(
-              'Got it',
-              style: TextStyle(color: Colors.black),
+            child: Text(
+              AppString.gotIt(context),
+              style: TextStyle(color: theme.primaryColor),
             ),
           ),
         ],

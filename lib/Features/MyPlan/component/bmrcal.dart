@@ -14,7 +14,7 @@ class BMICard extends StatelessWidget {
         Row(
           children: [
             Text(
-              'BMI (kg/m²): ',
+              AppString.bmiLabel(context),
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -34,7 +34,7 @@ class BMICard extends StatelessWidget {
         const SizedBox(height: 10),
         _buildBMIBar(),
         const SizedBox(height: 5),
-        _getBMICategory()
+        _getBMICategory(context)
       ],
     );
   }
@@ -110,10 +110,10 @@ class BMICard extends StatelessWidget {
   }
 
   // Function to determine the BMI category based on the current value
-  Widget _getBMICategory() {
+  Widget _getBMICategory(BuildContext context) {
     if (bmi < 18.5) {
       return Text(
-        'Underweight',
+        AppString.underweight(context),
         style: TextStyle(
           color: Colors.blue.shade300,
           fontWeight: FontWeight.bold,
@@ -122,7 +122,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 25) {
       return Text(
-        'Healthy weight',
+        AppString.healthyWeight(context),
         style: TextStyle(
           color: Colors.green.shade400,
           fontWeight: FontWeight.bold,
@@ -131,7 +131,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 30) {
       return Text(
-        'Overweight',
+        AppString.overweight(context),
         style: TextStyle(
           color: Colors.lightGreen.shade300,
           fontWeight: FontWeight.bold,
@@ -140,7 +140,7 @@ class BMICard extends StatelessWidget {
       );
     } else if (bmi < 35) {
       return Text(
-        'Obese I',
+        AppString.obeseI(context),
         style: TextStyle(
           color: Colors.orange.shade400,
           fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class BMICard extends StatelessWidget {
       );
     } else {
       return Text(
-        'Obese II',
+        AppString.obeseII(context),
         style: TextStyle(
           color: Colors.red.shade400,
           fontWeight: FontWeight.bold,

@@ -12,7 +12,7 @@ class DrinksCubit extends Cubit<DrinksState> { // Store filtered drinks
   List<DietModel> filteredDrinks = [];
 
   // Fetch drinks from the repository
-  fetchDrinks() async {
+  Future<void> fetchDrinks() async {
     emit(DrinksLoading());
     try {
       final drinks = await drinksRepo.getDrinks();

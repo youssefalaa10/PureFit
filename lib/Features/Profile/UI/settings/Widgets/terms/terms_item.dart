@@ -34,7 +34,7 @@ class TermsItem extends StatelessWidget {
             content,
             style: theme.textTheme.bodySmall?.copyWith(
               fontSize: mq.width(4),
-              color: theme.primaryColor.withOpacity(.3),
+              color: theme.primaryColor.withValues(alpha: .3),
             ),
           ),
           SizedBox(height: mq.height(2)),

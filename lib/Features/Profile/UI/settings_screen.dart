@@ -1,3 +1,4 @@
+import 'package:PureFit/Core/Services/notificationcontroler.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,8 @@ class SettingScreenState extends State<SettingScreen> {
   // final bool _isNotificationEnabled = false;
   bool _isDarkMode = false;
   String _selectedLanguage = 'en';
+  bool _workoutReminderEnabled = false;
+  TimeOfDay _workoutReminderTime = const TimeOfDay(hour: 10, minute: 0);
 
   @override
   void initState() {
@@ -30,6 +33,49 @@ class SettingScreenState extends State<SettingScreen> {
       _isDarkMode =
           prefs.getBool('isDarkMode') ?? false; // Default to light mode
     });
+    await _loadWorkoutReminderSettings();
+  }
+
+  Future<void> _loadWorkoutReminderSettings() async {
+    final settings = await NotificationController.getWorkoutReminderSettings();
+    setState(() {
+      _workoutReminderEnabled = settings['enabled'] as bool;
+      _workoutReminderTime = settings['time'] as TimeOfDay;
+    });
+  }
+
+  Future<void> _toggleWorkoutReminder(bool value) async {
+    setState(() {
+      _workoutReminderEnabled = value;
+    });
+
+    if (value) {
+      await NotificationController.scheduleDailyWorkoutReminder(
+        reminderTime: _workoutReminderTime,
+      );
+    } else {
+      await NotificationController.cancelDailyWorkoutReminder();
+    }
+  }
+
+  Future<void> _selectWorkoutReminderTime() async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _workoutReminderTime,
+    );
+
+    if (picked != null && picked != _workoutReminderTime) {
+      setState(() {
+        _workoutReminderTime = picked;
+      });
+
+      // Reschedule notification if enabled
+      if (_workoutReminderEnabled) {
+        await NotificationController.scheduleDailyWorkoutReminder(
+          reminderTime: _workoutReminderTime,
+        );
+      }
+    }
   }
 
   Future<void> _changeLanguage(String languageCode) async {
@@ -101,6 +147,41 @@ class SettingScreenState extends State<SettingScreen> {
                       FitproApp.toggleTheme(context, _isDarkMode);
                     },
                   ),
+                ),
+              ],
+            ),
+            CustomSettingsSection(
+              title: AppString.workoutReminders(context),
+              options: [
+                CustomSettingsOption(
+                  icon: Icons.fitness_center,
+                  label: AppString.dailyWorkoutReminder(context),
+                  trailing: Switch(
+                    inactiveTrackColor: Colors.transparent,
+                    activeColor: theme.colorScheme.primary,
+                    value: _workoutReminderEnabled,
+                    onChanged: _toggleWorkoutReminder,
+                  ),
+                ),
+                CustomSettingsOption(
+                  icon: Icons.access_time,
+                  label: AppString.reminderTime(context),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        _workoutReminderTime.format(context),
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.arrow_forward_ios, size: 18),
+                    ],
+                  ),
+                  onTap: _workoutReminderEnabled
+                      ? _selectWorkoutReminderTime
+                      : null,
                 ),
               ],
             ),

@@ -60,6 +60,11 @@ Future<void> setUpGit() async {
   final Dio dio = Dio(BaseOptions(
     followRedirects: true,
     maxRedirects: 5,
+    connectTimeout:
+        const Duration(seconds: 30), // 30 seconds to establish connection
+    receiveTimeout:
+        const Duration(seconds: 60), // 60 seconds to receive response
+    sendTimeout: const Duration(seconds: 30), // 30 seconds to send request
     validateStatus: (status) {
       return status != null && status < 500;
     },

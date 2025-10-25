@@ -8,7 +8,7 @@ import '../../../../Core/Components/custom_sizedbox.dart';
 import '../../../../Core/Components/media_query.dart';
 import '../../../../Core/Routing/routes.dart';
 
-Widget dietListView(List items, context) {
+Widget dietListView(List<dynamic> items, BuildContext context) {
   final mq = CustomMQ(context);
   return ListView.builder(
     itemCount: items.length,

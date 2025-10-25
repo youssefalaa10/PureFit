@@ -1,5 +1,6 @@
 import 'package:PureFit/Core/Components/custom_sizedbox.dart';
 import 'package:PureFit/Core/Components/media_query.dart';
+import 'package:PureFit/Core/Routing/routes.dart';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/calculator.dart';
@@ -28,12 +29,17 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
 
     // Fetch the user profile data and calculate the calories
     final user = context.read<ProfileCubit>().user;
-    calories = Calculator().getBmrActivity(
-      activityLevel: user!.activity!,
-      weight: user.userWeight,
-      height: user.userHeight,
-      age: user.age,
-    );
+    if (user != null) {
+      calories = Calculator().getBmrActivity(
+        activityLevel: user.activity ?? 'moderate', // Provide default value
+        weight: user.userWeight,
+        height: user.userHeight,
+        age: user.age,
+      );
+    } else {
+      // Set default calories if user is null
+      calories = 2000.0;
+    }
 
     // Initialize data by getting today's food
     context.read<TodayfoodCubit>().getFoodToday();
@@ -48,13 +54,13 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
-        //       },
-        //       icon: const Icon(Icons.edit))
-        // ],
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.detaildCaloriesScreen);
+              },
+              icon: const Icon(Icons.edit))
+        ],
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);
@@ -90,6 +96,32 @@ class _CaloriesScreenState extends State<CaloriesScreen> {
                           calories: calories,
                         ),
                         CustomSizedbox(height: mq.height(2)),
+                        Center(
+                          child: OutlinedButton.icon(
+                            style: OutlinedButton.styleFrom(
+                              side: BorderSide(color: theme.primaryColor),
+                              foregroundColor: theme.primaryColor,
+                              minimumSize: Size(0, mq.height(5)), // height only, no forced width
+                              padding: EdgeInsets.symmetric(horizontal: mq.width(4), vertical: mq.height(1)),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(mq.width(8)),
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, Routes.dietScreen);
+                            },
+                            icon: Icon(Icons.restaurant_menu, color: theme.primaryColor),
+                            label: Text(
+                              AppString.addMeal(context),
+                              style: TextStyle(
+                                color: theme.primaryColor,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: AppString.font,
+                                fontSize: mq.width(4),
+                              ),
+                            ),
+                          ),
+                        ),
                         CustomSizedbox(height: mq.height(1)),
                         _buildColumnOfStaticsCFP(
                             mq, state.totalFats, state.totalProtein),

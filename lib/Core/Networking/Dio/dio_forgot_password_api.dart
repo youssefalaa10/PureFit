@@ -6,7 +6,7 @@ class DioForgotPasswordApi {
 
   Future<void> sendVerificationCode(String email) async {
     try {
-      await _dio.post(
+      await _dio.post<dynamic>(
         'https://fit-pro-app.glitch.me/auth/sendcode',
         data: {'email': email},
       );
