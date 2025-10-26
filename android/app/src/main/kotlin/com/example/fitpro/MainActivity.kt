@@ -26,7 +26,7 @@ class MainActivity: FlutterActivity() {
                     result.success(steps)
                 }
                 "updateGoal" -> {
-                    val goal = call.argument<Int>("goal") ?: call.arguments as? Int ?: 10000
+                    val goal = call.argument<Int>("goal") ?: call.arguments as? Int ?: 1000
                     updateGoalInService(goal)
                     result.success(null)
                 }

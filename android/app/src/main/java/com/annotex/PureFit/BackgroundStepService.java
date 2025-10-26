@@ -31,11 +31,12 @@ public class BackgroundStepService extends Service implements SensorEventListene
     private Sensor stepCounterSensor;
     private int initialSteps = 0;
     private int currentSteps = 0;
-    private int dailyGoal = 10000; // Default goal
+    private int dailyGoal = 1000; // Default goal
     private boolean isFirstLaunch = true;
     private SharedPreferences prefs;
     private String lastResetDate = "";
     private boolean goalAchievedToday = false;
+    private long lastDateCheckTime = 0; // Cache to avoid checking date on every sensor event
 
     @Override
     public void onCreate() {
@@ -60,11 +61,11 @@ public class BackgroundStepService extends Service implements SensorEventListene
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(TAG, "BackgroundStepService started");
         
-        // Reload data including goal updates
-        loadSavedData();
-        
-        // Check if it's a new day and reset if needed
+        // FIRST: Check if it's a new day and reset if needed (before loading data)
         checkAndResetForNewDay();
+        
+        // THEN: Reload data including goal updates
+        loadSavedData();
         
         // Start foreground service
         startForeground(NOTIFICATION_ID, createNotification());
@@ -99,6 +100,9 @@ public class BackgroundStepService extends Service implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            // CRITICAL: Check for new day on EVERY sensor event (handles midnight crossover)
+            checkAndResetForNewDay();
+            
             int totalSteps = (int) event.values[0];
             
             if (isFirstLaunch) {
@@ -107,18 +111,28 @@ public class BackgroundStepService extends Service implements SensorEventListene
                 isFirstLaunch = false;
                 Log.d(TAG, "First launch - Initial steps: " + initialSteps);
                 
-                // Save to SharedPreferences
+                // Save to SharedPreferences IMMEDIATELY
                 saveStepData();
+                
+                // Update notification immediately
+                updateNotification();
             } else {
                 currentSteps = totalSteps - initialSteps;
                 if (currentSteps < 0) currentSteps = 0;
                 
                 Log.d(TAG, "Steps today: " + currentSteps);
                 
-                // Save to SharedPreferences
+                // Save to SharedPreferences IMMEDIATELY (every step)
                 saveStepData();
                 
-                // Update notification
+                // Reload goal from SharedPreferences to check for updates
+                int latestGoal = prefs.getInt("stepGoal", dailyGoal);
+                if (latestGoal != dailyGoal) {
+                    dailyGoal = latestGoal;
+                    Log.d(TAG, "Goal updated in background service: " + dailyGoal);
+                }
+                
+                // Update notification (every step for real-time updates)
                 updateNotification();
                 
                 // Check for goal achievement
@@ -157,13 +171,14 @@ public class BackgroundStepService extends Service implements SensorEventListene
         );
 
         // Calculate progress percentage using actual goal
-        int progress = Math.min(100, (currentSteps * 100) / dailyGoal);
+        // Avoid division by zero if dailyGoal is 0
+        int progress = (dailyGoal > 0) ? Math.min(100, (currentSteps * 100) / dailyGoal) : 0;
         
         // Create modern notification with progress bar
         return new NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("🏃‍♂️ PureFit")
             .setContentText(String.format(Locale.getDefault(), "%,d steps today", currentSteps))
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
             .setOngoing(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -173,16 +188,14 @@ public class BackgroundStepService extends Service implements SensorEventListene
                 .bigText(String.format(Locale.getDefault(), 
                     "🎯 Daily Goal: %,d steps\n📊 Progress: %d%%\n🚶‍♂️ Steps taken: %,d\n\nKeep moving! Every step counts towards your fitness journey.",
                     dailyGoal, progress, currentSteps)))
-            .setColor(0xFF4CAF50) // Green color for fitness theme
+            .setColor(0xFF000000) // Green color for fitness theme
             .setShowWhen(false) // Hide timestamp for cleaner look
             .build();
     }
 
     private void updateNotification() {
-        // Update notification every 10 steps for better responsiveness
-        if (currentSteps % 10 == 0) {
-            startForeground(NOTIFICATION_ID, createNotification());
-        }
+        // Update notification every step for real-time updates
+        startForeground(NOTIFICATION_ID, createNotification());
     }
 
     private void loadSavedData() {
@@ -208,26 +221,45 @@ public class BackgroundStepService extends Service implements SensorEventListene
     }
     
     private void checkAndResetForNewDay() {
+        // Optimization: Only check date every 60 seconds to avoid expensive date formatting on every step
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastDateCheckTime < 60000) {
+            // Less than 1 minute since last check, skip
+            return;
+        }
+        lastDateCheckTime = currentTime;
+        
         String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         
         if (!today.equals(lastResetDate)) {
             Log.d(TAG, "New day detected, resetting step counter");
-            initialSteps = 0;
+            
+            // Get current total steps from sensor (since this is TYPE_STEP_COUNTER)
+            // This becomes the new initialSteps for today
+            if (sensorManager != null && stepCounterSensor != null) {
+                // We'll get the actual value from onSensorChanged when it fires
+                // For now, we need to mark as first launch
+                isFirstLaunch = true;
+            }
+            
             currentSteps = 0;
-            isFirstLaunch = true;
             lastResetDate = today;
             goalAchievedToday = false;
             saveStepData();
+            
+            Log.d(TAG, "Reset complete - isFirstLaunch: " + isFirstLaunch);
         }
     }
     
     private void checkGoalAchievement() {
+        // Check if goal is achieved and not already celebrated today
         if (!goalAchievedToday && currentSteps >= dailyGoal) {
             goalAchievedToday = true;
             saveStepData();
             
             // Show celebration notification
             showGoalAchievementNotification();
+            Log.d(TAG, "Goal achieved! Steps: " + currentSteps + " / " + dailyGoal);
         }
     }
     
@@ -238,7 +270,7 @@ public class BackgroundStepService extends Service implements SensorEventListene
         Notification celebrationNotification = new NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("🎉 Goal Achieved!")
             .setContentText(String.format(Locale.getDefault(), "You've reached %,d steps!", dailyGoal))
-            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setStyle(new NotificationCompat.BigTextStyle()

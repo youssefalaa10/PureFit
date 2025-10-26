@@ -3,20 +3,19 @@ import 'package:PureFit/Core/helpers/app_logger.dart';
 import 'package:PureFit/Core/local_db/TrakStepDb/track_steps_db.dart';
 import 'package:PureFit/Core/Services/goal_tracking_service.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:pedometer/pedometer.dart';
 import 'package:PureFit/Core/Services/permission_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class BackgroundStepService {
   static const int _stepSyncAlarmId = 1001;
   static const MethodChannel _channel = MethodChannel('step_tracking_channel');
 
-  static StreamSubscription<StepCount>? _stepCountSubscription;
+  // Removed _stepCountSubscription - Android service now handles tracking
   static TrackStepsDB? _trackStepsDB;
-  static int _lastKnownSteps = 0;
   static bool _isServiceRunning = false;
-  static int _currentGoal = 10000;
+  static int _currentGoal = 1000;
 
   /// Initialize background step tracking service
   static Future<void> initialize() async {
@@ -31,12 +30,21 @@ class BackgroundStepService {
       await _loadCurrentGoal();
 
       // Check permissions using centralized manager
-      final hasPermission =
-          await PermissionManager.isPermissionGranted('activity_recognition');
+      final hasPermission = await PermissionManager.requestPermission(
+        permissionName: 'activity_recognition',
+        permission: Permission.activityRecognition,
+        rationale:
+            'Enable step tracking to monitor your daily activity and reach your fitness goals',
+      );
+
       if (!hasPermission) {
-        AppLogger.log('Activity recognition permission not granted');
+        AppLogger.log(
+            'Activity recognition permission not granted - cannot start service');
         return;
       }
+
+      AppLogger.log(
+          'Activity recognition permission granted - starting service');
 
       // Reset goal flags for new day
       await GoalTrackingService.resetGoalFlagsForNewDay();
@@ -44,8 +52,9 @@ class BackgroundStepService {
       // Start Android foreground service (this is the key!)
       await _startAndroidService();
 
-      // Start Flutter step tracking as backup
-      await _startStepTracking();
+      // NOTE: We don't start Flutter pedometer tracking anymore
+      // The Android service is the single source of truth for steps
+      // This prevents dual tracking and ensures consistency
 
       // Schedule periodic sync
       await _scheduleStepSync();
@@ -71,7 +80,8 @@ class BackgroundStepService {
   static Future<void> _loadCurrentGoal() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      _currentGoal = prefs.getInt('stepGoal') ?? 10000;
+      _currentGoal =
+          prefs.getInt('stepGoal') ?? 1000; // Default goal is 1000, not 10000
 
       // Sync goal with Android service
       await _channel.invokeMethod('updateGoal', _currentGoal);
@@ -82,60 +92,9 @@ class BackgroundStepService {
     }
   }
 
-  /// Start step tracking
-  static Future<void> _startStepTracking() async {
-    try {
-      _stepCountSubscription = Pedometer.stepCountStream.listen(
-        _onStepCount,
-        onError: _onStepCountError,
-        cancelOnError: false,
-      );
-
-      AppLogger.log('Step tracking started');
-    } catch (e) {
-      AppLogger.log('Error starting step tracking: $e');
-    }
-  }
-
-  /// Handle step count updates
-  static Future<void> _onStepCount(StepCount event) async {
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final initialSteps = prefs.getInt('initialSteps') ?? event.steps;
-      final todayDate = DateTime.now().toIso8601String().split('T').first;
-
-      // Handle first launch
-      if (prefs.getBool('isFirstLaunch') ?? true) {
-        await prefs.setInt('initialSteps', event.steps);
-        await prefs.setInt('savedSteps', 0);
-        await prefs.setBool('isFirstLaunch', false);
-        _lastKnownSteps = 0;
-        return;
-      }
-
-      // Calculate today's steps
-      int todaySteps = event.steps - initialSteps;
-      todaySteps = todaySteps < 0 ? 0 : todaySteps;
-
-      _lastKnownSteps = todaySteps;
-
-      // Save to database
-      await _trackStepsDB?.upsertTrack(todaySteps, todayDate);
-      await prefs.setInt('savedSteps', todaySteps);
-    } catch (e) {
-      AppLogger.log('Error processing step count: $e');
-    }
-  }
-
-  /// Handle step count errors
-  static void _onStepCountError(Object error) {
-    AppLogger.log('Step count error: $error');
-
-    // Restart after 5 seconds
-    Future.delayed(const Duration(seconds: 5), () {
-      _startStepTracking();
-    });
-  }
+  // NOTE: Flutter pedometer tracking removed to prevent dual tracking
+  // Android service is now the single source of truth for steps
+  // These methods are kept for reference but not called
 
   /// Schedule periodic step sync
   static Future<void> _scheduleStepSync() async {
@@ -173,7 +132,7 @@ class BackgroundStepService {
   /// Stop background service
   static Future<void> stop() async {
     try {
-      await _stepCountSubscription?.cancel();
+      // Cancel alarm sync
       await AndroidAlarmManager.cancel(_stepSyncAlarmId);
 
       _isServiceRunning = false;
@@ -186,9 +145,6 @@ class BackgroundStepService {
   /// Check if service is running
   static bool get isRunning => _isServiceRunning;
 
-  /// Get current step count
-  static int get currentSteps => _lastKnownSteps;
-
   /// Get current goal
   static int get currentGoal => _currentGoal;
 
@@ -196,10 +152,12 @@ class BackgroundStepService {
   static Future<int> getStepsFromAndroidService() async {
     try {
       final steps = await _channel.invokeMethod<int>('getCurrentSteps');
-      return steps ?? _lastKnownSteps;
+      AppLogger.log('Fetched steps from Android service: $steps');
+      return steps ?? 0;
     } catch (e) {
       AppLogger.log('Error getting steps from Android service: $e');
-      return _lastKnownSteps;
+      // If Android service fails, return 0 as fallback
+      return 0;
     }
   }
 
@@ -210,12 +168,27 @@ class BackgroundStepService {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setInt('stepGoal', newGoal);
 
-      // Update Android service
+      // Update Android service (this will trigger service restart to reload goal)
       await _channel.invokeMethod('updateGoal', newGoal);
 
-      AppLogger.log('Step goal updated to: $newGoal');
+      // Force Android service to reload goal by restarting it
+      await _restartAndroidService();
+
+      AppLogger.log('Step goal updated to: $newGoal and service restarted');
     } catch (e) {
       AppLogger.log('Error updating goal: $e');
+    }
+  }
+
+  /// Restart Android service to reload configuration
+  static Future<void> _restartAndroidService() async {
+    try {
+      await _channel.invokeMethod('stopForegroundService');
+      await Future<void>.delayed(const Duration(milliseconds: 500));
+      await _channel.invokeMethod('startForegroundService');
+      AppLogger.log('Android service restarted to reload configuration');
+    } catch (e) {
+      AppLogger.log('Error restarting Android service: $e');
     }
   }
 }

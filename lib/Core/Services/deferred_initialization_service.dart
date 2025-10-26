@@ -66,12 +66,9 @@ class DeferredInitializationService {
         // Request notification permission with rationale
         await PermissionManager.requestNotificationPermission();
 
-        // Request activity recognition permission with rationale
-        await PermissionManager.requestPermission(
-          permissionName: 'activity_recognition',
-          permission: Permission.activityRecognition,
-          rationale: 'Enable step tracking to monitor your daily activity',
-        );
+        // NOTE: Activity recognition permission is NOT requested here
+        // It's only requested when user explicitly opens Steps Tracking screen
+        // This provides better UX - permissions on demand, not upfront
 
         // Request alarm permission with rationale
         await PermissionManager.requestPermission(

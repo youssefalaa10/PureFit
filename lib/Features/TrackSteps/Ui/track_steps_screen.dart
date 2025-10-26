@@ -18,7 +18,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pedometer/pedometer.dart';
+// import 'package:pedometer/pedometer.dart'; // REMOVED - Using Android service instead
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +34,7 @@ class TrackStepsScreen extends StatefulWidget {
 
 class _TrackStepsScreenState extends State<TrackStepsScreen>
     with WidgetsBindingObserver {
-  Stream<StepCount>? _stepCountStream;
+  // Stream<StepCount>? _stepCountStream; // REMOVED - Using Android service instead
   int _fullStepsOfToday = 0;
   String? _lastRecordedDate;
   int? _savedSteps = 0;
@@ -43,22 +43,56 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
   Timer? _backgroundSaveTimer;
   bool _alarmEnabled = false;
   TimeOfDay? _alarmTime;
+  bool _isInitializing = false; // Prevent race conditions
   // Removed _goalNotificationSent - now using GoalTrackingService
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _loadData().then((_) {
-      _initializePedometer();
-      _startBackgroundSave();
+
+    // Load steps from Android service ONCE on init
+    _loadCachedStepsSynchronously();
+
+    // Initialize background service and other data
+    _isInitializing = true;
+    _initializeBackgroundService().then((_) {
+      _loadData().then((_) {
+        _isInitializing = false;
+        // Start periodic background sync AFTER initial load completes
+        _startBackgroundSave();
+      });
     });
+
     _fetchGoalValue();
     _loadAlarmSettings();
     _checkNotificationPermission();
+  }
 
-    // Initialize background service and sync goal
-    _initializeBackgroundService();
+  /// Load steps from Android service IMMEDIATELY
+  /// This ensures _fullStepsOfToday is set BEFORE build() is called
+  void _loadCachedStepsSynchronously() {
+    // Get steps directly from Android service via method channel
+    BackgroundStepService.getStepsFromAndroidService().then((steps) {
+      if (mounted) {
+        setState(() {
+          _fullStepsOfToday = steps;
+        });
+        AppLogger.log('Loaded steps from Android service: $steps');
+      }
+    }).catchError((error) {
+      // Fallback to SharedPreferences if method channel fails
+      AppLogger.log('Method channel failed, using SharedPreferences: $error');
+      SharedPreferences.getInstance().then((prefs) {
+        final cachedSteps = prefs.getInt('currentSteps') ?? 0;
+        if (mounted) {
+          setState(() {
+            _fullStepsOfToday = cachedSteps;
+          });
+          AppLogger.log('Loaded cached steps from prefs: $cachedSteps');
+        }
+      });
+    });
   }
 
   Future<void> _initializeBackgroundService() async {
@@ -116,28 +150,44 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
         state == AppLifecycleState.inactive) {
       _saveCurrentSteps();
     }
+
+    // Reload steps when app comes to foreground
+    if (state == AppLifecycleState.resumed) {
+      _loadCachedStepsSynchronously();
+    }
   }
 
   void _startBackgroundSave() {
-    // Save steps every 15 seconds for better persistence and responsiveness
-    _backgroundSaveTimer = Timer.periodic(const Duration(seconds: 15), (timer) {
+    // Sync with Android service every 5 seconds for real-time updates
+    _backgroundSaveTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       _saveCurrentSteps();
       _updateStepsFromBackgroundService();
     });
   }
 
-  void _updateStepsFromBackgroundService() async {
+  Future<void> _updateStepsFromBackgroundService() async {
     try {
-      if (BackgroundStepService.isRunning) {
-        // Get steps from Android service (works when app is terminated)
-        final androidSteps =
-            await BackgroundStepService.getStepsFromAndroidService();
-        if (androidSteps > 0 && androidSteps != _fullStepsOfToday) {
-          setState(() {
-            _fullStepsOfToday = androidSteps;
-          });
+      // Don't update if still initializing
+      if (_isInitializing) {
+        return;
+      }
 
-          // Check goal achievement with background service steps
+      // Always sync with Android service
+      // Get steps from Android service (single source of truth)
+      final androidSteps =
+          await BackgroundStepService.getStepsFromAndroidService();
+
+      AppLogger.log(
+          'Periodic sync - Android steps: $androidSteps, UI showing: $_fullStepsOfToday');
+
+      // Only update if value actually changed to avoid unnecessary rebuilds
+      if (androidSteps != _fullStepsOfToday && mounted) {
+        setState(() {
+          _fullStepsOfToday = androidSteps;
+        });
+
+        // Check goal achievement with background service steps
+        if (androidSteps > 0) {
           await GoalTrackingService.checkStepGoalAchievement(
               androidSteps, goalValue);
         }
@@ -151,12 +201,15 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     final String todayDate = _getFormattedDate(DateTime.now());
     if (mounted && _fullStepsOfToday >= 0) {
       try {
+        // Save to database for history
         await context.read<TrackStepCubit>().upsertSteps(
               _fullStepsOfToday,
               todayDate,
             );
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('savedSteps', _fullStepsOfToday);
+
+        // DON'T save to SharedPreferences 'savedSteps' anymore
+        // The Android background service is the single source of truth
+        // Writing 'savedSteps' creates a second source that conflicts with 'currentSteps'
       } catch (e) {
         AppLogger.log('Error saving steps: $e');
       }
@@ -189,23 +242,21 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     _getHistoryTracks();
     final String todayDate = _getFormattedDate(DateTime.now());
 
-    // Load saved steps and last recorded date
+    // Load saved steps from database for history display only
     _savedSteps = await context.read<TrackStepCubit>().readStepsByDate(
           todayDate,
         );
-    AppLogger.log('$_savedSteps'); // For debugging purposes
+    AppLogger.log('Database steps: $_savedSteps'); // For debugging purposes
 
     if (mounted) {
       _lastRecordedDate =
           await context.read<TrackStepCubit>().getLastRecordedDate();
     }
 
-    // Set state with loaded steps
-    if (mounted) {
-      setState(() {
-        _fullStepsOfToday = _savedSteps ?? 0;
-      });
-    }
+    // Don't reload steps here - already loaded in _loadCachedStepsSynchronously()
+    // This prevents multiple setState calls that cause flickering
+    AppLogger.log(
+        'History data loaded, current steps remain: $_fullStepsOfToday');
   }
 
   Future<void> _resetForNewDay(String todayDate) async {
@@ -215,8 +266,20 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     await context.read<TrackStepCubit>().saveLastRecordedDate(todayDate);
   }
 
+  /* REMOVED - Using Android service instead
   Future<void> _onStepCount(StepCount event) async {
     try {
+      // CRITICAL: If Android service is running, NEVER process pedometer data
+      // This causes dual tracking and mismatch issues
+      if (BackgroundStepService.isRunning) {
+        AppLogger.log(
+            '🚫 Android service running - IGNORING Flutter pedometer to prevent dual tracking');
+        return;
+      }
+
+      // This is ONLY for fallback mode when Android service fails
+      AppLogger.log('⚠️ Using Flutter pedometer fallback mode');
+
       final String todayDate = _getFormattedDate(DateTime.now());
       final prefs = await SharedPreferences.getInstance();
 
@@ -231,7 +294,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
         await prefs.setInt('initialSteps', _initialSteps);
         await prefs.setInt('savedSteps', _savedSteps!);
         await prefs.setBool('isFirstLaunch', false);
-        // Goal tracking handled by GoalTrackingService
 
         if (mounted) {
           await context.read<TrackStepCubit>().upsertSteps(
@@ -245,7 +307,6 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
       if (_lastRecordedDate != todayDate) {
         await _resetForNewDay(todayDate);
         _initialSteps = event.steps;
-        // Goal tracking handled by GoalTrackingService
 
         await prefs.setInt('initialSteps', _initialSteps);
         _savedSteps = 0;
@@ -274,6 +335,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
       AppLogger.log('Error processing step count: $e');
     }
   }
+  */
 
   Future<void> _getHistoryTracks() async {
     await context.read<TrackStepCubit>().readHistorySteps();
@@ -283,6 +345,7 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     return date.toIso8601String().split('T').first;
   }
 
+  /* REMOVED - Using Android service instead
   Future<void> _initializePedometer() async {
     try {
       // Use centralized permission manager
@@ -294,20 +357,29 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
       );
 
       if (hasPermission) {
-        _stepCountStream = Pedometer.stepCountStream;
-        _stepCountStream?.listen(
-          _onStepCount,
-          onError: _onStepCountError,
-          cancelOnError: false,
-        );
+        // ALWAYS check Android service status BEFORE initializing pedometer
+        // Wait a bit to ensure background service finishes initializing
+        await Future<void>.delayed(const Duration(milliseconds: 500));
 
-        AppLogger.log('Pedometer initialized successfully');
-      } else {
-        if (mounted) {
-          CustomSnackbar.showSnackbar(
-            context,
-            'Step tracking requires activity recognition permission. Please enable it in Settings.',
+        if (!BackgroundStepService.isRunning) {
+          // Only use pedometer as fallback if Android service genuinely failed
+          _stepCountStream = Pedometer.stepCountStream;
+          _stepCountStream?.listen(
+            _onStepCount,
+            onError: _onStepCountError,
+            cancelOnError: false,
           );
+
+          AppLogger.log(
+              '⚠️ Pedometer fallback mode - Android service not running');
+        } else {
+          AppLogger.log(
+              '✅ Using Android service for step tracking (NO pedometer)');
+        }
+      } else {
+        // Show helpful dialog to user
+        if (mounted) {
+          _showPermissionDialog();
         }
       }
     } catch (e) {
@@ -325,6 +397,73 @@ class _TrackStepsScreenState extends State<TrackStepsScreen>
     SchedulerBinding.instance.addPostFrameCallback((_) {
       CustomSnackbar.showSnackbar(context, error.toString());
     });
+  }
+  */
+
+  void _showPermissionDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          title: const Row(
+            children: [
+              Icon(Icons.fitness_center, color: Colors.green),
+              SizedBox(width: 10),
+              Text('Permission Required'),
+            ],
+          ),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'PureFit needs permission to track your steps and help you reach your fitness goals.',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 15),
+              Text(
+                'This allows the app to:',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text('• Count your daily steps'),
+              Text('• Track your activity'),
+              Text('• Help you achieve your goals'),
+              SizedBox(height: 15),
+              Text(
+                'Please enable "Physical Activity" permission.',
+                style: TextStyle(fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                openAppSettings();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: ColorManager.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: const Text('Open Settings'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

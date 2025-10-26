@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:PureFit/Core/Shared/app_colors.dart';
 import 'package:PureFit/Core/Shared/app_string.dart';
 import 'package:PureFit/Core/Shared/calculator.dart';
+import 'package:PureFit/Core/Services/background_step_service.dart';
 import 'package:PureFit/Features/MyPlan/component/bmrcal.dart';
 import 'package:PureFit/Features/MyPlan/component/static_card.dart';
 import 'package:PureFit/Features/Profile/Logic/cubit/profile_cubit.dart';
@@ -21,7 +22,8 @@ class MyPlanScreen extends StatefulWidget {
   State<MyPlanScreen> createState() => _MyPlanScreenState();
 }
 
-class _MyPlanScreenState extends State<MyPlanScreen> {
+class _MyPlanScreenState extends State<MyPlanScreen>
+    with WidgetsBindingObserver {
   double bmi = 0.0;
   double calories = 0.0;
   String stepsValue = '0'; // Initial default value for steps
@@ -33,32 +35,56 @@ class _MyPlanScreenState extends State<MyPlanScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    // Load cached steps SYNCHRONOUSLY before first build
+    _loadCachedStepsSynchronously();
     _startStepListener();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // When app comes to foreground, reload steps immediately
+    if (state == AppLifecycleState.resumed) {
+      _loadCachedStepsSynchronously();
+    }
   }
 
   @override
   void dispose() {
     _stepUpdateTimer?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
-  void _startStepListener() {
-    _loadCurrentSteps();
-    // Update steps every 5 seconds
-    _stepUpdateTimer = Timer.periodic(const Duration(seconds: 5), (_) {
-      _loadCurrentSteps();
+  /// Load steps directly from Android service immediately
+  void _loadCachedStepsSynchronously() {
+    // Get steps directly from Android service via method channel (not stale cache)
+    BackgroundStepService.getStepsFromAndroidService().then((steps) {
+      if (mounted) {
+        setState(() {
+          _currentSteps = steps;
+          stepsValue = steps.toString();
+        });
+      }
+    }).catchError((error) {
+      // Fallback to SharedPreferences if method channel fails
+      SharedPreferences.getInstance().then((prefs) {
+        final steps = prefs.getInt('currentSteps') ?? 0;
+        if (mounted) {
+          setState(() {
+            _currentSteps = steps;
+            stepsValue = steps.toString();
+          });
+        }
+      });
     });
   }
 
-  Future<void> _loadCurrentSteps() async {
-    final prefs = await SharedPreferences.getInstance();
-    final steps = prefs.getInt('savedSteps') ?? 0;
-    if (mounted && steps != _currentSteps) {
-      setState(() {
-        _currentSteps = steps;
-        stepsValue = steps.toString();
-      });
-    }
+  void _startStepListener() {
+    // Update steps every 5 seconds to keep it synced
+    _stepUpdateTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+      _loadCachedStepsSynchronously();
+    });
   }
 
   @override
